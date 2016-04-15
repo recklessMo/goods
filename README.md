@@ -13,7 +13,7 @@ goods depot manage system
 
 2. 在根目录运行gradle jettyRun. 就开始跑起来了. 目前端口配置是9999
 
-3. 在浏览器中访问 localhost:9999/goods/v1/account/login ,返回json字符串，说明登陆成功.
+3. 在浏览器中访问 localhost:9999/goods/v1/account/login ,返回json字符串，说明环境配置成功.
 
 
 
