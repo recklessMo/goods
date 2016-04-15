@@ -1,13 +1,10 @@
 apply plugin: 'java'
 apply plugin: 'war'
 apply plugin: 'idea'
+apply plugin: 'jetty'
 
-def nexusUrl="https://repo1.maven.org/maven2/";
 
 repositories{
-	maven{
-		url nexusUrl 
-	}
 	mavenCentral();
 }
 
@@ -15,6 +12,16 @@ war.baseName = "goods"
 war.destinationDir = file("target");
 
 dependencies {
-	compile 'org.springframework:spring-core:4.1.2.RELEASE'
+    compile 'org.springframework:spring-webmvc:4.1.2.RELEASE'
 }
 
+
+jettyRun{
+	contextPath = "goods"
+	httpPort = 9999
+}
+
+jettyRunWar{
+	contextPath = "goods"
+	httpPort = 9999
+}
