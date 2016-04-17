@@ -1,0 +1,12 @@
+第一步主要是搭建了一下后端mvc的简易框架，使用jetty和spring mvc来进行搭建。
+
+其中主要用到的有：spring，spring mvc，jetty等，当然如果需要更便捷的开发的话，还需要一个idea，例如idea。
+
+这部分的学习流程是：：
+1. gradle项目的搭建，目前掌握基本配置即可，搭建一个gradle java web工程。
+2. web.xml的配置，最好了解web.xml各个描述符的作用。
+3. spring mvc的相关配置，了解spring mvc的context概念，以及spring mvc里面的常用注解，以及整个spring ioc的基本原理
+
+最佳流程是：先上官网上查看相关的文档，阅读一遍后开始搭建，遇到问题后可以google或者stackoverflow上寻找答案。
+
+over
