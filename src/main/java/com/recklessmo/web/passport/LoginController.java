@@ -1,10 +1,16 @@
 package com.recklessmo.web.passport;
 
+import com.recklessmo.service.passport.PassportService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestBody;
+import com.recklessmo.model.passport.*;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
  *
@@ -15,10 +21,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Controller
 public class LoginController {
 
+    @Resource
+    private PassportService passportService;
+
     @ResponseBody
     @RequestMapping(value = "/v1/account/login", method = RequestMethod.GET)
-    public String login(){
-        return "{id:987, name:\"xxx\"}";
+    public List<User> login(){
+        return passportService.getUserList();
     }
 
 }
