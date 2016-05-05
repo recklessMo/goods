@@ -1,0 +1,20 @@
+[
+  {
+    "text": "货站",
+    "sref": "app.dashboard",
+    "icon": "icon-speedometer",
+    "label": "label label-success"
+  },
+  {
+    "text": "厂家",
+    "sref": "app.dashboard_v2",
+    "icon": "icon-note",
+    "label": "label label-success"
+  },
+  {
+    "text": "管理",
+    "sref": "app.dashboard_v3",
+    "icon": "icon-grid",
+    "label": "label label-success"
+  }
+]

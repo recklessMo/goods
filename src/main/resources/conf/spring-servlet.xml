@@ -11,5 +11,24 @@
     <context:component-scan base-package="com.recklessmo.web"/>
 	<mvc:annotation-driven />
 
+    <mvc:default-servlet-handler/>
+
+    <bean id="velocityConfigurer"
+          class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+        <property name="resourceLoaderPath" value="/index/"/>
+        <property name="velocityProperties">
+            <props>
+                <prop key="input.encoding">utf-8</prop>
+                <prop key="output.encoding">utf-8</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="velocityViewResolver"
+          class="org.springframework.web.servlet.view.velocity.VelocityViewResolver">
+        <property name="suffix" value=".vm"/>
+        <property name="contentType" value="text/html;charset=utf-8"/>
+        <property name="toolboxConfigLocation" value="/index/toolbox.xml"/>
+    </bean>
 
 </beans>

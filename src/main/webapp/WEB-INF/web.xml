@@ -24,9 +24,10 @@
 		<param-value>classpath:conf/application-context.xml</param-value>
 	</context-param>
 
+
 	<servlet-mapping>
 		<servlet-name>entryServlet</servlet-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
 </web-app>

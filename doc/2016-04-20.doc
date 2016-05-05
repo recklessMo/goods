@@ -1,0 +1,24 @@
+开发模式主要采用前后端同步开发的模式，这样能立马看到效果。针对某个功能点进行前后端同步开发。
+
+今天主要调研了前端框架的搭建
+
+整体来说采用angular js＋bootstrap
+
+angular js采用了mvc模式，比较容易上手和理解
+bootstrap提供了丰富的样式
+
+为了加快开发进度，直接从网上找到了一套dashboard的模版，然后在这个模版的基础上进行开发。
+
+前端需要用到的工具：
+1. 安装node js，需要用到npm，npm主要用来安装gulp，bower等相关的工具，通过package.json来进行配置
+2. bower主要用来管理前端依赖，将前端依赖采用bower来管理十分方便，通过bower.json来进行配置
+3. gulp是一个强大的自动构建工具，通过gulpfile.js来配置
+
+
+这就是工程目录下三个配置文件的作用
+
+npm通过package.json来安装gulp工具需要用的包（这些包主要用于构建），bower通过bower.json来安装前端代码需要用到的依赖包，然后gulp通过gulpfile.js来将源代码和bower安装的一些依赖包一起打包到最终的js文件里面，然后进行发布，这就是整体的工作流程。
+
+ 
+重要的资料：
+ 1. ui_route，用于控制单页面流程http://www.ng-newsletter.com/posts/angular-ui-router.html
