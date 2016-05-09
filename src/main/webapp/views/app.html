@@ -1,13 +1,14 @@
 <!-- top navbar-->
-<header ng-include="'app/views/partials/top-navbar.html'" class="topnavbar-wrapper"></header>
+<header ng-include="'app/views/partials/top-navbar.html'" class="topnavbar-wrapper his-topnavbar-wrapper"></header>
 <!-- sidebar-->
 <aside ng-include="'app/views/partials/sidebar.html'" ng-controller="SidebarController" class="aside"></aside>
 <!-- offsidebar-->
-<!--<aside ng-include="'app/views/partials/offsidebar.html'" class="offsidebar"></aside>-->
+<!-- <aside ng-include="'app/views/partials/offsidebar.html'" class="offsidebar"></aside>-->
 <!-- Main section-->
-<section>
+<section class="his-section-content">
    <!-- Page content-->
-   <div ui-view="" autoscroll="false" ng-class="app.viewAnimation" class="content-wrapper"></div>
+   <div ui-view="" autoscroll="false" ng-class="app.viewAnimation" class="content-wrapper" style="height:100%; padding: 15px;"></div>
 </section>
 <!-- Page footer-->
-<!--<footer ng-include="'app/views/partials/footer.html'"></footer>-->
+<!--
+<footer ng-include="'/views/partials/footer.html'"></footer>-->

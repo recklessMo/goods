@@ -1,19 +1,25 @@
 [
   {
-    "text": "货站",
-    "sref": "app.dashboard",
+    "text": "货运大厅",
+    "sref": "app.hall",
     "icon": "icon-speedometer",
     "label": "label label-success"
   },
   {
-    "text": "厂家",
-    "sref": "app.dashboard_v2",
+    "text": "我要发货",
+    "sref": "app.icons-weather",
     "icon": "icon-note",
     "label": "label label-success"
   },
   {
-    "text": "管理",
-    "sref": "app.dashboard_v3",
+    "text": "我要配货",
+    "sref": "app.ngdialog",
+    "icon": "icon-grid",
+    "label": "label label-success"
+  },
+  {
+    "text": "个人中心",
+    "sref": "app.buttons",
     "icon": "icon-grid",
     "label": "label label-success"
   }

@@ -39,22 +39,6 @@
               templateUrl: helper.basepath('dashboard.html'),
               resolve: helper.resolveFor('flot-chart','flot-chart-plugins', 'weather-icons')
           })
-          .state('app.dashboard_v2', {
-              url: '/dashboard_v2',
-              title: 'Dashboard v2',
-              templateUrl: helper.basepath('dashboard_v2.html'),
-              controller: 'DashboardV2Controller',
-              controllerAs: 'dash2',
-              resolve: helper.resolveFor('flot-chart','flot-chart-plugins')
-          })
-          .state('app.dashboard_v3', {
-              url: '/dashboard_v3',
-              title: 'Dashboard v3',
-              controller: 'DashboardV3Controller',
-              controllerAs: 'dash3',
-              templateUrl: helper.basepath('dashboard_v3.html'),
-              resolve: helper.resolveFor('flot-chart','flot-chart-plugins', 'vector-map', 'vector-map-maps')
-          })
           .state('app.widgets', {
               url: '/widgets',
               title: 'Widgets',
@@ -71,10 +55,19 @@
               title: 'Colors',
               templateUrl: helper.basepath('colors.html')
           })
-          .state('app.localization', {
-              url: '/localization',
-              title: 'Localization',
-              templateUrl: helper.basepath('localization.html')
+          .state('app.hall', {
+              url: '/hall/:tab',
+              title: '大厅',
+              controller: 'HallController',
+              templateUrl: helper.basepath('hall.html'),
+              resolve: helper.resolveFor('ngTable', 'ngDialog', 'ui.select', 'oitozero.ngSweetAlert'),
+              params: {
+                  tab: {
+                      value: function () {
+                          return "goods";
+                      }
+                  }
+              }
           })
           .state('app.infinite-scroll', {
               url: '/infinite-scroll',

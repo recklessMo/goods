@@ -1,0 +1,23 @@
+<div class="container-fluid" style="height:100%;">
+   <div class="panel panel-default" style="height:100%;">
+      <uib-tabset class="his-tab-container" style="height:100%;">
+         <uib-tab active="tabs.goods" select="changeTab('goos')"
+                  style="width: 240px;text-align: center;">
+            <uib-tab-heading>
+               在线货源
+            </uib-tab-heading>
+            <div ng-controller="OnlineGoodsController"
+               ng-include="'app/views/goods.html'">
+            </div>
+         </uib-tab>
+         <uib-tab active="tabs.truck" select="changeTab('truck')" style="width: 240px;text-align: center;">
+            <uib-tab-heading>
+               在线车源
+            </uib-tab-heading>
+            <div ng-controller="OnlineTruckController"
+               ng-include="'app/views/truck.html'">
+            </div>
+         </uib-tab>
+      </uib-tabset>
+   </div>
+</div>

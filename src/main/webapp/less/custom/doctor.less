@@ -1,0 +1,441 @@
+.top-wrapper {
+  padding-bottom: 10px;
+  height: 42px;
+  margin-top: -6px;
+}
+
+.doctor-worktable-wrapper {
+  margin: 0;
+  height: 100%;
+  padding-bottom: 20px;
+
+  .patient-info-list-module {
+    padding: 0 12px 0 0;
+    height: 100%;
+
+   .search-box {
+      margin-top: 20px;
+
+       div {
+         padding: 0;
+       }
+    }
+
+    .tab-content {
+      padding: 15px 5px 55px 5px;
+    }
+
+
+
+    th {
+      padding: 14px 1px
+    }
+
+    td {
+      text-align: center;
+      padding-left: 1px;
+      padding-right: 1px;
+    }
+  }
+
+  .decision-module {
+    padding: 0;
+    height: 100%;
+
+    .user-info {
+      background: #ECF6FF;
+      padding: 3px 10px;
+      color: #101B34;
+      font-weight: bold;
+      font-family: sans-serif;
+    }
+  }
+
+  .unfold-button {
+    width: 14px;
+    margin-left: -27px;
+    position: absolute;
+    height:95%;
+    display: inline-flex;
+    align-items: center;
+    text-align: center;
+
+    &:hover {
+      background-image: linear-gradient(to top, transparent,transparent,#fff,#D2E9FF,#ACD6FF,#4b91ea,#ACD6FF,#D2E9FF,#FFF,transparent,transparent);
+      color:#fff;
+    }
+  }
+
+  .fold-button {
+    width: 14px;
+    margin-left: -24px;
+    position: absolute;
+    height:95%;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    &:hover {
+      background-image: linear-gradient(to top, transparent,transparent,#fff,#D2E9FF,#ACD6FF,#4b91ea,#ACD6FF,#D2E9FF,#FFF,transparent,transparent);
+      color:#fff;
+    }
+  }
+
+  .unfold-button-right {
+    width: 14px;
+    margin-left: 13px;
+    position: absolute;
+    z-index: 10;
+
+    height:95%;
+    display: inline-flex;
+    align-items: center;
+    text-align: center;
+
+    &:hover {
+      background-image: linear-gradient(to top, transparent,transparent,#fff,#D2E9FF,#ACD6FF,#4b91ea,#ACD6FF,#D2E9FF,#FFF,transparent,transparent);
+      color:#fff;
+    }
+  }
+
+  .fold-button-right {
+    width: 14px;
+    margin-left: 10px;
+    position: absolute;
+    height:95%;
+    display: inline-flex;
+    align-items: center;
+    text-align: center;
+
+    &:hover {
+      background-image: linear-gradient(to top, transparent,transparent,#fff,#D2E9FF,#ACD6FF,#4b91ea,#ACD6FF,#D2E9FF,#FFF,transparent,transparent);
+      color:#fff;
+    }
+  }
+
+  .prescription-container {
+    .table-min-special {
+      border: 1px solid #dfdfdf;
+
+      th {
+        padding: 10px 1px;
+        border: 1px solid #dfdfdf;
+      }
+
+      td {
+        background: #F0F0F0;
+        padding: 0;
+        border: 1px solid #dfdfdf;
+
+        input,span {
+          border: none;
+          border-radius: 0;
+          height:35px;
+        }
+
+        .caret {
+           border-right: 0;
+           border-left: 0;
+        }
+      }
+    }
+
+    .table-content {
+      width:100%;
+      overflow: auto;
+      margin-bottom: 20px;
+      min-height: 150px;
+
+      th {
+        white-space: nowrap;
+        padding: 2px 15px;
+        text-align: center;
+      }
+
+      td {
+        white-space: nowrap;
+      }
+
+    }
+
+    .table-dropdown {
+
+      a{
+        padding: 0;
+      }
+
+      .table-dropdown-choices {
+        span {
+          display: table-cell;
+          white-space: normal;
+          vertical-align: middle;
+          box-shadow: 1px 1px gainsboro;
+          padding: 10px 0 7px;
+          word-break: break-all;
+          text-align: center;
+        }
+      }
+    }
+  }
+}
+
+.add-record-label {
+  width: 70px;
+  text-align: right;
+  display: inline;
+  float: left;
+  margin-right: 15px;
+}
+
+//当前正在诊断的用户
+.user-diagnosis{
+  background-color: #5d9cec;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd).user-diagnosis{
+  background-color: #5d9cec;
+}
+
+//填病历页面信息展示块
+.add-record-show-info {
+  .info-group {
+    margin-bottom: 7px;
+    align-items: center !important;
+
+    .label {
+      min-width:75px;
+      text-align: left;
+    }
+
+    .info {
+      width: 100%;
+
+      input {
+        width: 100%;
+        padding: 5px 10px;
+      }
+
+      textarea {
+        width: 100%;
+        padding: 5px 10px;
+      }
+    }
+  }
+}
+
+textarea {
+  font-size: 12px !important;
+}
+
+select {
+  font-size: 12px;
+}
+
+//病史页面信息展示块
+.history-show-info {
+  .content {
+    .left-block {
+      width: 48%;
+      display: inline-flex;
+      float: left;
+      margin-top: 10px;
+    }
+
+    .right-block {
+      width: 48%;
+      display: inline-flex;
+      float: right;
+      margin-top: 10px;
+    }
+
+    .control-label {
+      min-width: 65px;
+      text-align: right;
+      padding-right: 5px;
+    }
+
+    .input-group-addon {
+      font-size: 12px;
+      padding: 4px;
+    }
+
+    .time-btn {
+      width: 30px !important;
+      padding: 4px !important;
+      font-size: 17px !important;
+    }
+
+    select {
+      font-size: 12px !important;
+    }
+
+    input {
+      padding: 7px;
+    }
+  }
+}
+
+//折叠相关
+.left-padding {
+  padding: 0 0 0 15px;
+}
+
+.right-padding {
+  padding: 0 15px 0 0;
+}
+
+.both-padding {
+  padding: 0 15px;
+}
+
+.prescription-select {
+  .btn.btn-default {
+    border-color: red;
+  }
+}
+
+.his-fix-select {
+  input {
+    width: 100%;
+    padding: 0 0 0 2px ;
+  }
+}
+
+.ui-select-toggle {
+  padding-top: 8px !important;
+}
+
+.cfd-select {
+  .ui-select-bootstrap > .ui-select-choices {
+    width: auto;
+  }
+
+  .ui-select-bootstrap {
+    .ui-select-match {
+      span {
+        padding-right: 1px;
+        padding-left: 1px;
+      }
+    }
+  }
+
+  &.small-select {
+    min-width: 60px;
+    max-width: 60px;
+
+    .ui-select-choices {
+      width: 80px;
+      min-width: 80px;
+      font-size: 12px;
+    }
+  }
+
+  &.more-content-select {
+    min-width: 60px;
+    max-width: 60px;
+
+    .ui-select-choices {
+      width: 100px;
+      min-width: 100px;
+      font-size: 12px;
+    }
+
+    .ui-select-bootstrap .ui-select-choices-row>a {
+      padding: 3px 5px;
+    }
+  }
+}
+
+.prescription-container {
+  .input-sm {
+    padding: 1px;
+  }
+
+  .trade-stauts-10 {
+    color: orange;
+  }
+
+  .trade-stauts-20 {
+    color: darkgreen;
+  }
+
+  .trade-stauts-40 {
+    color: grey;
+  }
+}
+
+.decision-box {
+  margin: 10px -10px 15px -5px;
+  display: flex;
+  flex-wrap: wrap;
+
+  .one-column-box {
+    display: inline-block;
+    width: 97%;
+    min-height: 100px;
+    box-shadow: 1px 1px 5px #888;
+
+    &:hover {
+      box-shadow: 0 0 1px #888;
+    }
+
+    .content {
+      padding: 7px;
+    }
+  }
+
+  .two-column-box {
+    display: inline-block;
+    width: 48%;
+    margin-right: 2%;
+    min-height: 100px;
+    box-shadow: 1px 1px 5px #888;
+
+    &:hover {
+      box-shadow: 0 0 1px #888;
+    }
+
+    .content {
+      padding: 7px;
+
+      .answer-column {
+        width: 33%;
+        text-align: left;
+      }
+    }
+  }
+
+  .three-column-box {
+    display: inline-block;
+    width: 32%;
+    //min-height: 100px;
+    margin-right: 1%;
+    box-shadow: 1px 1px 5px #888;
+    margin-bottom: 10px;
+    &:hover {
+      box-shadow: 0 0 1px #888;
+    }
+
+    .content {
+      padding: 7px;
+
+      .answer-column {
+        width: 50%;
+        text-align: left;
+      }
+    }
+  }
+
+
+}
+
+.fixed-search-box {
+  display: inline-block;
+  position: fixed;
+  right: 20px;
+  top: 28%;
+  height: 70px;
+  width: 150px;
+  background: rgba(255,237,205,0.5);
+  padding: 20px 7px;
+  box-shadow: 0 0 8px darkgray;
+}

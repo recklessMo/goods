@@ -1,0 +1,50 @@
+.ngdialog.ngdialog-theme-default.large-dialog{
+  padding-bottom: 20px;
+  padding-top: 20px;
+  z-index: 5000;
+}
+
+.ngdialog.ngdialog-theme-default.large-dialog  .ngdialog-content{
+  width: 50%;
+}
+
+.ngdialog.ngdialog-theme-default.custom-width-800 .ngdialog-content {
+  width: 80%;
+}
+
+.charge-compute {
+  .his-input-group {
+    width: 31%;
+    margin-right: 1%;
+    display: inline-flex;
+
+    .input-group-addon {
+      font-size: 12px;
+      font-weight: bold;
+      background: #fff;
+      border: none;
+      padding: 5px;
+      text-align: left;
+      margin-top: 5px;
+    }
+  }
+}
+
+@media screen {
+  #printSection {
+    display: none;
+  }
+}
+@media print {
+  body * {
+    visibility:hidden;
+  }
+  #printSection, #printSection * {
+    visibility:visible;
+  }
+  #printSection {
+    position:absolute;
+    left:0;
+    top:0;
+  }
+}
