@@ -45,7 +45,7 @@ public class Menu{
             new Menu(null, "zsz", null, "icon-note", "app.navtree", 5),
 
             //定义二级菜单
-            new Menu("jwz", "xsgl", "ROLE_USER", "icon-graph", "app.nestable", 1),
+            new Menu("jwz", "zsgl", "ROLE_USER", "icon-graph", "app.nestable", 1),
             new Menu("jwz", "cjgl", "", null, "app.teacher", 2),
             new Menu("jwz", "jsgl", "", null, "app.duty", 3),
 

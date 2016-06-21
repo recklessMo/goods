@@ -2,6 +2,7 @@ package com.recklessmo.service.user;
 
 import com.recklessmo.dao.passport.UserDAO;
 import com.recklessmo.model.passport.User;
+import com.recklessmo.webmodel.user.UserPage;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -17,9 +18,11 @@ public class UserService {
     private UserDAO userDAO;
 
 
-    public List<User> getUserList(){
-        return userDAO.getAllUser();
+    public List<User> getUserList(UserPage page){
+        return userDAO.getAllUser(page);
     }
+
+    public int getTotalCount(UserPage page){ return userDAO.getCount(page);}
 
     public User getUser(long id){
         return userDAO.getUser(id);
@@ -29,8 +32,8 @@ public class UserService {
         userDAO.deleteUser(id);
     }
 
-    public void add(User user){
-        userDAO.addUser(user);
+    public void add(User user) throws Exception {
+            userDAO.addUser(user);
     }
 
     public void update(User user){

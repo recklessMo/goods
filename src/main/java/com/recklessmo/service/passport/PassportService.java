@@ -2,6 +2,7 @@ package com.recklessmo.service.passport;
 
 import com.recklessmo.dao.passport.UserDAO;
 import com.recklessmo.model.passport.User;
+import com.recklessmo.webmodel.user.UserPage;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -18,7 +19,8 @@ public class PassportService {
 
 
     public List<User> getUserList(){
-        return userDAO.getAllUser();
+        UserPage page = new UserPage();
+        return userDAO.getAllUser(page);
     }
 
 }

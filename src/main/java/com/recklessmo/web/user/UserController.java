@@ -5,8 +5,10 @@ import com.recklessmo.model.passport.IdModel;
 import com.recklessmo.model.passport.User;
 import com.recklessmo.model.security.DefaultUserDetails;
 import com.recklessmo.response.JsonResponse;
+import com.recklessmo.response.ResponseType;
 import com.recklessmo.service.user.UserService;
 import com.recklessmo.util.ContextUtils;
+import com.recklessmo.webmodel.user.UserPage;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -34,14 +36,10 @@ public class UserController {
     @PreAuthorize("hasAnyAuthority('ROLE_USER')")
     @ResponseBody
     @RequestMapping(value = "/list", method = {RequestMethod.POST, RequestMethod.GET})
-    public JsonResponse list(){
-        List<User>  users = userService.getUserList();
-//        try {
-//            Thread.sleep(5000);
-//        }catch(Exception e){
-//
-//        }
-        return new JsonResponse(200, users, 11);
+    public JsonResponse list(@RequestBody UserPage page){
+        List<User>  users = userService.getUserList(page);
+        int count = userService.getTotalCount(page);
+        return new JsonResponse(ResponseType.RESPONSE_OK, users, count);
     }
 
     @PreAuthorize("hasAnyAuthority('ROLE_USER')")
@@ -49,12 +47,7 @@ public class UserController {
     @RequestMapping(value = "/get", method = {RequestMethod.POST, RequestMethod.GET})
     public JsonResponse get(@RequestBody long id){
         User user = userService.getUser(id);
-//        try {
-//            Thread.sleep(5000);
-//        }catch(Exception e){
-//
-//        }
-        return new JsonResponse(200, user, null);
+        return new JsonResponse(ResponseType.RESPONSE_OK, user, null);
     }
 
     @PreAuthorize("hasAnyAuthority('ROLE_USER')")
@@ -62,34 +55,31 @@ public class UserController {
     @RequestMapping(value = "/delete", method = {RequestMethod.POST, RequestMethod.GET})
     public JsonResponse delete(@RequestBody long id){
         userService.delete(id);
-//        try {
-//            Thread.sleep(5000);
-//        }catch(Exception e){
-//
-//        }
-        return new JsonResponse(200, null, null);
+        return new JsonResponse(ResponseType.RESPONSE_OK, null, null);
     }
 
     @PreAuthorize("hasAnyAuthority('ROLE_USER')")
     @ResponseBody
     @RequestMapping(value = "/add", method = {RequestMethod.GET, RequestMethod.POST})
     public JsonResponse add(@RequestBody User user){
-        userService.add(user);
-        return new JsonResponse(200, null, null);
+        try {
+            userService.add(user);
+        }catch(Exception e){
+            return new JsonResponse(ResponseType.RESPONSE_ADD_USER_REPEAT, null, null);
+        }
+        return new JsonResponse(ResponseType.RESPONSE_OK, null, null);
     }
 
     @PreAuthorize("hasAnyAuthority('ROLE_USER')")
     @ResponseBody
     @RequestMapping(value = "/update", method = {RequestMethod.GET, RequestMethod.POST})
     public JsonResponse update(@RequestBody User user){
-        userService.update(user);
-//        try {
-//            Thread.sleep(5000);
-//        }catch(Exception e){
-//
-//        }
-        return new JsonResponse(200, null, null);
+        try {
+            userService.update(user);
+        }catch(Exception e){
+            return new JsonResponse(ResponseType.RESPONSE_UPDATE_USER_REPEAT, null, null);
+        }
+        return new JsonResponse(ResponseType.RESPONSE_OK, null, null);
     }
-
 
 }
