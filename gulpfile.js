@@ -54,8 +54,7 @@ var source = {
             paths.scripts + 'modules/**/*.module.js',
             paths.scripts + 'modules/**/*.js',
             paths.scripts + 'custom/**/*.module.js',
-            paths.scripts + 'custom/**/*.js',
-            paths.scripts + 'i18n/**/*.js'
+            paths.scripts + 'custom/**/*.js'
   ],
   styles: {
     app:    [ paths.styles + '*.*'],

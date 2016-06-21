@@ -27,5 +27,9 @@
   "bower_components/angular-loading-bar/build/loading-bar.js",
   "bower_components/jquery.browser/dist/jquery.browser.js",
   "bower_components/angular-dynamic-locale/dist/tmhDynamicLocale.js",
-  "bower_components/matchMedia/matchMedia.js"
+  "bower_components/matchMedia/matchMedia.js",
+  "bower_components/ladda/dist/spin.min.js",
+  "bower_components/ladda/dist/ladda.min.js",
+  "bower_components/ladda/dist/ladda.jquery.min.js",
+  "bower_components/angular-ladda/dist/angular-ladda.js"
 ]

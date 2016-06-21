@@ -22,6 +22,7 @@
   "dependencies": {
     "Flot": "flot/flot#0.8.3",
     "angular-loading-bar": "0.8.0",
+    "angular-block-ui": "~0.2.2",
     "angular-translate": "2.8.1",
     "angular-ui-router": "0.2.15",
     "angular": "1.4.7",
@@ -110,7 +111,8 @@
     "angular-bootstrap-colorpicker": "~3.0.18",
     "matchMedia": "matchmedia#~0.2.0",
     "load-google-maps": "https://gist.github.com/8613939.git",
-    "sparkline": "http://omnipotent.net/jquery.sparkline/2.1.2/jquery.sparkline.js"
+    "sparkline": "http://omnipotent.net/jquery.sparkline/2.1.2/jquery.sparkline.js",
+    "angular-ladda": "^0.3.4"
   },
   "resolutions": {
     "angular": "1.4.7",
