@@ -19,7 +19,7 @@
         $locationProvider.html5Mode(false);
 
         // defaults to dashboard
-        $urlRouterProvider.otherwise('/app/dashboard');
+        $urlRouterProvider.otherwise('/app/account');
 
         //
         // Application Routes
@@ -29,31 +29,19 @@
         $stateProvider
           .state('app', {
               url: '/app',
-              abstract: true,
               templateUrl: helper.basepath('app.html'),
               resolve: helper.resolveFor('fastclick', 'modernizr', 'icons', 'screenfull', 'animo', 'sparklines', 'slimscroll', 'classyloader', 'toaster', 'whirl')
           })
-          .state('app.dashboard', {
-              url: '/dashboard',
-              title: 'Dashboard',
-              templateUrl: helper.basepath('dashboard.html'),
-              resolve: helper.resolveFor('flot-chart','flot-chart-plugins', 'weather-icons')
-          })
-          .state('app.widgets', {
-              url: '/widgets',
-              title: 'Widgets',
-              templateUrl: helper.basepath('widgets.html'),
-              resolve: helper.resolveFor('loadGoogleMapsJS', function() { return loadGoogleMaps(); }, 'ui.map')
-          })
-          .state('app.buttons', {
-              url: '/buttons',
-              title: 'Buttons',
+          .state('app.student', {
+              url: '/student',
+              title: 'student',
               templateUrl: helper.basepath('buttons.html')
           })
-          .state('app.colors', {
-              url: '/colors',
-              title: 'Colors',
-              templateUrl: helper.basepath('colors.html')
+          .state('app.account', {
+              url: '/account',
+              title: '帐号管理',
+              templateUrl: helper.basepath('custom/admin/account/account.html'),
+              resolve: helper.resolveFor('ngTable', 'oitozero.ngSweetAlert', 'ngDialog')
           })
           .state('app.hall', {
               url: '/hall/:tab',
@@ -513,8 +501,8 @@
           // -----------------------------------
           .state('page', {
               url: '/page',
-              templateUrl: 'app/pages/page.html',
-              resolve: helper.resolveFor('modernizr', 'icons'),
+              templateUrl: helper.basepath('page.html'),
+             // resolve: helper.resolveFor('icons'),
               controller: ['$rootScope', function($rootScope) {
                   $rootScope.app.layout.isBoxed = false;
               }]
@@ -522,7 +510,7 @@
           .state('page.login', {
               url: '/login',
               title: 'Login',
-              templateUrl: 'app/pages/login.html'
+              templateUrl: helper.basepath('login.html')
           })
           .state('page.register', {
               url: '/register',

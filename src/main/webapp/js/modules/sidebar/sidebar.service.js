@@ -12,11 +12,9 @@
         ////////////////
 
         function getMenu(onReady, onError) {
-          var menuJson = 'server/sidebar-menu.json',
-              menuURL  = menuJson + '?v=' + (new Date().getTime()); // jumps cache
-            
+          var menuURL  = 'v1/system/menu';
+          var menuURLTest = 'server/sidebar-menu.json';
           onError = onError || function() { alert('Failure loading menu'); };
-
           $http
             .get(menuURL)
             .success(onReady)

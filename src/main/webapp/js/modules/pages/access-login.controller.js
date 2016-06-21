@@ -10,8 +10,8 @@
         .module('app.pages')
         .controller('LoginFormController', LoginFormController);
 
-    LoginFormController.$inject = ['$http', '$state'];
-    function LoginFormController($http, $state) {
+    LoginFormController.$inject = ['$http'];
+    function LoginFormController($http) {
         var vm = this;
 
         activate();
@@ -28,26 +28,17 @@
             vm.authMsg = '';
 
             if(vm.loginForm.$valid) {
-
-              $http
-                .post('api/account/login', {email: vm.account.email, password: vm.account.password})
-                .then(function(response) {
-                  // assumes if ok, response is an object with some data, if not, a string with error
-                  // customize according to your api
-                  if ( !response.account ) {
-                    vm.authMsg = 'Incorrect credentials.';
-                  }else{
-                    $state.go('app.dashboard');
-                  }
-                }, function() {
-                  vm.authMsg = 'Server Request Error';
+              $http({
+                  method: "POST",
+                  url: "j_spring_security_check",
+                  data: $.param({username: vm.account.username, password: vm.account.password}),
+                  headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).success(function(){
+                  window.location.href = "/";
                 });
             }
             else {
-              // set as dirty if the user click directly to login so we show the validation messages
-              /*jshint -W106*/
-              vm.loginForm.account_email.$dirty = true;
-              vm.loginForm.account_password.$dirty = true;
+
             }
           };
         }

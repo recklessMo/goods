@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+    	http://www.springframework.org/schema/security	http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+
+    <!--静态资源不做安全验证,因为登录页面是嵌入到这些静态页面里面的-->
+    <http pattern="/static/**" security="none"/>
+    <http pattern="/app/**" security="none"/>
+    <http pattern="/vendor/**" security="none"/>
+    <http pattern="/server/**" security="none"/>
+    <http pattern="/i18n/**" security="none"/>
+    <http pattern="/demo/**" security="none"/>
+    <http pattern="/views/**" security="none"/>
+    <http pattern="/WEB-INF/jsp/**" security="none"/>
+    <http pattern="/favicon.ico" security="none"/>
+
+    <http auto-config="true" use-expressions="true">
+        <form-login
+                login-page="/login#/page/login"
+                username-parameter="username"
+                password-parameter="password"/>
+    </http>
+
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider user-service-ref="userDetailService">
+        </authentication-provider>
+    </authentication-manager>
+
+    <beans:bean id="userDetailService" class="com.recklessmo.service.security.UserDetailService"></beans:bean>
+
+</beans:beans>

@@ -3,7 +3,10 @@
 
     angular
         .module('custom', [
-            // request the the entire framework
-            'angle'
-        ]);
+            'angular-ladda',
+            'blockUI'
+        ]).config(function(blockUIConfig){
+        blockUIConfig.autoBlock = false;
+        blockUIConfig.message = "正在加载..."
+    });
 })();

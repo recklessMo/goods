@@ -34,7 +34,11 @@
           SidebarLoader.getMenu(sidebarReady);
           
           function sidebarReady(items) {
-            $scope.menuItems = items;
+            if(!angular.isUndefined(items.data)) {
+              $scope.menuItems = items.data;
+            }else{
+              $scope.menuItems = items;
+            }
           }
 
           // Handle sidebar and collapse items

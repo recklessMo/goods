@@ -145,7 +145,9 @@
                                                         'vendor/jquery-knob/dist/jquery.knob.min.js']},
             {name: 'easypiechart',              files: ['vendor/jquery.easy-pie-chart/dist/angular.easypiechart.min.js']},
             {name: 'colorpicker.module',        files: ['vendor/angular-bootstrap-colorpicker/css/colorpicker.css',
-                                                        'vendor/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.js']}
+                                                        'vendor/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.js']},
+            {name: 'blockUI',                   files: ['vendor/angular-block-ui/dist/angular-block-ui.min.js',
+                                                        'vendor/angular-block-ui/dist/angular-block-ui.min.css']}
           ]
         })
         ;

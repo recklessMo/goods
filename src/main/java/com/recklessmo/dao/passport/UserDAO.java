@@ -1,6 +1,8 @@
 package com.recklessmo.dao.passport;
 
 import com.recklessmo.model.passport.User;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 /**
@@ -8,9 +10,12 @@ import java.util.List;
  */
 public interface UserDAO {
 
-    void saveUser(User user);
+    void addUser(User user);
     void updateUser(User user);
     void deleteUser(long id);
     List<User> getAllUser();
+    User getUser(long id);
+
+    User getUserByUserName(@Param("userName") String userName);
 
 }

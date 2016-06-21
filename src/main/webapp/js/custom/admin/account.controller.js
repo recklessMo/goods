@@ -1,0 +1,109 @@
+(function () {
+    'use strict';
+    angular
+        .module('custom')
+        .controller('AccountController', AccountController);
+    AccountController.$inject = ['$scope', 'AccountService', 'SweetAlert', 'NgTableParams', 'ngDialog', 'blockUI'];
+
+    function AccountController($scope, AccountService, SweetAlert, NgTableParams, ngDialog, blockUI) {
+
+        this.tableParams = {page : 1, count : 10};
+        this.userTableParams = new NgTableParams(this.tableParams, {
+            getData: function($defer, params){
+                blockUI.start();
+                AccountService.loadUsers(params).success(function(data){
+                    if(data.status == 200){
+                        params.total(data.totalCount);
+                        console.log(data);
+                        $defer.resolve(data.data);
+                        blockUI.stop();
+                    }
+                }).error(function(){
+                    SweetAlert.error("网络问题,请稍后重试!");
+                    blockUI.stop();
+                });
+            }
+        });
+
+
+        //删除用户
+        $scope.delete = function(id){
+            SweetAlert.swal({
+                title: '确认删除?',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#DD6B55',
+                confirmButtonText: '是',
+                cancelButtonText: '否',
+                closeOnConfirm: true,
+                closeOnCancel: true
+            }, function(isConfirm){
+                if (isConfirm) {
+                    //这里可以进行调试,查看$scope,因为table会创建一个子scope
+                    //然后子scope里面就不能用this了,因为this就指向了子scope,
+                    //实际上在table的每一行里面的点击是调用了父scope的delete方法
+                    blockUI.start();
+                    AccountService.deleteUser(id).success(function (data) {
+                        $scope.account.userTableParams.reload();
+                        blockUI.stop();
+                        SweetAlert.swal('删除成功', null, 'success');
+                    }).error(function(){
+                        blockUI.stop();
+                        SweetAlert.error("网络问题,请稍后重试!");
+                    });
+                }
+            });
+        }
+
+        //查看用户
+        $scope.show = function (userId){
+            var dialog= ngDialog.open({
+                template: 'app/views/custom/admin/account/edit-account.html',
+                controller: 'EditAccountController',
+                className: 'ngdialog-theme-default large-dialog',
+                data : {id:userId, type:0}
+            });
+            dialog.closePromise.then(function(data){
+                if(data.value != 'reload'){
+                    return;
+                }
+                $scope.account.userTableParams.reload();
+            });
+        };
+
+        //编辑用户
+        $scope.edit = function(userId) {
+            var dialog= ngDialog.open({
+                template: 'app/views/custom/admin/account/edit-account.html',
+                controller: 'EditAccountController',
+                className: 'ngdialog-theme-default large-dialog',
+                data : {id:userId, type:1}
+            });
+            dialog.closePromise.then(function(data){
+                if(data.value != 'reload'){
+                    return;
+                }
+                $scope.account.userTableParams.reload();
+            });
+        }
+
+        //添加用户
+        $scope.add = function(userId){
+            var dialog= ngDialog.open({
+                template: 'app/views/custom/admin/account/edit-account.html',
+                controller: 'EditAccountController',
+                className: 'ngdialog-theme-default large-dialog',
+                data : {id:userId, type:2}
+            })
+            dialog.closePromise.then(function(data){
+                if(data.value != 'reload'){
+                    return;
+                }
+                $scope.account.userTableParams.reload();
+            });
+        }
+
+
+
+    }
+})();

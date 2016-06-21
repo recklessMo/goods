@@ -1,6 +1,6 @@
 <!-- Inline template with sidebar items markup and ng-directives-->
 <script type="text/ng-template" id="sidebar-renderer.html">
-   <span ng-if="item.heading">{{(item.translate | translate) || item.text}}</span><a ng-if="!item.heading" ng-href="{{$state.href(item.sref, item.params)}}" title="{{item.text}}"><div ng-if="item.alert" ng-class="item.label || 'label label-success'" class="pull-right">{{item.alert}}</div><em ng-if="item.icon" class="{{item.icon}}"></em><span>{{(item.translate | translate) || item.text}}</span></a><ul ng-if="item.submenu" uib-collapse="isCollapse(pIndex)" ng-init="addCollapse(pIndex, item)" class="nav sidebar-subnav"><li class="sidebar-subnav-header">{{(item.translate | translate) || item.text}}</li><li ng-repeat="item in item.submenu" ng-include="'sidebar-renderer.html'" ng-class="getMenuItemPropClasses(item)" ng-init="pIndex=(pIndex+'-'+$index); inSubmenu = true" ng-click="toggleCollapse(pIndex)"></li></ul>
+   <span ng-if="item.heading">{{item.text}}</span><a ng-if="!item.heading" ng-href="{{$state.href(item.sref, item.params)}}" title="{{item.text}}"><div ng-if="item.alert" ng-class="item.label || 'label label-success'" class="pull-right">{{item.alert}}</div><em ng-if="item.icon" class="{{item.icon}}"></em><span>{{item.text}}</span></a><ul ng-if="item.submenu" uib-collapse="isCollapse(pIndex)" ng-init="addCollapse(pIndex, item)" class="nav sidebar-subnav"><li class="sidebar-subnav-header">{{item.text}}</li><li ng-repeat="item in item.submenu" ng-include="'sidebar-renderer.html'" ng-class="getMenuItemPropClasses(item)" ng-init="pIndex=(pIndex+'-'+$index); inSubmenu = true" ng-click="toggleCollapse(pIndex)"></li></ul>
 </script>
 <!-- START Sidebar (left)-->
 <div class="aside-inner">
@@ -9,7 +9,7 @@
       <ul class="nav">
          <!-- START user info-->
          <li class="has-user-block">
-            <div uib-collapse="userBlockVisible" ng-controller="UserBlockController">
+            <div uib-collapse="false" ng-controller="UserBlockController">
                <div class="item user-block">
                   <!-- User picture-->
                   <div class="user-block-picture">
@@ -20,7 +20,7 @@
                   </div>
                   <!-- Name and Job-->
                   <div class="user-block-info">
-                     <span class="user-block-name">{{ 'sidebar.WELCOME' | translate }} {{user.name}}</span>
+                     <span class="user-block-name">{{ '你好'}} {{user.name}}</span>
                      <span class="user-block-role">{{user.job}}</span>
                   </div>
                </div>
@@ -28,13 +28,12 @@
          </li>
          <!-- END user info-->
          <!-- Iterates over all sidebar items-->
-         <li class="left:30px;" ng-class="getMenuItemPropClasses(item)" ng-repeat="item in menuItems" ng-init="pIndex = $index" ng-include="'sidebar-renderer.html'" ng-click="toggleCollapse(pIndex, true)"></li>
+         <li ng-class="getMenuItemPropClasses(item)" ng-repeat="item in menuItems" ng-init="pIndex = $index" ng-include="'sidebar-renderer.html'" ng-click="toggleCollapse(pIndex, true)"></li>
       </ul>
       <!-- END sidebar nav-->
-
-      <footer style="position: fixed;left:30px;bottom: 10px;">
-         <span>&copy; 2016-goods station</span>
-      </footer>
    </nav>
+   <footer style="position: fixed;bottom: 10px; left: 20px;">
+      <span>&copy; {{app.year}} - {{ app.name }}</span>
+   </footer>
 </div>
 <!-- END Sidebar (left)-->

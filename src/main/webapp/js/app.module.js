@@ -23,7 +23,6 @@
             'app.navsearch',
             'app.preloader',
             'app.loadingbar',
-            'app.translate',
             'app.settings',
             'app.dashboard',
             'app.icons',

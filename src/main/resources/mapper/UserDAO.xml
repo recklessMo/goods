@@ -3,13 +3,15 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.recklessmo.dao.passport.UserDAO">
     <sql id = "columns">
-        id, name, pwd
+        id, user_name, pwd, name, phone
     </sql>
 
     <resultMap id = "result" type="User">
         <result property="id" column="id"/>
-        <result property="name" column="name"/>
+        <result property="userName" column="user_name"/>
         <result property="pwd" column="pwd"/>
+        <result property="phone" column="phone"/>
+        <result property="name" column="name"/>
     </resultMap>
 
     <select id="getAllUser" resultMap = "result">
@@ -18,15 +20,27 @@
         from user
     </select>
 
-    <insert id="saveUser" parameterType = "User">
-        insert into user(id, name, pwd) value(#{id}, #{name}, #{pwd})
+    <select id="getUser" resultMap = "result">
+        select
+        <include refid="columns"/>
+        from user where id = #{id}
+    </select>
+
+    <select id="getUserByUserName" resultMap = "result">
+        select
+        <include refid="columns"/>
+        from user where user_name = #{userName}
+    </select>
+
+    <insert id="addUser" parameterType = "com.recklessmo.model.passport.User">
+        insert into user(id, user_name, pwd, name, phone) value(null, #{userName}, #{pwd}, #{name}, #{phone})
     </insert>
 
-    <update id="updateUser" parameterType = "User">
-        update user set name = #{name}, pwd = #{pwd} where id = #{id}
+    <update id="updateUser" parameterType = "com.recklessmo.model.passport.User">
+        update user set user_name = #{userName}, pwd = #{pwd}, name = #{name}, phone=#{phone} where id = #{id}
     </update>
 
-    <delete id = "deleteUser" parameterType = "int">
+    <delete id = "deleteUser" parameterType = "java.lang.Long">
         delete from user where id = #{id}
     </delete>
 
