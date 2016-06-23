@@ -2,10 +2,10 @@
     'use strict';
     angular
         .module('custom')
-        .controller('AccountController', AccountController);
-    AccountController.$inject = ['$scope', 'AccountService', 'SweetAlert', 'NgTableParams', 'ngDialog', 'blockUI', 'Notify'];
+        .controller('AdmissionController', AdmissionController);
+    AdmissionController.$inject = ['$scope', 'AccountService', 'SweetAlert', 'NgTableParams', 'ngDialog', 'blockUI', 'Notify'];
 
-    function AccountController($scope, AccountService, SweetAlert, NgTableParams, ngDialog, blockUI, Notify) {
+    function AdmissionController($scope, AccountService, SweetAlert, NgTableParams, ngDialog, blockUI, Notify) {
 
         $scope.tableParams = {page : 1, count : 10, searchStr: null};
 

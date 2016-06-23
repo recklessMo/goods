@@ -1,0 +1,14 @@
+<div ng-controller="AdmissionWorktableController" class="container-fluid" style="height: 100%;">
+    <div class="panel panel-default" style="height: 100%;" >
+        <uib-tabset class="his-tab-container" style="height: 100%;">
+            <uib-tab active="true" select="changeTab('registration')"
+                     style="width: 160px;text-align: center;">
+                <uib-tab-heading>
+                    测试tab
+                </uib-tab-heading>
+                <div ng-include="'app/views/custom/admission/admission.html'">
+                </div>
+            </uib-tab>
+        </uib-tabset>
+    </div>
+</div>

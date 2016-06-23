@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div block-ui="edit-account" class="container-fluid">
 
     <fieldset ng-disabled="type==0">
         <div class="row">
@@ -30,14 +30,14 @@
             <div class="col-md-6">
                 <div class="input-group">
                     <span class="input-group-addon" style="color:red">登录名</span>
-                    <input type="text" class="form-control" ng-model="user.userName"/>
+                    <input ng-class="!user.userName?'field-dirty' : ''" type="text" class="form-control" ng-model="user.userName"/>
                 </div>
             </div>
 
             <div class="col-md-6">
                 <div class="input-group">
                     <span class="input-group-addon" style="color:red">密码</span>
-                    <input type="password" class="form-control" ng-model="user.pwd">
+                    <input ng-class="!user.pwd?'field-dirty' : ''" type="password" class="form-control" ng-model="user.pwd">
                 </div>
             </div>
         </div>
@@ -46,14 +46,14 @@
             <div class="col-md-6">
                 <div class="input-group">
                     <span class="input-group-addon">姓名</span>
-                    <input type="text" class="form-control" ng-model="user.name">
+                    <input ng-class="!user.name?'field-dirty' : ''" type="text" class="form-control" ng-model="user.name">
                 </div>
             </div>
 
             <div class="col-md-6">
                 <div class="input-group">
                     <span class="input-group-addon">电话</span>
-                    <input type="text" class="form-control" ng-model="user.phone">
+                    <input ng-class="!user.name?'field-dirty' : ''" type="text" class="form-control" ng-model="user.phone">
                 </div>
             </div>
         </div>

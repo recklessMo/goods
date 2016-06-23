@@ -30,7 +30,12 @@
           .state('app', {
               url: '/app',
               templateUrl: helper.basepath('app.html'),
-              resolve: helper.resolveFor('fastclick', 'modernizr', 'icons', 'screenfull', 'animo', 'sparklines', 'slimscroll', 'classyloader', 'toaster', 'whirl')
+              resolve: helper.resolveFor('fastclick', 'modernizr', 'icons', 'screenfull', 'animo', 'sparklines', 'slimscroll', 'classyloader', 'toaster', 'whirl','ngTable', 'oitozero.ngSweetAlert', 'ngDialog')
+          })
+          .state('app.admission', {
+              url: '/admission',
+              title: 'admission',
+              templateUrl: helper.basepath('custom/admission/admission-worktable.html')
           })
           .state('app.student', {
               url: '/student',
@@ -40,8 +45,7 @@
           .state('app.account', {
               url: '/account',
               title: '帐号管理',
-              templateUrl: helper.basepath('custom/admin/account/account.html'),
-              resolve: helper.resolveFor('ngTable', 'oitozero.ngSweetAlert', 'ngDialog')
+              templateUrl: helper.basepath('custom/admin/account/account.html')
           })
           .state('app.hall', {
               url: '/hall/:tab',

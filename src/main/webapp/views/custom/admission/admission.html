@@ -1,0 +1,26 @@
+<div ng-controller="AdmissionController" class="container-fluid">
+
+        <uib-tabset class="his-tab-container" type="pills" style="height:100%;">
+            <uib-tab>
+                <uib-tab-heading>
+                    dba
+                    <small ng-if="count.chargeCount>0" class="badge his-count-badge">{{count.chargeCount}}
+                    </small>
+                </uib-tab-heading>
+                <div>
+                    dba
+                </div>
+            </uib-tab>
+            <uib-tab select="selectReturn()">
+                <uib-tab-heading >
+                    jrba
+                    <small ng-if="count.returnCount>0" class="badge his-count-badge">{{count.returnCount}}
+                    </small>
+                </uib-tab-heading>
+                <div>
+                    jrba
+                </div>
+            </uib-tab>
+        </uib-tabset>
+
+</div>

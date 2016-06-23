@@ -8,13 +8,13 @@
 
         <div class="col-md-7 pull-right">
             <div class="pull-right">
-                <button class="btn btn-info">
+                <button class="btn btn-info" ng-click="activate()">
                     查询
                 </button>
             </div>
             <div class="form-group pull-right" style="width:280px;padding-right: 20px;">
                 <input type="text"
-                       ng-model="account.tableParam.searchStr"
+                       ng-model="tableParams.searchStr"
                        placeholder="输入登录名,姓名或者电话进行查找"
                        class="form-control"/>
             </div>
@@ -22,7 +22,7 @@
     </div>
 
     <div style="margin-top: 10px;">
-        <table ng-table="account.userTableParams" class="table table-bordered table-hover table-condensed editable-table table-min" style="table-layout: fixed;">
+        <table ng-table="userTableParams" class="table table-bordered table-hover table-condensed editable-table table-min" style="table-layout: fixed;">
             <tr ng-repeat="item in $data" ng-dblclick="show(item.id)">
                 <td data-title="'姓名'" style="text-align: center">{{item.name}}</td>
                 <td data-title="'登录名'" style="text-align: center">{{item.userName}}</td>

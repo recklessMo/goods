@@ -8,24 +8,49 @@
     AccountService.$inject = ['$http'];
     function AccountService($http) {
 
-        this.loadUsers = function() {
-            return $http.get("/v1/user/list");
+        this.loadUsers = function(obj) {
+            return $http({
+                method: "POST",
+                url : "/v1/user/list",
+                data:obj,
+                timeout: 5000
+            });
         }
 
         this.loadUser = function(id){
-            return $http.post("/v1/user/get", id);
+            return $http({
+                method:"POST",
+                url: "/v1/user/get",
+                data:id,
+                timeout:5000
+            });
         }
 
         this.deleteUser = function(id){
-            return $http.post("v1/user/delete", id);
+            return $http({
+                method: "POST",
+                url : "v1/user/delete",
+                data:id,
+                timeout:5000
+            });
         }
 
         this.addUser = function(user){
-            return $http.post("/v1/user/add", user);
+            return $http({
+                method: "POST",
+                url : "/v1/user/add",
+                data: user,
+                timeout:5000
+            });
         }
 
         this.updateUser = function(user){
-            return $http.post("/v1/user/update", user);
+            return $http({
+                method: "POST",
+                url: "/v1/user/update",
+                data:user,
+                timeout:5000
+            });
         }
 
     }

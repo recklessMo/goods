@@ -3,7 +3,6 @@
    (c) 2015 (null) McNull https://github.com/McNull/angular-block-ui
    License: MIT
 */
-//479行 加入了block的超时时间 10s
 (function(angular) {
 
 var blkUI = angular.module('blockUI', []);
@@ -110,8 +109,7 @@ function blockNavigation($scope, mainBlockUI, blockUIConfig) {
 
       $scope.$on('$locationChangeStart', function (event) {
 
-        //        console.log('$locationChangeStart', mainBlockUI.$_blockLocationChange + ' ' +
-        // mainBlockUI.state().blockCount);
+        //        console.log('$locationChangeStart', mainBlockUI.$_blockLocationChange + ' ' + mainBlockUI.state().blockCount);
 
         if (mainBlockUI.$_blockLocationChange && mainBlockUI.state().blockCount > 0) {
           event.preventDefault();
@@ -121,8 +119,7 @@ function blockNavigation($scope, mainBlockUI, blockUIConfig) {
       $scope.$on('$locationChangeSuccess', function () {
         mainBlockUI.$_blockLocationChange = blockUIConfig.blockBrowserNavigation;
 
-        //        console.log('$locationChangeSuccess', mainBlockUI.$_blockLocationChange + ' ' +
-        // mainBlockUI.state().blockCount);
+        //        console.log('$locationChangeSuccess', mainBlockUI.$_blockLocationChange + ' ' + mainBlockUI.state().blockCount);
       });
     }
 
@@ -369,8 +366,7 @@ blkUI.factory('blockUIHttpInterceptor', ["$q", "$injector", "blockUIConfig", "$t
 
     response: function(response) {
 
-      // If the connection to the website goes down the response interceptor gets and error with
-      // "cannot read property config of null".
+      // If the connection to the website goes down the response interceptor gets and error with "cannot read property config of null".
       // https://github.com/McNull/angular-block-ui/issues/53
 
       if(response) {
@@ -458,13 +454,11 @@ blkUI.factory('blockUI', ["blockUIConfig", "$timeout", "blockUIUtils", "$documen
 
         $timeout(function() {
           // Ensure we still need to blur
-          // Don't restore if active element is body, since this causes IE to switch windows (see
-          // http://tjvantoll.com/2013/08/30/bugs-with-document-activeelement-in-internet-explorer/)
+          // Don't restore if active element is body, since this causes IE to switch windows (see http://tjvantoll.com/2013/08/30/bugs-with-document-activeelement-in-internet-explorer/)
           if (self._restoreFocus && self._restoreFocus !== $body[0]) {
             self._restoreFocus.blur();
           }
         });
-
       }
 
       if (!startPromise && blockUIConfig.delay !== 0) {
@@ -473,19 +467,9 @@ blkUI.factory('blockUI', ["blockUIConfig", "$timeout", "blockUIUtils", "$documen
         block();
       }
 
-        function timeoutStop(){
-            state.blockCount = Math.max(0, --state.blockCount);
-
-            if (state.blockCount === 0) {
-                self.reset(true);
-            }
-        }
-
       function block () {
         startPromise = null;
         state.blocking = true;
-
-        $timeout(timeoutStop, 5 * 1000); //10s之后取消block
       }
     };
 
@@ -740,8 +724,8 @@ blkUI.factory('blockUIUtils', function() {
 
 });
 // Automatically generated.
-// This file is already embedded in your main javascript output, there's no need to include this
-// file manually in the index.html. This file is only here for your debugging pleasures.
+// This file is already embedded in your main javascript output, there's no need to include this file
+// manually in the index.html. This file is only here for your debugging pleasures.
 angular.module('blockUI').run(['$templateCache', function($templateCache){
   $templateCache.put('angular-block-ui/angular-block-ui.ng.html', '<div class=\"block-ui-overlay\"></div><div class=\"block-ui-message-container\" aria-live=\"assertive\" aria-atomic=\"true\"><div class=\"block-ui-message\" ng-class=\"$_blockUiMessageClass\">{{ state.message }}</div></div>');
 }]);
