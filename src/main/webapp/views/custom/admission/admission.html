@@ -1,26 +1,76 @@
 <div ng-controller="AdmissionController" class="container-fluid">
 
-        <uib-tabset class="his-tab-container" type="pills" style="height:100%;">
-            <uib-tab>
-                <uib-tab-heading>
-                    dba
-                    <small ng-if="count.chargeCount>0" class="badge his-count-badge">{{count.chargeCount}}
-                    </small>
-                </uib-tab-heading>
-                <div>
-                    dba
+    <div class="row">
+        <div class="col-md-1 pull-right">
+            <button class=" pull-right btn btn-info" ng-click="add(-1)">
+                添加
+            </button>
+        </div>
+
+        <div class="col-md-2 pull-right">
+            <div class="form-group pull-right form-inline" style="width:200px;padding-right: 20px;">
+                <span class="icon-phone" style="font-weight: bolder;"></span>
+                <input type="text"
+                       ng-model="tableParams.searchStr"
+                       placeholder="输入手机尾号后四位"
+                       class="form-control"/>
+            </div>
+        </div>
+
+        <div class="col-md-2 pull-right">
+            <div class="form-group pull-right form-inline" style="width:200px;padding-right: 20px;">
+                <span class="icon-map" style="font-weight: bolder;"></span>
+                <input type="text"
+                       ng-model="tableParams.searchStr"
+                       placeholder="输入所在城市"
+                       class="form-control"/>
+            </div>
+        </div>
+
+        <div class="col-md-2 pull-right">
+            <div class="form-group pull-right form-inline" style="width:200px;padding-right: 20px;">
+                <span class="icon-user" style="font-weight: bolder;"></span>
+                <input type="text"
+                       ng-model="tableParams.searchStr"
+                       placeholder="输入姓名"
+                       class="form-control"/>
+            </div>
+        </div>
+
+        <div class="col-md-5 pull-right">
+            <div class="container-fluid">
+                <div class="row">
+                    <button class="col-md-2 btn btn-info" ng-click="add(-1)">
+                        存草稿
+                    </button>
+                    <span class="col-md-1"/>
+                    <button class="col-md-2 btn btn-info" ng-click="add(-1)">
+                        提交
+                    </button>
                 </div>
-            </uib-tab>
-            <uib-tab select="selectReturn()">
-                <uib-tab-heading >
-                    jrba
-                    <small ng-if="count.returnCount>0" class="badge his-count-badge">{{count.returnCount}}
-                    </small>
-                </uib-tab-heading>
-                <div>
-                    jrba
-                </div>
-            </uib-tab>
-        </uib-tabset>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <table ng-table="admissionTableParams" class="table table-bordered table-striped" style="margin-top: 20px;">
+            <tbody>
+            <tr ng-repeat="user in $data">
+                <td data-title="'姓名'" sortable="'name'">{{user.name}}</td>
+                <td data-title="'电话'" sortable="'phone'">{{user.phone}}</td>
+                <td data-title="'城市'" sortable="'city'">{{user.city}}</td>
+                <td data-title="'操作'" style="text-align: center">
+                    <button ng-click="" title="Edit" class="btn btn-sm btn-info">
+                        <em class="fa fa-pencil"></em>
+                    </button>
+                    <button ng-click="" title="Delete" class="btn btn-sm btn-danger">
+                        <em class="fa fa-trash"></em>
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
 
 </div>

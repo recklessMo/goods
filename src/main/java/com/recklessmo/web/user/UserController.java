@@ -62,9 +62,11 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value = "/add", method = {RequestMethod.GET, RequestMethod.POST})
     public JsonResponse add(@RequestBody User user){
+        System.out.println(user.getUserName() + ", " + user.getName() + "," + user.getPhone() + "," + user.getPwd());
         try {
             userService.add(user);
         }catch(Exception e){
+            e.printStackTrace();
             return new JsonResponse(ResponseType.RESPONSE_ADD_USER_REPEAT, null, null);
         }
         return new JsonResponse(ResponseType.RESPONSE_OK, null, null);

@@ -45,9 +45,11 @@ public class Menu{
             new Menu(null, "zsz", null, "icon-note", "app.navtree", 5),
 
             //定义二级菜单
-            new Menu("jwz", "zsgl", "ROLE_USER", "icon-graph", "app.nestable", 1),
-            new Menu("jwz", "cjgl", "", null, "app.teacher", 2),
-            new Menu("jwz", "jsgl", "", null, "app.duty", 3),
+            new Menu("jwz", "tjba", "ROLE_USER", "icon-graph", "app.admission", 1),
+            new Menu("jwz", "bagl", "ROLE_USER", "icon-map", "app.table-xeditable", 2),
+            new Menu("jwz", "xsgl", "ROLE_USER", "icon-map", "app.student", 3),
+            new Menu("jwz", "xjgl", "ROLE_USER", "icon-map", "app.profile", 4),
+            new Menu("jwz", "jsgl", "", null, "app.duty", 5),
 
             new Menu("cwz", "jf", "", null, "app.finance", 1),
             new Menu("cwz", "jftj", "", null, "app.payStat", 2),

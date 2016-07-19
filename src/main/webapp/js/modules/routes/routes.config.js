@@ -37,10 +37,15 @@
               title: 'admission',
               templateUrl: helper.basepath('custom/admission/admission-worktable.html')
           })
+            .state('app.admission-manage', {
+            url: '/admission-manage',
+            title: 'admission-manage',
+            templateUrl: helper.basepath('custom/admission/admission-manage.html')
+        })
           .state('app.student', {
               url: '/student',
               title: 'student',
-              templateUrl: helper.basepath('buttons.html')
+              templateUrl: helper.basepath('custom/student/student-worktable.html')
           })
           .state('app.account', {
               url: '/account',

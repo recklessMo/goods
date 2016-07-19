@@ -32,7 +32,7 @@ public class UserService {
         userDAO.deleteUser(id);
     }
 
-    public void add(User user) throws Exception {
+    public void add(User user){
             userDAO.addUser(user);
     }
 
