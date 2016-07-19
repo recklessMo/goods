@@ -25,6 +25,8 @@ dependencies {
 	compile 'org.springframework.security:spring-security-web:3.2.3.RELEASE'
 	compile 'org.springframework.security:spring-security-config:3.2.3.RELEASE'
 	compile 'com.google.guava:guava:18.0'
+	compile 'org.apache.commons:commons-email:1.4'
+	compile 'commons-codec:commons-codec:1.10'
 }
 
 

@@ -14,10 +14,27 @@
         <result property="name" column="name"/>
     </resultMap>
 
+    <sql id="byPageQuery">
+        <if test="searchStr != null and '' != searchStr">
+            <where>
+            (user_name like "%"#{searchStr}"%" or name like "%"#{searchStr}"%" or phone like "%"#{searchStr}"%")
+            </where>
+        </if>
+    </sql>
+
     <select id="getAllUser" resultMap = "result">
         select
         <include refid="columns"/>
         from user
+        <include refid="byPageQuery"/>
+        <if test="page != 0">
+            limit #{startIndex}, #{count}
+        </if>
+    </select>
+
+    <select id="getCount" resultType="java.lang.Integer">
+        select count(1) from user
+        <include refid="byPageQuery"/>
     </select>
 
     <select id="getUser" resultMap = "result">
@@ -33,7 +50,7 @@
     </select>
 
     <insert id="addUser" parameterType = "com.recklessmo.model.passport.User">
-        insert into user(id, user_name, pwd, name, phone) value(null, #{userName}, #{pwd}, #{name}, #{phone})
+        insert into user(user_name, pwd, name, phone) values(#{userName}, #{pwd}, #{name}, #{phone})
     </insert>
 
     <update id="updateUser" parameterType = "com.recklessmo.model.passport.User">
