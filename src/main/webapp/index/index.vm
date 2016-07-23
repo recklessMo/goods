@@ -7,17 +7,21 @@
     <meta name="description" content="{{app.description}}">
     <meta name="keywords" content="app, responsive, angular, bootstrap, dashboard, admin">
     <title data-ng-bind="::pageTitle()">测试系统</title>
-    <link rel="stylesheet" href="http://localhost:9090/src/main/webapp/app/css/bootstrap.css" data-ng-if="!app.layout.isRTL">
-    <link rel="stylesheet" href="http://localhost:9090/src/main/webapp/app/css/app.css" data-ng-if="!app.layout.isRTL">
+    <link rel="stylesheet" href="/app/css/bootstrap.css" data-ng-if="!app.layout.isRTL">
+    <link rel="stylesheet" href="/app/css/app.css" data-ng-if="!app.layout.isRTL">
     <link rel="stylesheet" ng-href="{{app.layout.theme}}" data-ng-if="app.layout.theme">
 </head>
 
 <body data-ng-class="{ 'layout-fixed' : app.layout.isFixed, 'aside-collapsed' : app.layout.isCollapsed, 'layout-boxed' : app.layout.isBoxed, 'layout-fs': app.useFullLayout, 'hidden-footer': app.hiddenFooter, 'layout-h': app.layout.horizontal, 'aside-float': app.layout.isFloat, 'offsidebar-open': app.offsidebarOpen, 'aside-toggled': app.asideToggled}">
 <div data-preloader></div>
 <div data-ui-view="" data-autoscroll="false" class="wrapper" style="height: 100%;"></div>
-<script src="http://localhost:9090/src/main/webapp/app/js/base.js"></script>
-<script src="http://localhost:9090/src/main/webapp/app/js/app.js"></script>
-<script src="http://localhost:9090/src/main/webapp/app/pages/templateCache.js"></script>
+##<script src="http://localhost:9090/src/main/webapp/app/js/base.js"></script>
+##<script src="http://localhost:9090/src/main/webapp/app/js/app.js"></script>
+##<script src="http://localhost:9090/src/main/webapp/app/pages/templateCache.js"></script>
+
+<script src="/app/js/base.js"></script>
+<script src="/app/js/app.js"></script>
+<script src="/app/pages/templateCache.js"></script>
 <!-- version:$version -->
 </body>
 </html>

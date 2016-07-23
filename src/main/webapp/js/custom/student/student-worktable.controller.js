@@ -3,11 +3,15 @@
     angular
         .module('custom')
         .controller('StudentWorktableController', StudentWorktableController);
-    StudentWorktableController.$inject = ['$scope', 'AccountService', 'SweetAlert', 'NgTableParams', 'ngDialog', 'blockUI', 'Notify'];
+    StudentWorktableController.$inject = ['$scope', 'StudentWorktableService', 'SweetAlert', 'NgTableParams', 'blockUI', 'Notify'];
 
-    function StudentWorktableController($scope, AccountService, SweetAlert, NgTableParams, ngDialog, blockUI, Notify) {
+    function StudentWorktableController($scope, StudentWorktableService, SweetAlert, NgTableParams, blockUI, Notify) {
 
-        $scope.tableParams = {page : 1, count : 10, searchStr: null};
+        $scope.tableParams = {
+            page : 1,
+            count : 10,
+
+        };
 
         $scope.activate = function() {
             $scope.userTableParams = new NgTableParams($scope.tableParams, {

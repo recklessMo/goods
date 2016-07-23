@@ -19,7 +19,7 @@
         $locationProvider.html5Mode(false);
 
         // defaults to dashboard
-        $urlRouterProvider.otherwise('/app/account');
+        $urlRouterProvider.otherwise('/app/student');
 
         //
         // Application Routes
@@ -44,7 +44,7 @@
         })
           .state('app.student', {
               url: '/student',
-              title: 'student',
+              title: '学生管理',
               templateUrl: helper.basepath('custom/student/student-worktable.html')
           })
           .state('app.account', {

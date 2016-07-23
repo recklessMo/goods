@@ -64,7 +64,7 @@
             var dialog= ngDialog.open({
                 template: 'app/views/custom/admin/account/edit-account.html',
                 controller: 'EditAccountController',
-                className: 'ngdialog-theme-default large-dialog',
+                className: 'ngdialog-theme-default custom-width-800',
                 data : {id:userId, type:0}
             });
             dialog.closePromise.then(function(data){
@@ -80,7 +80,7 @@
             var dialog= ngDialog.open({
                 template: 'app/views/custom/admin/account/edit-account.html',
                 controller: 'EditAccountController',
-                className: 'ngdialog-theme-default large-dialog',
+                className: 'ngdialog-theme-default custom-width-800',
                 data : {id:userId, type:1}
             });
             dialog.closePromise.then(function(data){
@@ -96,7 +96,7 @@
             var dialog= ngDialog.open({
                 template: 'app/views/custom/admin/account/edit-account.html',
                 controller: 'EditAccountController',
-                className: 'ngdialog-theme-default large-dialog',
+                className: 'ngdialog-theme-default custom-width-800',
                 data : {id:userId, type:2}
             })
             dialog.closePromise.then(function(data){

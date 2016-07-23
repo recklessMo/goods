@@ -1,41 +1,157 @@
 <div ng-controller="StudentWorktableController" class="container-fluid" style="height: 100%;">
-        <div class="row" style="width: 25%;height: 100%;">
-            <div class="col-lg-3">
-            <uib-tabset class="his-tab-container" style="height: 100%;" justified="true">
-                <uib-tab active="true" select="changeTab('registration')"
-                         style="text-align: center;">
-                    <uib-tab-heading>
-                        测试tab1
-                    </uib-tab-heading>
-                    <div>
-                        xxxxxxxxxxxxxxxxyyyyyyyyyyy
-                    </div>
-                </uib-tab>
-                <uib-tab active="false" select="changeTab('registration')"
-                         style="text-align: center;">
-                    <uib-tab-heading>
-                        测试tab2
-                    </uib-tab-heading>
-                    <div>
-                        xxxxxxxxxxxxxxxxyyyyyyyyyyy
-                    </div>
-                </uib-tab>
-            </uib-tabset>
-                </div>
 
-            <div class="col-lg-9">
-                <div class="panel panel-default" style="height: 100%;" >
-                    <!--<uib-tabset class="his-tab-container" style="height: 100%;">-->
-                    <!--<uib-tab active="true" select="changeTab('registration')"-->
-                    <!--style="width: 250px;text-align: center;">-->
-                    <!--<uib-tab-heading>-->
-                    <!--测试tab-->
-                    <!--</uib-tab-heading>-->
-                    <!--<div ng-include="'app/views/custom/student/student-info.html'">-->
-                    <!--</div>-->
-                    <!--</uib-tab>-->
-                    <!--</uib-tabset>-->
+    <div class="row panel" style="margin-left:1px;margin-right:1px;margin-bottom: 10px;">
+        <!--<div class="col-xs-12"  style="padding-top:5px;">-->
+            <!--<form class="form-inline pull-left">-->
+                <!--<div class="form-group">-->
+                    <!--<span>当前共有2个校区;</span>-->
+                <!--</div>-->
+                <!--<div class="form-group">-->
+                    <!--<span>总共4个年级;</span>-->
+                <!--</div>-->
+                <!--<div class="form-group">-->
+                    <!--<span>总共40个班级;</span>-->
+                <!--</div>-->
+                <!--<div class="form-group">-->
+                    <!--<span>总注册学生人数:2000人</span>-->
+                <!--</div>-->
+            <!--</form>-->
+        <!--</div>-->
+        <div class="col-xs-12" style="margin-top:5px;margin-bottom: 5px;padding-left: 0;">
+            <form class="form-inline pull-left">
+                <div class="form-group">
+                    <input type="text" class="form-control" style="width:150px;"
+                           placeholder="选择校区"
+                           ng-focus="departmentCtrl.render().show()"
+                           ng-click="departmentCtrl.show()"
+                           ng-model="filter.department"
+                           auto-complete="departmentCtrl">
+                    <input type="text" class="form-control" style="width:150px;"
+                           placeholder="选择状态"
+                           ng-focus="departmentCtrl.render().show()"
+                           ng-click="departmentCtrl.show()"
+                           ng-model="filter.department"
+                           auto-complete="departmentCtrl">
+
+                    <input type="text" class="form-control" style="width:150px;"
+                           placeholder="选择年级"
+                           ng-focus="departmentCtrl.render().show()"
+                           ng-click="departmentCtrl.show()"
+                           ng-model="filter.department"
+                           auto-complete="departmentCtrl">
+
+                    <input type="text" class="form-control" style="width:150px;"
+                           placeholder="选择班级"
+                           ng-focus="departmentCtrl.render().show()"
+                           ng-click="departmentCtrl.show()"
+                           ng-model="filter.department"
+                           auto-complete="departmentCtrl">
+
+                    <input type="text" class="form-control" style="width:150px;"
+                           placeholder="选择性别"
+                           ng-focus="departmentCtrl.render().show()"
+                           ng-click="departmentCtrl.show()"
+                           ng-model="filter.department"
+                           auto-complete="departmentCtrl">
+
+                    <input type="text" class="form-control" style="width:300px;"
+                           placeholder="输入姓名,学号,身份证或者电话号码"
+                           ng-focus="departmentCtrl.render().show()"
+                           ng-click="departmentCtrl.show()"
+                           ng-model="filter.department"
+                           auto-complete="departmentCtrl">
+
+                    <button class="btn btn-info">查询</button>
                 </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row" style="height:100%;">
+        <div ng-if="true" class="col-xs-3" style="height: 100%;padding-right: 0px;">
+            <div class="panel" style="height: 100%;">
+                <div style="text-align: center;">
+                    <span>共查询到2条记录</span>
+                </div>
+                <table ng-table="searchTableParams" class="table table-condensed table-bordered table-striped" style="border: 1px solid #eeeeee;">
+                    <tr ng-dblclick="" style="text-align: center;">
+                        <td data-title="'姓名'">华丹娜嫫</td>
+                        <td data-title="'性别'">女</td>
+                        <td data-title="'年龄'">26</td>
+                        <td data-title="'年级'">大班</td>
+                        <td data-title="'操作'">
+                            <a class="" ng-click="">查询</a>
+                        </td>
+                    </tr>
+                    <tr ng-dblclick="" style="text-align: center;">
+                        <td data-title="'姓名'">胡鹏飞</td>
+                        <td data-title="'性别'">男</td>
+                        <td data-title="'年龄'">24</td>
+                        <td data-title="'年级'">大学</td>
+                        <td data-title="'操作'">
+                            <a class="" ng-click="">查询</a>
+                        </td>
+                    </tr>
+                    <tfoot ng-if="!$data || $data.length<1">
+                        <tr>
+                            <td colspan="6" style="text-align: center;"> 无数据 </td>
+                        </tr>
+                    </tfoot>
+                </table>
             </div>
         </div>
+
+        <div ng-if="true" class="col-xs-9" style="height: 100%;">
+            <div class="panel" style="height: 100%;" >
+                <uib-tabset class="tab-full-content" style="height: 100%;" justified="true">
+                    <uib-tab active="true"
+                        style="text-align: center;">
+                        <uib-tab-heading>
+                            基本信息
+                        </uib-tab-heading>
+                        <div>
+                            tab1
+                        </div>
+                    </uib-tab>
+                    <uib-tab active="false"
+                        style="text-align: center;">
+                        <uib-tab-heading>
+                            成绩信息
+                        </uib-tab-heading>
+                        <div>
+                            tab2
+                        </div>
+                    </uib-tab>
+                    <uib-tab active="false"
+                             style="text-align: center;">
+                        <uib-tab-heading>
+                            缴费信息
+                        </uib-tab-heading>
+                        <div>
+                            tab2
+                        </div>
+                    </uib-tab>
+                    <uib-tab active="false"
+                             style="text-align: center;">
+                        <uib-tab-heading>
+                            奖惩记录
+                        </uib-tab-heading>
+                        <div>
+                            tab2
+                        </div>
+                    </uib-tab>
+                    <uib-tab active="false"
+                             style="text-align: center;">
+                        <uib-tab-heading>
+                            毕业去向
+                        </uib-tab-heading>
+                        <div>
+                            tab2
+                        </div>
+                    </uib-tab>
+                </uib-tabset>
+            </div>
+        </div>
+    </div>
+
 </div>
