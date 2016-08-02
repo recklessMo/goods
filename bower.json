@@ -1,5 +1,5 @@
 {
-  "name": "Angle",
+  "name": "angle",
   "version": "0.0.0",
   "authors": [
     "@themicon_co"
@@ -112,7 +112,8 @@
     "matchMedia": "matchmedia#~0.2.0",
     "load-google-maps": "https://gist.github.com/8613939.git",
     "sparkline": "http://omnipotent.net/jquery.sparkline/2.1.2/jquery.sparkline.js",
-    "angular-ladda": "^0.3.4"
+    "angular-ladda": "^0.3.4",
+    "lodash": "^4.13.1"
   },
   "resolutions": {
     "angular": "1.4.7",
