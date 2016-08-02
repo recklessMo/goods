@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.recklessmo.dao.student.StudentDAO">
+    <sql id = "baseInfoColumns">
+        id, sid, name, phone, gender
+    </sql>
+
+    <sql id = "studentAddColumns">
+        sid, name, other_name,phone, scn, gender, birth, home_town, people, birth_town, address, qq, wechat
+    </sql>
+
+    <sql id="pageQuery">
+
+    </sql>
+
+    <select id="getStudentBaseInfoList" resultType="com.recklessmo.model.student.StudentBaseInfo">
+        select
+        <include refid="baseInfoColumns"/>
+        from student
+    </select>
+
+    <insert id="insertStudentAddInfo" parameterType="com.recklessmo.model.student.StudentAddInfo">
+        insert into student
+        (
+          <include refid="studentAddColumns"/>
+        )
+        VALUES (
+          #{sid},#{name}, #{otherName}, #{phone}, #{scn}, #{gender}, #{birth}, #{homeTown}, #{people}, #{birthTown}, #{address}, #{qq}, #{wechat}
+        )
+    </insert>
+
+</mapper>

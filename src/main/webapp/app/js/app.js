@@ -119,13 +119,13 @@
     'use strict';
 
     angular
-        .module('app.icons', []);
+        .module('app.lazyload', []);
 })();
 (function() {
     'use strict';
 
     angular
-        .module('app.lazyload', []);
+        .module('app.icons', []);
 })();
 (function() {
     'use strict';
@@ -137,13 +137,13 @@
     'use strict';
 
     angular
-        .module('app.loadingbar', []);
+        .module('app.mailbox', []);
 })();
 (function() {
     'use strict';
 
     angular
-        .module('app.mailbox', []);
+        .module('app.loadingbar', []);
 })();
 (function() {
     'use strict';
@@ -5534,39 +5534,6 @@
 
 })();
 
-/**=========================================================
- * Module: skycons.js
- * Include any animated weather icon from Skycons
- =========================================================*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.icons')
-        .directive('skycon', skycon);
-
-    function skycon () {
-
-        var directive = {
-            link: link,
-            restrict: 'A'
-        };
-        return directive;
-
-        function link(scope, element, attrs) {
-          var skycons = new Skycons({'color': (attrs.color || 'white')});
-
-          element.html('<canvas width="' + attrs.width + '" height="' + attrs.height + '"></canvas>');
-
-          skycons.add(element.children()[0], attrs.skycon);
-
-          skycons.play();
-        }
-    }
-
-})();
-
 (function() {
     'use strict';
 
@@ -5742,6 +5709,39 @@
 
 })();
 
+/**=========================================================
+ * Module: skycons.js
+ * Include any animated weather icon from Skycons
+ =========================================================*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.icons')
+        .directive('skycon', skycon);
+
+    function skycon () {
+
+        var directive = {
+            link: link,
+            restrict: 'A'
+        };
+        return directive;
+
+        function link(scope, element, attrs) {
+          var skycons = new Skycons({'color': (attrs.color || 'white')});
+
+          element.html('<canvas width="' + attrs.width + '" height="' + attrs.height + '"></canvas>');
+
+          skycons.add(element.children()[0], attrs.skycon);
+
+          skycons.play();
+        }
+    }
+
+})();
+
 (function() {
     'use strict';
 
@@ -5795,50 +5795,6 @@
     }
 })();
 
-(function() {
-    'use strict';
-
-    angular
-        .module('app.loadingbar')
-        .config(loadingbarConfig)
-        ;
-    loadingbarConfig.$inject = ['cfpLoadingBarProvider'];
-    function loadingbarConfig(cfpLoadingBarProvider){
-      cfpLoadingBarProvider.includeBar = true;
-      cfpLoadingBarProvider.includeSpinner = false;
-      cfpLoadingBarProvider.latencyThreshold = 500;
-      cfpLoadingBarProvider.parentSelector = '.wrapper > section';
-    }
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('app.loadingbar')
-        .run(loadingbarRun)
-        ;
-    loadingbarRun.$inject = ['$rootScope', '$timeout', 'cfpLoadingBar'];
-    function loadingbarRun($rootScope, $timeout, cfpLoadingBar){
-
-      // Loading bar transition
-      // ----------------------------------- 
-      var thBar;
-      $rootScope.$on('$stateChangeStart', function() {
-          if($('.wrapper > section').length) // check if bar container exists
-            thBar = $timeout(function() {
-              cfpLoadingBar.start();
-            }, 0); // sets a latency Threshold
-      });
-      $rootScope.$on('$stateChangeSuccess', function(event) {
-          event.targetScope.$watch('$viewContentLoaded', function () {
-            $timeout.cancel(thBar);
-            cfpLoadingBar.complete();
-          });
-      });
-
-    }
-
-})();
 /**=========================================================
  * Module: demo-pagination.js
  * Provides a simple demo for pagination
@@ -5977,6 +5933,50 @@
     }
 })();
 
+(function() {
+    'use strict';
+
+    angular
+        .module('app.loadingbar')
+        .config(loadingbarConfig)
+        ;
+    loadingbarConfig.$inject = ['cfpLoadingBarProvider'];
+    function loadingbarConfig(cfpLoadingBarProvider){
+      cfpLoadingBarProvider.includeBar = true;
+      cfpLoadingBarProvider.includeSpinner = false;
+      cfpLoadingBarProvider.latencyThreshold = 500;
+      cfpLoadingBarProvider.parentSelector = '.wrapper > section';
+    }
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('app.loadingbar')
+        .run(loadingbarRun)
+        ;
+    loadingbarRun.$inject = ['$rootScope', '$timeout', 'cfpLoadingBar'];
+    function loadingbarRun($rootScope, $timeout, cfpLoadingBar){
+
+      // Loading bar transition
+      // ----------------------------------- 
+      var thBar;
+      $rootScope.$on('$stateChangeStart', function() {
+          if($('.wrapper > section').length) // check if bar container exists
+            thBar = $timeout(function() {
+              cfpLoadingBar.start();
+            }, 0); // sets a latency Threshold
+      });
+      $rootScope.$on('$stateChangeSuccess', function(event) {
+          event.targetScope.$watch('$viewContentLoaded', function () {
+            $timeout.cancel(thBar);
+            cfpLoadingBar.complete();
+          });
+      });
+
+    }
+
+})();
 /**=========================================================
  * Module: modals.js
  * Provides a simple way to implement bootstrap modals from templates
@@ -7404,7 +7404,7 @@
         $locationProvider.html5Mode(false);
 
         // defaults to dashboard
-        $urlRouterProvider.otherwise('/app/student');
+        $urlRouterProvider.otherwise('/app/student-add');
 
         //
         // Application Routes
@@ -7412,554 +7412,561 @@
 
         //下面两个state用于负责主页的内容,主要包括左边栏,上边栏等.
         $stateProvider
-          .state('app', {
-              url: '/app',
-              templateUrl: helper.basepath('app.html'),
-              resolve: helper.resolveFor('fastclick', 'modernizr', 'icons', 'screenfull', 'animo', 'sparklines', 'slimscroll', 'classyloader', 'toaster', 'whirl','ngTable', 'oitozero.ngSweetAlert', 'ngDialog')
-          })
-          .state('app.admission', {
-              url: '/admission',
-              title: 'admission',
-              templateUrl: helper.basepath('custom/admission/admission-worktable.html')
-          })
-            .state('app.admission-manage', {
-            url: '/admission-manage',
-            title: 'admission-manage',
-            templateUrl: helper.basepath('custom/admission/admission-manage.html')
-        })
-          .state('app.student', {
-              url: '/student',
-              title: '学生管理',
-              templateUrl: helper.basepath('custom/student/student-worktable.html')
-          })
-          .state('app.account', {
-              url: '/account',
-              title: '帐号管理',
-              templateUrl: helper.basepath('custom/admin/account/account.html')
-          })
-          .state('app.hall', {
-              url: '/hall/:tab',
-              title: '大厅',
-              controller: 'HallController',
-              templateUrl: helper.basepath('hall.html'),
-              resolve: helper.resolveFor('ngTable', 'ngDialog', 'ui.select', 'oitozero.ngSweetAlert'),
-              params: {
-                  tab: {
-                      value: function () {
-                          return "goods";
-                      }
+      .state('app', {
+          url: '/app',
+          templateUrl: helper.basepath('app.html'),
+          resolve: helper.resolveFor('fastclick', 'modernizr', 'icons', 'screenfull', 'animo', 'sparklines', 'slimscroll', 'classyloader', 'toaster', 'whirl','ngTable', 'oitozero.ngSweetAlert', 'ngDialog')
+      })
+      .state('app.admission', {
+          url: '/admission',
+          title: 'admission',
+          templateUrl: helper.basepath('custom/admission/admission-worktable.html')
+      })
+        .state('app.admission-manage', {
+        url: '/admission-manage',
+        title: 'admission-manage',
+        templateUrl: helper.basepath('custom/admission/admission-manage.html')
+      })
+      .state('app.student-worktable', {
+          url: '/student-worktable',
+          title: '学生管理',
+          templateUrl: helper.basepath('table-xeditable.html')
+      })
+      .state('app.student-add', {
+            url: '/student-add',
+            title: '学生导入',
+            controller: 'StudentAddController',
+            templateUrl: helper.basepath('custom/student/student-add.html'),
+            resolve: helper.resolveFor('xeditable')
+      })
+      .state('app.account', {
+          url: '/account',
+          title: '帐号管理',
+          templateUrl: helper.basepath('custom/admin/account/account.html')
+      })
+      .state('app.hall', {
+          url: '/hall/:tab',
+          title: '大厅',
+          controller: 'HallController',
+          templateUrl: helper.basepath('hall.html'),
+          resolve: helper.resolveFor('ngTable', 'ngDialog', 'ui.select', 'oitozero.ngSweetAlert'),
+          params: {
+              tab: {
+                  value: function () {
+                      return "goods";
                   }
               }
-          })
-          .state('app.infinite-scroll', {
-              url: '/infinite-scroll',
-              title: 'Infinite Scroll',
-              templateUrl: helper.basepath('infinite-scroll.html'),
-              resolve: helper.resolveFor('infinite-scroll')
-          })
-          .state('app.navtree', {
-              url: '/navtree',
-              title: 'Nav Tree',
-              templateUrl: helper.basepath('nav-tree.html'),
-              resolve: helper.resolveFor('angularBootstrapNavTree')
-          })
-          .state('app.nestable', {
-              url: '/nestable',
-              title: 'Nestable',
-              templateUrl: helper.basepath('nestable.html'),
-              resolve: helper.resolveFor('ng-nestable')
-          })
-          .state('app.sortable', {
-              url: '/sortable',
-              title: 'Sortable',
-              templateUrl: helper.basepath('sortable.html'),
-              resolve: helper.resolveFor('htmlSortable')
-          })
-          .state('app.notifications', {
-              url: '/notifications',
-              title: 'Notifications',
-              templateUrl: helper.basepath('notifications.html')
-          })
-          .state('app.carousel', {
-              url: '/carousel',
-              title: 'Carousel',
-              templateUrl: helper.basepath('carousel.html'),
-              resolve: helper.resolveFor('angular-carousel')
-          })
-          .state('app.ngdialog', {
-              url: '/ngdialog',
-              title: 'ngDialog',
-              templateUrl: helper.basepath('ngdialog.html'),
-              resolve: angular.extend(helper.resolveFor('ngDialog'),{
-                tpl: function() { return { path: helper.basepath('ngdialog-template.html') }; }
-              }),
-              controller: 'DialogIntroCtrl'
-          })
-          .state('app.sweetalert', {
-            url: '/sweetalert',
-            title: 'SweetAlert',
-            templateUrl: helper.basepath('sweetalert.html'),
-            resolve: helper.resolveFor('oitozero.ngSweetAlert')
-          })
-          .state('app.tour', {
-            url: '/tour',
-            title: 'Tour',
-            templateUrl: helper.basepath('tour.html'),
-            resolve: helper.resolveFor('bm.bsTour')
-          })
-          .state('app.interaction', {
-              url: '/interaction',
-              title: 'Interaction',
-              templateUrl: helper.basepath('interaction.html')
-          })
-          .state('app.spinners', {
-              url: '/spinners',
-              title: 'Spinners',
-              templateUrl: helper.basepath('spinners.html'),
-              resolve: helper.resolveFor('loaders.css', 'spinkit')
-          })
-          .state('app.dropdown-animations', {
-              url: '/dropdown-animations',
-              title: 'Dropdown Animations',
-              templateUrl: helper.basepath('dropdown-animations.html')
-          })
-          .state('app.panels', {
-              url: '/panels',
-              title: 'Panels',
-              templateUrl: helper.basepath('panels.html')
-          })
-          .state('app.portlets', {
-              url: '/portlets',
-              title: 'Portlets',
-              templateUrl: helper.basepath('portlets.html'),
-              resolve: helper.resolveFor('jquery-ui', 'jquery-ui-widgets')
-          })
-          .state('app.maps-google', {
-              url: '/maps-google',
-              title: 'Maps Google',
-              templateUrl: helper.basepath('maps-google.html'),
-              resolve: helper.resolveFor('loadGoogleMapsJS', function() { return loadGoogleMaps(); }, 'ui.map')
-          })
-          .state('app.maps-vector', {
-              url: '/maps-vector',
-              title: 'Maps Vector',
-              templateUrl: helper.basepath('maps-vector.html'),
-              controller: 'VectorMapController',
-              controllerAs: 'vmap',
-              resolve: helper.resolveFor('vector-map', 'vector-map-maps')
-          })
-          .state('app.grid', {
-              url: '/grid',
-              title: 'Grid',
-              templateUrl: helper.basepath('grid.html')
-          })
-          .state('app.grid-masonry', {
-              url: '/grid-masonry',
-              title: 'Grid Masonry',
-              templateUrl: helper.basepath('grid-masonry.html')
-          })
-          .state('app.grid-masonry-deck', {
-              url: '/grid-masonry-deck',
-              title: 'Grid Masonry',
-              templateUrl: helper.basepath('grid-masonry-deck.html'),
-              resolve: helper.resolveFor('spinkit', 'akoenig.deckgrid')
-          })
-          .state('app.typo', {
-              url: '/typo',
-              title: 'Typo',
-              templateUrl: helper.basepath('typo.html')
-          })
-          .state('app.icons-font', {
-              url: '/icons-font',
-              title: 'Icons Font',
-              templateUrl: helper.basepath('icons-font.html'),
-              resolve: helper.resolveFor('icons')
-          })
-          .state('app.icons-weather', {
-              url: '/icons-weather',
-              title: 'Icons Weather',
-              templateUrl: helper.basepath('icons-weather.html'),
-              resolve: helper.resolveFor('weather-icons', 'skycons')
-          })
-          .state('app.form-standard', {
-              url: '/form-standard',
-              title: 'Form Standard',
-              templateUrl: helper.basepath('form-standard.html')
-          })
-          .state('app.form-extended', {
-              url: '/form-extended',
-              title: 'Form Extended',
-              templateUrl: helper.basepath('form-extended.html'),
-              resolve: helper.resolveFor('colorpicker.module', 'codemirror', 'moment', 'taginput','inputmask','localytics.directives', 'ui.bootstrap-slider', 'ngWig', 'filestyle', 'textAngular')
-          })
-          .state('app.form-validation', {
-              url: '/form-validation',
-              title: 'Form Validation',
-              templateUrl: helper.basepath('form-validation.html'),
-              resolve: helper.resolveFor('ui.select', 'taginput','inputmask','localytics.directives')
-          })
-          .state('app.form-parsley', {
-              url: '/form-parsley',
-              title: 'Form Validation - Parsley',
-              templateUrl: helper.basepath('form-parsley.html'),
-              resolve: helper.resolveFor('parsley')
-          })
-          .state('app.form-wizard', {
-              url: '/form-wizard',
-              title: 'Form Wizard',
-              templateUrl: helper.basepath('form-wizard.html'),
-              resolve: helper.resolveFor('parsley')
-          })
-          .state('app.form-upload', {
-              url: '/form-upload',
-              title: 'Form upload',
-              templateUrl: helper.basepath('form-upload.html'),
-              resolve: helper.resolveFor('angularFileUpload', 'filestyle')
-          })
-          .state('app.form-xeditable', {
-              url: '/form-xeditable',
-              templateUrl: helper.basepath('form-xeditable.html'),
-              resolve: helper.resolveFor('xeditable')
-          })
-          .state('app.form-imagecrop', {
-              url: '/form-imagecrop',
-              templateUrl: helper.basepath('form-imagecrop.html'),
-              resolve: helper.resolveFor('ngImgCrop', 'filestyle')
-          })
-          .state('app.form-uiselect', {
-              url: '/form-uiselect',
-              templateUrl: helper.basepath('form-uiselect.html'),
-              controller: 'uiSelectController',
-              controllerAs: 'uisel',
-              resolve: helper.resolveFor('ui.select')
-          })
-          .state('app.chart-flot', {
-              url: '/chart-flot',
-              title: 'Chart Flot',
-              templateUrl: helper.basepath('chart-flot.html'),
-              resolve: helper.resolveFor('flot-chart','flot-chart-plugins')
-          })
-          .state('app.chart-radial', {
-              url: '/chart-radial',
-              title: 'Chart Radial',
-              templateUrl: helper.basepath('chart-radial.html'),
-              resolve: helper.resolveFor('classyloader', 'ui.knob', 'easypiechart')
-          })
-          .state('app.chart-js', {
-              url: '/chart-js',
-              title: 'Chart JS',
-              templateUrl: helper.basepath('chart-js.html'),
-              resolve: helper.resolveFor('chartjs')
-          })
-          .state('app.chart-rickshaw', {
-              url: '/chart-rickshaw',
-              title: 'Chart Rickshaw',
-              templateUrl: helper.basepath('chart-rickshaw.html'),
-              resolve: helper.resolveFor('angular-rickshaw')
-          })
-          .state('app.chart-morris', {
-              url: '/chart-morris',
-              title: 'Chart Morris',
-              templateUrl: helper.basepath('chart-morris.html'),
-              resolve: helper.resolveFor('morris')
-          })
-          .state('app.chart-chartist', {
-              url: '/chart-chartist',
-              title: 'Chart Chartist',
-              templateUrl: helper.basepath('chart-chartist.html'),
-              resolve: helper.resolveFor('angular-chartist')
-          })
-          .state('app.table-standard', {
-              url: '/table-standard',
-              title: 'Table Standard',
-              templateUrl: helper.basepath('table-standard.html')
-          })
-          .state('app.table-extended', {
-              url: '/table-extended',
-              title: 'Table Extended',
-              templateUrl: helper.basepath('table-extended.html')
-          })
-          .state('app.table-datatable', {
-              url: '/table-datatable',
-              title: 'Table Datatable',
-              templateUrl: helper.basepath('table-datatable.html'),
-              resolve: helper.resolveFor('datatables')
-          })
-          .state('app.table-xeditable', {
-              url: '/table-xeditable',
-              templateUrl: helper.basepath('table-xeditable.html'),
-              resolve: helper.resolveFor('xeditable')
-          })
-          .state('app.table-ngtable', {
-              url: '/table-ngtable',
-              templateUrl: helper.basepath('table-ngtable.html'),
-              resolve: helper.resolveFor('ngTable', 'ngTableExport')
-          })
-          .state('app.table-uigrid', {
-              url: '/table-uigrid',
-              templateUrl: helper.basepath('table-uigrid.html'),
-              resolve: helper.resolveFor('ui.grid')
-          })
-          .state('app.table-angulargrid', {
-              url: '/table-angulargrid',
-              templateUrl: helper.basepath('table-angulargrid.html'),
-              resolve: helper.resolveFor('angularGrid')
-          })
-          .state('app.timeline', {
-              url: '/timeline',
-              title: 'Timeline',
-              templateUrl: helper.basepath('timeline.html')
-          })
-          .state('app.calendar', {
-              url: '/calendar',
-              title: 'Calendar',
-              templateUrl: helper.basepath('calendar.html'),
-              resolve: helper.resolveFor('jquery-ui', 'jquery-ui-widgets', 'moment', 'fullcalendar')
-          })
-          .state('app.invoice', {
-              url: '/invoice',
-              title: 'Invoice',
-              templateUrl: helper.basepath('invoice.html')
-          })
-          .state('app.search', {
-              url: '/search',
-              title: 'Search',
-              templateUrl: helper.basepath('search.html'),
-              resolve: helper.resolveFor('moment', 'localytics.directives', 'ui.bootstrap-slider')
-          })
-          .state('app.todo', {
-              url: '/todo',
-              title: 'Todo List',
-              templateUrl: helper.basepath('todo.html'),
-              controller: 'TodoController',
-              controllerAs: 'todo'
-          })
-          .state('app.profile', {
-              url: '/profile',
-              title: 'Profile',
-              templateUrl: helper.basepath('profile.html'),
-              resolve: helper.resolveFor('loadGoogleMapsJS', function() { return loadGoogleMaps(); }, 'ui.map')
-          })
-          .state('app.code-editor', {
-              url: '/code-editor',
-              templateUrl: helper.basepath('code-editor.html'),
-              controller: 'CodeEditorController',
-              controllerAs: 'coder',
-              resolve: {
-                  deps: helper.resolveFor('codemirror', 'ui.codemirror', 'codemirror-modes-web', 'angularBootstrapNavTree').deps,
-                  filetree: ['LoadTreeService', function (LoadTreeService) {
-                      return LoadTreeService.get().$promise.then(function (res) {
-                          return res.data;
-                      });
-                  }]
-              }
-          })
-          .state('app.template', {
-              url: '/template',
-              title: 'Blank Template',
-              templateUrl: helper.basepath('template.html')
-          })
-          .state('app.documentation', {
-              url: '/documentation',
-              title: 'Documentation',
-              templateUrl: helper.basepath('documentation.html'),
-              resolve: helper.resolveFor('flatdoc')
-          })
-          // Forum
-          // -----------------------------------
-          .state('app.forum', {
-              url: '/forum',
-              title: 'Forum',
-              templateUrl: helper.basepath('forum.html')
-          })
-          .state('app.forum-topics', {
-              url: '/forum/topics/:catid',
-              title: 'Forum Topics',
-              templateUrl: helper.basepath('forum-topics.html')
-          })
-          .state('app.forum-discussion', {
-              url: '/forum/discussion/:topid',
-              title: 'Forum Discussion',
-              templateUrl: helper.basepath('forum-discussion.html')
-          })
-          // Blog
-          // -----------------------------------
-          .state('app.blog', {
-              url: '/blog',
-              title: 'Blog',
-              templateUrl: helper.basepath('blog.html'),
-              resolve: helper.resolveFor('angular-jqcloud')
-          })
-          .state('app.blog-post', {
-              url: '/post',
-              title: 'Post',
-              templateUrl: helper.basepath('blog-post.html'),
-              resolve: helper.resolveFor('angular-jqcloud')
-          })
-          .state('app.articles', {
-              url: '/articles',
-              title: 'Articles',
-              templateUrl: helper.basepath('blog-articles.html'),
-              resolve: helper.resolveFor('datatables')
-          })
-          .state('app.article-view', {
-              url: '/article/:id',
-              title: 'Article View',
-              templateUrl: helper.basepath('blog-article-view.html'),
-              resolve: helper.resolveFor('ui.select', 'textAngular')
-          })
-          // eCommerce
-          // -----------------------------------
-          .state('app.orders', {
-              url: '/orders',
-              title: 'Orders',
-              templateUrl: helper.basepath('ecommerce-orders.html'),
-              resolve: helper.resolveFor('datatables')
-          })
-          .state('app.order-view', {
-              url: '/order-view',
-              title: 'Order View',
-              templateUrl: helper.basepath('ecommerce-order-view.html')
-          })
-          .state('app.products', {
-              url: '/products',
-              title: 'Products',
-              templateUrl: helper.basepath('ecommerce-products.html'),
-              resolve: helper.resolveFor('datatables')
-          })
-          .state('app.product-view', {
-              url: '/product/:id',
-              title: 'Product View',
-              templateUrl: helper.basepath('ecommerce-product-view.html')
-          })
-          // Mailbox
-          // -----------------------------------
-          .state('app.mailbox', {
-              url: '/mailbox',
-              title: 'Mailbox',
-              abstract: true,
-              templateUrl: helper.basepath('mailbox.html')
-          })
-          .state('app.mailbox.folder', {
-              url: '/folder/:folder',
-              title: 'Mailbox',
-              templateUrl: helper.basepath('mailbox-inbox.html')
-          })
-          .state('app.mailbox.view', {
-              url : '/{mid:[0-9]{1,4}}',
-              title: 'View mail',
-              templateUrl: helper.basepath('mailbox-view.html'),
-              resolve: helper.resolveFor('ngWig')
-          })
-          .state('app.mailbox.compose', {
-              url: '/compose',
-              title: 'Mailbox',
-              templateUrl: helper.basepath('mailbox-compose.html'),
-              resolve: helper.resolveFor('ngWig')
-          })
-          //
-          // Multiple level example
-          // -----------------------------------
-          .state('app.multilevel', {
-              url: '/multilevel',
-              title: 'Multilevel',
-              template: '<h3>Multilevel Views</h3>' + '<div class="lead ba p">View @ Top Level ' + '<div ui-view=""></div> </div>'
-          })
-          .state('app.multilevel.level1', {
-              url: '/level1',
-              title: 'Multilevel - Level1',
-              template: '<div class="lead ba p">View @ Level 1' + '<div ui-view=""></div> </div>'
-          })
-          .state('app.multilevel.level1.item', {
-              url: '/item',
-              title: 'Multilevel - Level1',
-              template: '<div class="lead ba p"> Menu item @ Level 1</div>'
-          })
-          .state('app.multilevel.level1.level2', {
-              url: '/level2',
-              title: 'Multilevel - Level2',
-              template: '<div class="lead ba p">View @ Level 2'  + '<div ui-view=""></div> </div>'
-          })
-          .state('app.multilevel.level1.level2.level3', {
-              url: '/level3',
-              title: 'Multilevel - Level3',
-              template: '<div class="lead ba p">View @ Level 3' + '<div ui-view=""></div> </div>'
-          })
-          .state('app.multilevel.level1.level2.level3.item', {
-              url: '/item',
-              title: 'Multilevel - Level3 Item',
-              template: '<div class="lead ba p"> Menu item @ Level 3</div>'
-          })
-          //
-          // Single Page Routes
-          // -----------------------------------
-          .state('page', {
-              url: '/page',
-              templateUrl: helper.basepath('page.html'),
-             // resolve: helper.resolveFor('icons'),
-              controller: ['$rootScope', function($rootScope) {
-                  $rootScope.app.layout.isBoxed = false;
+          }
+      })
+      .state('app.infinite-scroll', {
+          url: '/infinite-scroll',
+          title: 'Infinite Scroll',
+          templateUrl: helper.basepath('infinite-scroll.html'),
+          resolve: helper.resolveFor('infinite-scroll')
+      })
+      .state('app.navtree', {
+          url: '/navtree',
+          title: 'Nav Tree',
+          templateUrl: helper.basepath('nav-tree.html'),
+          resolve: helper.resolveFor('angularBootstrapNavTree')
+      })
+      .state('app.nestable', {
+          url: '/nestable',
+          title: 'Nestable',
+          templateUrl: helper.basepath('nestable.html'),
+          resolve: helper.resolveFor('ng-nestable')
+      })
+      .state('app.sortable', {
+          url: '/sortable',
+          title: 'Sortable',
+          templateUrl: helper.basepath('sortable.html'),
+          resolve: helper.resolveFor('htmlSortable')
+      })
+      .state('app.notifications', {
+          url: '/notifications',
+          title: 'Notifications',
+          templateUrl: helper.basepath('notifications.html')
+      })
+      .state('app.carousel', {
+          url: '/carousel',
+          title: 'Carousel',
+          templateUrl: helper.basepath('carousel.html'),
+          resolve: helper.resolveFor('angular-carousel')
+      })
+      .state('app.ngdialog', {
+          url: '/ngdialog',
+          title: 'ngDialog',
+          templateUrl: helper.basepath('ngdialog.html'),
+          resolve: angular.extend(helper.resolveFor('ngDialog'),{
+            tpl: function() { return { path: helper.basepath('ngdialog-template.html') }; }
+          }),
+          controller: 'DialogIntroCtrl'
+      })
+      .state('app.sweetalert', {
+        url: '/sweetalert',
+        title: 'SweetAlert',
+        templateUrl: helper.basepath('sweetalert.html'),
+        resolve: helper.resolveFor('oitozero.ngSweetAlert')
+      })
+      .state('app.tour', {
+        url: '/tour',
+        title: 'Tour',
+        templateUrl: helper.basepath('tour.html'),
+        resolve: helper.resolveFor('bm.bsTour')
+      })
+      .state('app.interaction', {
+          url: '/interaction',
+          title: 'Interaction',
+          templateUrl: helper.basepath('interaction.html')
+      })
+      .state('app.spinners', {
+          url: '/spinners',
+          title: 'Spinners',
+          templateUrl: helper.basepath('spinners.html'),
+          resolve: helper.resolveFor('loaders.css', 'spinkit')
+      })
+      .state('app.dropdown-animations', {
+          url: '/dropdown-animations',
+          title: 'Dropdown Animations',
+          templateUrl: helper.basepath('dropdown-animations.html')
+      })
+      .state('app.panels', {
+          url: '/panels',
+          title: 'Panels',
+          templateUrl: helper.basepath('panels.html')
+      })
+      .state('app.portlets', {
+          url: '/portlets',
+          title: 'Portlets',
+          templateUrl: helper.basepath('portlets.html'),
+          resolve: helper.resolveFor('jquery-ui', 'jquery-ui-widgets')
+      })
+      .state('app.maps-google', {
+          url: '/maps-google',
+          title: 'Maps Google',
+          templateUrl: helper.basepath('maps-google.html'),
+          resolve: helper.resolveFor('loadGoogleMapsJS', function() { return loadGoogleMaps(); }, 'ui.map')
+      })
+      .state('app.maps-vector', {
+          url: '/maps-vector',
+          title: 'Maps Vector',
+          templateUrl: helper.basepath('maps-vector.html'),
+          controller: 'VectorMapController',
+          controllerAs: 'vmap',
+          resolve: helper.resolveFor('vector-map', 'vector-map-maps')
+      })
+      .state('app.grid', {
+          url: '/grid',
+          title: 'Grid',
+          templateUrl: helper.basepath('grid.html')
+      })
+      .state('app.grid-masonry', {
+          url: '/grid-masonry',
+          title: 'Grid Masonry',
+          templateUrl: helper.basepath('grid-masonry.html')
+      })
+      .state('app.grid-masonry-deck', {
+          url: '/grid-masonry-deck',
+          title: 'Grid Masonry',
+          templateUrl: helper.basepath('grid-masonry-deck.html'),
+          resolve: helper.resolveFor('spinkit', 'akoenig.deckgrid')
+      })
+      .state('app.typo', {
+          url: '/typo',
+          title: 'Typo',
+          templateUrl: helper.basepath('typo.html')
+      })
+      .state('app.icons-font', {
+          url: '/icons-font',
+          title: 'Icons Font',
+          templateUrl: helper.basepath('icons-font.html'),
+          resolve: helper.resolveFor('icons')
+      })
+      .state('app.icons-weather', {
+          url: '/icons-weather',
+          title: 'Icons Weather',
+          templateUrl: helper.basepath('icons-weather.html'),
+          resolve: helper.resolveFor('weather-icons', 'skycons')
+      })
+      .state('app.form-standard', {
+          url: '/form-standard',
+          title: 'Form Standard',
+          templateUrl: helper.basepath('form-standard.html')
+      })
+      .state('app.form-extended', {
+          url: '/form-extended',
+          title: 'Form Extended',
+          templateUrl: helper.basepath('form-extended.html'),
+          resolve: helper.resolveFor('colorpicker.module', 'codemirror', 'moment', 'taginput','inputmask','localytics.directives', 'ui.bootstrap-slider', 'ngWig', 'filestyle', 'textAngular')
+      })
+      .state('app.form-validation', {
+          url: '/form-validation',
+          title: 'Form Validation',
+          templateUrl: helper.basepath('form-validation.html'),
+          resolve: helper.resolveFor('ui.select', 'taginput','inputmask','localytics.directives')
+      })
+      .state('app.form-parsley', {
+          url: '/form-parsley',
+          title: 'Form Validation - Parsley',
+          templateUrl: helper.basepath('form-parsley.html'),
+          resolve: helper.resolveFor('parsley')
+      })
+      .state('app.form-wizard', {
+          url: '/form-wizard',
+          title: 'Form Wizard',
+          templateUrl: helper.basepath('form-wizard.html'),
+          resolve: helper.resolveFor('parsley')
+      })
+      .state('app.form-upload', {
+          url: '/form-upload',
+          title: 'Form upload',
+          templateUrl: helper.basepath('form-upload.html'),
+          resolve: helper.resolveFor('angularFileUpload', 'filestyle')
+      })
+      .state('app.form-xeditable', {
+          url: '/form-xeditable',
+          templateUrl: helper.basepath('form-xeditable.html'),
+          resolve: helper.resolveFor('xeditable')
+      })
+      .state('app.form-imagecrop', {
+          url: '/form-imagecrop',
+          templateUrl: helper.basepath('form-imagecrop.html'),
+          resolve: helper.resolveFor('ngImgCrop', 'filestyle')
+      })
+      .state('app.form-uiselect', {
+          url: '/form-uiselect',
+          templateUrl: helper.basepath('form-uiselect.html'),
+          controller: 'uiSelectController',
+          controllerAs: 'uisel',
+          resolve: helper.resolveFor('ui.select')
+      })
+      .state('app.chart-flot', {
+          url: '/chart-flot',
+          title: 'Chart Flot',
+          templateUrl: helper.basepath('chart-flot.html'),
+          resolve: helper.resolveFor('flot-chart','flot-chart-plugins')
+      })
+      .state('app.chart-radial', {
+          url: '/chart-radial',
+          title: 'Chart Radial',
+          templateUrl: helper.basepath('chart-radial.html'),
+          resolve: helper.resolveFor('classyloader', 'ui.knob', 'easypiechart')
+      })
+      .state('app.chart-js', {
+          url: '/chart-js',
+          title: 'Chart JS',
+          templateUrl: helper.basepath('chart-js.html'),
+          resolve: helper.resolveFor('chartjs')
+      })
+      .state('app.chart-rickshaw', {
+          url: '/chart-rickshaw',
+          title: 'Chart Rickshaw',
+          templateUrl: helper.basepath('chart-rickshaw.html'),
+          resolve: helper.resolveFor('angular-rickshaw')
+      })
+      .state('app.chart-morris', {
+          url: '/chart-morris',
+          title: 'Chart Morris',
+          templateUrl: helper.basepath('chart-morris.html'),
+          resolve: helper.resolveFor('morris')
+      })
+      .state('app.chart-chartist', {
+          url: '/chart-chartist',
+          title: 'Chart Chartist',
+          templateUrl: helper.basepath('chart-chartist.html'),
+          resolve: helper.resolveFor('angular-chartist')
+      })
+      .state('app.table-standard', {
+          url: '/table-standard',
+          title: 'Table Standard',
+          templateUrl: helper.basepath('table-standard.html')
+      })
+      .state('app.table-extended', {
+          url: '/table-extended',
+          title: 'Table Extended',
+          templateUrl: helper.basepath('table-extended.html')
+      })
+      .state('app.table-datatable', {
+          url: '/table-datatable',
+          title: 'Table Datatable',
+          templateUrl: helper.basepath('table-datatable.html'),
+          resolve: helper.resolveFor('datatables')
+      })
+      .state('app.table-xeditable', {
+          url: '/table-xeditable',
+          templateUrl: helper.basepath('table-xeditable.html'),
+          resolve: helper.resolveFor('xeditable')
+      })
+      .state('app.table-ngtable', {
+          url: '/table-ngtable',
+          templateUrl: helper.basepath('table-ngtable.html'),
+          resolve: helper.resolveFor('ngTable', 'ngTableExport')
+      })
+      .state('app.table-uigrid', {
+          url: '/table-uigrid',
+          templateUrl: helper.basepath('table-uigrid.html'),
+          resolve: helper.resolveFor('ui.grid')
+      })
+      .state('app.table-angulargrid', {
+          url: '/table-angulargrid',
+          templateUrl: helper.basepath('table-angulargrid.html'),
+          resolve: helper.resolveFor('angularGrid')
+      })
+      .state('app.timeline', {
+          url: '/timeline',
+          title: 'Timeline',
+          templateUrl: helper.basepath('timeline.html')
+      })
+      .state('app.calendar', {
+          url: '/calendar',
+          title: 'Calendar',
+          templateUrl: helper.basepath('calendar.html'),
+          resolve: helper.resolveFor('jquery-ui', 'jquery-ui-widgets', 'moment', 'fullcalendar')
+      })
+      .state('app.invoice', {
+          url: '/invoice',
+          title: 'Invoice',
+          templateUrl: helper.basepath('invoice.html')
+      })
+      .state('app.search', {
+          url: '/search',
+          title: 'Search',
+          templateUrl: helper.basepath('search.html'),
+          resolve: helper.resolveFor('moment', 'localytics.directives', 'ui.bootstrap-slider')
+      })
+      .state('app.todo', {
+          url: '/todo',
+          title: 'Todo List',
+          templateUrl: helper.basepath('todo.html'),
+          controller: 'TodoController',
+          controllerAs: 'todo'
+      })
+      .state('app.profile', {
+          url: '/profile',
+          title: 'Profile',
+          templateUrl: helper.basepath('profile.html'),
+          resolve: helper.resolveFor('loadGoogleMapsJS', function() { return loadGoogleMaps(); }, 'ui.map')
+      })
+      .state('app.code-editor', {
+          url: '/code-editor',
+          templateUrl: helper.basepath('code-editor.html'),
+          controller: 'CodeEditorController',
+          controllerAs: 'coder',
+          resolve: {
+              deps: helper.resolveFor('codemirror', 'ui.codemirror', 'codemirror-modes-web', 'angularBootstrapNavTree').deps,
+              filetree: ['LoadTreeService', function (LoadTreeService) {
+                  return LoadTreeService.get().$promise.then(function (res) {
+                      return res.data;
+                  });
               }]
-          })
-          .state('page.login', {
-              url: '/login',
-              title: 'Login',
-              templateUrl: helper.basepath('login.html')
-          })
-          .state('page.register', {
-              url: '/register',
-              title: 'Register',
-              templateUrl: 'app/pages/register.html'
-          })
-          .state('page.recover', {
-              url: '/recover',
-              title: 'Recover',
-              templateUrl: 'app/pages/recover.html'
-          })
-          .state('page.lock', {
-              url: '/lock',
-              title: 'Lock',
-              templateUrl: 'app/pages/lock.html'
-          })
-          .state('page.404', {
-              url: '/404',
-              title: 'Not Found',
-              templateUrl: 'app/pages/404.html'
-          })
-          //
-          // Horizontal layout
-          // -----------------------------------
-          .state('app-h', {
-              url: '/app-h',
-              abstract: true,
-              templateUrl: helper.basepath( 'app-h.html' ),
-              resolve: helper.resolveFor('fastclick', 'modernizr', 'icons', 'screenfull', 'animo', 'sparklines', 'slimscroll', 'classyloader', 'toaster', 'whirl')
-          })
-          .state('app-h.dashboard_v2', {
-              url: '/dashboard_v2',
-              title: 'Dashboard v2',
-              templateUrl: helper.basepath('dashboard_v2.html'),
-              controller: 'DashboardV2Controller',
-              controllerAs: 'dash2',
-              resolve: helper.resolveFor('flot-chart','flot-chart-plugins')
-          })
-          //
-          // CUSTOM RESOLVES
-          //   Add your own resolves properties
-          //   following this object extend
-          //   method
-          // -----------------------------------
-          // .state('app.someroute', {
-          //   url: '/some_url',
-          //   templateUrl: 'path_to_template.html',
-          //   controller: 'someController',
-          //   resolve: angular.extend(
-          //     helper.resolveFor(), {
-          //     // YOUR RESOLVES GO HERE
-          //     }
-          //   )
-          // })
-          ;
+          }
+      })
+      .state('app.template', {
+          url: '/template',
+          title: 'Blank Template',
+          templateUrl: helper.basepath('template.html')
+      })
+      .state('app.documentation', {
+          url: '/documentation',
+          title: 'Documentation',
+          templateUrl: helper.basepath('documentation.html'),
+          resolve: helper.resolveFor('flatdoc')
+      })
+      // Forum
+      // -----------------------------------
+      .state('app.forum', {
+          url: '/forum',
+          title: 'Forum',
+          templateUrl: helper.basepath('forum.html')
+      })
+      .state('app.forum-topics', {
+          url: '/forum/topics/:catid',
+          title: 'Forum Topics',
+          templateUrl: helper.basepath('forum-topics.html')
+      })
+      .state('app.forum-discussion', {
+          url: '/forum/discussion/:topid',
+          title: 'Forum Discussion',
+          templateUrl: helper.basepath('forum-discussion.html')
+      })
+      // Blog
+      // -----------------------------------
+      .state('app.blog', {
+          url: '/blog',
+          title: 'Blog',
+          templateUrl: helper.basepath('blog.html'),
+          resolve: helper.resolveFor('angular-jqcloud')
+      })
+      .state('app.blog-post', {
+          url: '/post',
+          title: 'Post',
+          templateUrl: helper.basepath('blog-post.html'),
+          resolve: helper.resolveFor('angular-jqcloud')
+      })
+      .state('app.articles', {
+          url: '/articles',
+          title: 'Articles',
+          templateUrl: helper.basepath('blog-articles.html'),
+          resolve: helper.resolveFor('datatables')
+      })
+      .state('app.article-view', {
+          url: '/article/:id',
+          title: 'Article View',
+          templateUrl: helper.basepath('blog-article-view.html'),
+          resolve: helper.resolveFor('ui.select', 'textAngular')
+      })
+      // eCommerce
+      // -----------------------------------
+      .state('app.orders', {
+          url: '/orders',
+          title: 'Orders',
+          templateUrl: helper.basepath('ecommerce-orders.html'),
+          resolve: helper.resolveFor('datatables')
+      })
+      .state('app.order-view', {
+          url: '/order-view',
+          title: 'Order View',
+          templateUrl: helper.basepath('ecommerce-order-view.html')
+      })
+      .state('app.products', {
+          url: '/products',
+          title: 'Products',
+          templateUrl: helper.basepath('ecommerce-products.html'),
+          resolve: helper.resolveFor('datatables')
+      })
+      .state('app.product-view', {
+          url: '/product/:id',
+          title: 'Product View',
+          templateUrl: helper.basepath('ecommerce-product-view.html')
+      })
+      // Mailbox
+      // -----------------------------------
+      .state('app.mailbox', {
+          url: '/mailbox',
+          title: 'Mailbox',
+          abstract: true,
+          templateUrl: helper.basepath('mailbox.html')
+      })
+      .state('app.mailbox.folder', {
+          url: '/folder/:folder',
+          title: 'Mailbox',
+          templateUrl: helper.basepath('mailbox-inbox.html')
+      })
+      .state('app.mailbox.view', {
+          url : '/{mid:[0-9]{1,4}}',
+          title: 'View mail',
+          templateUrl: helper.basepath('mailbox-view.html'),
+          resolve: helper.resolveFor('ngWig')
+      })
+      .state('app.mailbox.compose', {
+          url: '/compose',
+          title: 'Mailbox',
+          templateUrl: helper.basepath('mailbox-compose.html'),
+          resolve: helper.resolveFor('ngWig')
+      })
+      //
+      // Multiple level example
+      // -----------------------------------
+      .state('app.multilevel', {
+          url: '/multilevel',
+          title: 'Multilevel',
+          template: '<h3>Multilevel Views</h3>' + '<div class="lead ba p">View @ Top Level ' + '<div ui-view=""></div> </div>'
+      })
+      .state('app.multilevel.level1', {
+          url: '/level1',
+          title: 'Multilevel - Level1',
+          template: '<div class="lead ba p">View @ Level 1' + '<div ui-view=""></div> </div>'
+      })
+      .state('app.multilevel.level1.item', {
+          url: '/item',
+          title: 'Multilevel - Level1',
+          template: '<div class="lead ba p"> Menu item @ Level 1</div>'
+      })
+      .state('app.multilevel.level1.level2', {
+          url: '/level2',
+          title: 'Multilevel - Level2',
+          template: '<div class="lead ba p">View @ Level 2'  + '<div ui-view=""></div> </div>'
+      })
+      .state('app.multilevel.level1.level2.level3', {
+          url: '/level3',
+          title: 'Multilevel - Level3',
+          template: '<div class="lead ba p">View @ Level 3' + '<div ui-view=""></div> </div>'
+      })
+      .state('app.multilevel.level1.level2.level3.item', {
+          url: '/item',
+          title: 'Multilevel - Level3 Item',
+          template: '<div class="lead ba p"> Menu item @ Level 3</div>'
+      })
+      //
+      // Single Page Routes
+      // -----------------------------------
+      .state('page', {
+          url: '/page',
+          templateUrl: helper.basepath('page.html'),
+         // resolve: helper.resolveFor('icons'),
+          controller: ['$rootScope', function($rootScope) {
+              $rootScope.app.layout.isBoxed = false;
+          }]
+      })
+      .state('page.login', {
+          url: '/login',
+          title: 'Login',
+          templateUrl: helper.basepath('login.html')
+      })
+      .state('page.register', {
+          url: '/register',
+          title: 'Register',
+          templateUrl: 'app/pages/register.html'
+      })
+      .state('page.recover', {
+          url: '/recover',
+          title: 'Recover',
+          templateUrl: 'app/pages/recover.html'
+      })
+      .state('page.lock', {
+          url: '/lock',
+          title: 'Lock',
+          templateUrl: 'app/pages/lock.html'
+      })
+      .state('page.404', {
+          url: '/404',
+          title: 'Not Found',
+          templateUrl: 'app/pages/404.html'
+      })
+      //
+      // Horizontal layout
+      // -----------------------------------
+      .state('app-h', {
+          url: '/app-h',
+          abstract: true,
+          templateUrl: helper.basepath( 'app-h.html' ),
+          resolve: helper.resolveFor('fastclick', 'modernizr', 'icons', 'screenfull', 'animo', 'sparklines', 'slimscroll', 'classyloader', 'toaster', 'whirl')
+      })
+      .state('app-h.dashboard_v2', {
+          url: '/dashboard_v2',
+          title: 'Dashboard v2',
+          templateUrl: helper.basepath('dashboard_v2.html'),
+          controller: 'DashboardV2Controller',
+          controllerAs: 'dash2',
+          resolve: helper.resolveFor('flot-chart','flot-chart-plugins')
+      })
+      //
+      // CUSTOM RESOLVES
+      //   Add your own resolves properties
+      //   following this object extend
+      //   method
+      // -----------------------------------
+      // .state('app.someroute', {
+      //   url: '/some_url',
+      //   templateUrl: 'path_to_template.html',
+      //   controller: 'someController',
+      //   resolve: angular.extend(
+      //     helper.resolveFor(), {
+      //     // YOUR RESOLVES GO HERE
+      //     }
+      //   )
+      // })
+      ;
 
     } // routesConfig
 
@@ -10847,17 +10854,29 @@ angular.module('blockUI').run(['$templateCache', function($templateCache){
 
     angular
         .module('custom')
-        .service('StudentWorktableService', StudentWorktableService);
+        .service('StudentService', StudentService);
 
-    StudentWorktableService.$inject = ['$http'];
-    function StudentWorktableService($http) {
+    StudentService.$inject = ['$http'];
+    function StudentService($http) {
 
-        this.searchUsers = function(obj) {
+        this.searchStudent = searchStudent;
+        this.addStudent = addStudent;
+
+        function searchStudent(data) {
             return $http({
                 method: "POST",
                 url : "/v1/student/list",
-                data:obj,
+                data:data,
                 timeout: 5000
+            });
+        }
+
+        function addStudent(data) {
+            return $http({
+                    method: "POST",
+                    url: "/v1/student/add",
+                    data: data,
+                    timeout: 5000
             });
         }
 
@@ -10869,16 +10888,242 @@ angular.module('blockUI').run(['$templateCache', function($templateCache){
     'use strict';
     angular
         .module('custom')
-        .controller('StudentWorktableController', StudentWorktableController);
-    StudentWorktableController.$inject = ['$scope', 'StudentWorktableService', 'SweetAlert', 'NgTableParams', 'blockUI', 'Notify'];
+        .controller('StudentAddController', StudentAddController);
+    StudentAddController.$inject = ['$scope','editableOptions', 'editableThemes', 'StudentService', 'SweetAlert', 'blockUI', 'Notify'];
 
-    function StudentWorktableController($scope, StudentWorktableService, SweetAlert, NgTableParams, blockUI, Notify) {
+    function StudentAddController($scope,editableOptions, editableThemes, StudentService, SweetAlert, blockUI, Notify) {
+
+        $scope.student = {};
+
+        $scope.init = function(){
+            $scope.student = {};
+            $scope.student.educations = [];
+            $scope.student.relations = [];
+        }
+
+        activate();
+
+        function activate() {
+
+            $scope.init();
+
+            // remove
+            $scope.removeEducation= function(index) {
+                $scope.student.educations.splice(index, 1);
+            };
+
+            $scope.addEducation = function() {
+                $scope.insertedEducation = {
+                    degree: '',
+                    time: '',
+                    school: '',
+                    prove: '',
+                    proveNumber: '',
+                };
+                $scope.student.educations.push($scope.insertedEducation);
+            };
+
+            // remove
+            $scope.removeRelation= function(index) {
+                $scope.student.relations.splice(index, 1);
+            };
+
+            $scope.addRelation = function() {
+                $scope.insertedRelation = {
+                    relationName: '',
+                    name: '',
+                    job: '',
+                    contactAddress: '',
+                    contactNumber: '',
+                };
+                $scope.student.relations.push($scope.insertedRelation);
+            };
+
+
+        }
+
+        //保存学生信息
+        $scope.save = function(){
+
+            blockUI.start();
+
+            //校验
+            if(!$scope.validate()){
+                //给个对话框提示
+                blockUI.stop();
+                return;
+            }
+
+            //提交
+            StudentService.addStudent($scope.student).success(function(data){
+                if(data.status == 200){
+                    SweetAlert.success("添加成功!");
+                    //清空输入部分
+                    $scope.init();
+                }else{
+                    SweetAlert.error("服务器异常, 请稍后重试!");
+                }
+            }).error(function(){
+                SweetAlert.error("网络问题, 请稍后重试!");
+            });
+
+            blockUI.stop();
+        }
+
+        //校验必填信息
+        $scope.validate = function(){
+            if(_.isNil($scope.student.name)) {
+                return false;
+            }
+            return true;
+        }
+    }
+})();
+(function () {
+    'use strict';
+    angular
+        .module('custom')
+        .controller('StudentInfoController', StudentInfoController);
+    StudentInfoController.$inject = ['$scope','StudentWorktableService', 'SweetAlert', 'NgTableParams', 'blockUI', 'Notify'];
+
+    function StudentInfoController($scope, StudentWorktableService,SweetAlert, NgTableParams, blockUI, Notify) {
 
         $scope.tableParams = {
             page : 1,
             count : 10,
-
         };
+
+        $scope.activate = function() {
+            $scope.userTableParams = new NgTableParams($scope.tableParams, {
+                getData: function ($defer, params) {
+                    blockUI.start();
+                    AccountService.loadUsers(params.parameters()).success(function (data) {
+                        if (data.status == 200) {
+                            params.total(data.totalCount);
+                            console.log(data);
+                            $defer.resolve(data.data);
+                            blockUI.stop();
+                        }
+                    }).error(function () {
+                        SweetAlert.error("网络问题,请稍后重试!");
+                        blockUI.stop();
+                    });
+                }
+            });
+        }
+
+        $scope.activate();
+
+        //删除用户
+        $scope.delete = function(id){
+            SweetAlert.swal({
+                title: '确认删除?',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#DD6B55',
+                confirmButtonText: '是',
+                cancelButtonText: '否',
+                closeOnConfirm: true,
+                closeOnCancel: true
+            }, function(isConfirm){
+                if (isConfirm) {
+                    //这里可以进行调试,查看$scope,因为table会创建一个子scope
+                    //然后子scope里面就不能用this了,因为this就指向了子scope,
+                    //实际上在table的每一行里面的点击是调用了父scope的delete方法
+                    blockUI.start();
+                    AccountService.deleteUser(id).success(function () {
+                        Notify.alert("删除成功!", {status:"success", timeout: 3000});
+                        $scope.userTableParams.reload();
+                        blockUI.stop();
+                    }).error(function(){
+                        blockUI.stop();
+                        Notify.alert("网络有问题,请稍后重试!", {status:"success", timeout: 3000});
+                    });
+                }
+            });
+        }
+
+        //查看用户
+        $scope.show = function (userId){
+            var dialog= ngDialog.open({
+                template: 'app/views/custom/admin/account/edit-account.html',
+                controller: 'EditAccountController',
+                className: 'ngdialog-theme-default large-dialog',
+                data : {id:userId, type:0}
+            });
+            dialog.closePromise.then(function(data){
+                if(data.value != 'reload'){
+                    return;
+                }
+                $scope.userTableParams.reload();
+            });
+        };
+
+        //编辑用户
+        $scope.edit = function(userId) {
+            var dialog= ngDialog.open({
+                template: 'app/views/custom/admin/account/edit-account.html',
+                controller: 'EditAccountController',
+                className: 'ngdialog-theme-default large-dialog',
+                data : {id:userId, type:1}
+            });
+            dialog.closePromise.then(function(data){
+                if(data.value != 'reload'){
+                    return;
+                }
+                $scope.userTableParams.reload();
+            });
+        }
+
+        //添加用户
+        $scope.add = function(userId){
+            var dialog= ngDialog.open({
+                template: 'app/views/custom/admin/account/edit-account.html',
+                controller: 'EditAccountController',
+                className: 'ngdialog-theme-default large-dialog',
+                data : {id:userId, type:2}
+            })
+            dialog.closePromise.then(function(data){
+                if(data.value != 'reload'){
+                    return;
+                }
+                $scope.userTableParams.reload();
+            });
+        }
+
+
+
+    }
+})();
+(function () {
+    'use strict';
+    angular
+        .module('custom')
+        .controller('StudentWorktableController', StudentWorktableController);
+    StudentWorktableController.$inject = ['$scope', 'StudentService', 'SweetAlert', 'NgTableParams', 'blockUI', 'Notify'];
+
+    function StudentWorktableController($scope, StudentService, SweetAlert, NgTableParams, blockUI, Notify) {
+
+        //左边侧边栏的查询条件
+        $scope.tableParams = {
+            page : 1,
+            count : 10,
+            orgName:'',
+            gradeName:'',
+            className:'',
+            gender: '',
+            searchStr:''
+        };
+
+        //初始化选择器列表
+        function initSelector(){
+
+        }
+
+        initSelector();
+
+
+
 
         $scope.activate = function() {
             $scope.userTableParams = new NgTableParams($scope.tableParams, {

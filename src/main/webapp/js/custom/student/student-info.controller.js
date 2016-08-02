@@ -2,31 +2,15 @@
     'use strict';
     angular
         .module('custom')
-        .controller('StudentWorktableController', StudentWorktableController);
-    StudentWorktableController.$inject = ['$scope', 'StudentService', 'SweetAlert', 'NgTableParams', 'blockUI', 'Notify'];
+        .controller('StudentInfoController', StudentInfoController);
+    StudentInfoController.$inject = ['$scope','StudentWorktableService', 'SweetAlert', 'NgTableParams', 'blockUI', 'Notify'];
 
-    function StudentWorktableController($scope, StudentService, SweetAlert, NgTableParams, blockUI, Notify) {
+    function StudentInfoController($scope, StudentWorktableService,SweetAlert, NgTableParams, blockUI, Notify) {
 
-        //左边侧边栏的查询条件
         $scope.tableParams = {
             page : 1,
             count : 10,
-            orgName:'',
-            gradeName:'',
-            className:'',
-            gender: '',
-            searchStr:''
         };
-
-        //初始化选择器列表
-        function initSelector(){
-
-        }
-
-        initSelector();
-
-
-
 
         $scope.activate = function() {
             $scope.userTableParams = new NgTableParams($scope.tableParams, {

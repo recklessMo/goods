@@ -26,12 +26,6 @@
                            ng-click="departmentCtrl.show()"
                            ng-model="filter.department"
                            auto-complete="departmentCtrl">
-                    <input type="text" class="form-control" style="width:150px;"
-                           placeholder="选择状态"
-                           ng-focus="departmentCtrl.render().show()"
-                           ng-click="departmentCtrl.show()"
-                           ng-model="filter.department"
-                           auto-complete="departmentCtrl">
 
                     <input type="text" class="form-control" style="width:150px;"
                            placeholder="选择年级"
@@ -109,8 +103,7 @@
                         <uib-tab-heading>
                             基本信息
                         </uib-tab-heading>
-                        <div>
-                            tab1
+                        <div ng-include="'app/views/custom/student/student-info.html'">
                         </div>
                     </uib-tab>
                     <uib-tab active="false"

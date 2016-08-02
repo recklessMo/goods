@@ -1,14 +1,10 @@
 package com.recklessmo.web.user;
 
-import com.recklessmo.manage.menu.MenuManager;
-import com.recklessmo.model.passport.IdModel;
-import com.recklessmo.model.passport.User;
-import com.recklessmo.model.security.DefaultUserDetails;
+import com.recklessmo.model.user.User;
 import com.recklessmo.response.JsonResponse;
 import com.recklessmo.response.ResponseType;
 import com.recklessmo.service.user.UserService;
-import com.recklessmo.util.ContextUtils;
-import com.recklessmo.webmodel.user.UserPage;
+import com.recklessmo.web.webmodel.page.UserPage;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;

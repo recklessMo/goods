@@ -1,4 +1,4 @@
-package com.recklessmo.model.passport;
+package com.recklessmo.model.user;
 
 /**
  * Created by hpf on 4/18/16.

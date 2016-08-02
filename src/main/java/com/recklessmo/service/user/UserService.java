@@ -1,8 +1,8 @@
 package com.recklessmo.service.user;
 
-import com.recklessmo.dao.passport.UserDAO;
-import com.recklessmo.model.passport.User;
-import com.recklessmo.webmodel.user.UserPage;
+import com.recklessmo.dao.user.UserDAO;
+import com.recklessmo.model.user.User;
+import com.recklessmo.web.webmodel.page.UserPage;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

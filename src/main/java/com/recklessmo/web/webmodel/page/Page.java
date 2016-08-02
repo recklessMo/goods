@@ -1,4 +1,4 @@
-package com.recklessmo.webmodel.user;
+package com.recklessmo.web.webmodel.page;
 
 /**
  * Created by hpf on 6/21/16.

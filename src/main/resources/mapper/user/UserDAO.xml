@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.recklessmo.dao.passport.UserDAO">
+<mapper namespace="com.recklessmo.dao.user.UserDAO">
     <sql id = "columns">
         id, user_name, pwd, name, phone
     </sql>
@@ -49,11 +49,11 @@
         from user where user_name = #{userName}
     </select>
 
-    <insert id="addUser" parameterType = "com.recklessmo.model.passport.User">
+    <insert id="addUser" parameterType = "com.recklessmo.model.user.User">
         insert into user(user_name, pwd, name, phone) values(#{userName}, #{pwd}, #{name}, #{phone})
     </insert>
 
-    <update id="updateUser" parameterType = "com.recklessmo.model.passport.User">
+    <update id="updateUser" parameterType = "com.recklessmo.model.user.User">
         update user set user_name = #{userName}, pwd = #{pwd}, name = #{name}, phone=#{phone} where id = #{id}
     </update>
 
