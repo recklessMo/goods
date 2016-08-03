@@ -46,7 +46,7 @@ public class Menu{
 
             //定义二级菜单
             new Menu("jwz", "xsgl", "ROLE_USER", "icon-map", "app.table-xeditable", 3),
-            new Menu("jwz", "xjgl", "ROLE_USER", "icon-map", "app.student-import", 4),
+            new Menu("jwz", "xjgl", "ROLE_USER", "icon-map", "app.student-add", 4),
             new Menu("jwz", "jsgl", "", null, "app.duty", 5),
 
             new Menu("cwz", "jf", "", null, "app.finance", 1),

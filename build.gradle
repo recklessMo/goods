@@ -8,7 +8,7 @@ repositories{
 	mavenCentral();
 }
 
-war.baseName = "goods"
+war.baseName = "root"
 war.destinationDir = file("target");
 
 dependencies {
@@ -27,6 +27,8 @@ dependencies {
 	compile 'com.google.guava:guava:18.0'
 	compile 'org.apache.commons:commons-email:1.4'
 	compile 'commons-codec:commons-codec:1.10'
+	compile 'com.alibaba:fastjson:1.2.5'
+	compile 'org.eclipse.jetty:jetty-servlets:9.2.10.v20150310'
 }
 
 
