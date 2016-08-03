@@ -14,14 +14,14 @@
   "use strict";
 
   CodeMirror.defineMode("django:inner", function() {
-    var keywords = ["block", "endblock", "for", "endfor", "true", "false", "filter", "endfilter",
-                    "loop", "none", "self", "super", "if", "elif", "endif", "as", "else", "import",
-                    "with", "endwith", "without", "context", "ifequal", "endifequal", "ifnotequal",
-                    "endifnotequal", "extends", "include", "load", "comment", "endcomment",
-                    "empty", "url", "static", "trans", "blocktrans", "endblocktrans", "now",
-                    "regroup", "lorem", "ifchanged", "endifchanged", "firstof", "debug", "cycle",
-                    "csrf_token", "autoescape", "endautoescape", "spaceless", "endspaceless",
-                    "ssi", "templatetag", "verbatim", "endverbatim", "widthratio"],
+    var keywords = ["block", "endblock", "for", "endfor", "true", "false",
+                    "loop", "none", "self", "super", "if", "endif", "as",
+                    "else", "import", "with", "endwith", "without", "context", "ifequal", "endifequal",
+                    "ifnotequal", "endifnotequal", "extends", "include", "load", "comment",
+                    "endcomment", "empty", "url", "static", "trans", "blocktrans", "now", "regroup",
+                    "lorem", "ifchanged", "endifchanged", "firstof", "debug", "cycle", "csrf_token",
+                    "autoescape", "endautoescape", "spaceless", "ssi", "templatetag",
+                    "verbatim", "endverbatim", "widthratio"],
         filters = ["add", "addslashes", "capfirst", "center", "cut", "date",
                    "default", "default_if_none", "dictsort",
                    "dictsortreversed", "divisibleby", "escape", "escapejs",
@@ -35,13 +35,11 @@
                    "truncatechars_html", "truncatewords", "truncatewords_html",
                    "unordered_list", "upper", "urlencode", "urlize",
                    "urlizetrunc", "wordcount", "wordwrap", "yesno"],
-        operators = ["==", "!=", "<", ">", "<=", ">="],
-        wordOperators = ["in", "not", "or", "and"];
+        operators = ["==", "!=", "<", ">", "<=", ">=", "in", "not", "or", "and"];
 
     keywords = new RegExp("^\\b(" + keywords.join("|") + ")\\b");
     filters = new RegExp("^\\b(" + filters.join("|") + ")\\b");
     operators = new RegExp("^\\b(" + operators.join("|") + ")\\b");
-    wordOperators = new RegExp("^\\b(" + wordOperators.join("|") + ")\\b");
 
     // We have to return "null" instead of null, in order to avoid string
     // styling as the default, when using Django templates inside HTML
@@ -61,16 +59,16 @@
 
       // Ignore completely any stream series that do not match the
       // Django template opening tags.
-      while (stream.next() != null && !stream.match(/\{[{%#]/, false)) {}
+      while (stream.next() != null && !stream.match("{{", false) && !stream.match("{%", false)) {}
       return null;
     }
 
     // A string can be included in either single or double quotes (this is
-    // the delimiter). Mark everything as a string until the start delimiter
+    // the delimeter). Mark everything as a string until the start delimeter
     // occurs again.
-    function inString (delimiter, previousTokenizer) {
+    function inString (delimeter, previousTokenizer) {
       return function (stream, state) {
-        if (!state.escapeNext && stream.eat(delimiter)) {
+        if (!state.escapeNext && stream.eat(delimeter)) {
           state.tokenize = previousTokenizer;
         } else {
           if (state.escapeNext) {
@@ -80,7 +78,7 @@
           var ch = stream.next();
 
           // Take into account the backslash for escaping characters, such as
-          // the string delimiter.
+          // the string delimeter.
           if (ch == "\\") {
             state.escapeNext = true;
           }
@@ -100,7 +98,7 @@
           return "null";
         }
 
-        // Dot followed by a non-word character should be considered an error.
+        // Dot folowed by a non-word character should be considered an error.
         if (stream.match(/\.\W+/)) {
           return "error";
         } else if (stream.eat(".")) {
@@ -119,7 +117,7 @@
           return "null";
         }
 
-        // Pipe followed by a non-word character should be considered an error.
+        // Pipe folowed by a non-word character should be considered an error.
         if (stream.match(/\.\W+/)) {
           return "error";
         } else if (stream.eat("|")) {
@@ -199,7 +197,7 @@
           return "null";
         }
 
-        // Dot followed by a non-word character should be considered an error.
+        // Dot folowed by a non-word character should be considered an error.
         if (stream.match(/\.\W+/)) {
           return "error";
         } else if (stream.eat(".")) {
@@ -218,7 +216,7 @@
           return "null";
         }
 
-        // Pipe followed by a non-word character should be considered an error.
+        // Pipe folowed by a non-word character should be considered an error.
         if (stream.match(/\.\W+/)) {
           return "error";
         } else if (stream.eat("|")) {
@@ -272,11 +270,6 @@
         return "operator";
       }
 
-      // Attempt to match a word operator
-      if (stream.match(wordOperators)) {
-        return "keyword";
-      }
-
       // Attempt to match a keyword
       var keywordMatch = stream.match(keywords);
       if (keywordMatch) {
@@ -317,8 +310,9 @@
 
     // Mark everything as comment inside the tag and the tag itself.
     function inComment (stream, state) {
-      if (stream.match(/^.*?#\}/)) state.tokenize = tokenBase
-      else stream.skipToEnd()
+      if (stream.match("#}")) {
+        state.tokenize = tokenBase;
+      }
       return "comment";
     }
 

@@ -275,7 +275,7 @@ CodeMirror.defineMode("ruby", function(config) {
         (state.continuedLine ? config.indentUnit : 0);
     },
 
-    electricInput: /^\s*(?:end|rescue|\})$/,
+    electricChars: "}de", // enD and rescuE
     lineComment: "#"
   };
 });
