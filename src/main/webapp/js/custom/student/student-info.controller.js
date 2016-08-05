@@ -3,9 +3,9 @@
     angular
         .module('custom')
         .controller('StudentInfoController', StudentInfoController);
-    StudentInfoController.$inject = ['$scope','StudentWorktableService', 'SweetAlert', 'NgTableParams', 'blockUI', 'Notify'];
+    StudentInfoController.$inject = ['$scope','StudentService', 'SweetAlert', 'NgTableParams', 'blockUI', 'Notify'];
 
-    function StudentInfoController($scope, StudentWorktableService,SweetAlert, NgTableParams, blockUI, Notify) {
+    function StudentInfoController($scope, StudentService,SweetAlert, NgTableParams, blockUI, Notify) {
 
         $scope.tableParams = {
             page : 1,

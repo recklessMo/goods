@@ -1,0 +1,34 @@
+<div ng-controller="StockWorktableController" style="height: 100%;" class="container-fluid">
+    <div class="row" style="height: 100%;">
+        <div class="col-xs-12" style="height: 100%;;">
+            <div class="panel" style="height: 100%;" >
+                <uib-tabset class="tab-full-content" style="height: 100%;" justified="true">
+                    <uib-tab active="true"
+                             style="text-align: center;">
+                        <uib-tab-heading>
+                            查看库存
+                        </uib-tab-heading>
+                        <div ng-controller="StockListController" ng-include="'app/views/custom/stock/stock-list.html'" style="height: 100%;">
+                        </div>
+                    </uib-tab>
+                    <uib-tab active="false"
+                             style="text-align: center;">
+                        <uib-tab-heading>
+                            入库
+                        </uib-tab-heading>
+                        <div ng-controller="StockInListController" ng-include="'app/views/custom/stock/stock-in-list.html'" style="height: 100%;">
+                        </div>
+                    </uib-tab>
+                    <uib-tab active="false"
+                             style="text-align: center;">
+                        <uib-tab-heading>
+                            出库
+                        </uib-tab-heading>
+                        <div ng-include="'app/views/custom/stock/stock-out-list.html'" style="height: 100%;">
+                        </div>
+                    </uib-tab>
+                </uib-tabset>
+            </div>
+        </div>
+    </div>
+</div>

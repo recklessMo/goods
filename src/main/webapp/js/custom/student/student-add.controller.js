@@ -11,8 +11,8 @@
 
         $scope.init = function(){
             $scope.student = {};
-            $scope.student.educations = [];
-            $scope.student.relations = [];
+            $scope.student.educationList = [];
+            $scope.student.relationList = [];
         }
 
         activate();
@@ -23,7 +23,7 @@
 
             // remove
             $scope.removeEducation= function(index) {
-                $scope.student.educations.splice(index, 1);
+                $scope.student.educationList.splice(index, 1);
             };
 
             $scope.addEducation = function() {
@@ -34,12 +34,12 @@
                     prove: '',
                     proveNumber: '',
                 };
-                $scope.student.educations.push($scope.insertedEducation);
+                $scope.student.educationList.push($scope.insertedEducation);
             };
 
             // remove
             $scope.removeRelation= function(index) {
-                $scope.student.relations.splice(index, 1);
+                $scope.student.relationList.splice(index, 1);
             };
 
             $scope.addRelation = function() {
@@ -50,7 +50,7 @@
                     contactAddress: '',
                     contactNumber: '',
                 };
-                $scope.student.relations.push($scope.insertedRelation);
+                $scope.student.relationList.push($scope.insertedRelation);
             };
 
 

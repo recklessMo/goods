@@ -18,7 +18,11 @@
             <!--</form>-->
         <!--</div>-->
         <div class="col-xs-12" style="margin-top:5px;margin-bottom: 5px;padding-left: 0;">
-            <form class="form-inline pull-left">
+            <div style="display: inline;font-weight: bold;font-size:15px;">
+                <i class="fa fa-search" aria-hidden="true"></i>
+                查询信息
+            </div>
+            <form class="form-inline pull-right">
                 <div class="form-group">
                     <input type="text" class="form-control" style="width:150px;"
                            placeholder="选择校区"
@@ -55,40 +59,31 @@
                            ng-model="filter.department"
                            auto-complete="departmentCtrl">
 
-                    <button class="btn btn-info">查询</button>
+                    <button class="btn btn-info" ng-click="search()">查询</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <div class="row" style="height:100%;">
+    <div class="row" style="height:100%;padding-bottom: 50px;">
         <div ng-if="true" class="col-xs-3" style="height: 100%;padding-right: 0px;">
-            <div class="panel" style="height: 100%;">
-                <div style="text-align: center;">
-                    <span>共查询到2条记录</span>
+            <div class="panel" style="height: 100%;margin-bottom: 0px;overflow: auto;">
+                <div style="text-align: center;font-weight: bold;padding-top:15px;padding-bottom: 10px;">
+                    <span>共查询到{{obj.totalCount}}条记录</span>
                 </div>
-                <table ng-table="searchTableParams" class="table table-condensed table-bordered table-striped" style="border: 1px solid #eeeeee;">
-                    <tr ng-dblclick="" style="text-align: center;">
-                        <td data-title="'姓名'">华丹娜嫫</td>
-                        <td data-title="'性别'">女</td>
-                        <td data-title="'年龄'">26</td>
-                        <td data-title="'年级'">大班</td>
+                <table ng-table="studentTableParams" class="table table-condensed table-bordered table-striped" style="border: 1px solid #eeeeee;">
+                    <tr ng-repeat="row in $data" ng-dblclick="" style="text-align: center;">
+                        <td data-title="'姓名'">{{row.name}}</td>
+                        <td data-title="'性别'">{{row.gender}}</td>
+                        <td data-title="'年龄'">{{row.age}}</td>
+                        <td data-title="'年级'">{{row.name}}</td>
                         <td data-title="'操作'">
-                            <a class="" ng-click="">查询</a>
-                        </td>
-                    </tr>
-                    <tr ng-dblclick="" style="text-align: center;">
-                        <td data-title="'姓名'">胡鹏飞</td>
-                        <td data-title="'性别'">男</td>
-                        <td data-title="'年龄'">24</td>
-                        <td data-title="'年级'">大学</td>
-                        <td data-title="'操作'">
-                            <a class="" ng-click="">查询</a>
+                            <a class="" ng-click="">详细</a>
                         </td>
                     </tr>
                     <tfoot ng-if="!$data || $data.length<1">
                         <tr>
-                            <td colspan="6" style="text-align: center;"> 无数据 </td>
+                            <td colspan="5" style="text-align: center;"> 无数据 </td>
                         </tr>
                     </tfoot>
                 </table>

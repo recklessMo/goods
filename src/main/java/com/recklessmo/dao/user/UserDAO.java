@@ -14,8 +14,8 @@ public interface UserDAO {
     void addUser(User user);
     void updateUser(User user);
     void deleteUser(long id);
-    List<User> getAllUser(UserPage page);
-    int getCount(UserPage page);
+    List<User> getUserList(UserPage page);
+    int getUserListTotalCount(UserPage page);
     User getUser(long id);
     User getUserByUserName(@Param("userName") String userName);
 

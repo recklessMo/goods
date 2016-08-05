@@ -13,6 +13,7 @@ import java.util.List;
 public interface StudentDAO {
 
     List<StudentBaseInfo> getStudentBaseInfoList(StudentPage page);
+    int getStudentBaseInfoListTotalCount(StudentPage page);
     void insertStudentAddInfo(StudentAddInfo studentAddInfo);
 
 }

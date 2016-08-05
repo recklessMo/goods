@@ -39,21 +39,22 @@ public class Menu{
 
     public static Menu[] menuListTest = {
             //定义一级菜单
-            new Menu(null, "jwz", null, "icon-speedometer", null, 1),
+            new Menu(null, "教务站", null, "icon-speedometer", null, 1),
             new Menu(null, "cwz", null, null, null, 2),
-            new Menu(null, "glz", null, "icon-map", null, 4),
-            new Menu(null, "zsz", null, "icon-note", "app.navtree", 5),
+            new Menu(null, "管理站", null, "icon-map", null, 4),
+            new Menu(null, "库存", "ROLE_USER", "icon-note", "app.stock-worktable", 5),
 
             //定义二级菜单
-            new Menu("jwz", "xsgl", "ROLE_USER", "icon-map", "app.table-xeditable", 3),
-            new Menu("jwz", "xjgl", "ROLE_USER", "icon-map", "app.student-add", 4),
-            new Menu("jwz", "jsgl", "", null, "app.duty", 5),
+            new Menu("教务站", "学生管理", "ROLE_USER", "icon-map", "app.student-worktable", 3),
+            new Menu("教务站", "学生录入", "ROLE_USER", "icon-map", "app.student-add", 4),
+            new Menu("教务站", "jsgl", "", null, "app.duty", 5),
 
             new Menu("cwz", "jf", "", null, "app.finance", 1),
             new Menu("cwz", "jftj", "", null, "app.payStat", 2),
             new Menu("cwz", "bxtj", "", null, "app.expense", 3),
 
-            new Menu("glz", "zhgl", "ROLE_USER", "icon-grid", "app.account", 1),
+
+            new Menu("管理站", "帐号管理", "ROLE_USER", "icon-grid", "app.account", 1),
     };
 
 

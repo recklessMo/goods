@@ -22,7 +22,7 @@
         </if>
     </sql>
 
-    <select id="getAllUser" resultMap = "result">
+    <select id="getUserList" resultMap = "result">
         select
         <include refid="columns"/>
         from user
@@ -32,7 +32,7 @@
         </if>
     </select>
 
-    <select id="getCount" resultType="java.lang.Integer">
+    <select id="getUserListTotalCount" resultType="java.lang.Integer">
         select count(1) from user
         <include refid="byPageQuery"/>
     </select>

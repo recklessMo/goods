@@ -19,10 +19,10 @@ public class UserService {
 
 
     public List<User> getUserList(UserPage page){
-        return userDAO.getAllUser(page);
+        return userDAO.getUserList(page);
     }
 
-    public int getTotalCount(UserPage page){ return userDAO.getCount(page);}
+    public int getUserListTotalCount(UserPage page){ return userDAO.getUserListTotalCount(page);}
 
     public User getUser(long id){
         return userDAO.getUser(id);

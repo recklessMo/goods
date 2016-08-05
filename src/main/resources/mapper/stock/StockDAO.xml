@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.recklessmo.dao.stock.StockDAO">
+
+    <sql id = "goodscolumns">
+        id, name, cjmc, gg, current_count, in_user_id, status
+    </sql>
+
+    <sql id = "goodscolumnsWithoutid">
+        (name, cjmc, gg, current_count, in_time, in_user_id, status)
+    </sql>
+
+    <sql id="stockColumns">
+        id, stock_type, ghdw, user_id, user_name, cost
+    </sql>
+
+    <sql id="stockColumnsWithoutId">
+        stock_type, ghdw, user_id, user_name, cost
+    </sql>
+
+    <insert id="addGoods" parameterType="com.recklessmo.model.stock.Goods">
+        insert into goods
+        <include refid="goodscolumnsWithoutid"/>
+        values(#{name}, #{cjmc}, #{gg}, #{currentCount}, #{inTime}, #{inUserId}, #{status})
+    </insert>
+
+    <sql id="byGoodsPageQuery">
+        <if test="null != searchStr and '' != searchStr">
+            where name like "%"#{searchStr}"%" or cjmc like "%"#{searchStr}"%"
+        </if>
+    </sql>
+
+    <select id="listGoods" resultType="com.recklessmo.model.stock.Goods">
+      select
+      <include refid="goodscolumns"/>
+      from goods
+      <include refid="byGoodsPageQuery"/>
+      limit #{startIndex}, #{count}
+    </select>
+
+    <select id="listGoodsCount" resultType="java.lang.Integer">
+        select count(1) from goods
+        <include refid="byGoodsPageQuery"/>
+    </select>
+
+
+    <sql id="byStockPageQuery">
+        <if test="searchStr != '' and searchStr != null ">
+          where user_name like "%"#{searchStr}"%"
+        </if>
+    </sql>
+
+    <select id="listInStock" resultType="com.recklessmo.model.stock.Stock">
+        select
+        <include refid="stockColumns"/>
+        from stock
+        <include refid="byStockPageQuery"/>
+        limit #{startIndex}, #{count}
+    </select>
+
+    <select id="listInStockCount" resultType="java.lang.Integer">
+        select count(1) from stock
+        <include refid="byStockPageQuery"/>
+    </select>
+
+
+
+</mapper>

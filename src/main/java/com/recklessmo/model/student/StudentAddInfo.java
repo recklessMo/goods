@@ -1,5 +1,11 @@
 package com.recklessmo.model.student;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.support.odps.udf.JSONArrayAdd;
+
 import java.util.Date;
 import java.util.List;
 
@@ -26,10 +32,9 @@ public class StudentAddInfo {
     private String qq = "";
     private String wechat = "";
 
-
     //暂时先不以结构化来表示,似乎json串就够了
-    private List<Education> educations;
-    private List<Relation> relations;
+    private String educations;
+    private String relations;
 
 
     public long getSid() {
@@ -136,19 +141,46 @@ public class StudentAddInfo {
         this.wechat = wechat;
     }
 
-    public List<Education> getEducations() {
+    public String getEducations() {
         return educations;
     }
 
-    public void setEducations(List<Education> educations) {
+    public void setEducations(String educations) {
         this.educations = educations;
     }
 
-    public List<Relation> getRelations() {
+    public String getRelations() {
         return relations;
     }
 
-    public void setRelations(List<Relation> relations) {
+    public void setRelations(String relations) {
         this.relations = relations;
     }
+
+
+    /**
+     * JSON FIELD 会根据name字段来找到set方法,然后根据set方法的参数去读取对应的string字段来进行解析?
+     * @return
+     */
+
+    @JSONField(name="educationList")
+    public JSONArray getEducationList() {
+        return JSON.parseArray(educations);
+    }
+
+    @JSONField(name="educationList")
+    public void setEducationList(JSONArray educations) {
+        this.educations = JSON.toJSONString(educations);
+    }
+
+    @JSONField(name="relationList")
+    public JSONArray getRelationList() {
+        return JSON.parseArray(educations);
+    }
+
+    @JSONField(name="relationList")
+    public void setRelationList(JSONArray relations) {
+        this.relations = JSON.toJSONString(relations);
+    }
+
 }

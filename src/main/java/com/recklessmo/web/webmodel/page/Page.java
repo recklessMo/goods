@@ -8,12 +8,20 @@ public class Page {
     private int page;
     private int count;
     private long orgId;
+    private String searchStr;
+
+    public String getSearchStr() {
+        return searchStr;
+    }
+
+    public void setSearchStr(String searchStr) {
+        this.searchStr = searchStr;
+    }
 
 
     public int getStartIndex(){
         return (page - 1) * count;
     }
-
 
     public long getOrgId() {
         return orgId;

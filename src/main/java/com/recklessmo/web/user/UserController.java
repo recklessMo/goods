@@ -34,7 +34,7 @@ public class UserController {
     @RequestMapping(value = "/list", method = {RequestMethod.POST, RequestMethod.GET})
     public JsonResponse list(@RequestBody UserPage page){
         List<User>  users = userService.getUserList(page);
-        int count = userService.getTotalCount(page);
+        int count = userService.getUserListTotalCount(page);
         return new JsonResponse(ResponseType.RESPONSE_OK, users, count);
     }
 

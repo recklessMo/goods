@@ -55,7 +55,7 @@
     'use strict';
 
     angular
-        .module('app.charts', []);
+        .module('app.colors', []);
 })();
 (function() {
     'use strict';
@@ -83,7 +83,7 @@
     'use strict';
 
     angular
-        .module('app.colors', []);
+        .module('app.charts', []);
 })();
 (function() {
     'use strict';
@@ -113,13 +113,13 @@
     'use strict';
 
     angular
-        .module('app.forms', []);
+        .module('app.icons', []);
 })();
 (function() {
     'use strict';
 
     angular
-        .module('app.icons', []);
+        .module('app.forms', []);
 })();
 (function() {
     'use strict';
@@ -131,25 +131,25 @@
     'use strict';
 
     angular
-        .module('app.loadingbar', []);
-})();
-(function() {
-    'use strict';
-
-    angular
         .module('app.locale', []);
 })();
 (function() {
     'use strict';
 
     angular
-        .module('app.maps', []);
+        .module('app.mailbox', []);
 })();
 (function() {
     'use strict';
 
     angular
-        .module('app.mailbox', []);
+        .module('app.loadingbar', []);
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('app.maps', []);
 })();
 (function() {
     'use strict';
@@ -179,14 +179,6 @@
     'use strict';
 
     angular
-        .module('app.preloader', []);
-})();
-
-
-(function() {
-    'use strict';
-
-    angular
         .module('app.routes', [
             'app.lazyload'
         ]);
@@ -195,13 +187,21 @@
     'use strict';
 
     angular
-        .module('app.settings', []);
+        .module('app.preloader', []);
 })();
+
+
 (function() {
     'use strict';
 
     angular
         .module('app.sidebar', []);
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('app.settings', []);
 })();
 (function() {
     'use strict';
@@ -777,6 +777,170 @@
         }
     }
 })();
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.colors')
+        .constant('APP_COLORS', {
+          'primary':                '#5d9cec',
+          'success':                '#27c24c',
+          'info':                   '#23b7e5',
+          'warning':                '#ff902b',
+          'danger':                 '#f05050',
+          'inverse':                '#131e26',
+          'green':                  '#37bc9b',
+          'pink':                   '#f532e5',
+          'purple':                 '#7266ba',
+          'dark':                   '#3a3f51',
+          'yellow':                 '#fad732',
+          'gray-darker':            '#232735',
+          'gray-dark':              '#3a3f51',
+          'gray':                   '#dde6e9',
+          'gray-light':             '#e4eaec',
+          'gray-lighter':           '#edf1f2'
+        })
+        ;
+})();
+/**=========================================================
+ * Module: colors.js
+ * Services to retrieve global colors
+ =========================================================*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.colors')
+        .service('Colors', Colors);
+
+    Colors.$inject = ['APP_COLORS'];
+    function Colors(APP_COLORS) {
+        this.byName = byName;
+
+        ////////////////
+
+        function byName(name) {
+          return (APP_COLORS[name] || '#fff');
+        }
+    }
+
+})();
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.core')
+        .config(coreConfig);
+
+    coreConfig.$inject = ['$controllerProvider', '$compileProvider', '$filterProvider', '$provide', '$animateProvider'];
+    function coreConfig($controllerProvider, $compileProvider, $filterProvider, $provide, $animateProvider){
+
+      var core = angular.module('app.core');
+      // registering components after bootstrap
+      core.controller = $controllerProvider.register;
+      core.directive  = $compileProvider.directive;
+      core.filter     = $filterProvider.register;
+      core.factory    = $provide.factory;
+      core.service    = $provide.service;
+      core.constant   = $provide.constant;
+      core.value      = $provide.value;
+
+      // Disables animation on items with class .ng-no-animation
+      $animateProvider.classNameFilter(/^((?!(ng-no-animation)).)*$/);
+
+    }
+
+})();
+/**=========================================================
+ * Module: constants.js
+ * Define constants to inject across the application
+ =========================================================*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.core')
+        .constant('APP_MEDIAQUERY', {
+          'desktopLG':             1200,
+          'desktop':                992,
+          'tablet':                 768,
+          'mobile':                 480
+        })
+      ;
+
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('app.core')
+        .run(appRun);
+
+    appRun.$inject = ['$rootScope', '$state', '$stateParams',  '$window', '$templateCache', 'Colors'];
+    
+    function appRun($rootScope, $state, $stateParams, $window, $templateCache, Colors) {
+      
+      // Set reference to access them from any scope
+      $rootScope.$state = $state;
+      $rootScope.$stateParams = $stateParams;
+      $rootScope.$storage = $window.localStorage;
+
+      // Uncomment this to disable template cache
+      /*$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+          if (typeof(toState) !== 'undefined'){
+            $templateCache.remove(toState.templateUrl);
+          }
+      });*/
+
+      // Allows to use branding color with interpolation
+      // {{ colorByName('primary') }}
+      $rootScope.colorByName = Colors.byName;
+
+      // cancel click event easily
+      $rootScope.cancel = function($event) {
+        $event.stopPropagation();
+      };
+
+      // Hooks Example
+      // ----------------------------------- 
+
+      // Hook not found
+      $rootScope.$on('$stateNotFound',
+        function(event, unfoundState/*, fromState, fromParams*/) {
+            console.log(unfoundState.to); // "lazy.state"
+            console.log(unfoundState.toParams); // {a:1, b:2}
+            console.log(unfoundState.options); // {inherit:false} + default options
+        });
+      // Hook error
+      $rootScope.$on('$stateChangeError',
+        function(event, toState, toParams, fromState, fromParams, error){
+          console.log(error);
+        });
+      // Hook success
+      $rootScope.$on('$stateChangeSuccess',
+        function(/*event, toState, toParams, fromState, fromParams*/) {
+          // display new view from top
+          $window.scrollTo(0, 0);
+          // Save the route title
+          $rootScope.currTitle = $state.current.title;
+        });
+
+      // Load a title dynamically
+      $rootScope.currTitle = $state.current.title;
+      $rootScope.pageTitle = function() {
+        var title = $rootScope.app.name + ' - ' + ($rootScope.currTitle || $rootScope.app.description);
+        document.title = title;
+        return title;
+      };      
+
+    }
+
+})();
+
 
 /**=========================================================
  * Module: chartist.js
@@ -2417,170 +2581,6 @@
 
     }
     
-
-})();
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.core')
-        .config(coreConfig);
-
-    coreConfig.$inject = ['$controllerProvider', '$compileProvider', '$filterProvider', '$provide', '$animateProvider'];
-    function coreConfig($controllerProvider, $compileProvider, $filterProvider, $provide, $animateProvider){
-
-      var core = angular.module('app.core');
-      // registering components after bootstrap
-      core.controller = $controllerProvider.register;
-      core.directive  = $compileProvider.directive;
-      core.filter     = $filterProvider.register;
-      core.factory    = $provide.factory;
-      core.service    = $provide.service;
-      core.constant   = $provide.constant;
-      core.value      = $provide.value;
-
-      // Disables animation on items with class .ng-no-animation
-      $animateProvider.classNameFilter(/^((?!(ng-no-animation)).)*$/);
-
-    }
-
-})();
-/**=========================================================
- * Module: constants.js
- * Define constants to inject across the application
- =========================================================*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.core')
-        .constant('APP_MEDIAQUERY', {
-          'desktopLG':             1200,
-          'desktop':                992,
-          'tablet':                 768,
-          'mobile':                 480
-        })
-      ;
-
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('app.core')
-        .run(appRun);
-
-    appRun.$inject = ['$rootScope', '$state', '$stateParams',  '$window', '$templateCache', 'Colors'];
-    
-    function appRun($rootScope, $state, $stateParams, $window, $templateCache, Colors) {
-      
-      // Set reference to access them from any scope
-      $rootScope.$state = $state;
-      $rootScope.$stateParams = $stateParams;
-      $rootScope.$storage = $window.localStorage;
-
-      // Uncomment this to disable template cache
-      /*$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
-          if (typeof(toState) !== 'undefined'){
-            $templateCache.remove(toState.templateUrl);
-          }
-      });*/
-
-      // Allows to use branding color with interpolation
-      // {{ colorByName('primary') }}
-      $rootScope.colorByName = Colors.byName;
-
-      // cancel click event easily
-      $rootScope.cancel = function($event) {
-        $event.stopPropagation();
-      };
-
-      // Hooks Example
-      // ----------------------------------- 
-
-      // Hook not found
-      $rootScope.$on('$stateNotFound',
-        function(event, unfoundState/*, fromState, fromParams*/) {
-            console.log(unfoundState.to); // "lazy.state"
-            console.log(unfoundState.toParams); // {a:1, b:2}
-            console.log(unfoundState.options); // {inherit:false} + default options
-        });
-      // Hook error
-      $rootScope.$on('$stateChangeError',
-        function(event, toState, toParams, fromState, fromParams, error){
-          console.log(error);
-        });
-      // Hook success
-      $rootScope.$on('$stateChangeSuccess',
-        function(/*event, toState, toParams, fromState, fromParams*/) {
-          // display new view from top
-          $window.scrollTo(0, 0);
-          // Save the route title
-          $rootScope.currTitle = $state.current.title;
-        });
-
-      // Load a title dynamically
-      $rootScope.currTitle = $state.current.title;
-      $rootScope.pageTitle = function() {
-        var title = $rootScope.app.name + ' - ' + ($rootScope.currTitle || $rootScope.app.description);
-        document.title = title;
-        return title;
-      };      
-
-    }
-
-})();
-
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.colors')
-        .constant('APP_COLORS', {
-          'primary':                '#5d9cec',
-          'success':                '#27c24c',
-          'info':                   '#23b7e5',
-          'warning':                '#ff902b',
-          'danger':                 '#f05050',
-          'inverse':                '#131e26',
-          'green':                  '#37bc9b',
-          'pink':                   '#f532e5',
-          'purple':                 '#7266ba',
-          'dark':                   '#3a3f51',
-          'yellow':                 '#fad732',
-          'gray-darker':            '#232735',
-          'gray-dark':              '#3a3f51',
-          'gray':                   '#dde6e9',
-          'gray-light':             '#e4eaec',
-          'gray-lighter':           '#edf1f2'
-        })
-        ;
-})();
-/**=========================================================
- * Module: colors.js
- * Services to retrieve global colors
- =========================================================*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.colors')
-        .service('Colors', Colors);
-
-    Colors.$inject = ['APP_COLORS'];
-    function Colors(APP_COLORS) {
-        this.byName = byName;
-
-        ////////////////
-
-        function byName(name) {
-          return (APP_COLORS[name] || '#fff');
-        }
-    }
 
 })();
 
@@ -4542,6 +4542,39 @@
 
 })();
 
+/**=========================================================
+ * Module: skycons.js
+ * Include any animated weather icon from Skycons
+ =========================================================*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.icons')
+        .directive('skycon', skycon);
+
+    function skycon () {
+
+        var directive = {
+            link: link,
+            restrict: 'A'
+        };
+        return directive;
+
+        function link(scope, element, attrs) {
+          var skycons = new Skycons({'color': (attrs.color || 'white')});
+
+          element.html('<canvas width="' + attrs.width + '" height="' + attrs.height + '"></canvas>');
+
+          skycons.add(element.children()[0], attrs.skycon);
+
+          skycons.play();
+        }
+    }
+
+})();
+
 (function() {
     'use strict';
 
@@ -5534,39 +5567,6 @@
 
 })();
 
-/**=========================================================
- * Module: skycons.js
- * Include any animated weather icon from Skycons
- =========================================================*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.icons')
-        .directive('skycon', skycon);
-
-    function skycon () {
-
-        var directive = {
-            link: link,
-            restrict: 'A'
-        };
-        return directive;
-
-        function link(scope, element, attrs) {
-          var skycons = new Skycons({'color': (attrs.color || 'white')});
-
-          element.html('<canvas width="' + attrs.width + '" height="' + attrs.height + '"></canvas>');
-
-          skycons.add(element.children()[0], attrs.skycon);
-
-          skycons.play();
-        }
-    }
-
-})();
-
 (function() {
     'use strict';
 
@@ -5746,50 +5746,6 @@
     'use strict';
 
     angular
-        .module('app.loadingbar')
-        .config(loadingbarConfig)
-        ;
-    loadingbarConfig.$inject = ['cfpLoadingBarProvider'];
-    function loadingbarConfig(cfpLoadingBarProvider){
-      cfpLoadingBarProvider.includeBar = true;
-      cfpLoadingBarProvider.includeSpinner = false;
-      cfpLoadingBarProvider.latencyThreshold = 500;
-      cfpLoadingBarProvider.parentSelector = '.wrapper > section';
-    }
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('app.loadingbar')
-        .run(loadingbarRun)
-        ;
-    loadingbarRun.$inject = ['$rootScope', '$timeout', 'cfpLoadingBar'];
-    function loadingbarRun($rootScope, $timeout, cfpLoadingBar){
-
-      // Loading bar transition
-      // ----------------------------------- 
-      var thBar;
-      $rootScope.$on('$stateChangeStart', function() {
-          if($('.wrapper > section').length) // check if bar container exists
-            thBar = $timeout(function() {
-              cfpLoadingBar.start();
-            }, 0); // sets a latency Threshold
-      });
-      $rootScope.$on('$stateChangeSuccess', function(event) {
-          event.targetScope.$watch('$viewContentLoaded', function () {
-            $timeout.cancel(thBar);
-            cfpLoadingBar.complete();
-          });
-      });
-
-    }
-
-})();
-(function() {
-    'use strict';
-
-    angular
         .module('app.locale')
         .config(localeConfig)
         ;
@@ -5839,6 +5795,188 @@
     }
 })();
 
+/**=========================================================
+ * Module: demo-pagination.js
+ * Provides a simple demo for pagination
+ =========================================================*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.mailbox')
+        .controller('MailboxController', MailboxController);
+
+    function MailboxController() {
+        var vm = this;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+          vm.folders = [
+            {name: 'Inbox',   folder: 'inbox',   alert: 42, icon: 'fa-inbox' },
+            {name: 'Starred', folder: 'starred', alert: 10, icon: 'fa-star' },
+            {name: 'Sent',    folder: 'sent',    alert: 0,  icon: 'fa-paper-plane-o' },
+            {name: 'Draft',   folder: 'draft',   alert: 5,  icon: 'fa-edit' },
+            {name: 'Trash',   folder: 'trash',   alert: 0,  icon: 'fa-trash'}
+          ];
+
+          vm.labels = [
+            {name: 'Red',     color: 'danger'},
+            {name: 'Pink',    color: 'pink'},
+            {name: 'Blue',    color: 'info'},
+            {name: 'Yellow',  color: 'warning'}
+          ];
+
+          vm.mail = {
+            cc: false,
+            bcc: false
+          };
+          // Mailbox editr initial content
+          vm.content = '<p>Type something..</p>';
+        }
+    }
+})();
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.mailbox')
+        .controller('MailFolderController', MailFolderController);
+
+    MailFolderController.$inject = ['mails', '$stateParams'];
+    function MailFolderController(mails, $stateParams) {
+        var vm = this;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+          
+          vm.folder = {};
+          // no filter for inbox
+          vm.folder.folder = $stateParams.folder === 'inbox' ? '' : $stateParams.folder;
+
+          mails.all().then(function(mails){
+            vm.mails = mails;
+          });
+        }
+    }
+})();
+
+// A RESTful factory for retrieving mails from json file
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.mailbox')
+        .factory('mails', mails);
+
+    mails.$inject = ['$http'];
+    function mails($http) {
+        var service = {
+            all: all,
+            get: get
+        };
+        return service;
+
+        ////////////////
+        
+        function readMails() {
+          var path = 'server/mails.json';
+          return $http.get(path).then(function (resp) {
+            return resp.data.mails;
+          });
+        }
+
+        function all() {
+          return readMails();
+        }
+
+        function get(id) {
+          return readMails().then(function(mails){
+            for (var i = 0; i < mails.length; i++) {
+              if (+mails[i].id === +id) return mails[i];
+            }
+            return null;
+          });
+        }
+    }
+})();
+
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.mailbox')
+        .controller('MailViewController', MailViewController);
+
+    MailViewController.$inject = ['mails', '$stateParams'];
+    function MailViewController(mails, $stateParams) {
+        var vm = this;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+          mails.get($stateParams.mid).then(function(mail){
+            vm.mail = mail;
+          });
+        }
+    }
+})();
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.loadingbar')
+        .config(loadingbarConfig)
+        ;
+    loadingbarConfig.$inject = ['cfpLoadingBarProvider'];
+    function loadingbarConfig(cfpLoadingBarProvider){
+      cfpLoadingBarProvider.includeBar = true;
+      cfpLoadingBarProvider.includeSpinner = false;
+      cfpLoadingBarProvider.latencyThreshold = 500;
+      cfpLoadingBarProvider.parentSelector = '.wrapper > section';
+    }
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('app.loadingbar')
+        .run(loadingbarRun)
+        ;
+    loadingbarRun.$inject = ['$rootScope', '$timeout', 'cfpLoadingBar'];
+    function loadingbarRun($rootScope, $timeout, cfpLoadingBar){
+
+      // Loading bar transition
+      // ----------------------------------- 
+      var thBar;
+      $rootScope.$on('$stateChangeStart', function() {
+          if($('.wrapper > section').length) // check if bar container exists
+            thBar = $timeout(function() {
+              cfpLoadingBar.start();
+            }, 0); // sets a latency Threshold
+      });
+      $rootScope.$on('$stateChangeSuccess', function(event) {
+          event.targetScope.$watch('$viewContentLoaded', function () {
+            $timeout.cancel(thBar);
+            cfpLoadingBar.complete();
+          });
+      });
+
+    }
+
+})();
 /**=========================================================
  * Module: modals.js
  * Provides a simple way to implement bootstrap modals from templates
@@ -6171,144 +6309,6 @@
             { latLng:[7.35,134.46],   name:'Palau'                 },
             { latLng:[42.5,1.51],     name:'Andorra'               }
           ];
-        }
-    }
-})();
-
-/**=========================================================
- * Module: demo-pagination.js
- * Provides a simple demo for pagination
- =========================================================*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.mailbox')
-        .controller('MailboxController', MailboxController);
-
-    function MailboxController() {
-        var vm = this;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-          vm.folders = [
-            {name: 'Inbox',   folder: 'inbox',   alert: 42, icon: 'fa-inbox' },
-            {name: 'Starred', folder: 'starred', alert: 10, icon: 'fa-star' },
-            {name: 'Sent',    folder: 'sent',    alert: 0,  icon: 'fa-paper-plane-o' },
-            {name: 'Draft',   folder: 'draft',   alert: 5,  icon: 'fa-edit' },
-            {name: 'Trash',   folder: 'trash',   alert: 0,  icon: 'fa-trash'}
-          ];
-
-          vm.labels = [
-            {name: 'Red',     color: 'danger'},
-            {name: 'Pink',    color: 'pink'},
-            {name: 'Blue',    color: 'info'},
-            {name: 'Yellow',  color: 'warning'}
-          ];
-
-          vm.mail = {
-            cc: false,
-            bcc: false
-          };
-          // Mailbox editr initial content
-          vm.content = '<p>Type something..</p>';
-        }
-    }
-})();
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.mailbox')
-        .controller('MailFolderController', MailFolderController);
-
-    MailFolderController.$inject = ['mails', '$stateParams'];
-    function MailFolderController(mails, $stateParams) {
-        var vm = this;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-          
-          vm.folder = {};
-          // no filter for inbox
-          vm.folder.folder = $stateParams.folder === 'inbox' ? '' : $stateParams.folder;
-
-          mails.all().then(function(mails){
-            vm.mails = mails;
-          });
-        }
-    }
-})();
-
-// A RESTful factory for retrieving mails from json file
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.mailbox')
-        .factory('mails', mails);
-
-    mails.$inject = ['$http'];
-    function mails($http) {
-        var service = {
-            all: all,
-            get: get
-        };
-        return service;
-
-        ////////////////
-        
-        function readMails() {
-          var path = 'server/mails.json';
-          return $http.get(path).then(function (resp) {
-            return resp.data.mails;
-          });
-        }
-
-        function all() {
-          return readMails();
-        }
-
-        function get(id) {
-          return readMails().then(function(mails){
-            for (var i = 0; i < mails.length; i++) {
-              if (+mails[i].id === +id) return mails[i];
-            }
-            return null;
-          });
-        }
-    }
-})();
-
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.mailbox')
-        .controller('MailViewController', MailViewController);
-
-    MailViewController.$inject = ['mails', '$stateParams'];
-    function MailViewController(mails, $stateParams) {
-        var vm = this;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-          mails.get($stateParams.mid).then(function(mail){
-            vm.mail = mail;
-          });
         }
     }
 })();
@@ -7206,99 +7206,6 @@
 
 })();
  
-(function() {
-    'use strict';
-
-    angular
-        .module('app.preloader')
-        .directive('preloader', preloader);
-
-    preloader.$inject = ['$animate', '$timeout', '$q'];
-    function preloader ($animate, $timeout, $q) {
-
-        var directive = {
-            restrict: 'EAC',
-            template: 
-              '<div class="preloader-progress">' +
-                  '<div class="preloader-progress-bar" ' +
-                       'ng-style="{width: loadCounter + \'%\'}"></div>' +
-              '</div>'
-            ,
-            link: link
-        };
-        return directive;
-
-        ///////
-
-        function link(scope, el) {
-
-          scope.loadCounter = 0;
-
-          var counter  = 0,
-              timeout;
-
-          // disables scrollbar
-          angular.element('body').css('overflow', 'hidden');
-          // ensure class is present for styling
-          el.addClass('preloader');
-
-          appReady().then(endCounter);
-
-          timeout = $timeout(startCounter);
-
-          ///////
-
-          function startCounter() {
-
-            var remaining = 100 - counter;
-            counter = counter + (0.015 * Math.pow(1 - Math.sqrt(remaining), 2));
-
-            scope.loadCounter = parseInt(counter, 10);
-
-            timeout = $timeout(startCounter, 20);
-          }
-
-          function endCounter() {
-
-            $timeout.cancel(timeout);
-
-            scope.loadCounter = 100;
-
-            $timeout(function(){
-              // animate preloader hiding
-              $animate.addClass(el, 'preloader-hidden');
-              // retore scrollbar
-              angular.element('body').css('overflow', '');
-            }, 300);
-          }
-
-          function appReady() {
-            var deferred = $q.defer();
-            var viewsLoaded = 0;
-            // if this doesn't sync with the real app ready
-            // a custom event must be used instead
-            var off = scope.$on('$viewContentLoaded', function () {
-              viewsLoaded ++;
-              // we know there are at least two views to be loaded 
-              // before the app is ready (1-index.html 2-app*.html)
-              if ( viewsLoaded === 2) {
-                // with resolve this fires only once
-                $timeout(function(){
-                  deferred.resolve();
-                }, 3000);
-
-                off();
-              }
-
-            });
-
-            return deferred.promise;
-          }
-
-        } //link
-    }
-
-})();
 /**=========================================================
  * Module: helpers.js
  * Provides helper functions for routes definition
@@ -7430,7 +7337,12 @@
       .state('app.student-worktable', {
           url: '/student-worktable',
           title: '学生管理',
-          templateUrl: helper.basepath('table-xeditable.html')
+          templateUrl: helper.basepath('custom/student/student-worktable.html')
+      })
+      .state('app.stock-worktable', {
+         url: '/stock-worktable',
+         title: '库存',
+         templateUrl: helper.basepath('custom/stock/stock-worktable.html')
       })
       .state('app.student-add', {
             url: '/student-add',
@@ -7977,60 +7889,95 @@
     'use strict';
 
     angular
-        .module('app.settings')
-        .run(settingsRun);
+        .module('app.preloader')
+        .directive('preloader', preloader);
 
-    settingsRun.$inject = ['$rootScope', '$localStorage'];
+    preloader.$inject = ['$animate', '$timeout', '$q'];
+    function preloader ($animate, $timeout, $q) {
 
-    function settingsRun($rootScope, $localStorage){
+        var directive = {
+            restrict: 'EAC',
+            template: 
+              '<div class="preloader-progress">' +
+                  '<div class="preloader-progress-bar" ' +
+                       'ng-style="{width: loadCounter + \'%\'}"></div>' +
+              '</div>'
+            ,
+            link: link
+        };
+        return directive;
 
-      // Global Settings
-      // -----------------------------------
-      $rootScope.app = {
-        name: 'Angle',
-        description: 'Angular Bootstrap Admin Template',
-        year: ((new Date()).getFullYear()),
-        layout: {
-          isFixed: true,
-          isCollapsed: false,
-          isBoxed: false,
-          isRTL: false,
-          horizontal: false,
-          isFloat: false,
-          asideHover: false,
-          theme: null,
-          asideScrollbar: false
-        },
-        useFullLayout: false,
-        hiddenFooter: false,
-        offsidebarOpen: false,
-        asideToggled: false,
-        viewAnimation: 'ng-fadeInUp'
-      };
+        ///////
 
-      // Setup the layout mode
-      $rootScope.app.layout.horizontal = ( $rootScope.$stateParams.layout === 'app-h') ;
+        function link(scope, el) {
 
-      // Restore layout settings
-      if( angular.isDefined($localStorage.layout) )
-        $rootScope.app.layout = $localStorage.layout;
-      else
-        $localStorage.layout = $rootScope.app.layout;
+          scope.loadCounter = 0;
 
-      $rootScope.$watch('app.layout', function () {
-        $localStorage.layout = $rootScope.app.layout;
-      }, true);
+          var counter  = 0,
+              timeout;
 
-      // Close submenu when sidebar change from collapsed to normal
-      $rootScope.$watch('app.layout.isCollapsed', function(newValue) {
-        if( newValue === false )
-          $rootScope.$broadcast('closeSidebarMenu');
-      });
+          // disables scrollbar
+          angular.element('body').css('overflow', 'hidden');
+          // ensure class is present for styling
+          el.addClass('preloader');
 
+          appReady().then(endCounter);
+
+          timeout = $timeout(startCounter);
+
+          ///////
+
+          function startCounter() {
+
+            var remaining = 100 - counter;
+            counter = counter + (0.015 * Math.pow(1 - Math.sqrt(remaining), 2));
+
+            scope.loadCounter = parseInt(counter, 10);
+
+            timeout = $timeout(startCounter, 20);
+          }
+
+          function endCounter() {
+
+            $timeout.cancel(timeout);
+
+            scope.loadCounter = 100;
+
+            $timeout(function(){
+              // animate preloader hiding
+              $animate.addClass(el, 'preloader-hidden');
+              // retore scrollbar
+              angular.element('body').css('overflow', '');
+            }, 300);
+          }
+
+          function appReady() {
+            var deferred = $q.defer();
+            var viewsLoaded = 0;
+            // if this doesn't sync with the real app ready
+            // a custom event must be used instead
+            var off = scope.$on('$viewContentLoaded', function () {
+              viewsLoaded ++;
+              // we know there are at least two views to be loaded 
+              // before the app is ready (1-index.html 2-app*.html)
+              if ( viewsLoaded === 2) {
+                // with resolve this fires only once
+                $timeout(function(){
+                  deferred.resolve();
+                }, 3000);
+
+                off();
+              }
+
+            });
+
+            return deferred.promise;
+          }
+
+        } //link
     }
 
 })();
-
 /**=========================================================
  * Module: sidebar-menu.js
  * Handle sidebar collapsible elements
@@ -8386,6 +8333,64 @@
           $scope.$on('$destroy', detach);
         }
     }
+})();
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.settings')
+        .run(settingsRun);
+
+    settingsRun.$inject = ['$rootScope', '$localStorage'];
+
+    function settingsRun($rootScope, $localStorage){
+
+      // Global Settings
+      // -----------------------------------
+      $rootScope.app = {
+        name: 'Angle',
+        description: 'Angular Bootstrap Admin Template',
+        year: ((new Date()).getFullYear()),
+        layout: {
+          isFixed: true,
+          isCollapsed: false,
+          isBoxed: false,
+          isRTL: false,
+          horizontal: false,
+          isFloat: false,
+          asideHover: false,
+          theme: null,
+          asideScrollbar: false
+        },
+        useFullLayout: false,
+        hiddenFooter: false,
+        offsidebarOpen: false,
+        asideToggled: false,
+        viewAnimation: 'ng-fadeInUp'
+      };
+
+      // Setup the layout mode
+      $rootScope.app.layout.horizontal = ( $rootScope.$stateParams.layout === 'app-h') ;
+
+      // Restore layout settings
+      if( angular.isDefined($localStorage.layout) )
+        $rootScope.app.layout = $localStorage.layout;
+      else
+        $localStorage.layout = $rootScope.app.layout;
+
+      $rootScope.$watch('app.layout', function () {
+        $localStorage.layout = $rootScope.app.layout;
+      }, true);
+
+      // Close submenu when sidebar change from collapsed to normal
+      $rootScope.$watch('app.layout.isCollapsed', function(newValue) {
+        if( newValue === false )
+          $rootScope.$broadcast('closeSidebarMenu');
+      });
+
+    }
+
 })();
 
 /**=========================================================
@@ -10792,6 +10797,175 @@ angular.module('blockUI').run(['$templateCache', function($templateCache){
 //# sourceMappingURL=angular-block-ui.js.map
 (function () {
     'use strict';
+
+    angular
+        .module('custom')
+        .service('AccountService', AccountService);
+
+    AccountService.$inject = ['$http'];
+    function AccountService($http) {
+
+        this.loadUsers = function(obj) {
+            return $http({
+                method: "POST",
+                url : "/v1/user/list",
+                data:obj,
+                timeout: 5000
+            });
+        }
+
+        this.loadUser = function(id){
+            return $http({
+                method:"POST",
+                url: "/v1/user/get",
+                data:id,
+                timeout:5000
+            });
+        }
+
+        this.deleteUser = function(id){
+            return $http({
+                method: "POST",
+                url : "v1/user/delete",
+                data:id,
+                timeout:5000
+            });
+        }
+
+        this.addUser = function(user){
+            return $http({
+                method: "POST",
+                url : "/v1/user/add",
+                data: user,
+                timeout:5000
+            });
+        }
+
+        this.updateUser = function(user){
+            return $http({
+                method: "POST",
+                url: "/v1/user/update",
+                data:user,
+                timeout:5000
+            });
+        }
+
+    }
+})
+();
+
+(function () {
+    'use strict';
+
+    angular
+        .module('custom')
+        .service('StockService', StockService);
+
+    StockService.$inject = ['$http'];
+    function StockService($http) {
+
+        this.listGoods = listGoods;
+        this.addGoods = addGoods;
+        this.listInStock = listInStock;
+        this.addInStock = addInStock;
+        this.listOutStock = listOutStock;
+        this.addOutStock = addOutStock;
+
+        function listGoods(data){
+            return $http({
+                method: "POST",
+                data: data,
+                url: "/v1/stock/goods/list",
+                timeout: 5000
+            });
+        }
+
+        function addGoods(data){
+            return $http({
+                method: "POST",
+                data: data,
+                url: "/v1/stock/goods/add",
+                timeout: 5000
+            })
+        }
+
+        function listInStock(data){
+            return $http({
+                method : "POST",
+                data: data,
+                url: "/v1/stock/in/list",
+                timeout: 5000
+            })
+        }
+
+        function addInStock(data){
+            return $http({
+                method : "POST",
+                data: data,
+                url: "/v1/stock/in/add",
+                timeout: 5000
+            })
+        }
+
+        function listOutStock(data){
+            return $http({
+                method : "POST",
+                data: data,
+                url: "/v1/stock/out/list",
+                timeout: 5000
+            })
+        }
+
+        function addOutStock(data){
+            return $http({
+                method : "POST",
+                data: data,
+                url: "/v1/stock/out/add",
+                timeout: 5000
+            })
+        }
+
+    }
+})
+();
+
+(function () {
+    'use strict';
+
+    angular
+        .module('custom')
+        .service('StudentService', StudentService);
+
+    StudentService.$inject = ['$http'];
+    function StudentService($http) {
+
+        this.searchStudent = searchStudent;
+        this.addStudent = addStudent;
+
+        function searchStudent(data) {
+            return $http({
+                method: "POST",
+                url : "/v1/student/list",
+                data:data,
+                timeout: 5000
+            });
+        }
+
+        function addStudent(data) {
+            return $http({
+                    method: "POST",
+                    url: "/v1/student/add",
+                    data: data,
+                    timeout: 5000
+            });
+        }
+
+    }
+})
+();
+
+(function () {
+    'use strict';
     angular
         .module('custom')
         .controller('StudentAddController', StudentAddController);
@@ -10803,8 +10977,8 @@ angular.module('blockUI').run(['$templateCache', function($templateCache){
 
         $scope.init = function(){
             $scope.student = {};
-            $scope.student.educations = [];
-            $scope.student.relations = [];
+            $scope.student.educationList = [];
+            $scope.student.relationList = [];
         }
 
         activate();
@@ -10815,7 +10989,7 @@ angular.module('blockUI').run(['$templateCache', function($templateCache){
 
             // remove
             $scope.removeEducation= function(index) {
-                $scope.student.educations.splice(index, 1);
+                $scope.student.educationList.splice(index, 1);
             };
 
             $scope.addEducation = function() {
@@ -10826,12 +11000,12 @@ angular.module('blockUI').run(['$templateCache', function($templateCache){
                     prove: '',
                     proveNumber: '',
                 };
-                $scope.student.educations.push($scope.insertedEducation);
+                $scope.student.educationList.push($scope.insertedEducation);
             };
 
             // remove
             $scope.removeRelation= function(index) {
-                $scope.student.relations.splice(index, 1);
+                $scope.student.relationList.splice(index, 1);
             };
 
             $scope.addRelation = function() {
@@ -10842,7 +11016,7 @@ angular.module('blockUI').run(['$templateCache', function($templateCache){
                     contactAddress: '',
                     contactNumber: '',
                 };
-                $scope.student.relations.push($scope.insertedRelation);
+                $scope.student.relationList.push($scope.insertedRelation);
             };
 
 
@@ -10890,9 +11064,9 @@ angular.module('blockUI').run(['$templateCache', function($templateCache){
     angular
         .module('custom')
         .controller('StudentInfoController', StudentInfoController);
-    StudentInfoController.$inject = ['$scope','StudentWorktableService', 'SweetAlert', 'NgTableParams', 'blockUI', 'Notify'];
+    StudentInfoController.$inject = ['$scope','StudentService', 'SweetAlert', 'NgTableParams', 'blockUI', 'Notify'];
 
-    function StudentInfoController($scope, StudentWorktableService,SweetAlert, NgTableParams, blockUI, Notify) {
+    function StudentInfoController($scope, StudentService,SweetAlert, NgTableParams, blockUI, Notify) {
 
         $scope.tableParams = {
             page : 1,
@@ -11010,6 +11184,8 @@ angular.module('blockUI').run(['$templateCache', function($templateCache){
 
     function StudentWorktableController($scope, StudentService, SweetAlert, NgTableParams, blockUI, Notify) {
 
+        $scope.obj = {};
+
         //左边侧边栏的查询条件
         $scope.tableParams = {
             page : 1,
@@ -11025,19 +11201,18 @@ angular.module('blockUI').run(['$templateCache', function($templateCache){
         function initSelector(){
 
         }
-
         initSelector();
 
 
-
-
-        $scope.activate = function() {
-            $scope.userTableParams = new NgTableParams($scope.tableParams, {
+        $scope.search = function() {
+            $scope.studentTableParams = new NgTableParams($scope.tableParams, {
+                counts: [],
                 getData: function ($defer, params) {
                     blockUI.start();
-                    AccountService.loadUsers(params.parameters()).success(function (data) {
+                    StudentService.searchStudent(params.parameters()).success(function (data) {
                         if (data.status == 200) {
                             params.total(data.totalCount);
+                            $scope.obj.totalCount = data.totalCount;
                             console.log(data);
                             $defer.resolve(data.data);
                             blockUI.stop();
@@ -11050,179 +11225,200 @@ angular.module('blockUI').run(['$templateCache', function($templateCache){
             });
         }
 
-        $scope.activate();
-
-        //删除用户
-        $scope.delete = function(id){
-            SweetAlert.swal({
-                title: '确认删除?',
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#DD6B55',
-                confirmButtonText: '是',
-                cancelButtonText: '否',
-                closeOnConfirm: true,
-                closeOnCancel: true
-            }, function(isConfirm){
-                if (isConfirm) {
-                    //这里可以进行调试,查看$scope,因为table会创建一个子scope
-                    //然后子scope里面就不能用this了,因为this就指向了子scope,
-                    //实际上在table的每一行里面的点击是调用了父scope的delete方法
-                    blockUI.start();
-                    AccountService.deleteUser(id).success(function () {
-                        Notify.alert("删除成功!", {status:"success", timeout: 3000});
-                        $scope.userTableParams.reload();
-                        blockUI.stop();
-                    }).error(function(){
-                        blockUI.stop();
-                        Notify.alert("网络有问题,请稍后重试!", {status:"success", timeout: 3000});
-                    });
-                }
-            });
-        }
-
-        //查看用户
-        $scope.show = function (userId){
-            var dialog= ngDialog.open({
-                template: 'app/views/custom/admin/account/edit-account.html',
-                controller: 'EditAccountController',
-                className: 'ngdialog-theme-default large-dialog',
-                data : {id:userId, type:0}
-            });
-            dialog.closePromise.then(function(data){
-                if(data.value != 'reload'){
-                    return;
-                }
-                $scope.userTableParams.reload();
-            });
-        };
-
-        //编辑用户
-        $scope.edit = function(userId) {
-            var dialog= ngDialog.open({
-                template: 'app/views/custom/admin/account/edit-account.html',
-                controller: 'EditAccountController',
-                className: 'ngdialog-theme-default large-dialog',
-                data : {id:userId, type:1}
-            });
-            dialog.closePromise.then(function(data){
-                if(data.value != 'reload'){
-                    return;
-                }
-                $scope.userTableParams.reload();
-            });
-        }
-
-        //添加用户
-        $scope.add = function(userId){
-            var dialog= ngDialog.open({
-                template: 'app/views/custom/admin/account/edit-account.html',
-                controller: 'EditAccountController',
-                className: 'ngdialog-theme-default large-dialog',
-                data : {id:userId, type:2}
-            })
-            dialog.closePromise.then(function(data){
-                if(data.value != 'reload'){
-                    return;
-                }
-                $scope.userTableParams.reload();
-            });
-        }
-
-
 
     }
 })();
-(function () {
-    'use strict';
+(function(){
 
-    angular
-        .module('custom')
-        .service('AccountService', AccountService);
+    angular.module("custom")
+        .controller("AddGoodsController", AddGoodsController);
 
-    AccountService.$inject = ['$http'];
-    function AccountService($http) {
+    AddGoodsController.$inject = ['$scope', 'StockService', 'SweetAlert', 'blockUI'];
 
-        this.loadUsers = function(obj) {
-            return $http({
-                method: "POST",
-                url : "/v1/user/list",
-                data:obj,
-                timeout: 5000
+    function AddGoodsController($scope, StockService, SweetAlert, blockUI){
+
+
+        var block = blockUI.instances.get("add-goods");
+
+        $scope.save = function(data){
+            if(!validate(data)){
+                SweetAlert.error("填写不完整!");
+                return;
+            }
+
+            block.start();
+            StockService.addGoods(data).success(function(data){
+                block.stop();
+                if(data.status == 200){
+                    SweetAlert.success("成功!");
+                    $scope.closeThisDialog("reload");
+                }
+            }).error(function(){
+                block.stop();
+                SweetAlert.error("网络出错,请稍后重试!");
             });
         }
 
-        this.loadUser = function(id){
-            return $http({
-                method:"POST",
-                url: "/v1/user/get",
-                data:id,
-                timeout:5000
+
+        //TODO 进行goods必填字段的校验,很重要,暂时不做.
+        function validate(goods){
+            return true;
+        }
+    }
+
+})();
+(function(){
+
+    angular.module("custom")
+        .controller("AddInStockController", AddInStockController);
+
+    AddInStockController.$inject = ['$scope', 'StockService', 'SweetAlert', 'blockUI'];
+
+    function AddInStockController($scope, StockService, SweetAlert, blockUI){
+
+        var block = blockUI.instances.get("add-in-stock");
+
+        $scope.save = function(data){
+            if(!validate(data)){
+                SweetAlert.error("填写不完整!");
+                return;
+            }
+
+            block.start();
+            StockService.addInStock(data).success(function(data){
+                block.stop();
+                if(data.status == 200){
+                    SweetAlert.success("添加成功!");
+                    $scope.closeThisDialog("reload");
+                }
+            }).error(function(){
+                block.stop();
+                SweetAlert.error("网络出错,请稍后重试!");
             });
         }
 
-        this.deleteUser = function(id){
-            return $http({
-                method: "POST",
-                url : "v1/user/delete",
-                data:id,
-                timeout:5000
-            });
+
+        //TODO 进行goods必填字段的校验,很重要,暂时不做.
+        function validate(goods){
+            return true;
+        }
+    }
+
+})();
+(function(){
+
+    angular.module("custom")
+        .controller("StockInListController", StockInListController);
+
+    StockInListController.$inject = ['$scope', 'StockService', 'NgTableParams', 'blockUI', 'SweetAlert', 'ngDialog'];
+
+    function StockInListController($scope, StockService, NgTableParams, blockUI, SweetAlert, ngDialog){
+
+        $scope.tableParams = {
+            searchStr: null,
+            page : 1,
+            count : 10
         }
 
-        this.addUser = function(user){
-            return $http({
-                method: "POST",
-                url : "/v1/user/add",
-                data: user,
-                timeout:5000
-            });
+        $scope.search = function(){
+            $scope.stockInTableParams = new NgTableParams($scope.tableParams, {
+                getData: function($defer, params){
+                    blockUI.start();
+                    StockService.listInStock(params.parameters()).success(function(data){
+                        if(data.status == 200){
+                            params.total(data.totalCount);
+                            $defer.resolve(data.data);
+                            console.log(data.data);
+                            blockUI.stop();
+                        }
+                    }).error(function(){
+                        SweetAlert.error("网络问题, 请稍后重试!");
+                        blockUI.stop();
+                    });
+                }
+            })
         }
 
-        this.updateUser = function(user){
-            return $http({
-                method: "POST",
-                url: "/v1/user/update",
-                data:user,
-                timeout:5000
+
+        $scope.addNewInStock = function(){
+            var dialog= ngDialog.open({
+                template: 'app/views/custom/stock/add-stock-in.html',
+                controller: 'AddInStockController',
+                className: 'ngdialog-theme-default custom-width-800',
+            });
+            dialog.closePromise.then(function(data){
+                if(data.value != 'reload'){
+                    return;
+                }
+                $scope.stockInTableParams.reload();
             });
         }
 
     }
-})
-();
 
-(function () {
-    'use strict';
+})();
+(function(){
 
-    angular
-        .module('custom')
-        .service('StudentService', StudentService);
+    angular.module("custom")
+        .controller("StockListController", StockListController);
 
-    StudentService.$inject = ['$http'];
-    function StudentService($http) {
+    StockListController.$inject = ['$scope', 'StockService', 'NgTableParams', 'blockUI', 'SweetAlert', 'ngDialog'];
 
-        this.searchStudent = searchStudent;
-        this.addStudent = addStudent;
+    function StockListController($scope, StockService, NgTableParams, blockUI, SweetAlert, ngDialog){
 
-        function searchStudent(data) {
-            return $http({
-                method: "POST",
-                url : "/v1/student/list",
-                data:data,
-                timeout: 5000
-            });
+        $scope.tableParams = {
+            searchStr: null,
+            page : 1,
+            count : 10
         }
 
-        function addStudent(data) {
-            return $http({
-                    method: "POST",
-                    url: "/v1/student/add",
-                    data: data,
-                    timeout: 5000
+
+        $scope.search = function(){
+            $scope.goodsTableParams = new NgTableParams($scope.tableParams, {
+                getData: function($defer, params){
+                    blockUI.start();
+                    StockService.listGoods(params.parameters()).success(function(data){
+                        if(data.status == 200){
+                            params.total(data.totalCount);
+                            $defer.resolve(data.data);
+                            console.log(data.data);
+                            blockUI.stop();
+                        }
+                    }).error(function(){
+                        SweetAlert.error("网络问题, 请稍后重试!");
+                        blockUI.stop();
+                    });
+                }
+            })
+        }
+
+
+        $scope.addNewGoods = function(){
+            var dialog= ngDialog.open({
+                template: 'app/views/custom/stock/add-goods.html',
+                controller: 'AddGoodsController',
+                className: 'ngdialog-theme-default custom-width-800',
+            });
+            dialog.closePromise.then(function(data){
+                if(data.value != 'reload'){
+                    return;
+                }
+                $scope.goodsTableParams.reload();
             });
         }
 
     }
-})
-();
+
+})();
+(function(){
+
+    angular.module("custom")
+        .controller("StockWorktableController", StockWorktableController);
+
+    StockWorktableController.$inject = ['$scope', 'StockService'];
+
+    function StockWorktableController($scope, StockService){
+
+    }
+
+})();

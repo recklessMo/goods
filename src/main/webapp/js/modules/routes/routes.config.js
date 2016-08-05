@@ -45,7 +45,12 @@
       .state('app.student-worktable', {
           url: '/student-worktable',
           title: '学生管理',
-          templateUrl: helper.basepath('table-xeditable.html')
+          templateUrl: helper.basepath('custom/student/student-worktable.html')
+      })
+      .state('app.stock-worktable', {
+         url: '/stock-worktable',
+         title: '库存',
+         templateUrl: helper.basepath('custom/stock/stock-worktable.html')
       })
       .state('app.student-add', {
             url: '/student-add',

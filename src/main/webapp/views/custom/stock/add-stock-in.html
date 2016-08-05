@@ -1,0 +1,62 @@
+<div block-ui="add-in-stock" class="container-fluid">
+
+    <div class="row">
+        <div class="col-md-12">
+            <h5 style="margin-top: 0;" ng-show="type == 2">
+                <span class="icon-user"/>
+                入库
+            </h5>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <label class="text-info">
+                <span>I 基本属性  (红色为必填)</span>
+            </label>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 30px;">
+        <div class="col-md-6">
+            <div class="input-group">
+                <span class="input-group-addon" style="color:red">名称</span>
+                <input ng-class="!stockIn.name?'field-dirty' : ''" type="text" class="form-control" ng-model="stockIn.name"/>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="input-group">
+                <span class="input-group-addon" style="color:red">类别</span>
+                <input ng-class="!goods.type?'field-dirty' : ''" type="text" class="form-control" ng-model="goods.type">
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-md-6">
+            <div class="input-group">
+                <span class="input-group-addon">厂家</span>
+                <input ng-class="!goods.cjmc?'field-dirty' : ''" type="text" class="form-control" ng-model="goods.cjmc">
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="input-group">
+                <span class="input-group-addon">规格</span>
+                <input ng-class="!goods.gg?'field-dirty' : ''" type="text" class="form-control" ng-model="goods.gg">
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row" style="text-align: center;margin-top:50px;">
+        <div class="col-md-12" style="text-align: center;">
+            <button data-style="expand-left" ladda="loading" class="btn btn-primary" ng-click="save(goods)" ng-if="type!=0">保存</button>
+            <button class="btn btn-primary" ng-click="closeThisDialog('cancel')">取消</button>
+        </div>
+    </div>
+
+</div>
+</div>
+

@@ -13023,4 +13023,8 @@ body.block-ui > .block-ui-container,
 .tab-full-content .tab-content {
   height: 100%;
   padding: 15px 5px 55px;
+  border-style: none;
+}
+.tab-full-content .tab-pane {
+  height: 100%;
 }
