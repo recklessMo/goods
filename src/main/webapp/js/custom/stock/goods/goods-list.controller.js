@@ -33,10 +33,12 @@
             })
         }
 
+        $scope.search();
+
 
         $scope.addNewGoods = function(){
             var dialog= ngDialog.open({
-                template: 'app/views/custom/stock/add-goods.html',
+                template: 'app/views/custom/stock/goods/add-goods.html',
                 controller: 'AddGoodsController',
                 className: 'ngdialog-theme-default custom-width-800',
             });
@@ -46,6 +48,21 @@
                 }
                 $scope.goodsTableParams.reload();
             });
+        }
+
+        $scope.openStockDetail = function(data){
+            var dialog = ngDialog.open({
+                template: 'app/views/custom/stock/goods/goods_detail.html',
+                controller: 'GoodsDetailController',
+                className: 'ngdialog-theme-default max-dialog',
+                data: {id : data}
+            });
+            dialog.closePromise.then(function(data){
+                if(data.value != 'reload'){
+                    return;
+                }
+                $scope.goodsTableParams.reload();
+            })
         }
 
     }

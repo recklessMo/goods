@@ -2,6 +2,7 @@ package com.recklessmo.web.stock;
 
 import com.recklessmo.model.stock.Goods;
 import com.recklessmo.model.stock.Stock;
+import com.recklessmo.model.stock.StockItem;
 import com.recklessmo.response.JsonResponse;
 import com.recklessmo.service.stock.StockService;
 import com.recklessmo.web.webmodel.page.GoodsPage;
@@ -48,12 +49,71 @@ public class StockController {
         return new JsonResponse(200, null, null);
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/goods/history/list", method = {RequestMethod.GET, RequestMethod.POST})
+    public JsonResponse listGoodsHistory(@RequestBody long goodsId){
+        List<StockItem> data = stockService.getStockItemsByGoodsId(goodsId);
+        return new JsonResponse(200, data, null);
+    }
 
+    /**
+     *
+     * 入库
+     *
+     * @param page
+     * @return
+     */
     @ResponseBody
     @RequestMapping(value = "/in/list", method = {RequestMethod.GET, RequestMethod.POST})
     public JsonResponse listInStock(@RequestBody StockPage page){
-        int count = stockService.listInStockCount(page);
-        List<Stock> data = stockService.listInStock(page);
+        int count = stockService.listStockCount(page);
+        List<Stock> data = stockService.listStock(page);
         return new JsonResponse(200, data, count);
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/in/add", method = {RequestMethod.GET, RequestMethod.POST})
+    public JsonResponse addInStock(@RequestBody Stock stock){
+        //TODO do some checking here to keep integrity
+        stockService.addStock(stock);
+        return new JsonResponse(200, null, null);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/in/detail", method = {RequestMethod.GET, RequestMethod.POST})
+    public JsonResponse listInStockDetail(@RequestBody long id){
+        Stock stock = stockService.getStockById(id);
+        return new JsonResponse(200, stock, null);
+    }
+
+    /**
+     * 用于出库
+     * @param page
+     * @return
+     */
+
+    @ResponseBody
+    @RequestMapping(value = "/out/list", method = {RequestMethod.GET, RequestMethod.POST})
+    public JsonResponse listOutStock(@RequestBody StockPage page){
+        int count = stockService.listStockCount(page);
+        List<Stock> data = stockService.listStock(page);
+        return new JsonResponse(200, data, count);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/out/add", method = {RequestMethod.GET, RequestMethod.POST})
+    public JsonResponse addOutStock(@RequestBody Stock stock){
+        //TODO do some checking here to keep integrity
+        stockService.addStock(stock);
+        return new JsonResponse(200, null, null);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/out/detail", method = {RequestMethod.GET, RequestMethod.POST})
+    public JsonResponse listOutStockDetail(@RequestBody long id){
+        Stock stock = stockService.getStockById(id);
+        return new JsonResponse(200, stock, null);
+    }
+
+
 }

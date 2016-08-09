@@ -15,6 +15,9 @@
         this.listOutStock = listOutStock;
         this.addOutStock = addOutStock;
 
+        this.getStock = getStock;
+        this.getGoodsHistory = getGoodsHistory;
+
         function listGoods(data){
             return $http({
                 method: "POST",
@@ -67,6 +70,24 @@
                 url: "/v1/stock/out/add",
                 timeout: 5000
             })
+        }
+
+        function getStock(id){
+            return $http({
+                method: 'POST',
+                data: id,
+                url: "/v1/stock/in/detail",
+                timeout: 5000
+            });
+        }
+
+        function getGoodsHistory(id){
+            return $http({
+                method: "POST",
+                data : id,
+                url : "/v1/stock/goods/history/list",
+                timeout: 5000
+            });
         }
 
     }

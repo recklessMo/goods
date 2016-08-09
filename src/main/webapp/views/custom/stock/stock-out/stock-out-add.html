@@ -1,0 +1,110 @@
+<div class="container-fluid" block-ui="stock-out-add">
+    <h4 style="text-align: center;">
+        新增出库
+    </h4>
+
+    <div class="row form-inline inline-flex-form-group">
+        <div class="col-lg-4" style="padding-left: 0;padding-right: 10px;">
+            <div class="form-group">
+                <label style="max-width: 63px;min-width: 63px;">出库类型:</label>
+                <ui-select ng-model="stock.category" theme="bootstrap"
+                           class="text-left" style="width:100%;">
+                    <ui-select-match placeholder="入库类型">{{$select.selected.value}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="category.value as category in categoryList">
+                        <span ng-bind-html="category.value"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+        </div>
+        <div class="col-lg-4" style="padding-left: 0;padding-right: 10px;">
+            <div class="form-group">
+                <label style="max-width: 63px;min-width: 63px;">出库时间:</label>
+                <input style="width: 100%;" type="text" class="form-control"
+                       ng-class="stock.$invalid.inTime && !stock.inTime?'field-dirty':''"
+                       ng-click="openInTimeDayPicker(row)"
+                       uib-datepicker-popup="{{format}}"
+                       auto-fill-zero-in-date
+                       is-open="inTimeDayPicker"
+                       ng-model="stock.inTime"/>
+            </div>
+        </div>
+        <div class="col-lg-4" style="padding-left: 0;padding-right: 0;">
+            <div class="form-group">
+                <label style="max-width: 63px;min-width: 63px;">单据号码:</label>
+                <input style="width: 100%;" type="text" ng-model="stock.billNumber" class="form-control">
+            </div>
+        </div>
+    </div>
+    <div class="row form-inline inline-flex-form-group">
+        <div class="col-lg-12" style="padding-left: 0;padding-right: 0;">
+            <div class="form-group">
+                <label style="max-width: 35px;min-width: 35px;">备注:</label>
+                <textarea style="width: 100%;" ng-model="stock.comment" class="form-control"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-lg-12" style="padding-left: 0;padding-right: 0;">
+            <div class="col-lg-6" style="margin-bottom: 10px;">
+                <button class="btn btn-primary" ng-click="addRow()">添加</button>
+            </div>
+            <div class="col-lg-6" style="margin-top: 15px;text-align: right;font-size: 16px;">
+                合计: <span style="color: red;"> {{totalPrice}}元</span>
+            </div>
+        </div>
+        <div class="col-lg-12" style="padding-left: 0;padding-right: 0;">
+            <div class="overflow-table stock-table">
+                <table ng-table="stockItemTableParams"
+                       class="table table-bordered table-hover table-condensed editable-table table-input">
+                    <tr ng-repeat="row in $data">
+                        <td title="'操作'">
+                            <button class="btn btn-link btn-sm" ng-click="deleteItem($index)">删除</button>
+                        </td>
+                        <td title="'名称'">
+                            <div class="controls" ng-class="row.$invalid.yptym && !row.yptym?'field-dirty':''" style="min-width: 100px;">
+                                <ui-select ng-model="row.goodsId" theme="bootstrap"
+                                           on-select="itemSelected(row, $item, $model)" reset-search-input="false">
+                                    <ui-select-match placeholder="名称">
+                                        {{$select.selected.name}}
+                                    </ui-select-match>
+                                    <ui-select-choices
+                                            repeat="title.id as title in titles"
+                                            refresh="search($select.search)" refresh-delay="500">
+                                        <div ng-bind-html="title.name"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </td>
+                        <td title="'规格'">{{row.gg}}</td>
+                        <td title="'单位'">{{row.dw}}</td>
+                        <td title="'产地'">{{row.cjmc}}</td>
+                        <td title="'进货价格'" style="max-width: 65px;">
+                            <div class="controls"
+                                 ng-class="row.$invalid.purchasePrice && !row.purchasePrice?'field-dirty':''">
+                                <input type="number" step="0.0001" ng-model="row.purchasePrice" ng-change="validate()"
+                                       min="0"/>
+                            </div>
+                        </td>
+                        <td title="'出库数量'" style="max-width: 50px;">
+                            <div class="controls" ng-class="row.$invalid.count && !row.count?'field-dirty':''">
+                                <input type="number" step="1" ng-model="row.count" ng-change="validate()"
+                                       min="1"/>
+                            </div>
+                        </td>
+                        <td title="'进货金额'">
+                            <div class="controls" ng-class="row.$invalid.count && !row.count?'field-dirty':''">
+                                <input type="number" step="1" ng-model="row.cost" ng-change="validate()"
+                                       min="1" class="table-input"/>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="col-lg-12" style="text-align: center;">
+            <button class="btn btn-primary"  ladda="submit20" data-style="expand-left" ng-click="addStockOut()">出库</button>
+        </div>
+    </div>
+</div>

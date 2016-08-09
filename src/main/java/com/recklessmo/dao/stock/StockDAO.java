@@ -2,8 +2,10 @@ package com.recklessmo.dao.stock;
 
 import com.recklessmo.model.stock.Goods;
 import com.recklessmo.model.stock.Stock;
+import com.recklessmo.model.stock.StockItem;
 import com.recklessmo.web.webmodel.page.GoodsPage;
 import com.recklessmo.web.webmodel.page.StockPage;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -17,8 +19,17 @@ public interface StockDAO {
     void addGoods(Goods goods);
 
 
-    List<Stock> listInStock(StockPage page);
-    int listInStockCount(StockPage page);
+    List<Stock> listStock(StockPage page);
+    int listStockCount(StockPage page);
 
 
+    void addStock(Stock stock);
+
+    void addStockItem(StockItem stockItem);
+
+    Stock getStock(@Param("id")long id);
+
+    List<StockItem> getStockItemsByGoodsId(@Param("goodsId")long goodsId);
+
+    void updateGoodsCount(@Param("goodsId")long goodsId, @Param("count")int count);
 }

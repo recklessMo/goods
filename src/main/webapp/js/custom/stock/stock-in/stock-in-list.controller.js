@@ -9,6 +9,7 @@
 
         $scope.tableParams = {
             searchStr: null,
+            stockType: '入库',
             page : 1,
             count : 10
         }
@@ -32,12 +33,29 @@
             })
         }
 
+        $scope.search();
+
 
         $scope.addNewInStock = function(){
             var dialog= ngDialog.open({
-                template: 'app/views/custom/stock/add-stock-in.html',
+                template: 'app/views/custom/stock/stock-in/stock-in-add.html',
                 controller: 'AddInStockController',
-                className: 'ngdialog-theme-default custom-width-800',
+                className: 'ngdialog-theme-default max-dialog',
+            });
+            dialog.closePromise.then(function(data){
+                if(data.value != 'reload'){
+                    return;
+                }
+                $scope.stockInTableParams.reload();
+            });
+        }
+
+        $scope.openStockInDetail = function(data){
+            var dialog= ngDialog.open({
+                template: 'app/views/custom/stock/stock-in/stock-in-detail.html',
+                controller: 'StockInDetailController',
+                className: 'ngdialog-theme-default max-dialog',
+                data: {data : data}
             });
             dialog.closePromise.then(function(data){
                 if(data.value != 'reload'){

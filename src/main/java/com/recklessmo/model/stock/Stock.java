@@ -1,5 +1,7 @@
 package com.recklessmo.model.stock;
 
+import java.util.List;
+
 /**
  * Created by hpf on 8/5/16.
  */
@@ -7,11 +9,29 @@ public class Stock {
 
     private long id;
     private String stockType;
-    private String ghdw;
     private long userId;
     private String userName;
+    private String ghdw;
     private long cost;
+    private String category;
+    private List<StockItem> items;
 
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getGhdw() {
+        return ghdw;
+    }
+
+    public void setGhdw(String ghdw) {
+        this.ghdw = ghdw;
+    }
 
     public long getId() {
         return id;
@@ -27,14 +47,6 @@ public class Stock {
 
     public void setStockType(String stockType) {
         this.stockType = stockType;
-    }
-
-    public String getGhdw() {
-        return ghdw;
-    }
-
-    public void setGhdw(String ghdw) {
-        this.ghdw = ghdw;
     }
 
     public String getUserName() {
@@ -61,4 +73,11 @@ public class Stock {
         this.cost = cost;
     }
 
+    public List<StockItem> getItems() {
+        return items;
+    }
+
+    public void setItems(List<StockItem> items) {
+        this.items = items;
+    }
 }

@@ -3,6 +3,37 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.recklessmo.dao.stock.StockDAO">
 
+    <resultMap id="stockResultMap" type="com.recklessmo.model.stock.Stock">
+        <id column="s_id" property="id"/>
+        <result column="s_stock_type" property="stockType"/>
+        <result column="s_category" property="category"/>
+        <result column="s_ghdw" property="ghdw"/>
+        <result column="s_user_id" property="userId"/>
+        <result column="s_user_name" property="userName"/>
+        <result column="s_cost" property="cost"/>
+        <collection property="items" resultMap="stockItemMap"/>
+    </resultMap>
+
+    <resultMap id="stockItemMap" type="com.recklessmo.model.stock.StockItem">
+        <id column="i_id" property="id"/>
+        <result column="i_stock_id" property="stockId"/>
+        <result column="i_stock_type" property="stockType"/>
+        <result column="i_category" property="category"/>
+        <result column="i_goods_id" property="goodsId"/>
+        <result column="i_purchase_price" property="purchasePrice"/>
+        <result column="i_count" property="count"/>
+        <result column="i_cost" property="cost"/>
+        <association property="goods" resultMap="goodsMap"/>
+    </resultMap>
+
+    <resultMap id="goodsMap" type="com.recklessmo.model.stock.Goods">
+        <id column="g_id" property="id"/>
+        <result column="g_name" property="name"/>
+        <result column="g_gg" property="gg"/>
+        <result column="g_cjmc" property="cjmc"/>
+        <result column="g_current_count" property="currentCount"/>
+    </resultMap>
+    
     <sql id = "goodscolumns">
         id, name, cjmc, gg, current_count, in_user_id, status
     </sql>
@@ -11,12 +42,49 @@
         (name, cjmc, gg, current_count, in_time, in_user_id, status)
     </sql>
 
+    <sql id="getStockColumns">
+        s.id as s_id,
+        s.stock_type as s_stock_type,
+        s.category as s_category,
+        s.ghdw as s_ghdw,
+        s.user_id as s_user_id,
+        s.user_name as s_user_name,
+        s.cost as s_cost
+    </sql>
+
+    <sql id="getStockItemColumns">
+        i.id as i_id,
+        i.stock_id as i_stock_id,
+        i.stock_type as i_stock_type,
+        i.category as i_category,
+        i.goods_id as i_goods_id,
+        i.purchase_price as i_purchase_price,
+        i.count as i_count,
+        i.cost as i_cost
+    </sql>
+
+    <sql id="getGoodsColumns">
+        g.id as g_id,
+        g.name as g_name,
+        g.gg as g_gg,
+        g.cjmc as g_cjmc,
+        g.current_count as g_current_count
+    </sql>
+
     <sql id="stockColumns">
-        id, stock_type, ghdw, user_id, user_name, cost
+        id, stock_type, category, ghdw, user_id, user_name, cost
     </sql>
 
     <sql id="stockColumnsWithoutId">
-        stock_type, ghdw, user_id, user_name, cost
+        stock_type, category, ghdw, user_id, user_name, cost
+    </sql>
+
+    <sql id="stockItemColumns">
+        id, stock_id, stock_type, category, goods_id,purchase_price, count, cost
+    </sql>
+
+    <sql id="stockItemColumnsWithoutId">
+        stock_id, stock_type, category, goods_id,purchase_price, count, cost
     </sql>
 
     <insert id="addGoods" parameterType="com.recklessmo.model.stock.Goods">
@@ -46,12 +114,16 @@
 
 
     <sql id="byStockPageQuery">
-        <if test="searchStr != '' and searchStr != null ">
-          where user_name like "%"#{searchStr}"%"
+        where stock_type = #{stockType}
+        <if test="category != null and category != '' ">
+          and category = #{category}
+        </if>
+        <if test="searchStr != '' and searchStr != null">
+          and user_name like "%"#{searchStr}"%"
         </if>
     </sql>
 
-    <select id="listInStock" resultType="com.recklessmo.model.stock.Stock">
+    <select id="listStock" resultType="com.recklessmo.model.stock.Stock">
         select
         <include refid="stockColumns"/>
         from stock
@@ -59,11 +131,51 @@
         limit #{startIndex}, #{count}
     </select>
 
-    <select id="listInStockCount" resultType="java.lang.Integer">
+    <select id="listStockCount" resultType="java.lang.Integer">
         select count(1) from stock
         <include refid="byStockPageQuery"/>
     </select>
 
 
+    <insert id="addStock" parameterType="com.recklessmo.model.stock.Stock">
+        insert into stock
+        (<include refid="stockColumnsWithoutId"/>)
+        values
+        (#{stockType}, #{category}, #{ghdw}, #{userId}, #{userName}, #{cost})
+        <selectKey keyProperty="id" resultType="long">
+            <![CDATA[SELECT LAST_INSERT_ID() AS id ]]>
+        </selectKey>
+    </insert>
 
+    <insert id="addStockItem" parameterType="com.recklessmo.model.stock.StockItem">
+        insert into stock_item
+        (<include refid="stockItemColumnsWithoutId"/>)
+        values(#{stockId}, #{stockType}, #{category}, #{goodsId}, #{purchasePrice}, #{count}, #{cost})
+    </insert>
+
+    <select id="getStock" resultMap="stockResultMap">
+        select
+        <include refid="getStockColumns"/>,
+        <include refid="getStockItemColumns"/>,
+        <include refid="getGoodsColumns"/>
+        from
+        stock s left join stock_item i on s.id = i.stock_id
+        left join goods g on i.goods_id = g.id
+        where s.id = #{id}
+    </select>
+
+    <select id="getStockItemsByGoodsId" resultMap="stockItemMap">
+        select
+        <include refid="getStockItemColumns"/>,
+        <include refid="getGoodsColumns"/>
+        from
+        stock_item i left join goods g on i.goods_id = g.id
+        where i.goods_id = #{goodsId}
+    </select>
+
+    <update id="updateGoodsCount">
+        update goods
+        set current_count = current_count + #{count}
+        where id = #{goodsId}
+    </update>
 </mapper>

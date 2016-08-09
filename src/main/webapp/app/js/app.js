@@ -55,7 +55,7 @@
     'use strict';
 
     angular
-        .module('app.colors', []);
+        .module('app.charts', []);
 })();
 (function() {
     'use strict';
@@ -83,13 +83,7 @@
     'use strict';
 
     angular
-        .module('app.charts', []);
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('app.dashboard', []);
+        .module('app.colors', []);
 })();
 (function() {
     'use strict';
@@ -107,7 +101,19 @@
     'use strict';
 
     angular
+        .module('app.dashboard', []);
+})();
+(function() {
+    'use strict';
+
+    angular
         .module('app.flatdoc', []);
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('app.forms', []);
 })();
 (function() {
     'use strict';
@@ -119,7 +125,7 @@
     'use strict';
 
     angular
-        .module('app.forms', []);
+        .module('app.loadingbar', []);
 })();
 (function() {
     'use strict';
@@ -137,18 +143,6 @@
     'use strict';
 
     angular
-        .module('app.mailbox', []);
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('app.loadingbar', []);
-})();
-(function() {
-    'use strict';
-
-    angular
         .module('app.maps', []);
 })();
 (function() {
@@ -156,6 +150,12 @@
 
     angular
         .module('app.navsearch', []);
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('app.mailbox', []);
 })();
 (function() {
     'use strict';
@@ -179,14 +179,6 @@
     'use strict';
 
     angular
-        .module('app.routes', [
-            'app.lazyload'
-        ]);
-})();
-(function() {
-    'use strict';
-
-    angular
         .module('app.preloader', []);
 })();
 
@@ -195,13 +187,21 @@
     'use strict';
 
     angular
-        .module('app.sidebar', []);
+        .module('app.routes', [
+            'app.lazyload'
+        ]);
 })();
 (function() {
     'use strict';
 
     angular
         .module('app.settings', []);
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('app.sidebar', []);
 })();
 (function() {
     'use strict';
@@ -777,170 +777,6 @@
         }
     }
 })();
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.colors')
-        .constant('APP_COLORS', {
-          'primary':                '#5d9cec',
-          'success':                '#27c24c',
-          'info':                   '#23b7e5',
-          'warning':                '#ff902b',
-          'danger':                 '#f05050',
-          'inverse':                '#131e26',
-          'green':                  '#37bc9b',
-          'pink':                   '#f532e5',
-          'purple':                 '#7266ba',
-          'dark':                   '#3a3f51',
-          'yellow':                 '#fad732',
-          'gray-darker':            '#232735',
-          'gray-dark':              '#3a3f51',
-          'gray':                   '#dde6e9',
-          'gray-light':             '#e4eaec',
-          'gray-lighter':           '#edf1f2'
-        })
-        ;
-})();
-/**=========================================================
- * Module: colors.js
- * Services to retrieve global colors
- =========================================================*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.colors')
-        .service('Colors', Colors);
-
-    Colors.$inject = ['APP_COLORS'];
-    function Colors(APP_COLORS) {
-        this.byName = byName;
-
-        ////////////////
-
-        function byName(name) {
-          return (APP_COLORS[name] || '#fff');
-        }
-    }
-
-})();
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.core')
-        .config(coreConfig);
-
-    coreConfig.$inject = ['$controllerProvider', '$compileProvider', '$filterProvider', '$provide', '$animateProvider'];
-    function coreConfig($controllerProvider, $compileProvider, $filterProvider, $provide, $animateProvider){
-
-      var core = angular.module('app.core');
-      // registering components after bootstrap
-      core.controller = $controllerProvider.register;
-      core.directive  = $compileProvider.directive;
-      core.filter     = $filterProvider.register;
-      core.factory    = $provide.factory;
-      core.service    = $provide.service;
-      core.constant   = $provide.constant;
-      core.value      = $provide.value;
-
-      // Disables animation on items with class .ng-no-animation
-      $animateProvider.classNameFilter(/^((?!(ng-no-animation)).)*$/);
-
-    }
-
-})();
-/**=========================================================
- * Module: constants.js
- * Define constants to inject across the application
- =========================================================*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.core')
-        .constant('APP_MEDIAQUERY', {
-          'desktopLG':             1200,
-          'desktop':                992,
-          'tablet':                 768,
-          'mobile':                 480
-        })
-      ;
-
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('app.core')
-        .run(appRun);
-
-    appRun.$inject = ['$rootScope', '$state', '$stateParams',  '$window', '$templateCache', 'Colors'];
-    
-    function appRun($rootScope, $state, $stateParams, $window, $templateCache, Colors) {
-      
-      // Set reference to access them from any scope
-      $rootScope.$state = $state;
-      $rootScope.$stateParams = $stateParams;
-      $rootScope.$storage = $window.localStorage;
-
-      // Uncomment this to disable template cache
-      /*$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
-          if (typeof(toState) !== 'undefined'){
-            $templateCache.remove(toState.templateUrl);
-          }
-      });*/
-
-      // Allows to use branding color with interpolation
-      // {{ colorByName('primary') }}
-      $rootScope.colorByName = Colors.byName;
-
-      // cancel click event easily
-      $rootScope.cancel = function($event) {
-        $event.stopPropagation();
-      };
-
-      // Hooks Example
-      // ----------------------------------- 
-
-      // Hook not found
-      $rootScope.$on('$stateNotFound',
-        function(event, unfoundState/*, fromState, fromParams*/) {
-            console.log(unfoundState.to); // "lazy.state"
-            console.log(unfoundState.toParams); // {a:1, b:2}
-            console.log(unfoundState.options); // {inherit:false} + default options
-        });
-      // Hook error
-      $rootScope.$on('$stateChangeError',
-        function(event, toState, toParams, fromState, fromParams, error){
-          console.log(error);
-        });
-      // Hook success
-      $rootScope.$on('$stateChangeSuccess',
-        function(/*event, toState, toParams, fromState, fromParams*/) {
-          // display new view from top
-          $window.scrollTo(0, 0);
-          // Save the route title
-          $rootScope.currTitle = $state.current.title;
-        });
-
-      // Load a title dynamically
-      $rootScope.currTitle = $state.current.title;
-      $rootScope.pageTitle = function() {
-        var title = $rootScope.app.name + ' - ' + ($rootScope.currTitle || $rootScope.app.description);
-        document.title = title;
-        return title;
-      };      
-
-    }
-
-})();
-
 
 /**=========================================================
  * Module: chartist.js
@@ -2588,323 +2424,166 @@
     'use strict';
 
     angular
-        .module('app.dashboard')
-        .controller('DashboardController', DashboardController);
+        .module('app.core')
+        .config(coreConfig);
 
-    DashboardController.$inject = ['$scope', 'ChartData', '$timeout'];
-    function DashboardController($scope, ChartData, $timeout) {
-        var vm = this;
+    coreConfig.$inject = ['$controllerProvider', '$compileProvider', '$filterProvider', '$provide', '$animateProvider'];
+    function coreConfig($controllerProvider, $compileProvider, $filterProvider, $provide, $animateProvider){
 
-        activate();
+      var core = angular.module('app.core');
+      // registering components after bootstrap
+      core.controller = $controllerProvider.register;
+      core.directive  = $compileProvider.directive;
+      core.filter     = $filterProvider.register;
+      core.factory    = $provide.factory;
+      core.service    = $provide.service;
+      core.constant   = $provide.constant;
+      core.value      = $provide.value;
 
-        ////////////////
+      // Disables animation on items with class .ng-no-animation
+      $animateProvider.classNameFilter(/^((?!(ng-no-animation)).)*$/);
 
-        function activate() {
-
-			$scope.test="1";
-
-          // SPLINE
-          // ----------------------------------- 
-          vm.splineData = ChartData.load('server/chart/spline.json');
-          vm.splineOptions = {
-              series: {
-                  lines: {
-                      show: false
-                  },
-                  points: {
-                      show: true,
-                      radius: 4
-                  },
-                  splines: {
-                      show: true,
-                      tension: 0.4,
-                      lineWidth: 1,
-                      fill: 0.5
-                  }
-              },
-              grid: {
-                  borderColor: '#eee',
-                  borderWidth: 1,
-                  hoverable: true,
-                  backgroundColor: '#fcfcfc'
-              },
-              tooltip: true,
-              tooltipOpts: {
-                  content: function (label, x, y) { return x + ' : ' + y; }
-              },
-              xaxis: {
-                  tickColor: '#fcfcfc',
-                  mode: 'categories'
-              },
-              yaxis: {
-                  min: 0,
-                  max: 150, // optional: use it for a clear represetation
-                  tickColor: '#eee',
-                  position: ($scope.app.layout.isRTL ? 'right' : 'left'),
-                  tickFormatter: function (v) {
-                      return v/* + ' visitors'*/;
-                  }
-              },
-              shadowSize: 0
-          };
-
-
-          // PANEL REFRESH EVENTS
-          // ----------------------------------- 
-
-          $scope.$on('panel-refresh', function(event, id) {
-            
-            console.log('Simulating chart refresh during 3s on #'+id);
-
-            // Instead of timeout you can request a chart data
-            $timeout(function(){
-              
-              // directive listen for to remove the spinner 
-              // after we end up to perform own operations
-              $scope.$broadcast('removeSpinner', id);
-              
-              console.log('Refreshed #' + id);
-
-            }, 3000);
-
-          });
-
-
-          // PANEL DISMISS EVENTS
-          // ----------------------------------- 
-
-          // Before remove panel
-          $scope.$on('panel-remove', function(event, id, deferred){
-            
-            console.log('Panel #' + id + ' removing');
-            
-            // Here is obligatory to call the resolve() if we pretend to remove the panel finally
-            // Not calling resolve() will NOT remove the panel
-            // It's up to your app to decide if panel should be removed or not
-            deferred.resolve();
-          
-          });
-
-          // Panel removed ( only if above was resolved() )
-          $scope.$on('panel-removed', function(event, id){
-
-            console.log('Panel #' + id + ' removed');
-
-          });
-
-        }
     }
+
 })();
+/**=========================================================
+ * Module: constants.js
+ * Define constants to inject across the application
+ =========================================================*/
 
 (function() {
     'use strict';
 
     angular
-        .module('app.dashboard')
-        .controller('DashboardV2Controller', DashboardV2Controller);
+        .module('app.core')
+        .constant('APP_MEDIAQUERY', {
+          'desktopLG':             1200,
+          'desktop':                992,
+          'tablet':                 768,
+          'mobile':                 480
+        })
+      ;
 
-    DashboardV2Controller.$inject = ['$rootScope', '$scope', '$state'];
-    function DashboardV2Controller($rootScope, $scope, $state) {
-        var vm = this;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-          
-          // Change layout mode
-          if( $state.includes('app-h') ) {
-            // Setup layout horizontal for demo
-            $rootScope.app.layout.horizontal = true;
-            $scope.$on('$destroy', function(){
-                $rootScope.app.layout.horizontal = false;
-            });            
-          }
-          else {
-            $rootScope.app.layout.isCollapsed = true;
-          }
-
-          // BAR STACKED
-          // ----------------------------------- 
-          vm.barStackedOptions = {
-              series: {
-                  stack: true,
-                  bars: {
-                      align: 'center',
-                      lineWidth: 0,
-                      show: true,
-                      barWidth: 0.6,
-                      fill: 0.9
-                  }
-              },
-              grid: {
-                  borderColor: '#eee',
-                  borderWidth: 1,
-                  hoverable: true,
-                  backgroundColor: '#fcfcfc'
-              },
-              tooltip: true,
-              tooltipOpts: {
-                  content: function (label, x, y) { return x + ' : ' + y; }
-              },
-              xaxis: {
-                  tickColor: '#fcfcfc',
-                  mode: 'categories'
-              },
-              yaxis: {
-                  min: 0,
-                  max: 200, // optional: use it for a clear represetation
-                  position: ($rootScope.app.layout.isRTL ? 'right' : 'left'),
-                  tickColor: '#eee'
-              },
-              shadowSize: 0
-          };
-
-          // SPLINE
-          // ----------------------------------- 
-
-          vm.splineOptions = {
-              series: {
-                  lines: {
-                      show: false
-                  },
-                  points: {
-                      show: true,
-                      radius: 4
-                  },
-                  splines: {
-                      show: true,
-                      tension: 0.4,
-                      lineWidth: 1,
-                      fill: 0.5
-                  }
-              },
-              grid: {
-                  borderColor: '#eee',
-                  borderWidth: 1,
-                  hoverable: true,
-                  backgroundColor: '#fcfcfc'
-              },
-              tooltip: true,
-              tooltipOpts: {
-                  content: function (label, x, y) { return x + ' : ' + y; }
-              },
-              xaxis: {
-                  tickColor: '#fcfcfc',
-                  mode: 'categories'
-              },
-              yaxis: {
-                  min: 0,
-                  max: 150, // optional: use it for a clear represetation
-                  tickColor: '#eee',
-                  position: ($rootScope.app.layout.isRTL ? 'right' : 'left'),
-                  tickFormatter: function (v) {
-                      return v/* + ' visitors'*/;
-                  }
-              },
-              shadowSize: 0
-          };
-        }
-    }
 })();
 (function() {
     'use strict';
 
     angular
-        .module('app.dashboard')
-        .controller('DashboardV3Controller', DashboardV3Controller);
+        .module('app.core')
+        .run(appRun);
 
-    DashboardV3Controller.$inject = ['$rootScope'];
-    function DashboardV3Controller($rootScope) {
-        var vm = this;
+    appRun.$inject = ['$rootScope', '$state', '$stateParams',  '$window', '$templateCache', 'Colors'];
+    
+    function appRun($rootScope, $state, $stateParams, $window, $templateCache, Colors) {
+      
+      // Set reference to access them from any scope
+      $rootScope.$state = $state;
+      $rootScope.$stateParams = $stateParams;
+      $rootScope.$storage = $window.localStorage;
 
-        activate();
+      // Uncomment this to disable template cache
+      /*$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+          if (typeof(toState) !== 'undefined'){
+            $templateCache.remove(toState.templateUrl);
+          }
+      });*/
+
+      // Allows to use branding color with interpolation
+      // {{ colorByName('primary') }}
+      $rootScope.colorByName = Colors.byName;
+
+      // cancel click event easily
+      $rootScope.cancel = function($event) {
+        $event.stopPropagation();
+      };
+
+      // Hooks Example
+      // ----------------------------------- 
+
+      // Hook not found
+      $rootScope.$on('$stateNotFound',
+        function(event, unfoundState/*, fromState, fromParams*/) {
+            console.log(unfoundState.to); // "lazy.state"
+            console.log(unfoundState.toParams); // {a:1, b:2}
+            console.log(unfoundState.options); // {inherit:false} + default options
+        });
+      // Hook error
+      $rootScope.$on('$stateChangeError',
+        function(event, toState, toParams, fromState, fromParams, error){
+          console.log(error);
+        });
+      // Hook success
+      $rootScope.$on('$stateChangeSuccess',
+        function(/*event, toState, toParams, fromState, fromParams*/) {
+          // display new view from top
+          $window.scrollTo(0, 0);
+          // Save the route title
+          $rootScope.currTitle = $state.current.title;
+        });
+
+      // Load a title dynamically
+      $rootScope.currTitle = $state.current.title;
+      $rootScope.pageTitle = function() {
+        var title = $rootScope.app.name + ' - ' + ($rootScope.currTitle || $rootScope.app.description);
+        document.title = title;
+        return title;
+      };      
+
+    }
+
+})();
+
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.colors')
+        .constant('APP_COLORS', {
+          'primary':                '#5d9cec',
+          'success':                '#27c24c',
+          'info':                   '#23b7e5',
+          'warning':                '#ff902b',
+          'danger':                 '#f05050',
+          'inverse':                '#131e26',
+          'green':                  '#37bc9b',
+          'pink':                   '#f532e5',
+          'purple':                 '#7266ba',
+          'dark':                   '#3a3f51',
+          'yellow':                 '#fad732',
+          'gray-darker':            '#232735',
+          'gray-dark':              '#3a3f51',
+          'gray':                   '#dde6e9',
+          'gray-light':             '#e4eaec',
+          'gray-lighter':           '#edf1f2'
+        })
+        ;
+})();
+/**=========================================================
+ * Module: colors.js
+ * Services to retrieve global colors
+ =========================================================*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.colors')
+        .service('Colors', Colors);
+
+    Colors.$inject = ['APP_COLORS'];
+    function Colors(APP_COLORS) {
+        this.byName = byName;
 
         ////////////////
 
-        function activate() {
-
-          // SPLINE
-          // ----------------------------------- 
-
-          vm.splineOptions = {
-              series: {
-                  lines: {
-                      show: false
-                  },
-                  points: {
-                      show: true,
-                      radius: 4
-                  },
-                  splines: {
-                      show: true,
-                      tension: 0.4,
-                      lineWidth: 1,
-                      fill: 0.5
-                  }
-              },
-              grid: {
-                  borderColor: '#eee',
-                  borderWidth: 1,
-                  hoverable: true,
-                  backgroundColor: '#fcfcfc'
-              },
-              tooltip: true,
-              tooltipOpts: {
-                  content: function (label, x, y) { return x + ' : ' + y; }
-              },
-              xaxis: {
-                  tickColor: '#fcfcfc',
-                  mode: 'categories'
-              },
-              yaxis: {
-                  min: 0,
-                  max: 150, // optional: use it for a clear represetation
-                  tickColor: '#eee',
-                  position: ($rootScope.app.layout.isRTL ? 'right' : 'left'),
-                  tickFormatter: function (v) {
-                      return v/* + ' visitors'*/;
-                  }
-              },
-              shadowSize: 0
-          };
-
-
-          vm.seriesData = {
-            'CA': 11100,   // Canada
-            'DE': 2510,    // Germany
-            'FR': 3710,    // France
-            'AU': 5710,    // Australia
-            'GB': 8310,    // Great Britain
-            'RU': 9310,    // Russia
-            'BR': 6610,    // Brazil
-            'IN': 7810,    // India
-            'CN': 4310,    // China
-            'US': 839,     // USA
-            'SA': 410      // Saudi Arabia
-          };
-          
-          vm.markersData = [
-            { latLng:[41.90, 12.45],  name:'Vatican City'          },
-            { latLng:[43.73, 7.41],   name:'Monaco'                },
-            { latLng:[-0.52, 166.93], name:'Nauru'                 },
-            { latLng:[-8.51, 179.21], name:'Tuvalu'                },
-            { latLng:[7.11,171.06],   name:'Marshall Islands'      },
-            { latLng:[17.3,-62.73],   name:'Saint Kitts and Nevis' },
-            { latLng:[3.2,73.22],     name:'Maldives'              },
-            { latLng:[35.88,14.5],    name:'Malta'                 },
-            { latLng:[41.0,-71.06],   name:'New England'           },
-            { latLng:[12.05,-61.75],  name:'Grenada'               },
-            { latLng:[13.16,-59.55],  name:'Barbados'              },
-            { latLng:[17.11,-61.85],  name:'Antigua and Barbuda'   },
-            { latLng:[-4.61,55.45],   name:'Seychelles'            },
-            { latLng:[7.35,134.46],   name:'Palau'                 },
-            { latLng:[42.5,1.51],     name:'Andorra'               }
-          ];
+        function byName(name) {
+          return (APP_COLORS[name] || '#fff');
         }
     }
+
 })();
+
 
 (function() {
     'use strict';
@@ -4493,6 +4172,327 @@
     }
 })();
 
+(function() {
+    'use strict';
+
+    angular
+        .module('app.dashboard')
+        .controller('DashboardController', DashboardController);
+
+    DashboardController.$inject = ['$scope', 'ChartData', '$timeout'];
+    function DashboardController($scope, ChartData, $timeout) {
+        var vm = this;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+
+			$scope.test="1";
+
+          // SPLINE
+          // ----------------------------------- 
+          vm.splineData = ChartData.load('server/chart/spline.json');
+          vm.splineOptions = {
+              series: {
+                  lines: {
+                      show: false
+                  },
+                  points: {
+                      show: true,
+                      radius: 4
+                  },
+                  splines: {
+                      show: true,
+                      tension: 0.4,
+                      lineWidth: 1,
+                      fill: 0.5
+                  }
+              },
+              grid: {
+                  borderColor: '#eee',
+                  borderWidth: 1,
+                  hoverable: true,
+                  backgroundColor: '#fcfcfc'
+              },
+              tooltip: true,
+              tooltipOpts: {
+                  content: function (label, x, y) { return x + ' : ' + y; }
+              },
+              xaxis: {
+                  tickColor: '#fcfcfc',
+                  mode: 'categories'
+              },
+              yaxis: {
+                  min: 0,
+                  max: 150, // optional: use it for a clear represetation
+                  tickColor: '#eee',
+                  position: ($scope.app.layout.isRTL ? 'right' : 'left'),
+                  tickFormatter: function (v) {
+                      return v/* + ' visitors'*/;
+                  }
+              },
+              shadowSize: 0
+          };
+
+
+          // PANEL REFRESH EVENTS
+          // ----------------------------------- 
+
+          $scope.$on('panel-refresh', function(event, id) {
+            
+            console.log('Simulating chart refresh during 3s on #'+id);
+
+            // Instead of timeout you can request a chart data
+            $timeout(function(){
+              
+              // directive listen for to remove the spinner 
+              // after we end up to perform own operations
+              $scope.$broadcast('removeSpinner', id);
+              
+              console.log('Refreshed #' + id);
+
+            }, 3000);
+
+          });
+
+
+          // PANEL DISMISS EVENTS
+          // ----------------------------------- 
+
+          // Before remove panel
+          $scope.$on('panel-remove', function(event, id, deferred){
+            
+            console.log('Panel #' + id + ' removing');
+            
+            // Here is obligatory to call the resolve() if we pretend to remove the panel finally
+            // Not calling resolve() will NOT remove the panel
+            // It's up to your app to decide if panel should be removed or not
+            deferred.resolve();
+          
+          });
+
+          // Panel removed ( only if above was resolved() )
+          $scope.$on('panel-removed', function(event, id){
+
+            console.log('Panel #' + id + ' removed');
+
+          });
+
+        }
+    }
+})();
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.dashboard')
+        .controller('DashboardV2Controller', DashboardV2Controller);
+
+    DashboardV2Controller.$inject = ['$rootScope', '$scope', '$state'];
+    function DashboardV2Controller($rootScope, $scope, $state) {
+        var vm = this;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+          
+          // Change layout mode
+          if( $state.includes('app-h') ) {
+            // Setup layout horizontal for demo
+            $rootScope.app.layout.horizontal = true;
+            $scope.$on('$destroy', function(){
+                $rootScope.app.layout.horizontal = false;
+            });            
+          }
+          else {
+            $rootScope.app.layout.isCollapsed = true;
+          }
+
+          // BAR STACKED
+          // ----------------------------------- 
+          vm.barStackedOptions = {
+              series: {
+                  stack: true,
+                  bars: {
+                      align: 'center',
+                      lineWidth: 0,
+                      show: true,
+                      barWidth: 0.6,
+                      fill: 0.9
+                  }
+              },
+              grid: {
+                  borderColor: '#eee',
+                  borderWidth: 1,
+                  hoverable: true,
+                  backgroundColor: '#fcfcfc'
+              },
+              tooltip: true,
+              tooltipOpts: {
+                  content: function (label, x, y) { return x + ' : ' + y; }
+              },
+              xaxis: {
+                  tickColor: '#fcfcfc',
+                  mode: 'categories'
+              },
+              yaxis: {
+                  min: 0,
+                  max: 200, // optional: use it for a clear represetation
+                  position: ($rootScope.app.layout.isRTL ? 'right' : 'left'),
+                  tickColor: '#eee'
+              },
+              shadowSize: 0
+          };
+
+          // SPLINE
+          // ----------------------------------- 
+
+          vm.splineOptions = {
+              series: {
+                  lines: {
+                      show: false
+                  },
+                  points: {
+                      show: true,
+                      radius: 4
+                  },
+                  splines: {
+                      show: true,
+                      tension: 0.4,
+                      lineWidth: 1,
+                      fill: 0.5
+                  }
+              },
+              grid: {
+                  borderColor: '#eee',
+                  borderWidth: 1,
+                  hoverable: true,
+                  backgroundColor: '#fcfcfc'
+              },
+              tooltip: true,
+              tooltipOpts: {
+                  content: function (label, x, y) { return x + ' : ' + y; }
+              },
+              xaxis: {
+                  tickColor: '#fcfcfc',
+                  mode: 'categories'
+              },
+              yaxis: {
+                  min: 0,
+                  max: 150, // optional: use it for a clear represetation
+                  tickColor: '#eee',
+                  position: ($rootScope.app.layout.isRTL ? 'right' : 'left'),
+                  tickFormatter: function (v) {
+                      return v/* + ' visitors'*/;
+                  }
+              },
+              shadowSize: 0
+          };
+        }
+    }
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('app.dashboard')
+        .controller('DashboardV3Controller', DashboardV3Controller);
+
+    DashboardV3Controller.$inject = ['$rootScope'];
+    function DashboardV3Controller($rootScope) {
+        var vm = this;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+
+          // SPLINE
+          // ----------------------------------- 
+
+          vm.splineOptions = {
+              series: {
+                  lines: {
+                      show: false
+                  },
+                  points: {
+                      show: true,
+                      radius: 4
+                  },
+                  splines: {
+                      show: true,
+                      tension: 0.4,
+                      lineWidth: 1,
+                      fill: 0.5
+                  }
+              },
+              grid: {
+                  borderColor: '#eee',
+                  borderWidth: 1,
+                  hoverable: true,
+                  backgroundColor: '#fcfcfc'
+              },
+              tooltip: true,
+              tooltipOpts: {
+                  content: function (label, x, y) { return x + ' : ' + y; }
+              },
+              xaxis: {
+                  tickColor: '#fcfcfc',
+                  mode: 'categories'
+              },
+              yaxis: {
+                  min: 0,
+                  max: 150, // optional: use it for a clear represetation
+                  tickColor: '#eee',
+                  position: ($rootScope.app.layout.isRTL ? 'right' : 'left'),
+                  tickFormatter: function (v) {
+                      return v/* + ' visitors'*/;
+                  }
+              },
+              shadowSize: 0
+          };
+
+
+          vm.seriesData = {
+            'CA': 11100,   // Canada
+            'DE': 2510,    // Germany
+            'FR': 3710,    // France
+            'AU': 5710,    // Australia
+            'GB': 8310,    // Great Britain
+            'RU': 9310,    // Russia
+            'BR': 6610,    // Brazil
+            'IN': 7810,    // India
+            'CN': 4310,    // China
+            'US': 839,     // USA
+            'SA': 410      // Saudi Arabia
+          };
+          
+          vm.markersData = [
+            { latLng:[41.90, 12.45],  name:'Vatican City'          },
+            { latLng:[43.73, 7.41],   name:'Monaco'                },
+            { latLng:[-0.52, 166.93], name:'Nauru'                 },
+            { latLng:[-8.51, 179.21], name:'Tuvalu'                },
+            { latLng:[7.11,171.06],   name:'Marshall Islands'      },
+            { latLng:[17.3,-62.73],   name:'Saint Kitts and Nevis' },
+            { latLng:[3.2,73.22],     name:'Maldives'              },
+            { latLng:[35.88,14.5],    name:'Malta'                 },
+            { latLng:[41.0,-71.06],   name:'New England'           },
+            { latLng:[12.05,-61.75],  name:'Grenada'               },
+            { latLng:[13.16,-59.55],  name:'Barbados'              },
+            { latLng:[17.11,-61.85],  name:'Antigua and Barbuda'   },
+            { latLng:[-4.61,55.45],   name:'Seychelles'            },
+            { latLng:[7.35,134.46],   name:'Palau'                 },
+            { latLng:[42.5,1.51],     name:'Andorra'               }
+          ];
+        }
+    }
+})();
 /**=========================================================
  * Module: flatdoc.js
  * Creates the flatdoc markup and initializes the plugin
@@ -4539,39 +4539,6 @@
         }
     }
 
-
-})();
-
-/**=========================================================
- * Module: skycons.js
- * Include any animated weather icon from Skycons
- =========================================================*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.icons')
-        .directive('skycon', skycon);
-
-    function skycon () {
-
-        var directive = {
-            link: link,
-            restrict: 'A'
-        };
-        return directive;
-
-        function link(scope, element, attrs) {
-          var skycons = new Skycons({'color': (attrs.color || 'white')});
-
-          element.html('<canvas width="' + attrs.width + '" height="' + attrs.height + '"></canvas>');
-
-          skycons.add(element.children()[0], attrs.skycon);
-
-          skycons.play();
-        }
-    }
 
 })();
 
@@ -5567,6 +5534,83 @@
 
 })();
 
+/**=========================================================
+ * Module: skycons.js
+ * Include any animated weather icon from Skycons
+ =========================================================*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.icons')
+        .directive('skycon', skycon);
+
+    function skycon () {
+
+        var directive = {
+            link: link,
+            restrict: 'A'
+        };
+        return directive;
+
+        function link(scope, element, attrs) {
+          var skycons = new Skycons({'color': (attrs.color || 'white')});
+
+          element.html('<canvas width="' + attrs.width + '" height="' + attrs.height + '"></canvas>');
+
+          skycons.add(element.children()[0], attrs.skycon);
+
+          skycons.play();
+        }
+    }
+
+})();
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.loadingbar')
+        .config(loadingbarConfig)
+        ;
+    loadingbarConfig.$inject = ['cfpLoadingBarProvider'];
+    function loadingbarConfig(cfpLoadingBarProvider){
+      cfpLoadingBarProvider.includeBar = true;
+      cfpLoadingBarProvider.includeSpinner = false;
+      cfpLoadingBarProvider.latencyThreshold = 500;
+      cfpLoadingBarProvider.parentSelector = '.wrapper > section';
+    }
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('app.loadingbar')
+        .run(loadingbarRun)
+        ;
+    loadingbarRun.$inject = ['$rootScope', '$timeout', 'cfpLoadingBar'];
+    function loadingbarRun($rootScope, $timeout, cfpLoadingBar){
+
+      // Loading bar transition
+      // ----------------------------------- 
+      var thBar;
+      $rootScope.$on('$stateChangeStart', function() {
+          if($('.wrapper > section').length) // check if bar container exists
+            thBar = $timeout(function() {
+              cfpLoadingBar.start();
+            }, 0); // sets a latency Threshold
+      });
+      $rootScope.$on('$stateChangeSuccess', function(event) {
+          event.targetScope.$watch('$viewContentLoaded', function () {
+            $timeout.cancel(thBar);
+            cfpLoadingBar.complete();
+          });
+      });
+
+    }
+
+})();
 (function() {
     'use strict';
 
@@ -5795,188 +5839,6 @@
     }
 })();
 
-/**=========================================================
- * Module: demo-pagination.js
- * Provides a simple demo for pagination
- =========================================================*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.mailbox')
-        .controller('MailboxController', MailboxController);
-
-    function MailboxController() {
-        var vm = this;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-          vm.folders = [
-            {name: 'Inbox',   folder: 'inbox',   alert: 42, icon: 'fa-inbox' },
-            {name: 'Starred', folder: 'starred', alert: 10, icon: 'fa-star' },
-            {name: 'Sent',    folder: 'sent',    alert: 0,  icon: 'fa-paper-plane-o' },
-            {name: 'Draft',   folder: 'draft',   alert: 5,  icon: 'fa-edit' },
-            {name: 'Trash',   folder: 'trash',   alert: 0,  icon: 'fa-trash'}
-          ];
-
-          vm.labels = [
-            {name: 'Red',     color: 'danger'},
-            {name: 'Pink',    color: 'pink'},
-            {name: 'Blue',    color: 'info'},
-            {name: 'Yellow',  color: 'warning'}
-          ];
-
-          vm.mail = {
-            cc: false,
-            bcc: false
-          };
-          // Mailbox editr initial content
-          vm.content = '<p>Type something..</p>';
-        }
-    }
-})();
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.mailbox')
-        .controller('MailFolderController', MailFolderController);
-
-    MailFolderController.$inject = ['mails', '$stateParams'];
-    function MailFolderController(mails, $stateParams) {
-        var vm = this;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-          
-          vm.folder = {};
-          // no filter for inbox
-          vm.folder.folder = $stateParams.folder === 'inbox' ? '' : $stateParams.folder;
-
-          mails.all().then(function(mails){
-            vm.mails = mails;
-          });
-        }
-    }
-})();
-
-// A RESTful factory for retrieving mails from json file
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.mailbox')
-        .factory('mails', mails);
-
-    mails.$inject = ['$http'];
-    function mails($http) {
-        var service = {
-            all: all,
-            get: get
-        };
-        return service;
-
-        ////////////////
-        
-        function readMails() {
-          var path = 'server/mails.json';
-          return $http.get(path).then(function (resp) {
-            return resp.data.mails;
-          });
-        }
-
-        function all() {
-          return readMails();
-        }
-
-        function get(id) {
-          return readMails().then(function(mails){
-            for (var i = 0; i < mails.length; i++) {
-              if (+mails[i].id === +id) return mails[i];
-            }
-            return null;
-          });
-        }
-    }
-})();
-
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.mailbox')
-        .controller('MailViewController', MailViewController);
-
-    MailViewController.$inject = ['mails', '$stateParams'];
-    function MailViewController(mails, $stateParams) {
-        var vm = this;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-          mails.get($stateParams.mid).then(function(mail){
-            vm.mail = mail;
-          });
-        }
-    }
-})();
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.loadingbar')
-        .config(loadingbarConfig)
-        ;
-    loadingbarConfig.$inject = ['cfpLoadingBarProvider'];
-    function loadingbarConfig(cfpLoadingBarProvider){
-      cfpLoadingBarProvider.includeBar = true;
-      cfpLoadingBarProvider.includeSpinner = false;
-      cfpLoadingBarProvider.latencyThreshold = 500;
-      cfpLoadingBarProvider.parentSelector = '.wrapper > section';
-    }
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('app.loadingbar')
-        .run(loadingbarRun)
-        ;
-    loadingbarRun.$inject = ['$rootScope', '$timeout', 'cfpLoadingBar'];
-    function loadingbarRun($rootScope, $timeout, cfpLoadingBar){
-
-      // Loading bar transition
-      // ----------------------------------- 
-      var thBar;
-      $rootScope.$on('$stateChangeStart', function() {
-          if($('.wrapper > section').length) // check if bar container exists
-            thBar = $timeout(function() {
-              cfpLoadingBar.start();
-            }, 0); // sets a latency Threshold
-      });
-      $rootScope.$on('$stateChangeSuccess', function(event) {
-          event.targetScope.$watch('$viewContentLoaded', function () {
-            $timeout.cancel(thBar);
-            cfpLoadingBar.complete();
-          });
-      });
-
-    }
-
-})();
 /**=========================================================
  * Module: modals.js
  * Provides a simple way to implement bootstrap modals from templates
@@ -6419,6 +6281,144 @@
             .val('') // Empty input
             ;
         }        
+    }
+})();
+
+/**=========================================================
+ * Module: demo-pagination.js
+ * Provides a simple demo for pagination
+ =========================================================*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.mailbox')
+        .controller('MailboxController', MailboxController);
+
+    function MailboxController() {
+        var vm = this;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+          vm.folders = [
+            {name: 'Inbox',   folder: 'inbox',   alert: 42, icon: 'fa-inbox' },
+            {name: 'Starred', folder: 'starred', alert: 10, icon: 'fa-star' },
+            {name: 'Sent',    folder: 'sent',    alert: 0,  icon: 'fa-paper-plane-o' },
+            {name: 'Draft',   folder: 'draft',   alert: 5,  icon: 'fa-edit' },
+            {name: 'Trash',   folder: 'trash',   alert: 0,  icon: 'fa-trash'}
+          ];
+
+          vm.labels = [
+            {name: 'Red',     color: 'danger'},
+            {name: 'Pink',    color: 'pink'},
+            {name: 'Blue',    color: 'info'},
+            {name: 'Yellow',  color: 'warning'}
+          ];
+
+          vm.mail = {
+            cc: false,
+            bcc: false
+          };
+          // Mailbox editr initial content
+          vm.content = '<p>Type something..</p>';
+        }
+    }
+})();
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.mailbox')
+        .controller('MailFolderController', MailFolderController);
+
+    MailFolderController.$inject = ['mails', '$stateParams'];
+    function MailFolderController(mails, $stateParams) {
+        var vm = this;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+          
+          vm.folder = {};
+          // no filter for inbox
+          vm.folder.folder = $stateParams.folder === 'inbox' ? '' : $stateParams.folder;
+
+          mails.all().then(function(mails){
+            vm.mails = mails;
+          });
+        }
+    }
+})();
+
+// A RESTful factory for retrieving mails from json file
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.mailbox')
+        .factory('mails', mails);
+
+    mails.$inject = ['$http'];
+    function mails($http) {
+        var service = {
+            all: all,
+            get: get
+        };
+        return service;
+
+        ////////////////
+        
+        function readMails() {
+          var path = 'server/mails.json';
+          return $http.get(path).then(function (resp) {
+            return resp.data.mails;
+          });
+        }
+
+        function all() {
+          return readMails();
+        }
+
+        function get(id) {
+          return readMails().then(function(mails){
+            for (var i = 0; i < mails.length; i++) {
+              if (+mails[i].id === +id) return mails[i];
+            }
+            return null;
+          });
+        }
+    }
+})();
+
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.mailbox')
+        .controller('MailViewController', MailViewController);
+
+    MailViewController.$inject = ['mails', '$stateParams'];
+    function MailViewController(mails, $stateParams) {
+        var vm = this;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+          mails.get($stateParams.mid).then(function(mail){
+            vm.mail = mail;
+          });
+        }
     }
 })();
 
@@ -7206,6 +7206,99 @@
 
 })();
  
+(function() {
+    'use strict';
+
+    angular
+        .module('app.preloader')
+        .directive('preloader', preloader);
+
+    preloader.$inject = ['$animate', '$timeout', '$q'];
+    function preloader ($animate, $timeout, $q) {
+
+        var directive = {
+            restrict: 'EAC',
+            template: 
+              '<div class="preloader-progress">' +
+                  '<div class="preloader-progress-bar" ' +
+                       'ng-style="{width: loadCounter + \'%\'}"></div>' +
+              '</div>'
+            ,
+            link: link
+        };
+        return directive;
+
+        ///////
+
+        function link(scope, el) {
+
+          scope.loadCounter = 0;
+
+          var counter  = 0,
+              timeout;
+
+          // disables scrollbar
+          angular.element('body').css('overflow', 'hidden');
+          // ensure class is present for styling
+          el.addClass('preloader');
+
+          appReady().then(endCounter);
+
+          timeout = $timeout(startCounter);
+
+          ///////
+
+          function startCounter() {
+
+            var remaining = 100 - counter;
+            counter = counter + (0.015 * Math.pow(1 - Math.sqrt(remaining), 2));
+
+            scope.loadCounter = parseInt(counter, 10);
+
+            timeout = $timeout(startCounter, 20);
+          }
+
+          function endCounter() {
+
+            $timeout.cancel(timeout);
+
+            scope.loadCounter = 100;
+
+            $timeout(function(){
+              // animate preloader hiding
+              $animate.addClass(el, 'preloader-hidden');
+              // retore scrollbar
+              angular.element('body').css('overflow', '');
+            }, 300);
+          }
+
+          function appReady() {
+            var deferred = $q.defer();
+            var viewsLoaded = 0;
+            // if this doesn't sync with the real app ready
+            // a custom event must be used instead
+            var off = scope.$on('$viewContentLoaded', function () {
+              viewsLoaded ++;
+              // we know there are at least two views to be loaded 
+              // before the app is ready (1-index.html 2-app*.html)
+              if ( viewsLoaded === 2) {
+                // with resolve this fires only once
+                $timeout(function(){
+                  deferred.resolve();
+                }, 3000);
+
+                off();
+              }
+
+            });
+
+            return deferred.promise;
+          }
+
+        } //link
+    }
+
+})();
 /**=========================================================
  * Module: helpers.js
  * Provides helper functions for routes definition
@@ -7311,7 +7404,7 @@
         $locationProvider.html5Mode(false);
 
         // defaults to dashboard
-        $urlRouterProvider.otherwise('/app/student-add');
+        $urlRouterProvider.otherwise('/app/stock-worktable');
 
         //
         // Application Routes
@@ -7322,7 +7415,7 @@
       .state('app', {
           url: '/app',
           templateUrl: helper.basepath('app.html'),
-          resolve: helper.resolveFor('fastclick', 'modernizr', 'icons', 'screenfull', 'animo', 'sparklines', 'slimscroll', 'classyloader', 'toaster', 'whirl','ngTable', 'oitozero.ngSweetAlert', 'ngDialog')
+          resolve: helper.resolveFor('fastclick', 'modernizr', 'ui.select', 'icons', 'screenfull', 'animo', 'sparklines', 'slimscroll', 'classyloader', 'toaster', 'whirl','ngTable', 'oitozero.ngSweetAlert', 'ngDialog')
       })
       .state('app.admission', {
           url: '/admission',
@@ -7889,95 +7982,60 @@
     'use strict';
 
     angular
-        .module('app.preloader')
-        .directive('preloader', preloader);
+        .module('app.settings')
+        .run(settingsRun);
 
-    preloader.$inject = ['$animate', '$timeout', '$q'];
-    function preloader ($animate, $timeout, $q) {
+    settingsRun.$inject = ['$rootScope', '$localStorage'];
 
-        var directive = {
-            restrict: 'EAC',
-            template: 
-              '<div class="preloader-progress">' +
-                  '<div class="preloader-progress-bar" ' +
-                       'ng-style="{width: loadCounter + \'%\'}"></div>' +
-              '</div>'
-            ,
-            link: link
-        };
-        return directive;
+    function settingsRun($rootScope, $localStorage){
 
-        ///////
+      // Global Settings
+      // -----------------------------------
+      $rootScope.app = {
+        name: 'Angle',
+        description: 'Angular Bootstrap Admin Template',
+        year: ((new Date()).getFullYear()),
+        layout: {
+          isFixed: true,
+          isCollapsed: false,
+          isBoxed: false,
+          isRTL: false,
+          horizontal: false,
+          isFloat: false,
+          asideHover: false,
+          theme: null,
+          asideScrollbar: false
+        },
+        useFullLayout: false,
+        hiddenFooter: false,
+        offsidebarOpen: false,
+        asideToggled: false,
+        viewAnimation: 'ng-fadeInUp'
+      };
 
-        function link(scope, el) {
+      // Setup the layout mode
+      $rootScope.app.layout.horizontal = ( $rootScope.$stateParams.layout === 'app-h') ;
 
-          scope.loadCounter = 0;
+      // Restore layout settings
+      if( angular.isDefined($localStorage.layout) )
+        $rootScope.app.layout = $localStorage.layout;
+      else
+        $localStorage.layout = $rootScope.app.layout;
 
-          var counter  = 0,
-              timeout;
+      $rootScope.$watch('app.layout', function () {
+        $localStorage.layout = $rootScope.app.layout;
+      }, true);
 
-          // disables scrollbar
-          angular.element('body').css('overflow', 'hidden');
-          // ensure class is present for styling
-          el.addClass('preloader');
+      // Close submenu when sidebar change from collapsed to normal
+      $rootScope.$watch('app.layout.isCollapsed', function(newValue) {
+        if( newValue === false )
+          $rootScope.$broadcast('closeSidebarMenu');
+      });
 
-          appReady().then(endCounter);
-
-          timeout = $timeout(startCounter);
-
-          ///////
-
-          function startCounter() {
-
-            var remaining = 100 - counter;
-            counter = counter + (0.015 * Math.pow(1 - Math.sqrt(remaining), 2));
-
-            scope.loadCounter = parseInt(counter, 10);
-
-            timeout = $timeout(startCounter, 20);
-          }
-
-          function endCounter() {
-
-            $timeout.cancel(timeout);
-
-            scope.loadCounter = 100;
-
-            $timeout(function(){
-              // animate preloader hiding
-              $animate.addClass(el, 'preloader-hidden');
-              // retore scrollbar
-              angular.element('body').css('overflow', '');
-            }, 300);
-          }
-
-          function appReady() {
-            var deferred = $q.defer();
-            var viewsLoaded = 0;
-            // if this doesn't sync with the real app ready
-            // a custom event must be used instead
-            var off = scope.$on('$viewContentLoaded', function () {
-              viewsLoaded ++;
-              // we know there are at least two views to be loaded 
-              // before the app is ready (1-index.html 2-app*.html)
-              if ( viewsLoaded === 2) {
-                // with resolve this fires only once
-                $timeout(function(){
-                  deferred.resolve();
-                }, 3000);
-
-                off();
-              }
-
-            });
-
-            return deferred.promise;
-          }
-
-        } //link
     }
 
 })();
+
 /**=========================================================
  * Module: sidebar-menu.js
  * Handle sidebar collapsible elements
@@ -8333,64 +8391,6 @@
           $scope.$on('$destroy', detach);
         }
     }
-})();
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.settings')
-        .run(settingsRun);
-
-    settingsRun.$inject = ['$rootScope', '$localStorage'];
-
-    function settingsRun($rootScope, $localStorage){
-
-      // Global Settings
-      // -----------------------------------
-      $rootScope.app = {
-        name: 'Angle',
-        description: 'Angular Bootstrap Admin Template',
-        year: ((new Date()).getFullYear()),
-        layout: {
-          isFixed: true,
-          isCollapsed: false,
-          isBoxed: false,
-          isRTL: false,
-          horizontal: false,
-          isFloat: false,
-          asideHover: false,
-          theme: null,
-          asideScrollbar: false
-        },
-        useFullLayout: false,
-        hiddenFooter: false,
-        offsidebarOpen: false,
-        asideToggled: false,
-        viewAnimation: 'ng-fadeInUp'
-      };
-
-      // Setup the layout mode
-      $rootScope.app.layout.horizontal = ( $rootScope.$stateParams.layout === 'app-h') ;
-
-      // Restore layout settings
-      if( angular.isDefined($localStorage.layout) )
-        $rootScope.app.layout = $localStorage.layout;
-      else
-        $localStorage.layout = $rootScope.app.layout;
-
-      $rootScope.$watch('app.layout', function () {
-        $localStorage.layout = $rootScope.app.layout;
-      }, true);
-
-      // Close submenu when sidebar change from collapsed to normal
-      $rootScope.$watch('app.layout.isCollapsed', function(newValue) {
-        if( newValue === false )
-          $rootScope.$broadcast('closeSidebarMenu');
-      });
-
-    }
-
 })();
 
 /**=========================================================
@@ -10871,6 +10871,9 @@ angular.module('blockUI').run(['$templateCache', function($templateCache){
         this.listOutStock = listOutStock;
         this.addOutStock = addOutStock;
 
+        this.getStock = getStock;
+        this.getGoodsHistory = getGoodsHistory;
+
         function listGoods(data){
             return $http({
                 method: "POST",
@@ -10925,6 +10928,24 @@ angular.module('blockUI').run(['$templateCache', function($templateCache){
             })
         }
 
+        function getStock(id){
+            return $http({
+                method: 'POST',
+                data: id,
+                url: "/v1/stock/in/detail",
+                timeout: 5000
+            });
+        }
+
+        function getGoodsHistory(id){
+            return $http({
+                method: "POST",
+                data : id,
+                url : "/v1/stock/goods/history/list",
+                timeout: 5000
+            });
+        }
+
     }
 })
 ();
@@ -10964,6 +10985,18 @@ angular.module('blockUI').run(['$templateCache', function($templateCache){
 })
 ();
 
+(function(){
+
+    angular.module("custom")
+        .controller("StockWorktableController", StockWorktableController);
+
+    StockWorktableController.$inject = ['$scope', 'StockService'];
+
+    function StockWorktableController($scope, StockService){
+
+    }
+
+})();
 (function () {
     'use strict';
     angular
@@ -11270,89 +11303,34 @@ angular.module('blockUI').run(['$templateCache', function($templateCache){
 (function(){
 
     angular.module("custom")
-        .controller("AddInStockController", AddInStockController);
+        .controller("GoodsDetailController", GoodsDetailController);
 
-    AddInStockController.$inject = ['$scope', 'StockService', 'SweetAlert', 'blockUI'];
+    GoodsDetailController.$inject = ['$scope', 'StockService', 'SweetAlert', 'blockUI', 'NgTableParams'];
 
-    function AddInStockController($scope, StockService, SweetAlert, blockUI){
-
-        var block = blockUI.instances.get("add-in-stock");
-
-        $scope.save = function(data){
-            if(!validate(data)){
-                SweetAlert.error("填写不完整!");
-                return;
-            }
-
-            block.start();
-            StockService.addInStock(data).success(function(data){
-                block.stop();
-                if(data.status == 200){
-                    SweetAlert.success("添加成功!");
-                    $scope.closeThisDialog("reload");
-                }
-            }).error(function(){
-                block.stop();
-                SweetAlert.error("网络出错,请稍后重试!");
-            });
-        }
+    function GoodsDetailController($scope, StockService, SweetAlert, blockUI, NgTableParams){
 
 
-        //TODO 进行goods必填字段的校验,很重要,暂时不做.
-        function validate(goods){
-            return true;
-        }
-    }
+        $scope.id = $scope.ngDialogData.id;
 
-})();
-(function(){
-
-    angular.module("custom")
-        .controller("StockInListController", StockInListController);
-
-    StockInListController.$inject = ['$scope', 'StockService', 'NgTableParams', 'blockUI', 'SweetAlert', 'ngDialog'];
-
-    function StockInListController($scope, StockService, NgTableParams, blockUI, SweetAlert, ngDialog){
-
-        $scope.tableParams = {
-            searchStr: null,
-            page : 1,
-            count : 10
-        }
-
-        $scope.search = function(){
-            $scope.stockInTableParams = new NgTableParams($scope.tableParams, {
+        $scope.init = function(){
+            $scope.goodsHistoryTableParams = new NgTableParams({}, {
+                counts: [],
                 getData: function($defer, params){
-                    blockUI.start();
-                    StockService.listInStock(params.parameters()).success(function(data){
+                    StockService.getGoodsHistory($scope.id).success(function(data){
                         if(data.status == 200){
-                            params.total(data.totalCount);
                             $defer.resolve(data.data);
-                            console.log(data.data);
-                            blockUI.stop();
                         }
                     }).error(function(){
-                        SweetAlert.error("网络问题, 请稍后重试!");
-                        blockUI.stop();
+                        SweetAlert.error("加载失败!");
+                        $scope.closeThisDialog("ok");
                     });
                 }
-            })
-        }
-
-
-        $scope.addNewInStock = function(){
-            var dialog= ngDialog.open({
-                template: 'app/views/custom/stock/add-stock-in.html',
-                controller: 'AddInStockController',
-                className: 'ngdialog-theme-default custom-width-800',
-            });
-            dialog.closePromise.then(function(data){
-                if(data.value != 'reload'){
-                    return;
-                }
-                $scope.stockInTableParams.reload();
             });
         }
+
+        $scope.init();
+
+
 
     }
 
@@ -11392,10 +11370,12 @@ angular.module('blockUI').run(['$templateCache', function($templateCache){
             })
         }
 
+        $scope.search();
+
 
         $scope.addNewGoods = function(){
             var dialog= ngDialog.open({
-                template: 'app/views/custom/stock/add-goods.html',
+                template: 'app/views/custom/stock/goods/add-goods.html',
                 controller: 'AddGoodsController',
                 className: 'ngdialog-theme-default custom-width-800',
             });
@@ -11407,17 +11387,498 @@ angular.module('blockUI').run(['$templateCache', function($templateCache){
             });
         }
 
+        $scope.openStockDetail = function(data){
+            var dialog = ngDialog.open({
+                template: 'app/views/custom/stock/goods/goods_detail.html',
+                controller: 'GoodsDetailController',
+                className: 'ngdialog-theme-default max-dialog',
+                data: {id : data}
+            });
+            dialog.closePromise.then(function(data){
+                if(data.value != 'reload'){
+                    return;
+                }
+                $scope.goodsTableParams.reload();
+            })
+        }
+
     }
 
 })();
 (function(){
 
     angular.module("custom")
-        .controller("StockWorktableController", StockWorktableController);
+        .controller("AddInStockController", AddInStockController);
 
-    StockWorktableController.$inject = ['$scope', 'StockService'];
+    AddInStockController.$inject = ['$scope', 'StockService', 'SweetAlert', 'blockUI', 'NgTableParams'];
 
-    function StockWorktableController($scope, StockService){
+    function AddInStockController($scope, StockService, SweetAlert, blockUI, NgTableParams){
+        var block = blockUI.instances.get('stock-in-add');
+
+        $scope.stock = {
+            stockType : "入库"
+        };
+
+        //暂时先写死,后期改成从后端拉取字典信息
+        $scope.categoryList = [{value: "采购入库"}, {value: "归还入库"}, {value: "退货入库"}];
+        //定义table对象数据
+        $scope.stockItems = [];
+
+        $scope.addRow = function(){
+            $scope.stockItems.push({});
+        }
+
+        $scope.deleteItem = function(index){
+            $scope.stockItems.splice(index, 1);
+        }
+
+        $scope.stockItemTableParams = new NgTableParams({}, {
+            counts: [],
+            getData: function($defer, params){
+                $defer.resolve($scope.stockItems);
+            }
+        });
+
+        //用于搜索物资
+        $scope.titles = [];
+        $scope.search = function(data){
+            var tableParameters = {searchStr : data, page : 1, count: 40};
+            StockService.listGoods(tableParameters).success(function(data){
+                if(data.status == 200){
+                    $scope.titles = data.data;
+                    blockUI.stop();
+                }
+            }).error(function(){
+                SweetAlert.error("网络问题, 请稍后重试!");
+                blockUI.stop();
+            });
+        }
+
+
+        $scope.itemSelected = function(row, $item){
+            row.gg = $item.gg;
+            row.cjmc = $item.cjmc;
+        }
+
+
+        $scope.validate = function(data){
+            return true;
+        }
+
+        $scope.addStockIn = function(){
+            if(!$scope.validate($scope.stock)){
+                return;
+            }
+            $scope.stock.items = $scope.stockItems;
+            block.start()
+            StockService.addInStock($scope.stock).success(function(data){
+                if(data.status == 200) {
+                    block.stop();
+                    SweetAlert.success("成功");
+                    $scope.closeThisDialog("reload");
+                }
+            }).error(function(){
+                block.stop();
+                SweetAlert.error("失败");
+            });
+        }
+
+    }
+
+})();
+(function(){
+
+    angular.module("custom")
+        .controller("StockInDetailController", StockInDetailController);
+
+    StockInDetailController.$inject = ['$scope', 'StockService', 'SweetAlert', 'blockUI', 'NgTableParams'];
+
+    function StockInDetailController($scope, StockService, SweetAlert, blockUI, NgTableParams){
+        var block = blockUI.instances.get('stock-in-detail');
+
+        $scope.stock = $scope.ngDialogData.data;
+
+        //暂时先写死,后期改成从后端拉取字典信息
+        $scope.categoryList = [{value: "采购入库"}, {value: "归还入库"}, {value: "退货入库"}];
+        //定义table对象数据
+        $scope.stockItems = [];
+
+        $scope.addRow = function(){
+            $scope.stockItems.push({});
+        }
+
+        $scope.deleteItem = function(index){
+            $scope.stockItems.splice(index, 1);
+        }
+
+        $scope.stockItemTableParams = new NgTableParams({}, {
+            counts: [],
+            getData: function($defer, params){
+                block.start();
+                StockService.getStock($scope.stock.id).success(function(data){
+                    if(data.status == 200){
+                        $scope.stockItems = data.data.items;
+                        $defer.resolve($scope.stockItems);
+                        block.stop();
+                    }
+                }).error(function(){
+                    block.stop();
+                    SweetAlert.error("获取详细记录失败!");
+                    $scope.closeThisDialog("ok");
+                });
+            }
+        });
+
+        //用于搜索物资
+        $scope.titles = [];
+        $scope.search = function(data){
+            var tableParameters = {searchStr : data, page : 1, count: 40};
+            StockService.listGoods(tableParameters).success(function(data){
+                if(data.status == 200){
+                    $scope.titles = data.data;
+                    blockUI.stop();
+                }
+            }).error(function(){
+                SweetAlert.error("网络问题, 请稍后重试!");
+                blockUI.stop();
+            });
+        }
+
+
+        $scope.itemSelected = function(row, $item){
+            row.gg = $item.gg;
+            row.cjmc = $item.cjmc;
+        }
+
+
+        $scope.validate = function(data){
+            return true;
+        }
+
+        $scope.addStockIn = function(){
+            if(!$scope.validate($scope.stock)){
+                return;
+            }
+            $scope.stock.items = $scope.stockItems;
+            block.start()
+            StockService.addInStock($scope.stock).success(function(data){
+                block.stop();
+                SweetAlert.success("成功");
+                $scope.closeThisDialog("reload");
+            }).error(function(){
+                block.stop();
+                SweetAlert.error("失败");
+            });
+        }
+
+    }
+
+})();
+(function(){
+
+    angular.module("custom")
+        .controller("StockInListController", StockInListController);
+
+    StockInListController.$inject = ['$scope', 'StockService', 'NgTableParams', 'blockUI', 'SweetAlert', 'ngDialog'];
+
+    function StockInListController($scope, StockService, NgTableParams, blockUI, SweetAlert, ngDialog){
+
+        $scope.tableParams = {
+            searchStr: null,
+            stockType: '入库',
+            page : 1,
+            count : 10
+        }
+
+        $scope.search = function(){
+            $scope.stockInTableParams = new NgTableParams($scope.tableParams, {
+                getData: function($defer, params){
+                    blockUI.start();
+                    StockService.listInStock(params.parameters()).success(function(data){
+                        if(data.status == 200){
+                            params.total(data.totalCount);
+                            $defer.resolve(data.data);
+                            console.log(data.data);
+                            blockUI.stop();
+                        }
+                    }).error(function(){
+                        SweetAlert.error("网络问题, 请稍后重试!");
+                        blockUI.stop();
+                    });
+                }
+            })
+        }
+
+        $scope.search();
+
+
+        $scope.addNewInStock = function(){
+            var dialog= ngDialog.open({
+                template: 'app/views/custom/stock/stock-in/stock-in-add.html',
+                controller: 'AddInStockController',
+                className: 'ngdialog-theme-default max-dialog',
+            });
+            dialog.closePromise.then(function(data){
+                if(data.value != 'reload'){
+                    return;
+                }
+                $scope.stockInTableParams.reload();
+            });
+        }
+
+        $scope.openStockInDetail = function(data){
+            var dialog= ngDialog.open({
+                template: 'app/views/custom/stock/stock-in/stock-in-detail.html',
+                controller: 'StockInDetailController',
+                className: 'ngdialog-theme-default max-dialog',
+                data: {data : data}
+            });
+            dialog.closePromise.then(function(data){
+                if(data.value != 'reload'){
+                    return;
+                }
+                $scope.stockInTableParams.reload();
+            });
+        }
+
+    }
+
+})();
+(function(){
+
+    angular.module("custom")
+        .controller("AddOutStockController", AddOutStockController);
+
+    AddOutStockController.$inject = ['$scope', 'StockService', 'SweetAlert', 'blockUI', 'NgTableParams'];
+
+    function AddOutStockController($scope, StockService, SweetAlert, blockUI, NgTableParams){
+        var block = blockUI.instances.get('stock-out-add');
+
+        $scope.stock = {
+            stockType: "出库"
+        };
+
+        //暂时先写死,后期改成从后端拉取字典信息
+        $scope.categoryList = [{value: "借用出库"}, {value: "损坏出库"}, {value: "其它出库"}];
+        //定义table对象数据
+        $scope.stockItems = [];
+
+        $scope.addRow = function(){
+            $scope.stockItems.push({});
+        }
+
+        $scope.deleteItem = function(index){
+            $scope.stockItems.splice(index, 1);
+        }
+
+        $scope.stockItemTableParams = new NgTableParams({}, {
+            counts: [],
+            getData: function($defer, params){
+                $defer.resolve($scope.stockItems);
+            }
+        });
+
+        //用于搜索物资
+        $scope.titles = [];
+        $scope.search = function(data){
+            var tableParameters = {searchStr : data, page : 1, count: 40};
+            StockService.listGoods(tableParameters).success(function(data){
+                if(data.status == 200){
+                    $scope.titles = data.data;
+                    blockUI.stop();
+                }
+            }).error(function(){
+                SweetAlert.error("网络问题, 请稍后重试!");
+                blockUI.stop();
+            });
+        }
+
+
+        $scope.itemSelected = function(row, $item){
+            row.gg = $item.gg;
+            row.cjmc = $item.cjmc;
+        }
+
+
+        $scope.validate = function(data){
+            return true;
+        }
+
+        $scope.addStockOut = function(){
+            if(!$scope.validate($scope.stock)){
+                return;
+            }
+            $scope.stock.items = $scope.stockItems;
+            block.start()
+            StockService.addOutStock($scope.stock).success(function(data){
+                if(data.status == 200) {
+                    block.stop();
+                    SweetAlert.success("成功");
+                    $scope.closeThisDialog("reload");
+                }
+            }).error(function(){
+                block.stop();
+                SweetAlert.error("失败");
+            });
+        }
+
+    }
+
+})();
+(function(){
+
+    angular.module("custom")
+        .controller("StockOutDetailController", StockOutDetailController);
+
+    StockOutDetailController.$inject = ['$scope', 'StockService', 'SweetAlert', 'blockUI', 'NgTableParams'];
+
+    function StockOutDetailController($scope, StockService, SweetAlert, blockUI, NgTableParams){
+        var block = blockUI.instances.get('stock-out-detail');
+
+        $scope.stock = $scope.ngDialogData.data;
+
+        //暂时先写死,后期改成从后端拉取字典信息
+        $scope.categoryList = [{value: "借用出库"}, {value: "损坏出库"}, {value: "其它出库"}];
+        //定义table对象数据
+        $scope.stockItems = [];
+
+        $scope.addRow = function(){
+            $scope.stockItems.push({});
+        }
+
+        $scope.deleteItem = function(index){
+            $scope.stockItems.splice(index, 1);
+        }
+
+        $scope.stockItemTableParams = new NgTableParams({}, {
+            counts: [],
+            getData: function($defer, params){
+                block.start();
+                StockService.getStock($scope.stock.id).success(function(data){
+                    if(data.status == 200){
+                        $scope.stockItems = data.data.items;
+                        $defer.resolve($scope.stockItems);
+                        block.stop();
+                    }
+                }).error(function(){
+                    block.stop();
+                    SweetAlert.error("获取详细记录失败!");
+                    $scope.closeThisDialog("ok");
+                });
+            }
+        });
+
+        //用于搜索物资
+        $scope.titles = [];
+        $scope.search = function(data){
+            var tableParameters = {searchStr : data, page : 1, count: 40};
+            StockService.listGoods(tableParameters).success(function(data){
+                if(data.status == 200){
+                    $scope.titles = data.data;
+                    blockUI.stop();
+                }
+            }).error(function(){
+                SweetAlert.error("网络问题, 请稍后重试!");
+                blockUI.stop();
+            });
+        }
+
+
+        $scope.itemSelected = function(row, $item){
+            row.gg = $item.gg;
+            row.cjmc = $item.cjmc;
+        }
+
+
+        $scope.validate = function(data){
+            return true;
+        }
+
+        $scope.addStockIn = function(){
+            if(!$scope.validate($scope.stock)){
+                return;
+            }
+            $scope.stock.items = $scope.stockItems;
+            block.start()
+            StockService.addInStock($scope.stock).success(function(data){
+                block.stop();
+                SweetAlert.success("成功");
+                $scope.closeThisDialog("reload");
+            }).error(function(){
+                block.stop();
+                SweetAlert.error("失败");
+            });
+        }
+
+    }
+
+})();
+(function(){
+
+    angular.module("custom")
+        .controller("StockOutListController", StockOutListController);
+
+    StockOutListController.$inject = ['$scope', 'StockService', 'NgTableParams', 'blockUI', 'SweetAlert', 'ngDialog'];
+
+    function StockOutListController($scope, StockService, NgTableParams, blockUI, SweetAlert, ngDialog){
+
+        $scope.tableParams = {
+            searchStr: null,
+            stockType: '出库',
+            page : 1,
+            count : 10
+        }
+
+        $scope.search = function(){
+            $scope.stockInTableParams = new NgTableParams($scope.tableParams, {
+                getData: function($defer, params){
+                    blockUI.start();
+                    StockService.listOutStock(params.parameters()).success(function(data){
+                        if(data.status == 200){
+                            params.total(data.totalCount);
+                            $defer.resolve(data.data);
+                            console.log(data.data);
+                            blockUI.stop();
+                        }
+                    }).error(function(){
+                        SweetAlert.error("网络问题, 请稍后重试!");
+                        blockUI.stop();
+                    });
+                }
+            })
+        }
+
+        $scope.search();
+
+
+        $scope.addNewOutStock = function(){
+            var dialog= ngDialog.open({
+                template: 'app/views/custom/stock/stock-out/stock-out-add.html',
+                controller: 'AddOutStockController',
+                className: 'ngdialog-theme-default max-dialog',
+            });
+            dialog.closePromise.then(function(data){
+                if(data.value != 'reload'){
+                    return;
+                }
+                $scope.stockInTableParams.reload();
+            });
+        }
+
+        $scope.openStockOutDetail = function(data){
+            var dialog= ngDialog.open({
+                template: 'app/views/custom/stock/stock-out/stock-out-detail.html',
+                controller: 'StockOutDetailController',
+                className: 'ngdialog-theme-default max-dialog',
+                data: {data : data}
+            });
+            dialog.closePromise.then(function(data){
+                if(data.value != 'reload'){
+                    return;
+                }
+                $scope.stockInTableParams.reload();
+            });
+        }
 
     }
 
