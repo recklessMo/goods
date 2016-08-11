@@ -83,6 +83,12 @@
     'use strict';
 
     angular
+        .module('app.dashboard', []);
+})();
+(function() {
+    'use strict';
+
+    angular
         .module('app.colors', []);
 })();
 (function() {
@@ -96,12 +102,6 @@
 
     angular
         .module('app.extras', []);
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('app.dashboard', []);
 })();
 (function() {
     'use strict';
@@ -125,19 +125,25 @@
     'use strict';
 
     angular
-        .module('app.loadingbar', []);
-})();
-(function() {
-    'use strict';
-
-    angular
         .module('app.lazyload', []);
 })();
 (function() {
     'use strict';
 
     angular
+        .module('app.loadingbar', []);
+})();
+(function() {
+    'use strict';
+
+    angular
         .module('app.locale', []);
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('app.mailbox', []);
 })();
 (function() {
     'use strict';
@@ -155,19 +161,13 @@
     'use strict';
 
     angular
-        .module('app.mailbox', []);
+        .module('app.pages', []);
 })();
 (function() {
     'use strict';
 
     angular
         .module('app.notify', []);
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('app.pages', []);
 })();
 (function() {
     'use strict';
@@ -2538,6 +2538,327 @@
     'use strict';
 
     angular
+        .module('app.dashboard')
+        .controller('DashboardController', DashboardController);
+
+    DashboardController.$inject = ['$scope', 'ChartData', '$timeout'];
+    function DashboardController($scope, ChartData, $timeout) {
+        var vm = this;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+
+			$scope.test="1";
+
+          // SPLINE
+          // ----------------------------------- 
+          vm.splineData = ChartData.load('server/chart/spline.json');
+          vm.splineOptions = {
+              series: {
+                  lines: {
+                      show: false
+                  },
+                  points: {
+                      show: true,
+                      radius: 4
+                  },
+                  splines: {
+                      show: true,
+                      tension: 0.4,
+                      lineWidth: 1,
+                      fill: 0.5
+                  }
+              },
+              grid: {
+                  borderColor: '#eee',
+                  borderWidth: 1,
+                  hoverable: true,
+                  backgroundColor: '#fcfcfc'
+              },
+              tooltip: true,
+              tooltipOpts: {
+                  content: function (label, x, y) { return x + ' : ' + y; }
+              },
+              xaxis: {
+                  tickColor: '#fcfcfc',
+                  mode: 'categories'
+              },
+              yaxis: {
+                  min: 0,
+                  max: 150, // optional: use it for a clear represetation
+                  tickColor: '#eee',
+                  position: ($scope.app.layout.isRTL ? 'right' : 'left'),
+                  tickFormatter: function (v) {
+                      return v/* + ' visitors'*/;
+                  }
+              },
+              shadowSize: 0
+          };
+
+
+          // PANEL REFRESH EVENTS
+          // ----------------------------------- 
+
+          $scope.$on('panel-refresh', function(event, id) {
+            
+            console.log('Simulating chart refresh during 3s on #'+id);
+
+            // Instead of timeout you can request a chart data
+            $timeout(function(){
+              
+              // directive listen for to remove the spinner 
+              // after we end up to perform own operations
+              $scope.$broadcast('removeSpinner', id);
+              
+              console.log('Refreshed #' + id);
+
+            }, 3000);
+
+          });
+
+
+          // PANEL DISMISS EVENTS
+          // ----------------------------------- 
+
+          // Before remove panel
+          $scope.$on('panel-remove', function(event, id, deferred){
+            
+            console.log('Panel #' + id + ' removing');
+            
+            // Here is obligatory to call the resolve() if we pretend to remove the panel finally
+            // Not calling resolve() will NOT remove the panel
+            // It's up to your app to decide if panel should be removed or not
+            deferred.resolve();
+          
+          });
+
+          // Panel removed ( only if above was resolved() )
+          $scope.$on('panel-removed', function(event, id){
+
+            console.log('Panel #' + id + ' removed');
+
+          });
+
+        }
+    }
+})();
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.dashboard')
+        .controller('DashboardV2Controller', DashboardV2Controller);
+
+    DashboardV2Controller.$inject = ['$rootScope', '$scope', '$state'];
+    function DashboardV2Controller($rootScope, $scope, $state) {
+        var vm = this;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+          
+          // Change layout mode
+          if( $state.includes('app-h') ) {
+            // Setup layout horizontal for demo
+            $rootScope.app.layout.horizontal = true;
+            $scope.$on('$destroy', function(){
+                $rootScope.app.layout.horizontal = false;
+            });            
+          }
+          else {
+            $rootScope.app.layout.isCollapsed = true;
+          }
+
+          // BAR STACKED
+          // ----------------------------------- 
+          vm.barStackedOptions = {
+              series: {
+                  stack: true,
+                  bars: {
+                      align: 'center',
+                      lineWidth: 0,
+                      show: true,
+                      barWidth: 0.6,
+                      fill: 0.9
+                  }
+              },
+              grid: {
+                  borderColor: '#eee',
+                  borderWidth: 1,
+                  hoverable: true,
+                  backgroundColor: '#fcfcfc'
+              },
+              tooltip: true,
+              tooltipOpts: {
+                  content: function (label, x, y) { return x + ' : ' + y; }
+              },
+              xaxis: {
+                  tickColor: '#fcfcfc',
+                  mode: 'categories'
+              },
+              yaxis: {
+                  min: 0,
+                  max: 200, // optional: use it for a clear represetation
+                  position: ($rootScope.app.layout.isRTL ? 'right' : 'left'),
+                  tickColor: '#eee'
+              },
+              shadowSize: 0
+          };
+
+          // SPLINE
+          // ----------------------------------- 
+
+          vm.splineOptions = {
+              series: {
+                  lines: {
+                      show: false
+                  },
+                  points: {
+                      show: true,
+                      radius: 4
+                  },
+                  splines: {
+                      show: true,
+                      tension: 0.4,
+                      lineWidth: 1,
+                      fill: 0.5
+                  }
+              },
+              grid: {
+                  borderColor: '#eee',
+                  borderWidth: 1,
+                  hoverable: true,
+                  backgroundColor: '#fcfcfc'
+              },
+              tooltip: true,
+              tooltipOpts: {
+                  content: function (label, x, y) { return x + ' : ' + y; }
+              },
+              xaxis: {
+                  tickColor: '#fcfcfc',
+                  mode: 'categories'
+              },
+              yaxis: {
+                  min: 0,
+                  max: 150, // optional: use it for a clear represetation
+                  tickColor: '#eee',
+                  position: ($rootScope.app.layout.isRTL ? 'right' : 'left'),
+                  tickFormatter: function (v) {
+                      return v/* + ' visitors'*/;
+                  }
+              },
+              shadowSize: 0
+          };
+        }
+    }
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('app.dashboard')
+        .controller('DashboardV3Controller', DashboardV3Controller);
+
+    DashboardV3Controller.$inject = ['$rootScope'];
+    function DashboardV3Controller($rootScope) {
+        var vm = this;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+
+          // SPLINE
+          // ----------------------------------- 
+
+          vm.splineOptions = {
+              series: {
+                  lines: {
+                      show: false
+                  },
+                  points: {
+                      show: true,
+                      radius: 4
+                  },
+                  splines: {
+                      show: true,
+                      tension: 0.4,
+                      lineWidth: 1,
+                      fill: 0.5
+                  }
+              },
+              grid: {
+                  borderColor: '#eee',
+                  borderWidth: 1,
+                  hoverable: true,
+                  backgroundColor: '#fcfcfc'
+              },
+              tooltip: true,
+              tooltipOpts: {
+                  content: function (label, x, y) { return x + ' : ' + y; }
+              },
+              xaxis: {
+                  tickColor: '#fcfcfc',
+                  mode: 'categories'
+              },
+              yaxis: {
+                  min: 0,
+                  max: 150, // optional: use it for a clear represetation
+                  tickColor: '#eee',
+                  position: ($rootScope.app.layout.isRTL ? 'right' : 'left'),
+                  tickFormatter: function (v) {
+                      return v/* + ' visitors'*/;
+                  }
+              },
+              shadowSize: 0
+          };
+
+
+          vm.seriesData = {
+            'CA': 11100,   // Canada
+            'DE': 2510,    // Germany
+            'FR': 3710,    // France
+            'AU': 5710,    // Australia
+            'GB': 8310,    // Great Britain
+            'RU': 9310,    // Russia
+            'BR': 6610,    // Brazil
+            'IN': 7810,    // India
+            'CN': 4310,    // China
+            'US': 839,     // USA
+            'SA': 410      // Saudi Arabia
+          };
+          
+          vm.markersData = [
+            { latLng:[41.90, 12.45],  name:'Vatican City'          },
+            { latLng:[43.73, 7.41],   name:'Monaco'                },
+            { latLng:[-0.52, 166.93], name:'Nauru'                 },
+            { latLng:[-8.51, 179.21], name:'Tuvalu'                },
+            { latLng:[7.11,171.06],   name:'Marshall Islands'      },
+            { latLng:[17.3,-62.73],   name:'Saint Kitts and Nevis' },
+            { latLng:[3.2,73.22],     name:'Maldives'              },
+            { latLng:[35.88,14.5],    name:'Malta'                 },
+            { latLng:[41.0,-71.06],   name:'New England'           },
+            { latLng:[12.05,-61.75],  name:'Grenada'               },
+            { latLng:[13.16,-59.55],  name:'Barbados'              },
+            { latLng:[17.11,-61.85],  name:'Antigua and Barbuda'   },
+            { latLng:[-4.61,55.45],   name:'Seychelles'            },
+            { latLng:[7.35,134.46],   name:'Palau'                 },
+            { latLng:[42.5,1.51],     name:'Andorra'               }
+          ];
+        }
+    }
+})();
+(function() {
+    'use strict';
+
+    angular
         .module('app.colors')
         .constant('APP_COLORS', {
           'primary':                '#5d9cec',
@@ -4172,327 +4493,6 @@
     }
 })();
 
-(function() {
-    'use strict';
-
-    angular
-        .module('app.dashboard')
-        .controller('DashboardController', DashboardController);
-
-    DashboardController.$inject = ['$scope', 'ChartData', '$timeout'];
-    function DashboardController($scope, ChartData, $timeout) {
-        var vm = this;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-
-			$scope.test="1";
-
-          // SPLINE
-          // ----------------------------------- 
-          vm.splineData = ChartData.load('server/chart/spline.json');
-          vm.splineOptions = {
-              series: {
-                  lines: {
-                      show: false
-                  },
-                  points: {
-                      show: true,
-                      radius: 4
-                  },
-                  splines: {
-                      show: true,
-                      tension: 0.4,
-                      lineWidth: 1,
-                      fill: 0.5
-                  }
-              },
-              grid: {
-                  borderColor: '#eee',
-                  borderWidth: 1,
-                  hoverable: true,
-                  backgroundColor: '#fcfcfc'
-              },
-              tooltip: true,
-              tooltipOpts: {
-                  content: function (label, x, y) { return x + ' : ' + y; }
-              },
-              xaxis: {
-                  tickColor: '#fcfcfc',
-                  mode: 'categories'
-              },
-              yaxis: {
-                  min: 0,
-                  max: 150, // optional: use it for a clear represetation
-                  tickColor: '#eee',
-                  position: ($scope.app.layout.isRTL ? 'right' : 'left'),
-                  tickFormatter: function (v) {
-                      return v/* + ' visitors'*/;
-                  }
-              },
-              shadowSize: 0
-          };
-
-
-          // PANEL REFRESH EVENTS
-          // ----------------------------------- 
-
-          $scope.$on('panel-refresh', function(event, id) {
-            
-            console.log('Simulating chart refresh during 3s on #'+id);
-
-            // Instead of timeout you can request a chart data
-            $timeout(function(){
-              
-              // directive listen for to remove the spinner 
-              // after we end up to perform own operations
-              $scope.$broadcast('removeSpinner', id);
-              
-              console.log('Refreshed #' + id);
-
-            }, 3000);
-
-          });
-
-
-          // PANEL DISMISS EVENTS
-          // ----------------------------------- 
-
-          // Before remove panel
-          $scope.$on('panel-remove', function(event, id, deferred){
-            
-            console.log('Panel #' + id + ' removing');
-            
-            // Here is obligatory to call the resolve() if we pretend to remove the panel finally
-            // Not calling resolve() will NOT remove the panel
-            // It's up to your app to decide if panel should be removed or not
-            deferred.resolve();
-          
-          });
-
-          // Panel removed ( only if above was resolved() )
-          $scope.$on('panel-removed', function(event, id){
-
-            console.log('Panel #' + id + ' removed');
-
-          });
-
-        }
-    }
-})();
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.dashboard')
-        .controller('DashboardV2Controller', DashboardV2Controller);
-
-    DashboardV2Controller.$inject = ['$rootScope', '$scope', '$state'];
-    function DashboardV2Controller($rootScope, $scope, $state) {
-        var vm = this;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-          
-          // Change layout mode
-          if( $state.includes('app-h') ) {
-            // Setup layout horizontal for demo
-            $rootScope.app.layout.horizontal = true;
-            $scope.$on('$destroy', function(){
-                $rootScope.app.layout.horizontal = false;
-            });            
-          }
-          else {
-            $rootScope.app.layout.isCollapsed = true;
-          }
-
-          // BAR STACKED
-          // ----------------------------------- 
-          vm.barStackedOptions = {
-              series: {
-                  stack: true,
-                  bars: {
-                      align: 'center',
-                      lineWidth: 0,
-                      show: true,
-                      barWidth: 0.6,
-                      fill: 0.9
-                  }
-              },
-              grid: {
-                  borderColor: '#eee',
-                  borderWidth: 1,
-                  hoverable: true,
-                  backgroundColor: '#fcfcfc'
-              },
-              tooltip: true,
-              tooltipOpts: {
-                  content: function (label, x, y) { return x + ' : ' + y; }
-              },
-              xaxis: {
-                  tickColor: '#fcfcfc',
-                  mode: 'categories'
-              },
-              yaxis: {
-                  min: 0,
-                  max: 200, // optional: use it for a clear represetation
-                  position: ($rootScope.app.layout.isRTL ? 'right' : 'left'),
-                  tickColor: '#eee'
-              },
-              shadowSize: 0
-          };
-
-          // SPLINE
-          // ----------------------------------- 
-
-          vm.splineOptions = {
-              series: {
-                  lines: {
-                      show: false
-                  },
-                  points: {
-                      show: true,
-                      radius: 4
-                  },
-                  splines: {
-                      show: true,
-                      tension: 0.4,
-                      lineWidth: 1,
-                      fill: 0.5
-                  }
-              },
-              grid: {
-                  borderColor: '#eee',
-                  borderWidth: 1,
-                  hoverable: true,
-                  backgroundColor: '#fcfcfc'
-              },
-              tooltip: true,
-              tooltipOpts: {
-                  content: function (label, x, y) { return x + ' : ' + y; }
-              },
-              xaxis: {
-                  tickColor: '#fcfcfc',
-                  mode: 'categories'
-              },
-              yaxis: {
-                  min: 0,
-                  max: 150, // optional: use it for a clear represetation
-                  tickColor: '#eee',
-                  position: ($rootScope.app.layout.isRTL ? 'right' : 'left'),
-                  tickFormatter: function (v) {
-                      return v/* + ' visitors'*/;
-                  }
-              },
-              shadowSize: 0
-          };
-        }
-    }
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('app.dashboard')
-        .controller('DashboardV3Controller', DashboardV3Controller);
-
-    DashboardV3Controller.$inject = ['$rootScope'];
-    function DashboardV3Controller($rootScope) {
-        var vm = this;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-
-          // SPLINE
-          // ----------------------------------- 
-
-          vm.splineOptions = {
-              series: {
-                  lines: {
-                      show: false
-                  },
-                  points: {
-                      show: true,
-                      radius: 4
-                  },
-                  splines: {
-                      show: true,
-                      tension: 0.4,
-                      lineWidth: 1,
-                      fill: 0.5
-                  }
-              },
-              grid: {
-                  borderColor: '#eee',
-                  borderWidth: 1,
-                  hoverable: true,
-                  backgroundColor: '#fcfcfc'
-              },
-              tooltip: true,
-              tooltipOpts: {
-                  content: function (label, x, y) { return x + ' : ' + y; }
-              },
-              xaxis: {
-                  tickColor: '#fcfcfc',
-                  mode: 'categories'
-              },
-              yaxis: {
-                  min: 0,
-                  max: 150, // optional: use it for a clear represetation
-                  tickColor: '#eee',
-                  position: ($rootScope.app.layout.isRTL ? 'right' : 'left'),
-                  tickFormatter: function (v) {
-                      return v/* + ' visitors'*/;
-                  }
-              },
-              shadowSize: 0
-          };
-
-
-          vm.seriesData = {
-            'CA': 11100,   // Canada
-            'DE': 2510,    // Germany
-            'FR': 3710,    // France
-            'AU': 5710,    // Australia
-            'GB': 8310,    // Great Britain
-            'RU': 9310,    // Russia
-            'BR': 6610,    // Brazil
-            'IN': 7810,    // India
-            'CN': 4310,    // China
-            'US': 839,     // USA
-            'SA': 410      // Saudi Arabia
-          };
-          
-          vm.markersData = [
-            { latLng:[41.90, 12.45],  name:'Vatican City'          },
-            { latLng:[43.73, 7.41],   name:'Monaco'                },
-            { latLng:[-0.52, 166.93], name:'Nauru'                 },
-            { latLng:[-8.51, 179.21], name:'Tuvalu'                },
-            { latLng:[7.11,171.06],   name:'Marshall Islands'      },
-            { latLng:[17.3,-62.73],   name:'Saint Kitts and Nevis' },
-            { latLng:[3.2,73.22],     name:'Maldives'              },
-            { latLng:[35.88,14.5],    name:'Malta'                 },
-            { latLng:[41.0,-71.06],   name:'New England'           },
-            { latLng:[12.05,-61.75],  name:'Grenada'               },
-            { latLng:[13.16,-59.55],  name:'Barbados'              },
-            { latLng:[17.11,-61.85],  name:'Antigua and Barbuda'   },
-            { latLng:[-4.61,55.45],   name:'Seychelles'            },
-            { latLng:[7.35,134.46],   name:'Palau'                 },
-            { latLng:[42.5,1.51],     name:'Andorra'               }
-          ];
-        }
-    }
-})();
 /**=========================================================
  * Module: flatdoc.js
  * Creates the flatdoc markup and initializes the plugin
@@ -5571,50 +5571,6 @@
     'use strict';
 
     angular
-        .module('app.loadingbar')
-        .config(loadingbarConfig)
-        ;
-    loadingbarConfig.$inject = ['cfpLoadingBarProvider'];
-    function loadingbarConfig(cfpLoadingBarProvider){
-      cfpLoadingBarProvider.includeBar = true;
-      cfpLoadingBarProvider.includeSpinner = false;
-      cfpLoadingBarProvider.latencyThreshold = 500;
-      cfpLoadingBarProvider.parentSelector = '.wrapper > section';
-    }
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('app.loadingbar')
-        .run(loadingbarRun)
-        ;
-    loadingbarRun.$inject = ['$rootScope', '$timeout', 'cfpLoadingBar'];
-    function loadingbarRun($rootScope, $timeout, cfpLoadingBar){
-
-      // Loading bar transition
-      // ----------------------------------- 
-      var thBar;
-      $rootScope.$on('$stateChangeStart', function() {
-          if($('.wrapper > section').length) // check if bar container exists
-            thBar = $timeout(function() {
-              cfpLoadingBar.start();
-            }, 0); // sets a latency Threshold
-      });
-      $rootScope.$on('$stateChangeSuccess', function(event) {
-          event.targetScope.$watch('$viewContentLoaded', function () {
-            $timeout.cancel(thBar);
-            cfpLoadingBar.complete();
-          });
-      });
-
-    }
-
-})();
-(function() {
-    'use strict';
-
-    angular
         .module('app.lazyload')
         .config(lazyloadConfig);
 
@@ -5790,6 +5746,50 @@
     'use strict';
 
     angular
+        .module('app.loadingbar')
+        .config(loadingbarConfig)
+        ;
+    loadingbarConfig.$inject = ['cfpLoadingBarProvider'];
+    function loadingbarConfig(cfpLoadingBarProvider){
+      cfpLoadingBarProvider.includeBar = true;
+      cfpLoadingBarProvider.includeSpinner = false;
+      cfpLoadingBarProvider.latencyThreshold = 500;
+      cfpLoadingBarProvider.parentSelector = '.wrapper > section';
+    }
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('app.loadingbar')
+        .run(loadingbarRun)
+        ;
+    loadingbarRun.$inject = ['$rootScope', '$timeout', 'cfpLoadingBar'];
+    function loadingbarRun($rootScope, $timeout, cfpLoadingBar){
+
+      // Loading bar transition
+      // ----------------------------------- 
+      var thBar;
+      $rootScope.$on('$stateChangeStart', function() {
+          if($('.wrapper > section').length) // check if bar container exists
+            thBar = $timeout(function() {
+              cfpLoadingBar.start();
+            }, 0); // sets a latency Threshold
+      });
+      $rootScope.$on('$stateChangeSuccess', function(event) {
+          event.targetScope.$watch('$viewContentLoaded', function () {
+            $timeout.cancel(thBar);
+            cfpLoadingBar.complete();
+          });
+      });
+
+    }
+
+})();
+(function() {
+    'use strict';
+
+    angular
         .module('app.locale')
         .config(localeConfig)
         ;
@@ -5835,6 +5835,144 @@
           $rootScope.$locale = $locale;
           
           $rootScope.changeLocale = tmhDynamicLocale.set;
+        }
+    }
+})();
+
+/**=========================================================
+ * Module: demo-pagination.js
+ * Provides a simple demo for pagination
+ =========================================================*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.mailbox')
+        .controller('MailboxController', MailboxController);
+
+    function MailboxController() {
+        var vm = this;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+          vm.folders = [
+            {name: 'Inbox',   folder: 'inbox',   alert: 42, icon: 'fa-inbox' },
+            {name: 'Starred', folder: 'starred', alert: 10, icon: 'fa-star' },
+            {name: 'Sent',    folder: 'sent',    alert: 0,  icon: 'fa-paper-plane-o' },
+            {name: 'Draft',   folder: 'draft',   alert: 5,  icon: 'fa-edit' },
+            {name: 'Trash',   folder: 'trash',   alert: 0,  icon: 'fa-trash'}
+          ];
+
+          vm.labels = [
+            {name: 'Red',     color: 'danger'},
+            {name: 'Pink',    color: 'pink'},
+            {name: 'Blue',    color: 'info'},
+            {name: 'Yellow',  color: 'warning'}
+          ];
+
+          vm.mail = {
+            cc: false,
+            bcc: false
+          };
+          // Mailbox editr initial content
+          vm.content = '<p>Type something..</p>';
+        }
+    }
+})();
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.mailbox')
+        .controller('MailFolderController', MailFolderController);
+
+    MailFolderController.$inject = ['mails', '$stateParams'];
+    function MailFolderController(mails, $stateParams) {
+        var vm = this;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+          
+          vm.folder = {};
+          // no filter for inbox
+          vm.folder.folder = $stateParams.folder === 'inbox' ? '' : $stateParams.folder;
+
+          mails.all().then(function(mails){
+            vm.mails = mails;
+          });
+        }
+    }
+})();
+
+// A RESTful factory for retrieving mails from json file
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.mailbox')
+        .factory('mails', mails);
+
+    mails.$inject = ['$http'];
+    function mails($http) {
+        var service = {
+            all: all,
+            get: get
+        };
+        return service;
+
+        ////////////////
+        
+        function readMails() {
+          var path = 'server/mails.json';
+          return $http.get(path).then(function (resp) {
+            return resp.data.mails;
+          });
+        }
+
+        function all() {
+          return readMails();
+        }
+
+        function get(id) {
+          return readMails().then(function(mails){
+            for (var i = 0; i < mails.length; i++) {
+              if (+mails[i].id === +id) return mails[i];
+            }
+            return null;
+          });
+        }
+    }
+})();
+
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.mailbox')
+        .controller('MailViewController', MailViewController);
+
+    MailViewController.$inject = ['mails', '$stateParams'];
+    function MailViewController(mails, $stateParams) {
+        var vm = this;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+          mails.get($stateParams.mid).then(function(mail){
+            vm.mail = mail;
+          });
         }
     }
 })();
@@ -6285,18 +6423,19 @@
 })();
 
 /**=========================================================
- * Module: demo-pagination.js
- * Provides a simple demo for pagination
+ * Module: access-login.js
+ * Demo for login api
  =========================================================*/
 
 (function() {
     'use strict';
 
     angular
-        .module('app.mailbox')
-        .controller('MailboxController', MailboxController);
+        .module('app.pages')
+        .controller('LoginFormController', LoginFormController);
 
-    function MailboxController() {
+    LoginFormController.$inject = ['$http'];
+    function LoginFormController($http) {
         var vm = this;
 
         activate();
@@ -6304,110 +6443,46 @@
         ////////////////
 
         function activate() {
-          vm.folders = [
-            {name: 'Inbox',   folder: 'inbox',   alert: 42, icon: 'fa-inbox' },
-            {name: 'Starred', folder: 'starred', alert: 10, icon: 'fa-star' },
-            {name: 'Sent',    folder: 'sent',    alert: 0,  icon: 'fa-paper-plane-o' },
-            {name: 'Draft',   folder: 'draft',   alert: 5,  icon: 'fa-edit' },
-            {name: 'Trash',   folder: 'trash',   alert: 0,  icon: 'fa-trash'}
-          ];
+          // bind here all data from the form
+          vm.account = {};
+          // place the message if something goes wrong
+          vm.authMsg = '';
 
-          vm.labels = [
-            {name: 'Red',     color: 'danger'},
-            {name: 'Pink',    color: 'pink'},
-            {name: 'Blue',    color: 'info'},
-            {name: 'Yellow',  color: 'warning'}
-          ];
+          vm.login = function() {
+            vm.authMsg = '';
 
-          vm.mail = {
-            cc: false,
-            bcc: false
-          };
-          // Mailbox editr initial content
-          vm.content = '<p>Type something..</p>';
-        }
-    }
-})();
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.mailbox')
-        .controller('MailFolderController', MailFolderController);
-
-    MailFolderController.$inject = ['mails', '$stateParams'];
-    function MailFolderController(mails, $stateParams) {
-        var vm = this;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-          
-          vm.folder = {};
-          // no filter for inbox
-          vm.folder.folder = $stateParams.folder === 'inbox' ? '' : $stateParams.folder;
-
-          mails.all().then(function(mails){
-            vm.mails = mails;
-          });
-        }
-    }
-})();
-
-// A RESTful factory for retrieving mails from json file
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.mailbox')
-        .factory('mails', mails);
-
-    mails.$inject = ['$http'];
-    function mails($http) {
-        var service = {
-            all: all,
-            get: get
-        };
-        return service;
-
-        ////////////////
-        
-        function readMails() {
-          var path = 'server/mails.json';
-          return $http.get(path).then(function (resp) {
-            return resp.data.mails;
-          });
-        }
-
-        function all() {
-          return readMails();
-        }
-
-        function get(id) {
-          return readMails().then(function(mails){
-            for (var i = 0; i < mails.length; i++) {
-              if (+mails[i].id === +id) return mails[i];
+            if(vm.loginForm.$valid) {
+              $http({
+                  method: "POST",
+                  url: "j_spring_security_check",
+                  data: $.param({username: vm.account.username, password: vm.account.password}),
+                  headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).success(function(){
+                  window.location.href = "/";
+                });
             }
-            return null;
-          });
+            else {
+
+            }
+          };
         }
     }
 })();
 
+/**=========================================================
+ * Module: access-register.js
+ * Demo for register account api
+ =========================================================*/
 
 (function() {
     'use strict';
 
     angular
-        .module('app.mailbox')
-        .controller('MailViewController', MailViewController);
+        .module('app.pages')
+        .controller('RegisterFormController', RegisterFormController);
 
-    MailViewController.$inject = ['mails', '$stateParams'];
-    function MailViewController(mails, $stateParams) {
+    RegisterFormController.$inject = ['$http', '$state'];
+    function RegisterFormController($http, $state) {
         var vm = this;
 
         activate();
@@ -6415,9 +6490,39 @@
         ////////////////
 
         function activate() {
-          mails.get($stateParams.mid).then(function(mail){
-            vm.mail = mail;
-          });
+          // bind here all data from the form
+          vm.account = {};
+          // place the message if something goes wrong
+          vm.authMsg = '';
+            
+          vm.register = function() {
+            vm.authMsg = '';
+
+            if(vm.registerForm.$valid) {
+
+              $http
+                .post('api/account/register', {email: vm.account.email, password: vm.account.password})
+                .then(function(response) {
+                  // assumes if ok, response is an object with some data, if not, a string with error
+                  // customize according to your api
+                  if ( !response.account ) {
+                    vm.authMsg = response;
+                  }else{
+                    $state.go('app.dashboard');
+                  }
+                }, function() {
+                  vm.authMsg = 'Server Request Error';
+                });
+            }
+            else {
+              // set as dirty if the user click directly to login so we show the validation messages
+              /*jshint -W106*/
+              vm.registerForm.account_email.$dirty = true;
+              vm.registerForm.account_password.$dirty = true;
+              vm.registerForm.account_agreed.$dirty = true;
+              
+            }
+          };
         }
     }
 })();
@@ -6653,111 +6758,6 @@
     
     return notify;
 }(jQuery));
-
-/**=========================================================
- * Module: access-login.js
- * Demo for login api
- =========================================================*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.pages')
-        .controller('LoginFormController', LoginFormController);
-
-    LoginFormController.$inject = ['$http'];
-    function LoginFormController($http) {
-        var vm = this;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-          // bind here all data from the form
-          vm.account = {};
-          // place the message if something goes wrong
-          vm.authMsg = '';
-
-          vm.login = function() {
-            vm.authMsg = '';
-
-            if(vm.loginForm.$valid) {
-              $http({
-                  method: "POST",
-                  url: "j_spring_security_check",
-                  data: $.param({username: vm.account.username, password: vm.account.password}),
-                  headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                }).success(function(){
-                  window.location.href = "/";
-                });
-            }
-            else {
-
-            }
-          };
-        }
-    }
-})();
-
-/**=========================================================
- * Module: access-register.js
- * Demo for register account api
- =========================================================*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.pages')
-        .controller('RegisterFormController', RegisterFormController);
-
-    RegisterFormController.$inject = ['$http', '$state'];
-    function RegisterFormController($http, $state) {
-        var vm = this;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-          // bind here all data from the form
-          vm.account = {};
-          // place the message if something goes wrong
-          vm.authMsg = '';
-            
-          vm.register = function() {
-            vm.authMsg = '';
-
-            if(vm.registerForm.$valid) {
-
-              $http
-                .post('api/account/register', {email: vm.account.email, password: vm.account.password})
-                .then(function(response) {
-                  // assumes if ok, response is an object with some data, if not, a string with error
-                  // customize according to your api
-                  if ( !response.account ) {
-                    vm.authMsg = response;
-                  }else{
-                    $state.go('app.dashboard');
-                  }
-                }, function() {
-                  vm.authMsg = 'Server Request Error';
-                });
-            }
-            else {
-              // set as dirty if the user click directly to login so we show the validation messages
-              /*jshint -W106*/
-              vm.registerForm.account_email.$dirty = true;
-              vm.registerForm.account_password.$dirty = true;
-              vm.registerForm.account_agreed.$dirty = true;
-              
-            }
-          };
-        }
-    }
-})();
 
 /**=========================================================
  * Collapse panels * [panel-collapse]
@@ -10795,6 +10795,18 @@ angular.module('blockUI').run(['$templateCache', function($templateCache){
 }]);
 })(angular);
 //# sourceMappingURL=angular-block-ui.js.map
+(function(){
+
+    angular.module("custom")
+        .controller("StockWorktableController", StockWorktableController);
+
+    StockWorktableController.$inject = ['$scope', 'StockService'];
+
+    function StockWorktableController($scope, StockService){
+
+    }
+
+})();
 (function () {
     'use strict';
 
@@ -10985,18 +10997,6 @@ angular.module('blockUI').run(['$templateCache', function($templateCache){
 })
 ();
 
-(function(){
-
-    angular.module("custom")
-        .controller("StockWorktableController", StockWorktableController);
-
-    StockWorktableController.$inject = ['$scope', 'StockService'];
-
-    function StockWorktableController($scope, StockService){
-
-    }
-
-})();
 (function () {
     'use strict';
     angular
@@ -11264,150 +11264,6 @@ angular.module('blockUI').run(['$templateCache', function($templateCache){
 (function(){
 
     angular.module("custom")
-        .controller("AddGoodsController", AddGoodsController);
-
-    AddGoodsController.$inject = ['$scope', 'StockService', 'SweetAlert', 'blockUI'];
-
-    function AddGoodsController($scope, StockService, SweetAlert, blockUI){
-
-
-        var block = blockUI.instances.get("add-goods");
-
-        $scope.save = function(data){
-            if(!validate(data)){
-                SweetAlert.error("填写不完整!");
-                return;
-            }
-
-            block.start();
-            StockService.addGoods(data).success(function(data){
-                block.stop();
-                if(data.status == 200){
-                    SweetAlert.success("成功!");
-                    $scope.closeThisDialog("reload");
-                }
-            }).error(function(){
-                block.stop();
-                SweetAlert.error("网络出错,请稍后重试!");
-            });
-        }
-
-
-        //TODO 进行goods必填字段的校验,很重要,暂时不做.
-        function validate(goods){
-            return true;
-        }
-    }
-
-})();
-(function(){
-
-    angular.module("custom")
-        .controller("GoodsDetailController", GoodsDetailController);
-
-    GoodsDetailController.$inject = ['$scope', 'StockService', 'SweetAlert', 'blockUI', 'NgTableParams'];
-
-    function GoodsDetailController($scope, StockService, SweetAlert, blockUI, NgTableParams){
-
-
-        $scope.id = $scope.ngDialogData.id;
-
-        $scope.init = function(){
-            $scope.goodsHistoryTableParams = new NgTableParams({}, {
-                counts: [],
-                getData: function($defer, params){
-                    StockService.getGoodsHistory($scope.id).success(function(data){
-                        if(data.status == 200){
-                            $defer.resolve(data.data);
-                        }
-                    }).error(function(){
-                        SweetAlert.error("加载失败!");
-                        $scope.closeThisDialog("ok");
-                    });
-                }
-            });
-        }
-
-        $scope.init();
-
-
-
-    }
-
-})();
-(function(){
-
-    angular.module("custom")
-        .controller("StockListController", StockListController);
-
-    StockListController.$inject = ['$scope', 'StockService', 'NgTableParams', 'blockUI', 'SweetAlert', 'ngDialog'];
-
-    function StockListController($scope, StockService, NgTableParams, blockUI, SweetAlert, ngDialog){
-
-        $scope.tableParams = {
-            searchStr: null,
-            page : 1,
-            count : 10
-        }
-
-
-        $scope.search = function(){
-            $scope.goodsTableParams = new NgTableParams($scope.tableParams, {
-                getData: function($defer, params){
-                    blockUI.start();
-                    StockService.listGoods(params.parameters()).success(function(data){
-                        if(data.status == 200){
-                            params.total(data.totalCount);
-                            $defer.resolve(data.data);
-                            console.log(data.data);
-                            blockUI.stop();
-                        }
-                    }).error(function(){
-                        SweetAlert.error("网络问题, 请稍后重试!");
-                        blockUI.stop();
-                    });
-                }
-            })
-        }
-
-        $scope.search();
-
-
-        $scope.addNewGoods = function(){
-            var dialog= ngDialog.open({
-                template: 'app/views/custom/stock/goods/add-goods.html',
-                controller: 'AddGoodsController',
-                className: 'ngdialog-theme-default custom-width-800',
-            });
-            dialog.closePromise.then(function(data){
-                if(data.value != 'reload'){
-                    return;
-                }
-                $scope.goodsTableParams.reload();
-            });
-        }
-
-        $scope.openStockDetail = function(data){
-            var dialog = ngDialog.open({
-                template: 'app/views/custom/stock/goods/goods_detail.html',
-                controller: 'GoodsDetailController',
-                className: 'ngdialog-theme-default max-dialog',
-                data: {id : data}
-            });
-            dialog.closePromise.then(function(data){
-                if(data.value != 'reload'){
-                    return;
-                }
-                $scope.goodsTableParams.reload();
-            })
-        }
-
-    }
-
-})();
-(function(){
-
-    angular.module("custom")
         .controller("AddInStockController", AddInStockController);
 
     AddInStockController.$inject = ['$scope', 'StockService', 'SweetAlert', 'blockUI', 'NgTableParams'];
@@ -11639,6 +11495,150 @@ angular.module('blockUI').run(['$templateCache', function($templateCache){
                 }
                 $scope.stockInTableParams.reload();
             });
+        }
+
+    }
+
+})();
+(function(){
+
+    angular.module("custom")
+        .controller("AddGoodsController", AddGoodsController);
+
+    AddGoodsController.$inject = ['$scope', 'StockService', 'SweetAlert', 'blockUI'];
+
+    function AddGoodsController($scope, StockService, SweetAlert, blockUI){
+
+
+        var block = blockUI.instances.get("add-goods");
+
+        $scope.save = function(data){
+            if(!validate(data)){
+                SweetAlert.error("填写不完整!");
+                return;
+            }
+
+            block.start();
+            StockService.addGoods(data).success(function(data){
+                block.stop();
+                if(data.status == 200){
+                    SweetAlert.success("成功!");
+                    $scope.closeThisDialog("reload");
+                }
+            }).error(function(){
+                block.stop();
+                SweetAlert.error("网络出错,请稍后重试!");
+            });
+        }
+
+
+        //TODO 进行goods必填字段的校验,很重要,暂时不做.
+        function validate(goods){
+            return true;
+        }
+    }
+
+})();
+(function(){
+
+    angular.module("custom")
+        .controller("GoodsDetailController", GoodsDetailController);
+
+    GoodsDetailController.$inject = ['$scope', 'StockService', 'SweetAlert', 'blockUI', 'NgTableParams'];
+
+    function GoodsDetailController($scope, StockService, SweetAlert, blockUI, NgTableParams){
+
+
+        $scope.id = $scope.ngDialogData.id;
+
+        $scope.init = function(){
+            $scope.goodsHistoryTableParams = new NgTableParams({}, {
+                counts: [],
+                getData: function($defer, params){
+                    StockService.getGoodsHistory($scope.id).success(function(data){
+                        if(data.status == 200){
+                            $defer.resolve(data.data);
+                        }
+                    }).error(function(){
+                        SweetAlert.error("加载失败!");
+                        $scope.closeThisDialog("ok");
+                    });
+                }
+            });
+        }
+
+        $scope.init();
+
+
+
+    }
+
+})();
+(function(){
+
+    angular.module("custom")
+        .controller("StockListController", StockListController);
+
+    StockListController.$inject = ['$scope', 'StockService', 'NgTableParams', 'blockUI', 'SweetAlert', 'ngDialog'];
+
+    function StockListController($scope, StockService, NgTableParams, blockUI, SweetAlert, ngDialog){
+
+        $scope.tableParams = {
+            searchStr: null,
+            page : 1,
+            count : 10
+        }
+
+
+        $scope.search = function(){
+            $scope.goodsTableParams = new NgTableParams($scope.tableParams, {
+                getData: function($defer, params){
+                    blockUI.start();
+                    StockService.listGoods(params.parameters()).success(function(data){
+                        if(data.status == 200){
+                            params.total(data.totalCount);
+                            $defer.resolve(data.data);
+                            console.log(data.data);
+                            blockUI.stop();
+                        }
+                    }).error(function(){
+                        SweetAlert.error("网络问题, 请稍后重试!");
+                        blockUI.stop();
+                    });
+                }
+            })
+        }
+
+        $scope.search();
+
+
+        $scope.addNewGoods = function(){
+            var dialog= ngDialog.open({
+                template: 'app/views/custom/stock/goods/add-goods.html',
+                controller: 'AddGoodsController',
+                className: 'ngdialog-theme-default custom-width-800',
+            });
+            dialog.closePromise.then(function(data){
+                if(data.value != 'reload'){
+                    return;
+                }
+                $scope.goodsTableParams.reload();
+            });
+        }
+
+        $scope.openStockDetail = function(data){
+            var dialog = ngDialog.open({
+                template: 'app/views/custom/stock/goods/goods_detail.html',
+                controller: 'GoodsDetailController',
+                className: 'ngdialog-theme-default max-dialog',
+                data: {id : data}
+            });
+            dialog.closePromise.then(function(data){
+                if(data.value != 'reload'){
+                    return;
+                }
+                $scope.goodsTableParams.reload();
+            })
         }
 
     }
