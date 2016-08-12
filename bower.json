@@ -113,7 +113,8 @@
     "load-google-maps": "https://gist.github.com/8613939.git",
     "sparkline": "http://omnipotent.net/jquery.sparkline/2.1.2/jquery.sparkline.js",
     "angular-ladda": "^0.3.4",
-    "lodash": "^4.13.1"
+    "lodash": "^4.13.1",
+    "angular-ui-sortable": "0.14.3"
   },
   "resolutions": {
     "angular": "1.4.7",

@@ -147,7 +147,8 @@
             {name: 'colorpicker.module',        files: ['vendor/angular-bootstrap-colorpicker/css/colorpicker.css',
                                                         'vendor/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.js']},
             {name: 'blockUI',                   files: ['vendor/angular-block-ui/dist/angular-block-ui.min.js',
-                                                        'vendor/angular-block-ui/dist/angular-block-ui.min.css']}
+                                                        'vendor/angular-block-ui/dist/angular-block-ui.min.css']},
+            {name: 'ngSort',                   files: ['vendor/angular-ui-sortable/sortable.min.js']}
           ]
         })
         ;

@@ -130,5 +130,6 @@
   "bower_components/load-google-maps/load-google-maps.js",
   "bower_components/sparkline/index.js",
   "bower_components/ladda/dist/ladda.min.css",
-  "bower_components/ladda/dist/ladda-themeless.min.css"
+  "bower_components/ladda/dist/ladda-themeless.min.css",
+  "bower_components/angular-ui-sortable/sortable.min.js"
 ]
