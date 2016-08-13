@@ -61,6 +61,12 @@
     'use strict';
 
     angular
+        .module('app.colors', []);
+})();
+(function() {
+    'use strict';
+
+    angular
         .module('app.core', [
             //装载一下templates,这样就能使用缓存了
             'templates',
@@ -84,12 +90,6 @@
 
     angular
         .module('app.dashboard', []);
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('app.colors', []);
 })();
 (function() {
     'use strict';
@@ -125,13 +125,13 @@
     'use strict';
 
     angular
-        .module('app.lazyload', []);
+        .module('app.loadingbar', []);
 })();
 (function() {
     'use strict';
 
     angular
-        .module('app.loadingbar', []);
+        .module('app.lazyload', []);
 })();
 (function() {
     'use strict';
@@ -2424,6 +2424,56 @@
     'use strict';
 
     angular
+        .module('app.colors')
+        .constant('APP_COLORS', {
+          'primary':                '#5d9cec',
+          'success':                '#27c24c',
+          'info':                   '#23b7e5',
+          'warning':                '#ff902b',
+          'danger':                 '#f05050',
+          'inverse':                '#131e26',
+          'green':                  '#37bc9b',
+          'pink':                   '#f532e5',
+          'purple':                 '#7266ba',
+          'dark':                   '#3a3f51',
+          'yellow':                 '#fad732',
+          'gray-darker':            '#232735',
+          'gray-dark':              '#3a3f51',
+          'gray':                   '#dde6e9',
+          'gray-light':             '#e4eaec',
+          'gray-lighter':           '#edf1f2'
+        })
+        ;
+})();
+/**=========================================================
+ * Module: colors.js
+ * Services to retrieve global colors
+ =========================================================*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.colors')
+        .service('Colors', Colors);
+
+    Colors.$inject = ['APP_COLORS'];
+    function Colors(APP_COLORS) {
+        this.byName = byName;
+
+        ////////////////
+
+        function byName(name) {
+          return (APP_COLORS[name] || '#fff');
+        }
+    }
+
+})();
+
+(function() {
+    'use strict';
+
+    angular
         .module('app.core')
         .config(coreConfig);
 
@@ -2855,56 +2905,6 @@
         }
     }
 })();
-(function() {
-    'use strict';
-
-    angular
-        .module('app.colors')
-        .constant('APP_COLORS', {
-          'primary':                '#5d9cec',
-          'success':                '#27c24c',
-          'info':                   '#23b7e5',
-          'warning':                '#ff902b',
-          'danger':                 '#f05050',
-          'inverse':                '#131e26',
-          'green':                  '#37bc9b',
-          'pink':                   '#f532e5',
-          'purple':                 '#7266ba',
-          'dark':                   '#3a3f51',
-          'yellow':                 '#fad732',
-          'gray-darker':            '#232735',
-          'gray-dark':              '#3a3f51',
-          'gray':                   '#dde6e9',
-          'gray-light':             '#e4eaec',
-          'gray-lighter':           '#edf1f2'
-        })
-        ;
-})();
-/**=========================================================
- * Module: colors.js
- * Services to retrieve global colors
- =========================================================*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.colors')
-        .service('Colors', Colors);
-
-    Colors.$inject = ['APP_COLORS'];
-    function Colors(APP_COLORS) {
-        this.byName = byName;
-
-        ////////////////
-
-        function byName(name) {
-          return (APP_COLORS[name] || '#fff');
-        }
-    }
-
-})();
-
 
 (function() {
     'use strict';
@@ -5571,6 +5571,50 @@
     'use strict';
 
     angular
+        .module('app.loadingbar')
+        .config(loadingbarConfig)
+        ;
+    loadingbarConfig.$inject = ['cfpLoadingBarProvider'];
+    function loadingbarConfig(cfpLoadingBarProvider){
+      cfpLoadingBarProvider.includeBar = true;
+      cfpLoadingBarProvider.includeSpinner = false;
+      cfpLoadingBarProvider.latencyThreshold = 500;
+      cfpLoadingBarProvider.parentSelector = '.wrapper > section';
+    }
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('app.loadingbar')
+        .run(loadingbarRun)
+        ;
+    loadingbarRun.$inject = ['$rootScope', '$timeout', 'cfpLoadingBar'];
+    function loadingbarRun($rootScope, $timeout, cfpLoadingBar){
+
+      // Loading bar transition
+      // ----------------------------------- 
+      var thBar;
+      $rootScope.$on('$stateChangeStart', function() {
+          if($('.wrapper > section').length) // check if bar container exists
+            thBar = $timeout(function() {
+              cfpLoadingBar.start();
+            }, 0); // sets a latency Threshold
+      });
+      $rootScope.$on('$stateChangeSuccess', function(event) {
+          event.targetScope.$watch('$viewContentLoaded', function () {
+            $timeout.cancel(thBar);
+            cfpLoadingBar.complete();
+          });
+      });
+
+    }
+
+})();
+(function() {
+    'use strict';
+
+    angular
         .module('app.lazyload')
         .config(lazyloadConfig);
 
@@ -5735,57 +5779,14 @@
             {name: 'colorpicker.module',        files: ['vendor/angular-bootstrap-colorpicker/css/colorpicker.css',
                                                         'vendor/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.js']},
             {name: 'blockUI',                   files: ['vendor/angular-block-ui/dist/angular-block-ui.min.js',
-                                                        'vendor/angular-block-ui/dist/angular-block-ui.min.css']}
+                                                        'vendor/angular-block-ui/dist/angular-block-ui.min.css']},
+            {name: 'ngSort',                   files: ['vendor/angular-ui-sortable/sortable.min.js']}
           ]
         })
         ;
 
 })();
 
-(function() {
-    'use strict';
-
-    angular
-        .module('app.loadingbar')
-        .config(loadingbarConfig)
-        ;
-    loadingbarConfig.$inject = ['cfpLoadingBarProvider'];
-    function loadingbarConfig(cfpLoadingBarProvider){
-      cfpLoadingBarProvider.includeBar = true;
-      cfpLoadingBarProvider.includeSpinner = false;
-      cfpLoadingBarProvider.latencyThreshold = 500;
-      cfpLoadingBarProvider.parentSelector = '.wrapper > section';
-    }
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('app.loadingbar')
-        .run(loadingbarRun)
-        ;
-    loadingbarRun.$inject = ['$rootScope', '$timeout', 'cfpLoadingBar'];
-    function loadingbarRun($rootScope, $timeout, cfpLoadingBar){
-
-      // Loading bar transition
-      // ----------------------------------- 
-      var thBar;
-      $rootScope.$on('$stateChangeStart', function() {
-          if($('.wrapper > section').length) // check if bar container exists
-            thBar = $timeout(function() {
-              cfpLoadingBar.start();
-            }, 0); // sets a latency Threshold
-      });
-      $rootScope.$on('$stateChangeSuccess', function(event) {
-          event.targetScope.$watch('$viewContentLoaded', function () {
-            $timeout.cancel(thBar);
-            cfpLoadingBar.complete();
-          });
-      });
-
-    }
-
-})();
 (function() {
     'use strict';
 
@@ -10795,18 +10796,6 @@ angular.module('blockUI').run(['$templateCache', function($templateCache){
 }]);
 })(angular);
 //# sourceMappingURL=angular-block-ui.js.map
-(function(){
-
-    angular.module("custom")
-        .controller("StockWorktableController", StockWorktableController);
-
-    StockWorktableController.$inject = ['$scope', 'StockService'];
-
-    function StockWorktableController($scope, StockService){
-
-    }
-
-})();
 (function () {
     'use strict';
 
@@ -10997,6 +10986,18 @@ angular.module('blockUI').run(['$templateCache', function($templateCache){
 })
 ();
 
+(function(){
+
+    angular.module("custom")
+        .controller("StockWorktableController", StockWorktableController);
+
+    StockWorktableController.$inject = ['$scope', 'StockService'];
+
+    function StockWorktableController($scope, StockService){
+
+    }
+
+})();
 (function () {
     'use strict';
     angular
@@ -11264,6 +11265,150 @@ angular.module('blockUI').run(['$templateCache', function($templateCache){
 (function(){
 
     angular.module("custom")
+        .controller("AddGoodsController", AddGoodsController);
+
+    AddGoodsController.$inject = ['$scope', 'StockService', 'SweetAlert', 'blockUI'];
+
+    function AddGoodsController($scope, StockService, SweetAlert, blockUI){
+
+
+        var block = blockUI.instances.get("add-goods");
+
+        $scope.save = function(data){
+            if(!validate(data)){
+                SweetAlert.error("填写不完整!");
+                return;
+            }
+
+            block.start();
+            StockService.addGoods(data).success(function(data){
+                block.stop();
+                if(data.status == 200){
+                    SweetAlert.success("成功!");
+                    $scope.closeThisDialog("reload");
+                }
+            }).error(function(){
+                block.stop();
+                SweetAlert.error("网络出错,请稍后重试!");
+            });
+        }
+
+
+        //TODO 进行goods必填字段的校验,很重要,暂时不做.
+        function validate(goods){
+            return true;
+        }
+    }
+
+})();
+(function(){
+
+    angular.module("custom")
+        .controller("GoodsDetailController", GoodsDetailController);
+
+    GoodsDetailController.$inject = ['$scope', 'StockService', 'SweetAlert', 'blockUI', 'NgTableParams'];
+
+    function GoodsDetailController($scope, StockService, SweetAlert, blockUI, NgTableParams){
+
+
+        $scope.id = $scope.ngDialogData.id;
+
+        $scope.init = function(){
+            $scope.goodsHistoryTableParams = new NgTableParams({}, {
+                counts: [],
+                getData: function($defer, params){
+                    StockService.getGoodsHistory($scope.id).success(function(data){
+                        if(data.status == 200){
+                            $defer.resolve(data.data);
+                        }
+                    }).error(function(){
+                        SweetAlert.error("加载失败!");
+                        $scope.closeThisDialog("ok");
+                    });
+                }
+            });
+        }
+
+        $scope.init();
+
+
+
+    }
+
+})();
+(function(){
+
+    angular.module("custom")
+        .controller("StockListController", StockListController);
+
+    StockListController.$inject = ['$scope', 'StockService', 'NgTableParams', 'blockUI', 'SweetAlert', 'ngDialog'];
+
+    function StockListController($scope, StockService, NgTableParams, blockUI, SweetAlert, ngDialog){
+
+        $scope.tableParams = {
+            searchStr: null,
+            page : 1,
+            count : 10
+        }
+
+
+        $scope.search = function(){
+            $scope.goodsTableParams = new NgTableParams($scope.tableParams, {
+                getData: function($defer, params){
+                    blockUI.start();
+                    StockService.listGoods(params.parameters()).success(function(data){
+                        if(data.status == 200){
+                            params.total(data.totalCount);
+                            $defer.resolve(data.data);
+                            console.log(data.data);
+                            blockUI.stop();
+                        }
+                    }).error(function(){
+                        SweetAlert.error("网络问题, 请稍后重试!");
+                        blockUI.stop();
+                    });
+                }
+            })
+        }
+
+        $scope.search();
+
+
+        $scope.addNewGoods = function(){
+            var dialog= ngDialog.open({
+                template: 'app/views/custom/stock/goods/add-goods.html',
+                controller: 'AddGoodsController',
+                className: 'ngdialog-theme-default custom-width-800',
+            });
+            dialog.closePromise.then(function(data){
+                if(data.value != 'reload'){
+                    return;
+                }
+                $scope.goodsTableParams.reload();
+            });
+        }
+
+        $scope.openStockDetail = function(data){
+            var dialog = ngDialog.open({
+                template: 'app/views/custom/stock/goods/goods_detail.html',
+                controller: 'GoodsDetailController',
+                className: 'ngdialog-theme-default max-dialog',
+                data: {id : data}
+            });
+            dialog.closePromise.then(function(data){
+                if(data.value != 'reload'){
+                    return;
+                }
+                $scope.goodsTableParams.reload();
+            })
+        }
+
+    }
+
+})();
+(function(){
+
+    angular.module("custom")
         .controller("AddInStockController", AddInStockController);
 
     AddInStockController.$inject = ['$scope', 'StockService', 'SweetAlert', 'blockUI', 'NgTableParams'];
@@ -11495,150 +11640,6 @@ angular.module('blockUI').run(['$templateCache', function($templateCache){
                 }
                 $scope.stockInTableParams.reload();
             });
-        }
-
-    }
-
-})();
-(function(){
-
-    angular.module("custom")
-        .controller("AddGoodsController", AddGoodsController);
-
-    AddGoodsController.$inject = ['$scope', 'StockService', 'SweetAlert', 'blockUI'];
-
-    function AddGoodsController($scope, StockService, SweetAlert, blockUI){
-
-
-        var block = blockUI.instances.get("add-goods");
-
-        $scope.save = function(data){
-            if(!validate(data)){
-                SweetAlert.error("填写不完整!");
-                return;
-            }
-
-            block.start();
-            StockService.addGoods(data).success(function(data){
-                block.stop();
-                if(data.status == 200){
-                    SweetAlert.success("成功!");
-                    $scope.closeThisDialog("reload");
-                }
-            }).error(function(){
-                block.stop();
-                SweetAlert.error("网络出错,请稍后重试!");
-            });
-        }
-
-
-        //TODO 进行goods必填字段的校验,很重要,暂时不做.
-        function validate(goods){
-            return true;
-        }
-    }
-
-})();
-(function(){
-
-    angular.module("custom")
-        .controller("GoodsDetailController", GoodsDetailController);
-
-    GoodsDetailController.$inject = ['$scope', 'StockService', 'SweetAlert', 'blockUI', 'NgTableParams'];
-
-    function GoodsDetailController($scope, StockService, SweetAlert, blockUI, NgTableParams){
-
-
-        $scope.id = $scope.ngDialogData.id;
-
-        $scope.init = function(){
-            $scope.goodsHistoryTableParams = new NgTableParams({}, {
-                counts: [],
-                getData: function($defer, params){
-                    StockService.getGoodsHistory($scope.id).success(function(data){
-                        if(data.status == 200){
-                            $defer.resolve(data.data);
-                        }
-                    }).error(function(){
-                        SweetAlert.error("加载失败!");
-                        $scope.closeThisDialog("ok");
-                    });
-                }
-            });
-        }
-
-        $scope.init();
-
-
-
-    }
-
-})();
-(function(){
-
-    angular.module("custom")
-        .controller("StockListController", StockListController);
-
-    StockListController.$inject = ['$scope', 'StockService', 'NgTableParams', 'blockUI', 'SweetAlert', 'ngDialog'];
-
-    function StockListController($scope, StockService, NgTableParams, blockUI, SweetAlert, ngDialog){
-
-        $scope.tableParams = {
-            searchStr: null,
-            page : 1,
-            count : 10
-        }
-
-
-        $scope.search = function(){
-            $scope.goodsTableParams = new NgTableParams($scope.tableParams, {
-                getData: function($defer, params){
-                    blockUI.start();
-                    StockService.listGoods(params.parameters()).success(function(data){
-                        if(data.status == 200){
-                            params.total(data.totalCount);
-                            $defer.resolve(data.data);
-                            console.log(data.data);
-                            blockUI.stop();
-                        }
-                    }).error(function(){
-                        SweetAlert.error("网络问题, 请稍后重试!");
-                        blockUI.stop();
-                    });
-                }
-            })
-        }
-
-        $scope.search();
-
-
-        $scope.addNewGoods = function(){
-            var dialog= ngDialog.open({
-                template: 'app/views/custom/stock/goods/add-goods.html',
-                controller: 'AddGoodsController',
-                className: 'ngdialog-theme-default custom-width-800',
-            });
-            dialog.closePromise.then(function(data){
-                if(data.value != 'reload'){
-                    return;
-                }
-                $scope.goodsTableParams.reload();
-            });
-        }
-
-        $scope.openStockDetail = function(data){
-            var dialog = ngDialog.open({
-                template: 'app/views/custom/stock/goods/goods_detail.html',
-                controller: 'GoodsDetailController',
-                className: 'ngdialog-theme-default max-dialog',
-                data: {id : data}
-            });
-            dialog.closePromise.then(function(data){
-                if(data.value != 'reload'){
-                    return;
-                }
-                $scope.goodsTableParams.reload();
-            })
         }
 
     }

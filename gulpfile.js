@@ -228,7 +228,8 @@ gulp.task('watch', function() {
 gulp.task('clean', function(done) {
     var delconfig = [].concat(
                         build.styles,
-                        build.scripts,
+                        build.pages,
+						build.scripts,
                         build.templates.index + 'index.html',
                         build.templates.views + 'views',
                         vendor.app.dest
