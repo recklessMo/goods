@@ -20,7 +20,7 @@
 
         /*jshint -W106*/
         function activate() {
-          vm.my_tree_handler = function(branch) {
+          vm._handler = function(branch) {
 
             vm.output = 'You selected: ' + branch.label;
 

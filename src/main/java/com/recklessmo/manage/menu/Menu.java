@@ -25,6 +25,7 @@ public class Menu{
             new Menu("教务站", "教师管理", "ROLE_USER", "", "app.teacher", 3),
             new Menu("教务站", "排班管理", "ROLE_USER", "", "app.duty", 4),
 
+
             new Menu("财务站", "缴费", "", "ROLE_USER", "app.pay", 1),
             new Menu("财务站", "收费统计", "ROLE_USER", "", "app.payStat", 2),
             new Menu("财务站", "报销统计", "ROLE_USER", "", "app.expense", 3),
@@ -33,8 +34,8 @@ public class Menu{
             new Menu("库存站", "入库查看", "ROLE_USER", "", "app.stockIn", 2),
             new Menu("库存站", "出库查看", "ROLE_USER", "", "app.stockOut", 3),
 
-            new Menu("管理站", "帐户管理", "ROLE_USER", "", "app.account", 1),
-            new Menu("管理站", "参数设置", "ROLE_USER", "", "app.setting", 1)
+            new Menu("管理站", "帐户设置", "ROLE_USER", "", "app.account", 1),
+            new Menu("管理站", "教务参数", "ROLE_USER", "", "app.setting", 1)
     };
 
     public static Menu[] menuListTest = {
@@ -53,12 +54,14 @@ public class Menu{
 
             new Menu("财务站", "缴费", "ROLE_USER", "icon-plus", "app.finance", 1),
             new Menu("财务站", "报销", "ROLE_USER", "icon-check", "app.finance", 2),
-            new Menu("财务站", "统计", "ROLE_USER", "icon-wallet", "app.payStat", 3),
+            new Menu("财务站", "财物统计", "ROLE_USER", "icon-wallet", "app.payStat", 3),
 
             new Menu("管理站", "帐号管理", "ROLE_USER", "icon-user-female", "app.account", 1),
-            new Menu("管理站", "常规设置", "ROLE_USER", "icon-wrench", "app.account", 1),
+            new Menu("管理站", "常规设置", "ROLE_USER", "icon-wrench", "app.account", 2),
+            //设置年级,班级,专业等内容,目前先做成不相关联
+            new Menu("管理站", "教务设置", "ROLE_USER", "icon-wrench", "app.edu-setting", 3),
 
-            new Menu("个人中心", "待办事项", "ROLE_USER", "icon-info", "app.account", 1),
+            new Menu("个人中心", "待办事项", "ROLE_USER", "icon-info", "app.todo", 1),
             new Menu("个人中心", "日历提醒", "ROLE_USER", "icon-info", "app.account", 1),
     };
 

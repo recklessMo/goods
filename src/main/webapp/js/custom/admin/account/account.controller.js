@@ -53,7 +53,7 @@
                         blockUI.stop();
                     }).error(function(){
                         blockUI.stop();
-                        Notify.alert("网络有问题,请稍后重试!", {status:"success", timeout: 3000});
+                        Notify.alert("网络有问题,请稍后重试!", {status:"error", timeout: 3000});
                     });
                 }
             });

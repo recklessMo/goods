@@ -19,7 +19,7 @@
         $locationProvider.html5Mode(false);
 
         // defaults to dashboard
-        $urlRouterProvider.otherwise('/app/stock-worktable');
+        $urlRouterProvider.otherwise('/app/edu-setting');
 
         //
         // Application Routes
@@ -59,11 +59,22 @@
             templateUrl: helper.basepath('custom/student/student-add.html'),
             resolve: helper.resolveFor('xeditable')
       })
-      .state('app.account', {
-          url: '/account',
-          title: '帐号管理',
-          templateUrl: helper.basepath('custom/admin/account/account.html')
-      })
+          .state('app.account', {
+              url: '/account',
+              title: '帐号管理',
+              templateUrl: helper.basepath('custom/admin/account/account.html')
+          })
+        .state('app.edu-setting', {
+            url: '/edu-setting',
+            title: '教务设置',
+            templateUrl: helper.basepath('custom/admin/edu-setting/grade-setting.html')
+        })
+        .state('app.todo', {
+            url: '/todo',
+            title: '待办事项',
+            templateUrl: helper.basepath('custom/self/todo.html'),
+            controller: 'TodoController'
+        })
       .state('app.hall', {
           url: '/hall/:tab',
           title: '大厅',
@@ -353,13 +364,6 @@
           title: 'Search',
           templateUrl: helper.basepath('search.html'),
           resolve: helper.resolveFor('moment', 'localytics.directives', 'ui.bootstrap-slider')
-      })
-      .state('app.todo', {
-          url: '/todo',
-          title: 'Todo List',
-          templateUrl: helper.basepath('todo.html'),
-          controller: 'TodoController',
-          controllerAs: 'todo'
       })
       .state('app.profile', {
           url: '/profile',
