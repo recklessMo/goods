@@ -49,6 +49,12 @@
     'use strict';
 
     angular
+        .module('app.bootstrapui', []);
+})();
+(function() {
+    'use strict';
+
+    angular
         .module('app.charts', []);
 })();
 (function() {
@@ -56,12 +62,6 @@
 
     angular
         .module('app.colors', []);
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('app.bootstrapui', []);
 })();
 (function() {
     'use strict';
@@ -216,6 +216,566 @@
         .module('app.utils', [
           'app.colors'
           ]);
+})();
+
+/**=========================================================
+ * Module: demo-alerts.js
+ * Provides a simple demo for pagination
+ =========================================================*/
+(function() {
+    'use strict';
+
+    angular
+        .module('app.bootstrapui')
+        .controller('AlertDemoCtrl', AlertDemoCtrl);
+
+    function AlertDemoCtrl() {
+        var vm = this;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+          vm.alerts = [
+            { type: 'danger', msg: 'Oh snap! Change a few things up and try submitting again.' },
+            { type: 'warning', msg: 'Well done! You successfully read this important alert message.' }
+          ];
+
+          vm.addAlert = function() {
+            vm.alerts.push({msg: 'Another alert!'});
+          };
+
+          vm.closeAlert = function(index) {
+            vm.alerts.splice(index, 1);
+          };
+        }
+    }
+})();
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.bootstrapui')
+        .config(bootstrapuiConfig);
+
+    bootstrapuiConfig.$inject = ['$uibTooltipProvider'];
+    function bootstrapuiConfig($uibTooltipProvider){
+      $uibTooltipProvider.options({appendToBody: true});
+    }
+})();
+/**=========================================================
+ * Module: demo-buttons.js
+ * Provides a simple demo for buttons actions
+ =========================================================*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.bootstrapui')
+        .controller('ButtonsCtrl', ButtonsCtrl);
+
+    function ButtonsCtrl() {
+        var vm = this;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+          vm.singleModel = 1;
+
+          vm.radioModel = 'Middle';
+
+          vm.checkModel = {
+            left: false,
+            middle: true,
+            right: false
+          };
+        }
+    }
+})();
+
+/**=========================================================
+ * Module: demo-carousel.js
+ * Provides a simple demo for bootstrap ui carousel
+ =========================================================*/
+(function() {
+    'use strict';
+
+    angular
+        .module('app.bootstrapui')
+        .controller('CarouselDemoCtrl', CarouselDemoCtrl);
+
+    function CarouselDemoCtrl() {
+        var vm = this;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+          vm.myInterval = 5000;
+
+          var slides = vm.slides = [];
+          vm.addSlide = function(id) {
+            id = id || 8;
+            slides.push({
+              image: 'app/img/bg' + id + '.jpg',
+              text: ['More','Extra','Lots of','Surplus'][slides.length % 2] + ' ' +
+                ['Cats', 'Kittys', 'Felines', 'Cutes'][slides.length % 2]
+            });
+          };
+
+          vm.addSlide(4);
+          vm.addSlide(7);
+          vm.addSlide(8);
+
+        }
+    }
+})();
+
+/**=========================================================
+ * Module: demo-datepicker.js
+ * Provides a simple demo for bootstrap datepicker
+ =========================================================*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.bootstrapui')
+        .controller('DatepickerDemoCtrl', DatepickerDemoCtrl);
+
+    function DatepickerDemoCtrl() {
+        var vm = this;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+          vm.today = function() {
+            vm.dt = new Date();
+          };
+          vm.today();
+
+          vm.clear = function () {
+            vm.dt = null;
+          };
+
+          // Disable weekend selection
+          vm.disabled = function(date, mode) {
+            return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+          };
+
+          vm.toggleMin = function() {
+            vm.minDate = vm.minDate ? null : new Date();
+          };
+          vm.toggleMin();
+
+          vm.open = function($event) {
+            $event.preventDefault();
+            $event.stopPropagation();
+
+            vm.opened = true;
+          };
+
+          vm.dateOptions = {
+            formatYear: 'yy',
+            startingDay: 1
+          };
+
+          vm.initDate = new Date('2019-10-20');
+          vm.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+          vm.format = vm.formats[0];
+        }
+    }
+})();
+
+
+/**=========================================================
+ * Module: modals.js
+ * Provides a simple way to implement bootstrap modals from templates
+ =========================================================*/
+(function() {
+    'use strict';
+
+    angular
+        .module('app.bootstrapui')
+        .controller('ModalController', ModalController);
+
+    ModalController.$inject = ['$uibModal'];
+    function ModalController($uibModal) {
+        var vm = this;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+
+          vm.open = function (size) {
+
+            var modalInstance = $uibModal.open({
+              templateUrl: '/myModalContent.html',
+              controller: ModalInstanceCtrl,
+              size: size
+            });
+
+            var state = $('#modal-state');
+            modalInstance.result.then(function () {
+              state.text('Modal dismissed with OK status');
+            }, function () {
+              state.text('Modal dismissed with Cancel status');
+            });
+          };
+
+          // Please note that $uibModalInstance represents a modal window (instance) dependency.
+          // It is not the same as the $uibModal service used above.
+
+          ModalInstanceCtrl.$inject = ['$scope', '$uibModalInstance'];
+          function ModalInstanceCtrl($scope, $uibModalInstance) {
+
+            $scope.ok = function () {
+              $uibModalInstance.close('closed');
+            };
+
+            $scope.cancel = function () {
+              $uibModalInstance.dismiss('cancel');
+            };
+          }
+        }
+    }
+
+})();
+
+/**=========================================================
+ * Module: demo-pagination.js
+ * Provides a simple demo for pagination
+ =========================================================*/
+(function() {
+    'use strict';
+
+    angular
+        .module('app.bootstrapui')
+        .controller('PaginationDemoCtrl', PaginationDemoCtrl);
+
+    function PaginationDemoCtrl() {
+        var vm = this;
+
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+          vm.totalItems = 64;
+          vm.currentPage = 4;
+
+          vm.setPage = function (pageNo) {
+            vm.currentPage = pageNo;
+          };
+
+          vm.pageChanged = function() {
+            console.log('Page changed to: ' + vm.currentPage);
+          };
+
+          vm.maxSize = 5;
+          vm.bigTotalItems = 175;
+          vm.bigCurrentPage = 1;
+        }
+    }
+})();
+
+/**=========================================================
+ * Module: demo-popover.js
+ * Provides a simple demo for popovers
+ =========================================================*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.bootstrapui')
+        .controller('PopoverDemoCtrl', PopoverDemoCtrl);
+
+    function PopoverDemoCtrl() {
+        var vm = this;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+          vm.dynamicPopover = 'Hello, World!';
+          vm.dynamicPopoverTitle = 'Title';
+        }
+    }
+})();
+
+/**=========================================================
+ * Module: demo-progress.js
+ * Provides a simple demo to animate progress bar
+ =========================================================*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.bootstrapui')
+        .controller('ProgressDemoCtrl', ProgressDemoCtrl);
+
+    function ProgressDemoCtrl() {
+        var vm = this;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+          vm.max = 200;
+
+          vm.random = function() {
+            var value = Math.floor((Math.random() * 100) + 1);
+            var type;
+
+            if (value < 25) {
+              type = 'success';
+            } else if (value < 50) {
+              type = 'info';
+            } else if (value < 75) {
+              type = 'warning';
+            } else {
+              type = 'danger';
+            }
+
+            vm.showWarning = (type === 'danger' || type === 'warning');
+
+            vm.dynamic = value;
+            vm.type = type;
+          };
+          vm.random();
+
+          vm.randomStacked = function() {
+            vm.stacked = [];
+            var types = ['success', 'info', 'warning', 'danger'];
+
+            for (var i = 0, n = Math.floor((Math.random() * 4) + 1); i < n; i++) {
+                var index = Math.floor((Math.random() * 4));
+                vm.stacked.push({
+                  value: Math.floor((Math.random() * 30) + 1),
+                  type: types[index]
+                });
+            }
+          };
+          vm.randomStacked();
+        }
+    }
+})();
+
+/**=========================================================
+ * Module: demo-rating.js
+ * Provides a demo for ratings UI
+ =========================================================*/
+(function() {
+    'use strict';
+
+    angular
+        .module('app.bootstrapui')
+        .controller('RatingDemoCtrl', RatingDemoCtrl);
+
+    function RatingDemoCtrl() {
+        var vm = this;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+          vm.rate = 7;
+          vm.max = 10;
+          vm.isReadonly = false;
+
+          vm.hoveringOver = function(value) {
+            vm.overStar = value;
+            vm.percent = 100 * (value / vm.max);
+          };
+
+          vm.ratingStates = [
+            {stateOn: 'fa fa-check', stateOff: 'fa fa-check-circle'},
+            {stateOn: 'fa fa-star', stateOff: 'fa fa-star-o'},
+            {stateOn: 'fa fa-heart', stateOff: 'fa fa-ban'},
+            {stateOn: 'fa fa-heart'},
+            {stateOff: 'fa fa-power-off'}
+          ];
+        }
+    }
+})();
+
+/**=========================================================
+ * Module: demo-timepicker.js
+ * Provides a simple demo for bootstrap ui timepicker
+ =========================================================*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.bootstrapui')
+        .controller('TimepickerDemoCtrl', TimepickerDemoCtrl);
+
+    function TimepickerDemoCtrl() {
+        var vm = this;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+          vm.mytime = new Date();
+
+          vm.hstep = 1;
+          vm.mstep = 15;
+
+          vm.options = {
+            hstep: [1, 2, 3],
+            mstep: [1, 5, 10, 15, 25, 30]
+          };
+
+          vm.ismeridian = true;
+          vm.toggleMode = function() {
+            vm.ismeridian = ! vm.ismeridian;
+          };
+
+          vm.update = function() {
+            var d = new Date();
+            d.setHours( 14 );
+            d.setMinutes( 0 );
+            vm.mytime = d;
+          };
+
+          vm.changed = function () {
+            console.log('Time changed to: ' + vm.mytime);
+          };
+
+          vm.clear = function() {
+            vm.mytime = null;
+          };
+        }
+    }
+})();
+
+/**=========================================================
+ * Module: demo-tooltip.js
+ * Provides a simple demo for tooltip
+ =========================================================*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.bootstrapui')
+        .controller('TooltipDemoCtrl', TooltipDemoCtrl);
+
+    function TooltipDemoCtrl() {
+        var vm = this;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+          vm.dynamicTooltip = 'Hello, World!';
+          vm.dynamicTooltipText = 'dynamic';
+          vm.htmlTooltip = 'I\'ve been made <b>bold</b>!';
+
+          vm.autoplace = function (context, source) {
+            //return (predictTooltipTop(source) < 0) ?  "bottom": "top";
+            var pos = 'top';
+            if(predictTooltipTop(source) < 0)
+              pos = 'bottom';
+            if(predictTooltipLeft(source) < 0)
+              pos = 'right';
+            return pos;
+          };
+
+            // Predicts tooltip top position 
+            // based on the trigger element
+            function predictTooltipTop(el) {
+              var top = el.offsetTop;
+              var height = 40; // asumes ~40px tooltip height
+
+              while(el.offsetParent) {
+                el = el.offsetParent;
+                top += el.offsetTop;
+              }
+              return (top - height) - (window.pageYOffset);
+            }
+
+            // Predicts tooltip top position 
+            // based on the trigger element
+            function predictTooltipLeft(el) {
+              var left = el.offsetLeft;
+              var width = el.offsetWidth;
+
+              while(el.offsetParent) {
+                el = el.offsetParent;
+                left += el.offsetLeft;
+              }
+              return (left - width) - (window.pageXOffset);
+            }
+        }
+    }
+})();
+
+/**=========================================================
+ * Module: demo-typeahead.js
+ * Provides a simple demo for typeahead
+ =========================================================*/
+(function() {
+    'use strict';
+
+    angular
+        .module('app.bootstrapui')
+        .controller('TypeaheadCtrl', TypeaheadCtrl);
+
+    TypeaheadCtrl.$inject = ['$http'];
+    function TypeaheadCtrl($http) {
+        var vm = this;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+
+          vm.selected = undefined;
+          vm.states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Dakota', 'North Carolina', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
+
+          // Any function returning a promise object can be used to load values asynchronously
+          vm.getLocation = function(val) {
+            return $http.get('//maps.googleapis.com/maps/api/geocode/json', {
+              params: {
+                address: val,
+                sensor: false
+              }
+            }).then(function(res){
+              var addresses = [];
+              angular.forEach(res.data.results, function(item){
+                /*jshint -W106*/
+                addresses.push(item.formatted_address);
+              });
+              return addresses;
+            });
+          };
+
+          vm.statesWithFlags = [{'name':'Alabama','flag':'5/5c/Flag_of_Alabama.svg/45px-Flag_of_Alabama.svg.png'},{'name':'Alaska','flag':'e/e6/Flag_of_Alaska.svg/43px-Flag_of_Alaska.svg.png'},{'name':'Arizona','flag':'9/9d/Flag_of_Arizona.svg/45px-Flag_of_Arizona.svg.png'},{'name':'Arkansas','flag':'9/9d/Flag_of_Arkansas.svg/45px-Flag_of_Arkansas.svg.png'},{'name':'California','flag':'0/01/Flag_of_California.svg/45px-Flag_of_California.svg.png'},{'name':'Colorado','flag':'4/46/Flag_of_Colorado.svg/45px-Flag_of_Colorado.svg.png'},{'name':'Connecticut','flag':'9/96/Flag_of_Connecticut.svg/39px-Flag_of_Connecticut.svg.png'},{'name':'Delaware','flag':'c/c6/Flag_of_Delaware.svg/45px-Flag_of_Delaware.svg.png'},{'name':'Florida','flag':'f/f7/Flag_of_Florida.svg/45px-Flag_of_Florida.svg.png'},{'name':'Georgia','flag':'5/54/Flag_of_Georgia_%28U.S._state%29.svg/46px-Flag_of_Georgia_%28U.S._state%29.svg.png'},{'name':'Hawaii','flag':'e/ef/Flag_of_Hawaii.svg/46px-Flag_of_Hawaii.svg.png'},{'name':'Idaho','flag':'a/a4/Flag_of_Idaho.svg/38px-Flag_of_Idaho.svg.png'},{'name':'Illinois','flag':'0/01/Flag_of_Illinois.svg/46px-Flag_of_Illinois.svg.png'},{'name':'Indiana','flag':'a/ac/Flag_of_Indiana.svg/45px-Flag_of_Indiana.svg.png'},{'name':'Iowa','flag':'a/aa/Flag_of_Iowa.svg/44px-Flag_of_Iowa.svg.png'},{'name':'Kansas','flag':'d/da/Flag_of_Kansas.svg/46px-Flag_of_Kansas.svg.png'},{'name':'Kentucky','flag':'8/8d/Flag_of_Kentucky.svg/46px-Flag_of_Kentucky.svg.png'},{'name':'Louisiana','flag':'e/e0/Flag_of_Louisiana.svg/46px-Flag_of_Louisiana.svg.png'},{'name':'Maine','flag':'3/35/Flag_of_Maine.svg/45px-Flag_of_Maine.svg.png'},{'name':'Maryland','flag':'a/a0/Flag_of_Maryland.svg/45px-Flag_of_Maryland.svg.png'},{'name':'Massachusetts','flag':'f/f2/Flag_of_Massachusetts.svg/46px-Flag_of_Massachusetts.svg.png'},{'name':'Michigan','flag':'b/b5/Flag_of_Michigan.svg/45px-Flag_of_Michigan.svg.png'},{'name':'Minnesota','flag':'b/b9/Flag_of_Minnesota.svg/46px-Flag_of_Minnesota.svg.png'},{'name':'Mississippi','flag':'4/42/Flag_of_Mississippi.svg/45px-Flag_of_Mississippi.svg.png'},{'name':'Missouri','flag':'5/5a/Flag_of_Missouri.svg/46px-Flag_of_Missouri.svg.png'},{'name':'Montana','flag':'c/cb/Flag_of_Montana.svg/45px-Flag_of_Montana.svg.png'},{'name':'Nebraska','flag':'4/4d/Flag_of_Nebraska.svg/46px-Flag_of_Nebraska.svg.png'},{'name':'Nevada','flag':'f/f1/Flag_of_Nevada.svg/45px-Flag_of_Nevada.svg.png'},{'name':'New Hampshire','flag':'2/28/Flag_of_New_Hampshire.svg/45px-Flag_of_New_Hampshire.svg.png'},{'name':'New Jersey','flag':'9/92/Flag_of_New_Jersey.svg/45px-Flag_of_New_Jersey.svg.png'},{'name':'New Mexico','flag':'c/c3/Flag_of_New_Mexico.svg/45px-Flag_of_New_Mexico.svg.png'},{'name':'New York','flag':'1/1a/Flag_of_New_York.svg/46px-Flag_of_New_York.svg.png'},{'name':'North Carolina','flag':'b/bb/Flag_of_North_Carolina.svg/45px-Flag_of_North_Carolina.svg.png'},{'name':'North Dakota','flag':'e/ee/Flag_of_North_Dakota.svg/38px-Flag_of_North_Dakota.svg.png'},{'name':'Ohio','flag':'4/4c/Flag_of_Ohio.svg/46px-Flag_of_Ohio.svg.png'},{'name':'Oklahoma','flag':'6/6e/Flag_of_Oklahoma.svg/45px-Flag_of_Oklahoma.svg.png'},{'name':'Oregon','flag':'b/b9/Flag_of_Oregon.svg/46px-Flag_of_Oregon.svg.png'},{'name':'Pennsylvania','flag':'f/f7/Flag_of_Pennsylvania.svg/45px-Flag_of_Pennsylvania.svg.png'},{'name':'Rhode Island','flag':'f/f3/Flag_of_Rhode_Island.svg/32px-Flag_of_Rhode_Island.svg.png'},{'name':'South Carolina','flag':'6/69/Flag_of_South_Carolina.svg/45px-Flag_of_South_Carolina.svg.png'},{'name':'South Dakota','flag':'1/1a/Flag_of_South_Dakota.svg/46px-Flag_of_South_Dakota.svg.png'},{'name':'Tennessee','flag':'9/9e/Flag_of_Tennessee.svg/46px-Flag_of_Tennessee.svg.png'},{'name':'Texas','flag':'f/f7/Flag_of_Texas.svg/45px-Flag_of_Texas.svg.png'},{'name':'Utah','flag':'f/f6/Flag_of_Utah.svg/45px-Flag_of_Utah.svg.png'},{'name':'Vermont','flag':'4/49/Flag_of_Vermont.svg/46px-Flag_of_Vermont.svg.png'},{'name':'Virginia','flag':'4/47/Flag_of_Virginia.svg/44px-Flag_of_Virginia.svg.png'},{'name':'Washington','flag':'5/54/Flag_of_Washington.svg/46px-Flag_of_Washington.svg.png'},{'name':'West Virginia','flag':'2/22/Flag_of_West_Virginia.svg/46px-Flag_of_West_Virginia.svg.png'},{'name':'Wisconsin','flag':'2/22/Flag_of_Wisconsin.svg/45px-Flag_of_Wisconsin.svg.png'},{'name':'Wyoming','flag':'b/bc/Flag_of_Wyoming.svg/43px-Flag_of_Wyoming.svg.png'}];
+
+        }
+    }
 })();
 
 /**=========================================================
@@ -1908,566 +2468,6 @@
         }
     }
 
-})();
-
-/**=========================================================
- * Module: demo-alerts.js
- * Provides a simple demo for pagination
- =========================================================*/
-(function() {
-    'use strict';
-
-    angular
-        .module('app.bootstrapui')
-        .controller('AlertDemoCtrl', AlertDemoCtrl);
-
-    function AlertDemoCtrl() {
-        var vm = this;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-          vm.alerts = [
-            { type: 'danger', msg: 'Oh snap! Change a few things up and try submitting again.' },
-            { type: 'warning', msg: 'Well done! You successfully read this important alert message.' }
-          ];
-
-          vm.addAlert = function() {
-            vm.alerts.push({msg: 'Another alert!'});
-          };
-
-          vm.closeAlert = function(index) {
-            vm.alerts.splice(index, 1);
-          };
-        }
-    }
-})();
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.bootstrapui')
-        .config(bootstrapuiConfig);
-
-    bootstrapuiConfig.$inject = ['$uibTooltipProvider'];
-    function bootstrapuiConfig($uibTooltipProvider){
-      $uibTooltipProvider.options({appendToBody: true});
-    }
-})();
-/**=========================================================
- * Module: demo-buttons.js
- * Provides a simple demo for buttons actions
- =========================================================*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.bootstrapui')
-        .controller('ButtonsCtrl', ButtonsCtrl);
-
-    function ButtonsCtrl() {
-        var vm = this;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-          vm.singleModel = 1;
-
-          vm.radioModel = 'Middle';
-
-          vm.checkModel = {
-            left: false,
-            middle: true,
-            right: false
-          };
-        }
-    }
-})();
-
-/**=========================================================
- * Module: demo-carousel.js
- * Provides a simple demo for bootstrap ui carousel
- =========================================================*/
-(function() {
-    'use strict';
-
-    angular
-        .module('app.bootstrapui')
-        .controller('CarouselDemoCtrl', CarouselDemoCtrl);
-
-    function CarouselDemoCtrl() {
-        var vm = this;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-          vm.myInterval = 5000;
-
-          var slides = vm.slides = [];
-          vm.addSlide = function(id) {
-            id = id || 8;
-            slides.push({
-              image: 'app/img/bg' + id + '.jpg',
-              text: ['More','Extra','Lots of','Surplus'][slides.length % 2] + ' ' +
-                ['Cats', 'Kittys', 'Felines', 'Cutes'][slides.length % 2]
-            });
-          };
-
-          vm.addSlide(4);
-          vm.addSlide(7);
-          vm.addSlide(8);
-
-        }
-    }
-})();
-
-/**=========================================================
- * Module: demo-datepicker.js
- * Provides a simple demo for bootstrap datepicker
- =========================================================*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.bootstrapui')
-        .controller('DatepickerDemoCtrl', DatepickerDemoCtrl);
-
-    function DatepickerDemoCtrl() {
-        var vm = this;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-          vm.today = function() {
-            vm.dt = new Date();
-          };
-          vm.today();
-
-          vm.clear = function () {
-            vm.dt = null;
-          };
-
-          // Disable weekend selection
-          vm.disabled = function(date, mode) {
-            return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
-          };
-
-          vm.toggleMin = function() {
-            vm.minDate = vm.minDate ? null : new Date();
-          };
-          vm.toggleMin();
-
-          vm.open = function($event) {
-            $event.preventDefault();
-            $event.stopPropagation();
-
-            vm.opened = true;
-          };
-
-          vm.dateOptions = {
-            formatYear: 'yy',
-            startingDay: 1
-          };
-
-          vm.initDate = new Date('2019-10-20');
-          vm.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-          vm.format = vm.formats[0];
-        }
-    }
-})();
-
-
-/**=========================================================
- * Module: modals.js
- * Provides a simple way to implement bootstrap modals from templates
- =========================================================*/
-(function() {
-    'use strict';
-
-    angular
-        .module('app.bootstrapui')
-        .controller('ModalController', ModalController);
-
-    ModalController.$inject = ['$uibModal'];
-    function ModalController($uibModal) {
-        var vm = this;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-
-          vm.open = function (size) {
-
-            var modalInstance = $uibModal.open({
-              templateUrl: '/myModalContent.html',
-              controller: ModalInstanceCtrl,
-              size: size
-            });
-
-            var state = $('#modal-state');
-            modalInstance.result.then(function () {
-              state.text('Modal dismissed with OK status');
-            }, function () {
-              state.text('Modal dismissed with Cancel status');
-            });
-          };
-
-          // Please note that $uibModalInstance represents a modal window (instance) dependency.
-          // It is not the same as the $uibModal service used above.
-
-          ModalInstanceCtrl.$inject = ['$scope', '$uibModalInstance'];
-          function ModalInstanceCtrl($scope, $uibModalInstance) {
-
-            $scope.ok = function () {
-              $uibModalInstance.close('closed');
-            };
-
-            $scope.cancel = function () {
-              $uibModalInstance.dismiss('cancel');
-            };
-          }
-        }
-    }
-
-})();
-
-/**=========================================================
- * Module: demo-pagination.js
- * Provides a simple demo for pagination
- =========================================================*/
-(function() {
-    'use strict';
-
-    angular
-        .module('app.bootstrapui')
-        .controller('PaginationDemoCtrl', PaginationDemoCtrl);
-
-    function PaginationDemoCtrl() {
-        var vm = this;
-
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-          vm.totalItems = 64;
-          vm.currentPage = 4;
-
-          vm.setPage = function (pageNo) {
-            vm.currentPage = pageNo;
-          };
-
-          vm.pageChanged = function() {
-            console.log('Page changed to: ' + vm.currentPage);
-          };
-
-          vm.maxSize = 5;
-          vm.bigTotalItems = 175;
-          vm.bigCurrentPage = 1;
-        }
-    }
-})();
-
-/**=========================================================
- * Module: demo-popover.js
- * Provides a simple demo for popovers
- =========================================================*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.bootstrapui')
-        .controller('PopoverDemoCtrl', PopoverDemoCtrl);
-
-    function PopoverDemoCtrl() {
-        var vm = this;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-          vm.dynamicPopover = 'Hello, World!';
-          vm.dynamicPopoverTitle = 'Title';
-        }
-    }
-})();
-
-/**=========================================================
- * Module: demo-progress.js
- * Provides a simple demo to animate progress bar
- =========================================================*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.bootstrapui')
-        .controller('ProgressDemoCtrl', ProgressDemoCtrl);
-
-    function ProgressDemoCtrl() {
-        var vm = this;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-          vm.max = 200;
-
-          vm.random = function() {
-            var value = Math.floor((Math.random() * 100) + 1);
-            var type;
-
-            if (value < 25) {
-              type = 'success';
-            } else if (value < 50) {
-              type = 'info';
-            } else if (value < 75) {
-              type = 'warning';
-            } else {
-              type = 'danger';
-            }
-
-            vm.showWarning = (type === 'danger' || type === 'warning');
-
-            vm.dynamic = value;
-            vm.type = type;
-          };
-          vm.random();
-
-          vm.randomStacked = function() {
-            vm.stacked = [];
-            var types = ['success', 'info', 'warning', 'danger'];
-
-            for (var i = 0, n = Math.floor((Math.random() * 4) + 1); i < n; i++) {
-                var index = Math.floor((Math.random() * 4));
-                vm.stacked.push({
-                  value: Math.floor((Math.random() * 30) + 1),
-                  type: types[index]
-                });
-            }
-          };
-          vm.randomStacked();
-        }
-    }
-})();
-
-/**=========================================================
- * Module: demo-rating.js
- * Provides a demo for ratings UI
- =========================================================*/
-(function() {
-    'use strict';
-
-    angular
-        .module('app.bootstrapui')
-        .controller('RatingDemoCtrl', RatingDemoCtrl);
-
-    function RatingDemoCtrl() {
-        var vm = this;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-          vm.rate = 7;
-          vm.max = 10;
-          vm.isReadonly = false;
-
-          vm.hoveringOver = function(value) {
-            vm.overStar = value;
-            vm.percent = 100 * (value / vm.max);
-          };
-
-          vm.ratingStates = [
-            {stateOn: 'fa fa-check', stateOff: 'fa fa-check-circle'},
-            {stateOn: 'fa fa-star', stateOff: 'fa fa-star-o'},
-            {stateOn: 'fa fa-heart', stateOff: 'fa fa-ban'},
-            {stateOn: 'fa fa-heart'},
-            {stateOff: 'fa fa-power-off'}
-          ];
-        }
-    }
-})();
-
-/**=========================================================
- * Module: demo-timepicker.js
- * Provides a simple demo for bootstrap ui timepicker
- =========================================================*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.bootstrapui')
-        .controller('TimepickerDemoCtrl', TimepickerDemoCtrl);
-
-    function TimepickerDemoCtrl() {
-        var vm = this;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-          vm.mytime = new Date();
-
-          vm.hstep = 1;
-          vm.mstep = 15;
-
-          vm.options = {
-            hstep: [1, 2, 3],
-            mstep: [1, 5, 10, 15, 25, 30]
-          };
-
-          vm.ismeridian = true;
-          vm.toggleMode = function() {
-            vm.ismeridian = ! vm.ismeridian;
-          };
-
-          vm.update = function() {
-            var d = new Date();
-            d.setHours( 14 );
-            d.setMinutes( 0 );
-            vm.mytime = d;
-          };
-
-          vm.changed = function () {
-            console.log('Time changed to: ' + vm.mytime);
-          };
-
-          vm.clear = function() {
-            vm.mytime = null;
-          };
-        }
-    }
-})();
-
-/**=========================================================
- * Module: demo-tooltip.js
- * Provides a simple demo for tooltip
- =========================================================*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.bootstrapui')
-        .controller('TooltipDemoCtrl', TooltipDemoCtrl);
-
-    function TooltipDemoCtrl() {
-        var vm = this;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-          vm.dynamicTooltip = 'Hello, World!';
-          vm.dynamicTooltipText = 'dynamic';
-          vm.htmlTooltip = 'I\'ve been made <b>bold</b>!';
-
-          vm.autoplace = function (context, source) {
-            //return (predictTooltipTop(source) < 0) ?  "bottom": "top";
-            var pos = 'top';
-            if(predictTooltipTop(source) < 0)
-              pos = 'bottom';
-            if(predictTooltipLeft(source) < 0)
-              pos = 'right';
-            return pos;
-          };
-
-            // Predicts tooltip top position 
-            // based on the trigger element
-            function predictTooltipTop(el) {
-              var top = el.offsetTop;
-              var height = 40; // asumes ~40px tooltip height
-
-              while(el.offsetParent) {
-                el = el.offsetParent;
-                top += el.offsetTop;
-              }
-              return (top - height) - (window.pageYOffset);
-            }
-
-            // Predicts tooltip top position 
-            // based on the trigger element
-            function predictTooltipLeft(el) {
-              var left = el.offsetLeft;
-              var width = el.offsetWidth;
-
-              while(el.offsetParent) {
-                el = el.offsetParent;
-                left += el.offsetLeft;
-              }
-              return (left - width) - (window.pageXOffset);
-            }
-        }
-    }
-})();
-
-/**=========================================================
- * Module: demo-typeahead.js
- * Provides a simple demo for typeahead
- =========================================================*/
-(function() {
-    'use strict';
-
-    angular
-        .module('app.bootstrapui')
-        .controller('TypeaheadCtrl', TypeaheadCtrl);
-
-    TypeaheadCtrl.$inject = ['$http'];
-    function TypeaheadCtrl($http) {
-        var vm = this;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-
-          vm.selected = undefined;
-          vm.states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Dakota', 'North Carolina', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
-
-          // Any function returning a promise object can be used to load values asynchronously
-          vm.getLocation = function(val) {
-            return $http.get('//maps.googleapis.com/maps/api/geocode/json', {
-              params: {
-                address: val,
-                sensor: false
-              }
-            }).then(function(res){
-              var addresses = [];
-              angular.forEach(res.data.results, function(item){
-                /*jshint -W106*/
-                addresses.push(item.formatted_address);
-              });
-              return addresses;
-            });
-          };
-
-          vm.statesWithFlags = [{'name':'Alabama','flag':'5/5c/Flag_of_Alabama.svg/45px-Flag_of_Alabama.svg.png'},{'name':'Alaska','flag':'e/e6/Flag_of_Alaska.svg/43px-Flag_of_Alaska.svg.png'},{'name':'Arizona','flag':'9/9d/Flag_of_Arizona.svg/45px-Flag_of_Arizona.svg.png'},{'name':'Arkansas','flag':'9/9d/Flag_of_Arkansas.svg/45px-Flag_of_Arkansas.svg.png'},{'name':'California','flag':'0/01/Flag_of_California.svg/45px-Flag_of_California.svg.png'},{'name':'Colorado','flag':'4/46/Flag_of_Colorado.svg/45px-Flag_of_Colorado.svg.png'},{'name':'Connecticut','flag':'9/96/Flag_of_Connecticut.svg/39px-Flag_of_Connecticut.svg.png'},{'name':'Delaware','flag':'c/c6/Flag_of_Delaware.svg/45px-Flag_of_Delaware.svg.png'},{'name':'Florida','flag':'f/f7/Flag_of_Florida.svg/45px-Flag_of_Florida.svg.png'},{'name':'Georgia','flag':'5/54/Flag_of_Georgia_%28U.S._state%29.svg/46px-Flag_of_Georgia_%28U.S._state%29.svg.png'},{'name':'Hawaii','flag':'e/ef/Flag_of_Hawaii.svg/46px-Flag_of_Hawaii.svg.png'},{'name':'Idaho','flag':'a/a4/Flag_of_Idaho.svg/38px-Flag_of_Idaho.svg.png'},{'name':'Illinois','flag':'0/01/Flag_of_Illinois.svg/46px-Flag_of_Illinois.svg.png'},{'name':'Indiana','flag':'a/ac/Flag_of_Indiana.svg/45px-Flag_of_Indiana.svg.png'},{'name':'Iowa','flag':'a/aa/Flag_of_Iowa.svg/44px-Flag_of_Iowa.svg.png'},{'name':'Kansas','flag':'d/da/Flag_of_Kansas.svg/46px-Flag_of_Kansas.svg.png'},{'name':'Kentucky','flag':'8/8d/Flag_of_Kentucky.svg/46px-Flag_of_Kentucky.svg.png'},{'name':'Louisiana','flag':'e/e0/Flag_of_Louisiana.svg/46px-Flag_of_Louisiana.svg.png'},{'name':'Maine','flag':'3/35/Flag_of_Maine.svg/45px-Flag_of_Maine.svg.png'},{'name':'Maryland','flag':'a/a0/Flag_of_Maryland.svg/45px-Flag_of_Maryland.svg.png'},{'name':'Massachusetts','flag':'f/f2/Flag_of_Massachusetts.svg/46px-Flag_of_Massachusetts.svg.png'},{'name':'Michigan','flag':'b/b5/Flag_of_Michigan.svg/45px-Flag_of_Michigan.svg.png'},{'name':'Minnesota','flag':'b/b9/Flag_of_Minnesota.svg/46px-Flag_of_Minnesota.svg.png'},{'name':'Mississippi','flag':'4/42/Flag_of_Mississippi.svg/45px-Flag_of_Mississippi.svg.png'},{'name':'Missouri','flag':'5/5a/Flag_of_Missouri.svg/46px-Flag_of_Missouri.svg.png'},{'name':'Montana','flag':'c/cb/Flag_of_Montana.svg/45px-Flag_of_Montana.svg.png'},{'name':'Nebraska','flag':'4/4d/Flag_of_Nebraska.svg/46px-Flag_of_Nebraska.svg.png'},{'name':'Nevada','flag':'f/f1/Flag_of_Nevada.svg/45px-Flag_of_Nevada.svg.png'},{'name':'New Hampshire','flag':'2/28/Flag_of_New_Hampshire.svg/45px-Flag_of_New_Hampshire.svg.png'},{'name':'New Jersey','flag':'9/92/Flag_of_New_Jersey.svg/45px-Flag_of_New_Jersey.svg.png'},{'name':'New Mexico','flag':'c/c3/Flag_of_New_Mexico.svg/45px-Flag_of_New_Mexico.svg.png'},{'name':'New York','flag':'1/1a/Flag_of_New_York.svg/46px-Flag_of_New_York.svg.png'},{'name':'North Carolina','flag':'b/bb/Flag_of_North_Carolina.svg/45px-Flag_of_North_Carolina.svg.png'},{'name':'North Dakota','flag':'e/ee/Flag_of_North_Dakota.svg/38px-Flag_of_North_Dakota.svg.png'},{'name':'Ohio','flag':'4/4c/Flag_of_Ohio.svg/46px-Flag_of_Ohio.svg.png'},{'name':'Oklahoma','flag':'6/6e/Flag_of_Oklahoma.svg/45px-Flag_of_Oklahoma.svg.png'},{'name':'Oregon','flag':'b/b9/Flag_of_Oregon.svg/46px-Flag_of_Oregon.svg.png'},{'name':'Pennsylvania','flag':'f/f7/Flag_of_Pennsylvania.svg/45px-Flag_of_Pennsylvania.svg.png'},{'name':'Rhode Island','flag':'f/f3/Flag_of_Rhode_Island.svg/32px-Flag_of_Rhode_Island.svg.png'},{'name':'South Carolina','flag':'6/69/Flag_of_South_Carolina.svg/45px-Flag_of_South_Carolina.svg.png'},{'name':'South Dakota','flag':'1/1a/Flag_of_South_Dakota.svg/46px-Flag_of_South_Dakota.svg.png'},{'name':'Tennessee','flag':'9/9e/Flag_of_Tennessee.svg/46px-Flag_of_Tennessee.svg.png'},{'name':'Texas','flag':'f/f7/Flag_of_Texas.svg/45px-Flag_of_Texas.svg.png'},{'name':'Utah','flag':'f/f6/Flag_of_Utah.svg/45px-Flag_of_Utah.svg.png'},{'name':'Vermont','flag':'4/49/Flag_of_Vermont.svg/46px-Flag_of_Vermont.svg.png'},{'name':'Virginia','flag':'4/47/Flag_of_Virginia.svg/44px-Flag_of_Virginia.svg.png'},{'name':'Washington','flag':'5/54/Flag_of_Washington.svg/46px-Flag_of_Washington.svg.png'},{'name':'West Virginia','flag':'2/22/Flag_of_West_Virginia.svg/46px-Flag_of_West_Virginia.svg.png'},{'name':'Wisconsin','flag':'2/22/Flag_of_Wisconsin.svg/45px-Flag_of_Wisconsin.svg.png'},{'name':'Wyoming','flag':'b/bc/Flag_of_Wyoming.svg/43px-Flag_of_Wyoming.svg.png'}];
-
-        }
-    }
 })();
 
 (function() {
@@ -7405,7 +7405,7 @@
         $locationProvider.html5Mode(false);
 
         // defaults to dashboard
-        $urlRouterProvider.otherwise('/app/edu-setting');
+        $urlRouterProvider.otherwise('/app/student-view-worktable');
 
         //
         // Application Routes
@@ -7428,11 +7428,16 @@
         title: 'admission-manage',
         templateUrl: helper.basepath('custom/admission/admission-manage.html')
       })
-      .state('app.student-worktable', {
-          url: '/student-worktable',
+      .state('app.student-view-worktable', {
+          url: '/student-view-worktable',
           title: '学生管理',
-          templateUrl: helper.basepath('custom/student/student-worktable.html')
+          templateUrl: helper.basepath('custom/student/list/student-view-worktable.html')
       })
+        .state('app.student-add-worktable', {
+            url: '/student-add-worktable',
+            title: '学生录入',
+            templateUrl: helper.basepath('custom/student/add/student-add-worktable.html')
+        })
       .state('app.stock-worktable', {
          url: '/stock-worktable',
          title: '库存',
@@ -7453,7 +7458,7 @@
         .state('app.edu-setting', {
             url: '/edu-setting',
             title: '教务设置',
-            templateUrl: helper.basepath('custom/admin/edu-setting/grade-setting.html')
+            templateUrl: helper.basepath('custom/admin/edu-setting/edu-setting-worktable.html')
         })
         .state('app.todo', {
             url: '/todo',
@@ -10743,11 +10748,37 @@ angular.module('blockUI').run(['$templateCache', function($templateCache){
 
     angular
         .module('custom')
+        .service('DicService', DicService);
+
+    DicService.$inject = ['$http'];
+    function DicService($http) {
+
+        this.loadAllGrade = loadAllGrade;
+
+        function loadAllGrade(){
+            return $http({
+                method: "GET",
+                url: "/v1/dic/grade/list",
+                timeout: 5000
+            });
+        }
+
+
+    }
+})
+();
+
+(function () {
+    'use strict';
+
+    angular
+        .module('custom')
         .service('SettingService', SettingService);
 
     SettingService.$inject = ['$http'];
     function SettingService($http) {
 
+        //年级设置
         this.addGrade = addGrade;
         this.addClass = addClass;
         this.deleteGrade = deleteGrade;
@@ -10756,6 +10787,23 @@ angular.module('blockUI').run(['$templateCache', function($templateCache){
         this.updateClass =updateClass;
         this.listGrade = listGrade;
         this.listClass = listClass;
+
+        //学年设置
+        this.addYear = addYear;
+        this.addTerm = addTerm;
+
+        this.updateYear = updateYear;
+        this.updateTerm = updateTerm;
+
+        this.listYear = listYear;
+        this.listTerm = listTerm;
+
+        this.setCurrentTerm = setCurrentTerm;
+
+        //学科设置
+        this.addCourse = addCourse;
+        this.updateCourse = updateCourse;
+        this.listCourse = listCourse;
 
 
         function addGrade(data){
@@ -10830,6 +10878,158 @@ angular.module('blockUI').run(['$templateCache', function($templateCache){
                 timeout: 5000
             })
         }
+
+        function addYear(year){
+            return $http({
+                method: "POST",
+                url: "/v1/setting/year/add",
+                data: year,
+                timeout: 5000
+            });
+        }
+
+        function addTerm(term){
+            return $http({
+                method: "POST",
+                url: "/v1/setting/term/add",
+                data: term,
+                timeout: 5000
+            });
+        }
+
+        function updateYear(year){
+            return $http({
+                method: "POST",
+                url: "/v1/setting/year/update",
+                data: year,
+                timeout: 5000
+            });
+        }
+
+        function updateTerm(term){
+            return $http({
+                method: "POST",
+                url: "/v1/setting/term/update",
+                data: term,
+                timeout: 5000
+            });
+        }
+
+        function listYear(data){
+            return $http({
+                method: "POST",
+                url: "/v1/setting/year/list",
+                data: data,
+                timeout: 5000
+            });
+        }
+
+        function listTerm(data){
+            return $http({
+                method: "POST",
+                url: "/v1/setting/term/list",
+                data: data,
+                timeout: 5000
+            });
+        }
+
+        function setCurrentTerm(data){
+            return $http({
+                method: "POST",
+                url: "/v1/setting/term/setcurrent",
+                data: data,
+                timeout: 5000
+            });
+        }
+
+
+        function addCourse(data){
+            return $http({
+                method : "POST",
+                url: "/v1/setting/course/add",
+                data: data,
+                timeout: 5000
+            });
+        }
+
+        function updateCourse(data){
+            return $http({
+                method : "POST",
+                url: "/v1/setting/course/update",
+                data: data,
+                timeout: 5000
+            });
+        }
+
+        function listCourse(data){
+            return $http({
+                method : "POST",
+                url: "/v1/setting/course/list",
+                data: data,
+                timeout: 5000
+            });
+        }
+
+
+
+    }
+})
+();
+
+(function () {
+    'use strict';
+
+    angular
+        .module('custom')
+        .service('GraduateService', GraduateService);
+
+    GraduateService.$inject = ['$http'];
+    function GraduateService($http) {
+
+
+    }
+})
+();
+
+(function () {
+    'use strict';
+
+    angular
+        .module('custom')
+        .service('OpLogService', OpLogService);
+
+    OpLogService.$inject = ['$http'];
+    function OpLogService($http) {
+
+
+    }
+})
+();
+
+(function () {
+    'use strict';
+
+    angular
+        .module('custom')
+        .service('PayService', PayService);
+
+    PayService.$inject = ['$http'];
+    function PayService($http) {
+
+
+    }
+})
+();
+
+(function () {
+    'use strict';
+
+    angular
+        .module('custom')
+        .service('RewardService', RewardService);
+
+    RewardService.$inject = ['$http'];
+    function RewardService($http) {
 
 
     }
@@ -10978,270 +11178,6 @@ angular.module('blockUI').run(['$templateCache', function($templateCache){
 
     }
 
-})();
-(function () {
-    'use strict';
-    angular
-        .module('custom')
-        .controller('StudentAddController', StudentAddController);
-    StudentAddController.$inject = ['$scope','editableOptions', 'editableThemes', 'StudentService', 'SweetAlert', 'blockUI', 'Notify'];
-
-    function StudentAddController($scope,editableOptions, editableThemes, StudentService, SweetAlert, blockUI, Notify) {
-
-        $scope.student = {};
-
-        $scope.init = function(){
-            $scope.student = {};
-            $scope.student.educationList = [];
-            $scope.student.relationList = [];
-        }
-
-        activate();
-
-        function activate() {
-
-            $scope.init();
-
-            // remove
-            $scope.removeEducation= function(index) {
-                $scope.student.educationList.splice(index, 1);
-            };
-
-            $scope.addEducation = function() {
-                $scope.insertedEducation = {
-                    degree: '',
-                    time: '',
-                    school: '',
-                    prove: '',
-                    proveNumber: '',
-                };
-                $scope.student.educationList.push($scope.insertedEducation);
-            };
-
-            // remove
-            $scope.removeRelation= function(index) {
-                $scope.student.relationList.splice(index, 1);
-            };
-
-            $scope.addRelation = function() {
-                $scope.insertedRelation = {
-                    relationName: '',
-                    name: '',
-                    job: '',
-                    contactAddress: '',
-                    contactNumber: '',
-                };
-                $scope.student.relationList.push($scope.insertedRelation);
-            };
-
-
-        }
-
-        //保存学生信息
-        $scope.save = function(){
-
-            blockUI.start();
-
-            //校验
-            if(!$scope.validate()){
-                //给个对话框提示
-                blockUI.stop();
-                return;
-            }
-
-            //提交
-            StudentService.addStudent($scope.student).success(function(data){
-                if(data.status == 200){
-                    SweetAlert.success("添加成功!");
-                    //清空输入部分
-                    $scope.init();
-                }else{
-                    SweetAlert.error("服务器异常, 请稍后重试!");
-                }
-            }).error(function(){
-                SweetAlert.error("网络问题, 请稍后重试!");
-            });
-
-            blockUI.stop();
-        }
-
-        //校验必填信息
-        $scope.validate = function(){
-            if(_.isNil($scope.student.name)) {
-                return false;
-            }
-            return true;
-        }
-    }
-})();
-(function () {
-    'use strict';
-    angular
-        .module('custom')
-        .controller('StudentInfoController', StudentInfoController);
-    StudentInfoController.$inject = ['$scope','StudentService', 'SweetAlert', 'NgTableParams', 'blockUI', 'Notify'];
-
-    function StudentInfoController($scope, StudentService,SweetAlert, NgTableParams, blockUI, Notify) {
-
-        $scope.tableParams = {
-            page : 1,
-            count : 10,
-        };
-
-        $scope.activate = function() {
-            $scope.userTableParams = new NgTableParams($scope.tableParams, {
-                getData: function ($defer, params) {
-                    blockUI.start();
-                    AccountService.loadUsers(params.parameters()).success(function (data) {
-                        if (data.status == 200) {
-                            params.total(data.totalCount);
-                            console.log(data);
-                            $defer.resolve(data.data);
-                            blockUI.stop();
-                        }
-                    }).error(function () {
-                        SweetAlert.error("网络问题,请稍后重试!");
-                        blockUI.stop();
-                    });
-                }
-            });
-        }
-
-        $scope.activate();
-
-        //删除用户
-        $scope.delete = function(id){
-            SweetAlert.swal({
-                title: '确认删除?',
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#DD6B55',
-                confirmButtonText: '是',
-                cancelButtonText: '否',
-                closeOnConfirm: true,
-                closeOnCancel: true
-            }, function(isConfirm){
-                if (isConfirm) {
-                    //这里可以进行调试,查看$scope,因为table会创建一个子scope
-                    //然后子scope里面就不能用this了,因为this就指向了子scope,
-                    //实际上在table的每一行里面的点击是调用了父scope的delete方法
-                    blockUI.start();
-                    AccountService.deleteUser(id).success(function () {
-                        Notify.alert("删除成功!", {status:"success", timeout: 3000});
-                        $scope.userTableParams.reload();
-                        blockUI.stop();
-                    }).error(function(){
-                        blockUI.stop();
-                        Notify.alert("网络有问题,请稍后重试!", {status:"success", timeout: 3000});
-                    });
-                }
-            });
-        }
-
-        //查看用户
-        $scope.show = function (userId){
-            var dialog= ngDialog.open({
-                template: 'app/views/custom/admin/account/edit-account.html',
-                controller: 'EditAccountController',
-                className: 'ngdialog-theme-default large-dialog',
-                data : {id:userId, type:0}
-            });
-            dialog.closePromise.then(function(data){
-                if(data.value != 'reload'){
-                    return;
-                }
-                $scope.userTableParams.reload();
-            });
-        };
-
-        //编辑用户
-        $scope.edit = function(userId) {
-            var dialog= ngDialog.open({
-                template: 'app/views/custom/admin/account/edit-account.html',
-                controller: 'EditAccountController',
-                className: 'ngdialog-theme-default large-dialog',
-                data : {id:userId, type:1}
-            });
-            dialog.closePromise.then(function(data){
-                if(data.value != 'reload'){
-                    return;
-                }
-                $scope.userTableParams.reload();
-            });
-        }
-
-        //添加用户
-        $scope.add = function(userId){
-            var dialog= ngDialog.open({
-                template: 'app/views/custom/admin/account/edit-account.html',
-                controller: 'EditAccountController',
-                className: 'ngdialog-theme-default large-dialog',
-                data : {id:userId, type:2}
-            })
-            dialog.closePromise.then(function(data){
-                if(data.value != 'reload'){
-                    return;
-                }
-                $scope.userTableParams.reload();
-            });
-        }
-
-
-
-    }
-})();
-(function () {
-    'use strict';
-    angular
-        .module('custom')
-        .controller('StudentWorktableController', StudentWorktableController);
-    StudentWorktableController.$inject = ['$scope', 'StudentService', 'SweetAlert', 'NgTableParams', 'blockUI', 'Notify'];
-
-    function StudentWorktableController($scope, StudentService, SweetAlert, NgTableParams, blockUI, Notify) {
-
-        $scope.obj = {};
-
-        //左边侧边栏的查询条件
-        $scope.tableParams = {
-            page : 1,
-            count : 10,
-            orgName:'',
-            gradeName:'',
-            className:'',
-            gender: '',
-            searchStr:''
-        };
-
-        //初始化选择器列表
-        function initSelector(){
-
-        }
-        initSelector();
-
-
-        $scope.search = function() {
-            $scope.studentTableParams = new NgTableParams($scope.tableParams, {
-                counts: [],
-                getData: function ($defer, params) {
-                    blockUI.start();
-                    StudentService.searchStudent(params.parameters()).success(function (data) {
-                        if (data.status == 200) {
-                            params.total(data.totalCount);
-                            $scope.obj.totalCount = data.totalCount;
-                            console.log(data);
-                            $defer.resolve(data.data);
-                            blockUI.stop();
-                        }
-                    }).error(function () {
-                        SweetAlert.error("网络问题,请稍后重试!");
-                        blockUI.stop();
-                    });
-                }
-            });
-        }
-
-
-    }
 })();
 (function () {
     'use strict';
@@ -11446,362 +11382,17 @@ angular.module('blockUI').run(['$templateCache', function($templateCache){
 
     }
 })();
-(function () {
-    'use strict';
-    angular
-        .module('custom')
-        .controller('ClassSettingController', ClassSettingController);
-    ClassSettingController.$inject = ['$scope', 'SettingService', 'SweetAlert', 'NgTableParams', 'ngDialog', 'blockUI', 'Notify', '$resource'];
+(function(){
 
-    function ClassSettingController($scope, SettingService, SweetAlert, NgTableParams, ngDialog, blockUI, Notify, $resource) {
+    angular.module("custom")
+        .controller("EduSettingController", EduSettingController);
 
-        $scope.tableParams = {
-            page : 1,
-            count: 20
-        };
+    EduSettingController.$inject = ['$scope', 'SettingService'];
 
-        $scope.tableParams.gradeId = $scope.ngDialogData.gradeId;
-
-        $scope.activate = function() {
-            $scope.classTableParams = new NgTableParams($scope.tableParams, {
-                getData: function($defer, params){
-                    blockUI.start();
-                    SettingService.listClass(params.parameters()).success(function(data){
-                        if(data.status == 200){
-                            $defer.resolve(data.data);
-                            params.total(data.totalCount);
-                        }
-                        blockUI.stop();
-                    }).error(function(){
-                        SweetAlert.error("网络异常, 请稍后重试!");
-                        blockUI.stop();
-                    });
-                }
-            })
-        }
-
-        $scope.activate();
-
-        //添加班级
-        $scope.addClass = function(gradeId){
-            var dialog= ngDialog.open({
-                template: 'app/views/custom/admin/edu-setting/edit-class.html',
-                controller: 'EditClassController',
-                className: 'ngdialog-theme-default custom-width-800',
-                data : {type: 'add', gradeId: gradeId}
-            });
-            dialog.closePromise.then(function(data){
-                if(data.value != 'reload'){
-                    return;
-                }
-                $scope.classTableParams.reload();
-            });
-        }
-
-        $scope.editClass = function(group){
-            var dialog= ngDialog.open({
-                template: 'app/views/custom/admin/edu-setting/edit-class.html',
-                controller: 'EditClassController',
-                className: 'ngdialog-theme-default custom-width-800',
-                data : {type: 'edit', data : group}
-            });
-            dialog.closePromise.then(function(data){
-                if(data.value != 'reload'){
-                    return;
-                }
-                $scope.classTableParams.reload();
-            });
-        }
-
-        $scope.deleteClass = function(id){
-            SweetAlert.swal({
-                title: '确认删除?',
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#DD6B55',
-                confirmButtonText: '是',
-                cancelButtonText: '否',
-                closeOnConfirm: true,
-                closeOnCancel: true
-            }, function(isConfirm){
-                if (isConfirm) {
-                    //这里可以进行调试,查看$scope,因为table会创建一个子scope
-                    //然后子scope里面就不能用this了,因为this就指向了子scope,
-                    //实际上在table的每一行里面的点击是调用了父scope的delete方法
-                    blockUI.start();
-                    SettingService.deleteClass(id).success(function () {
-                        Notify.alert("删除成功!", {status:"success", timeout: 3000});
-                        $scope.classTableParams.reload();
-                        blockUI.stop();
-                    }).error(function(){
-                        blockUI.stop();
-                        Notify.alert("网络有问题,请稍后重试!", {status:"error", timeout: 3000});
-                    });
-                }
-            });
-        }
+    function EduSettingController($scope, SettingService){
 
     }
-})();
-(function () {
-    'use strict';
-    angular
-        .module('custom')
-        .controller('EditClassController', EditClassController);
-    EditClassController.$inject = ['$scope', 'SettingService', 'SweetAlert', 'blockUI'];
 
-    function EditClassController($scope, SettingService, SweetAlert, blockUI) {
-
-        var block = blockUI.instances.get("edit-class");
-
-        $scope.group = $scope.ngDialogData.data;
-        $scope.type = $scope.ngDialogData.type;
-        $scope.gradeId = $scope.ngDialogData.gradeId;
-
-        activate();
-
-
-        function activate(){
-        }
-
-        $scope.loading = false;
-
-        $scope.save = function(group){
-
-            if(!validate(group)){
-                return;
-            }
-
-            $scope.loading = true;
-            block.start();
-            if($scope.type == 'add') {
-                group.gradeId = $scope.gradeId;
-                SettingService.addClass(group).success(function (data) {
-                    $scope.loading = false;
-                    block.stop();
-                    if (data.status == 200) {
-                        SweetAlert.success("添加成功!");
-                        $scope.closeThisDialog('reload');
-                    } else {
-                        //更新失败的情况
-                        SweetAlert.error("服务器异常,请稍后重试");
-                    }
-                }).error(function () {
-                    SweetAlert.error("网络问题,稍后重试!");
-                    $scope.loading = false;
-                    $scope.closeThisDialog('reload');
-                    block.stop();
-                });
-            }else if($scope.type == 'edit'){
-                SettingService.updateClass(group).success(function (data) {
-                    $scope.loading = false;
-                    block.stop();
-                    if (data.status == 200) {
-                        SweetAlert.success("修改成功!");
-                        $scope.closeThisDialog('reload');
-                    } else {
-                        //更新失败的情况
-                        SweetAlert.error("服务器异常,请稍后重试");
-                    }
-                }).error(function () {
-                    SweetAlert.error("网络问题,稍后重试!");
-                    $scope.loading = false;
-                    $scope.closeThisDialog('reload');
-                    block.stop();
-                });
-            }
-        }
-
-        function validate(group){
-            return true;
-        }
-
-    }
-})();
-(function () {
-    'use strict';
-    angular
-        .module('custom')
-        .controller('EditGradeController', EditGradeController);
-    EditGradeController.$inject = ['$scope', 'SettingService', 'SweetAlert', 'blockUI'];
-
-    function EditGradeController($scope, SettingService, SweetAlert, blockUI) {
-
-        var block = blockUI.instances.get("edit-grade");
-
-        $scope.grade = $scope.ngDialogData.grade;
-        $scope.type = $scope.ngDialogData.type;
-
-        activate();
-
-
-        function activate(){
-        }
-
-        $scope.loading = false;
-
-        $scope.save = function(grade){
-
-            if(!validate(grade)){
-                return;
-            }
-
-            $scope.loading = true;
-            block.start();
-            if($scope.type == 'add') {
-                SettingService.addGrade(grade).success(function (data) {
-                    $scope.loading = false;
-                    block.stop();
-                    if (data.status == 200) {
-                        SweetAlert.success("添加成功!");
-                        $scope.closeThisDialog('reload');
-                    } else {
-                        //更新失败的情况
-                        SweetAlert.error("服务器异常,请稍后重试");
-                    }
-                }).error(function () {
-                    SweetAlert.error("网络问题,稍后重试!");
-                    $scope.loading = false;
-                    $scope.closeThisDialog('reload');
-                    block.stop();
-                });
-            }else if($scope.type == 'edit'){
-                SettingService.updateGrade(grade).success(function (data) {
-                    $scope.loading = false;
-                    block.stop();
-                    if (data.status == 200) {
-                        SweetAlert.success("修改成功!");
-                        $scope.closeThisDialog('reload');
-                    } else {
-                        //更新失败的情况
-                        SweetAlert.error("服务器异常,请稍后重试");
-                    }
-                }).error(function () {
-                    SweetAlert.error("网络问题,稍后重试!");
-                    $scope.loading = false;
-                    $scope.closeThisDialog('reload');
-                    block.stop();
-                });
-            }
-        }
-
-        function validate(grade){
-            return true;
-        }
-
-    }
-})();
-(function () {
-    'use strict';
-    angular
-        .module('custom')
-        .controller('EduSettingController', EduSettingController);
-    EduSettingController.$inject = ['$scope', 'SettingService', 'SweetAlert', 'NgTableParams', 'ngDialog', 'blockUI', 'Notify', '$resource'];
-
-    function EduSettingController($scope, SettingService, SweetAlert, NgTableParams, ngDialog, blockUI, Notify, $resource) {
-
-        $scope.tableParams = {
-            page : 1,
-            count: 20
-        };
-
-        $scope.activate = function() {
-            $scope.gradeTableParams = new NgTableParams($scope.tableParams, {
-                getData: function($defer, params){
-                    blockUI.start();
-                    SettingService.listGrade(params.parameters()).success(function(data){
-                        if(data.status == 200){
-                            $defer.resolve(data.data);
-                            params.total(data.totalCount);
-                        }
-                        blockUI.stop();
-                    }).error(function(){
-                        SweetAlert.error("网络异常, 请稍后重试!");
-                        blockUI.stop();
-                    });
-                }
-            })
-        }
-
-        $scope.activate();
-
-        //年级操作
-        $scope.addGrade = function(){
-            var dialog= ngDialog.open({
-                template: 'app/views/custom/admin/edu-setting/edit-grade.html',
-                controller: 'EditGradeController',
-                className: 'ngdialog-theme-default custom-width-800',
-                data : {type: 'add'}
-            });
-            dialog.closePromise.then(function(data){
-                if(data.value != 'reload'){
-                    return;
-                }
-                $scope.gradeTableParams.reload();
-            });
-        }
-
-        $scope.editGrade = function(grade){
-            var dialog= ngDialog.open({
-                template: 'app/views/custom/admin/edu-setting/edit-grade.html',
-                controller: 'EditGradeController',
-                className: 'ngdialog-theme-default custom-width-800',
-                data : {type: 'edit', grade : grade}
-            });
-            dialog.closePromise.then(function(data){
-                if(data.value != 'reload'){
-                    return;
-                }
-                $scope.gradeTableParams.reload();
-            });
-        }
-
-
-        //显示班级
-        $scope.showClass = function(gradeId){
-            var dialog= ngDialog.open({
-                template: 'app/views/custom/admin/edu-setting/class-setting.html',
-                controller: 'ClassSettingController',
-                className: 'ngdialog-theme-default max-dialog',
-                data : {gradeId : gradeId}
-            });
-            dialog.closePromise.then(function(data){
-                if(data.value != 'reload'){
-                    return;
-                }
-                $scope.gradeTableParams.reload();
-            });
-        }
-
-        $scope.deleteGrade = function(id){
-            SweetAlert.swal({
-                title: '确认删除?',
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#DD6B55',
-                confirmButtonText: '是',
-                cancelButtonText: '否',
-                closeOnConfirm: true,
-                closeOnCancel: true
-            }, function(isConfirm){
-                if (isConfirm) {
-                    //这里可以进行调试,查看$scope,因为table会创建一个子scope
-                    //然后子scope里面就不能用this了,因为this就指向了子scope,
-                    //实际上在table的每一行里面的点击是调用了父scope的delete方法
-                    blockUI.start();
-                    SettingService.deleteGrade(id).success(function () {
-                        Notify.alert("删除成功!", {status:"success", timeout: 3000});
-                        $scope.gradeTableParams.reload();
-                        blockUI.stop();
-                    }).error(function(){
-                        blockUI.stop();
-                        Notify.alert("网络有问题,请稍后重试!", {status:"error", timeout: 3000});
-                    });
-                }
-            });
-        }
-
-    }
 })();
 (function(){
 
@@ -11942,245 +11533,6 @@ angular.module('blockUI').run(['$templateCache', function($templateCache){
                 }
                 $scope.goodsTableParams.reload();
             })
-        }
-
-    }
-
-})();
-(function(){
-
-    angular.module("custom")
-        .controller("AddOutStockController", AddOutStockController);
-
-    AddOutStockController.$inject = ['$scope', 'StockService', 'SweetAlert', 'blockUI', 'NgTableParams'];
-
-    function AddOutStockController($scope, StockService, SweetAlert, blockUI, NgTableParams){
-        var block = blockUI.instances.get('stock-out-add');
-
-        $scope.stock = {
-            stockType: "出库"
-        };
-
-        //暂时先写死,后期改成从后端拉取字典信息
-        $scope.categoryList = [{value: "借用出库"}, {value: "损坏出库"}, {value: "其它出库"}];
-        //定义table对象数据
-        $scope.stockItems = [];
-
-        $scope.addRow = function(){
-            $scope.stockItems.push({});
-        }
-
-        $scope.deleteItem = function(index){
-            $scope.stockItems.splice(index, 1);
-        }
-
-        $scope.stockItemTableParams = new NgTableParams({}, {
-            counts: [],
-            getData: function($defer, params){
-                $defer.resolve($scope.stockItems);
-            }
-        });
-
-        //用于搜索物资
-        $scope.titles = [];
-        $scope.search = function(data){
-            var tableParameters = {searchStr : data, page : 1, count: 40};
-            StockService.listGoods(tableParameters).success(function(data){
-                if(data.status == 200){
-                    $scope.titles = data.data;
-                    blockUI.stop();
-                }
-            }).error(function(){
-                SweetAlert.error("网络问题, 请稍后重试!");
-                blockUI.stop();
-            });
-        }
-
-
-        $scope.itemSelected = function(row, $item){
-            row.gg = $item.gg;
-            row.cjmc = $item.cjmc;
-        }
-
-
-        $scope.validate = function(data){
-            return true;
-        }
-
-        $scope.addStockOut = function(){
-            if(!$scope.validate($scope.stock)){
-                return;
-            }
-            $scope.stock.items = $scope.stockItems;
-            block.start()
-            StockService.addOutStock($scope.stock).success(function(data){
-                if(data.status == 200) {
-                    block.stop();
-                    SweetAlert.success("成功");
-                    $scope.closeThisDialog("reload");
-                }
-            }).error(function(){
-                block.stop();
-                SweetAlert.error("失败");
-            });
-        }
-
-    }
-
-})();
-(function(){
-
-    angular.module("custom")
-        .controller("StockOutDetailController", StockOutDetailController);
-
-    StockOutDetailController.$inject = ['$scope', 'StockService', 'SweetAlert', 'blockUI', 'NgTableParams'];
-
-    function StockOutDetailController($scope, StockService, SweetAlert, blockUI, NgTableParams){
-        var block = blockUI.instances.get('stock-out-detail');
-
-        $scope.stock = $scope.ngDialogData.data;
-
-        //暂时先写死,后期改成从后端拉取字典信息
-        $scope.categoryList = [{value: "借用出库"}, {value: "损坏出库"}, {value: "其它出库"}];
-        //定义table对象数据
-        $scope.stockItems = [];
-
-        $scope.addRow = function(){
-            $scope.stockItems.push({});
-        }
-
-        $scope.deleteItem = function(index){
-            $scope.stockItems.splice(index, 1);
-        }
-
-        $scope.stockItemTableParams = new NgTableParams({}, {
-            counts: [],
-            getData: function($defer, params){
-                block.start();
-                StockService.getStock($scope.stock.id).success(function(data){
-                    if(data.status == 200){
-                        $scope.stockItems = data.data.items;
-                        $defer.resolve($scope.stockItems);
-                        block.stop();
-                    }
-                }).error(function(){
-                    block.stop();
-                    SweetAlert.error("获取详细记录失败!");
-                    $scope.closeThisDialog("ok");
-                });
-            }
-        });
-
-        //用于搜索物资
-        $scope.titles = [];
-        $scope.search = function(data){
-            var tableParameters = {searchStr : data, page : 1, count: 40};
-            StockService.listGoods(tableParameters).success(function(data){
-                if(data.status == 200){
-                    $scope.titles = data.data;
-                    blockUI.stop();
-                }
-            }).error(function(){
-                SweetAlert.error("网络问题, 请稍后重试!");
-                blockUI.stop();
-            });
-        }
-
-
-        $scope.itemSelected = function(row, $item){
-            row.gg = $item.gg;
-            row.cjmc = $item.cjmc;
-        }
-
-
-        $scope.validate = function(data){
-            return true;
-        }
-
-        $scope.addStockIn = function(){
-            if(!$scope.validate($scope.stock)){
-                return;
-            }
-            $scope.stock.items = $scope.stockItems;
-            block.start()
-            StockService.addInStock($scope.stock).success(function(data){
-                block.stop();
-                SweetAlert.success("成功");
-                $scope.closeThisDialog("reload");
-            }).error(function(){
-                block.stop();
-                SweetAlert.error("失败");
-            });
-        }
-
-    }
-
-})();
-(function(){
-
-    angular.module("custom")
-        .controller("StockOutListController", StockOutListController);
-
-    StockOutListController.$inject = ['$scope', 'StockService', 'NgTableParams', 'blockUI', 'SweetAlert', 'ngDialog'];
-
-    function StockOutListController($scope, StockService, NgTableParams, blockUI, SweetAlert, ngDialog){
-
-        $scope.tableParams = {
-            searchStr: null,
-            stockType: '出库',
-            page : 1,
-            count : 10
-        }
-
-        $scope.search = function(){
-            $scope.stockInTableParams = new NgTableParams($scope.tableParams, {
-                getData: function($defer, params){
-                    blockUI.start();
-                    StockService.listOutStock(params.parameters()).success(function(data){
-                        if(data.status == 200){
-                            params.total(data.totalCount);
-                            $defer.resolve(data.data);
-                            console.log(data.data);
-                            blockUI.stop();
-                        }
-                    }).error(function(){
-                        SweetAlert.error("网络问题, 请稍后重试!");
-                        blockUI.stop();
-                    });
-                }
-            })
-        }
-
-        $scope.search();
-
-
-        $scope.addNewOutStock = function(){
-            var dialog= ngDialog.open({
-                template: 'app/views/custom/stock/stock-out/stock-out-add.html',
-                controller: 'AddOutStockController',
-                className: 'ngdialog-theme-default max-dialog',
-            });
-            dialog.closePromise.then(function(data){
-                if(data.value != 'reload'){
-                    return;
-                }
-                $scope.stockInTableParams.reload();
-            });
-        }
-
-        $scope.openStockOutDetail = function(data){
-            var dialog= ngDialog.open({
-                template: 'app/views/custom/stock/stock-out/stock-out-detail.html',
-                controller: 'StockOutDetailController',
-                className: 'ngdialog-theme-default max-dialog',
-                data: {data : data}
-            });
-            dialog.closePromise.then(function(data){
-                if(data.value != 'reload'){
-                    return;
-                }
-                $scope.stockInTableParams.reload();
-            });
         }
 
     }
@@ -12424,4 +11776,1266 @@ angular.module('blockUI').run(['$templateCache', function($templateCache){
 
     }
 
+})();
+(function(){
+
+    angular.module("custom")
+        .controller("StudentAddWorktableController", StudentAddWorktableController);
+
+    StudentAddWorktableController.$inject = ['$scope', 'StudentService'];
+
+    function StudentAddWorktableController($scope, StudentService){
+
+    }
+
+})();
+(function () {
+    'use strict';
+    angular
+        .module('custom')
+        .controller('StudentAddController', StudentAddController);
+    StudentAddController.$inject = ['$scope', 'StudentService', 'DicService', 'SweetAlert', 'blockUI', 'Notify'];
+
+    function StudentAddController($scope, StudentService, DicService, SweetAlert, blockUI, Notify) {
+
+
+        $scope.student = {};
+        $scope.gradeList = [];
+        $scope.classList = [];
+
+        $scope.init = function() {
+            $scope.student = {};
+            blockUI.start();
+            DicService.loadAllGrade().success(function(data){
+                if(data.status == 200){
+                    $scope.gradeList = data.data;
+                }
+                blockUI.stop();
+            }).error(function(){
+                SweetAlert.error("网络异常, 请稍后重试!");
+                blockUI.stop();
+            });
+
+            $scope.selectGrade = function(data){
+                $scope.classList = data.classList;
+            }
+        }
+
+        $scope.init();
+
+        //保存学生信息
+        $scope.save = function(){
+
+            blockUI.start();
+
+            //校验
+            if(!$scope.validate()){
+                //给个对话框提示
+                blockUI.stop();
+                return;
+            }
+
+            //提交
+            StudentService.addStudent($scope.student).success(function(data){
+                if(data.status == 200){
+                    SweetAlert.success("添加成功!");
+                    //清空输入部分
+                    $scope.student = {};
+                }else{
+                    SweetAlert.error("服务器异常, 请稍后重试!");
+                }
+            }).error(function(){
+                SweetAlert.error("网络问题, 请稍后重试!");
+            });
+
+            blockUI.stop();
+        }
+
+        //校验必填信息
+        $scope.validate = function(){
+            if(_.isNil($scope.student.name)) {
+                return false;
+            }
+            return true;
+        }
+    }
+})();
+(function(){
+
+    angular.module("custom")
+        .controller("AddOutStockController", AddOutStockController);
+
+    AddOutStockController.$inject = ['$scope', 'StockService', 'SweetAlert', 'blockUI', 'NgTableParams'];
+
+    function AddOutStockController($scope, StockService, SweetAlert, blockUI, NgTableParams){
+        var block = blockUI.instances.get('stock-out-add');
+
+        $scope.stock = {
+            stockType: "出库"
+        };
+
+        //暂时先写死,后期改成从后端拉取字典信息
+        $scope.categoryList = [{value: "借用出库"}, {value: "损坏出库"}, {value: "其它出库"}];
+        //定义table对象数据
+        $scope.stockItems = [];
+
+        $scope.addRow = function(){
+            $scope.stockItems.push({});
+        }
+
+        $scope.deleteItem = function(index){
+            $scope.stockItems.splice(index, 1);
+        }
+
+        $scope.stockItemTableParams = new NgTableParams({}, {
+            counts: [],
+            getData: function($defer, params){
+                $defer.resolve($scope.stockItems);
+            }
+        });
+
+        //用于搜索物资
+        $scope.titles = [];
+        $scope.search = function(data){
+            var tableParameters = {searchStr : data, page : 1, count: 40};
+            StockService.listGoods(tableParameters).success(function(data){
+                if(data.status == 200){
+                    $scope.titles = data.data;
+                    blockUI.stop();
+                }
+            }).error(function(){
+                SweetAlert.error("网络问题, 请稍后重试!");
+                blockUI.stop();
+            });
+        }
+
+
+        $scope.itemSelected = function(row, $item){
+            row.gg = $item.gg;
+            row.cjmc = $item.cjmc;
+        }
+
+
+        $scope.validate = function(data){
+            return true;
+        }
+
+        $scope.addStockOut = function(){
+            if(!$scope.validate($scope.stock)){
+                return;
+            }
+            $scope.stock.items = $scope.stockItems;
+            block.start()
+            StockService.addOutStock($scope.stock).success(function(data){
+                if(data.status == 200) {
+                    block.stop();
+                    SweetAlert.success("成功");
+                    $scope.closeThisDialog("reload");
+                }
+            }).error(function(){
+                block.stop();
+                SweetAlert.error("失败");
+            });
+        }
+
+    }
+
+})();
+(function(){
+
+    angular.module("custom")
+        .controller("StockOutDetailController", StockOutDetailController);
+
+    StockOutDetailController.$inject = ['$scope', 'StockService', 'SweetAlert', 'blockUI', 'NgTableParams'];
+
+    function StockOutDetailController($scope, StockService, SweetAlert, blockUI, NgTableParams){
+        var block = blockUI.instances.get('stock-out-detail');
+
+        $scope.stock = $scope.ngDialogData.data;
+
+        //暂时先写死,后期改成从后端拉取字典信息
+        $scope.categoryList = [{value: "借用出库"}, {value: "损坏出库"}, {value: "其它出库"}];
+        //定义table对象数据
+        $scope.stockItems = [];
+
+        $scope.addRow = function(){
+            $scope.stockItems.push({});
+        }
+
+        $scope.deleteItem = function(index){
+            $scope.stockItems.splice(index, 1);
+        }
+
+        $scope.stockItemTableParams = new NgTableParams({}, {
+            counts: [],
+            getData: function($defer, params){
+                block.start();
+                StockService.getStock($scope.stock.id).success(function(data){
+                    if(data.status == 200){
+                        $scope.stockItems = data.data.items;
+                        $defer.resolve($scope.stockItems);
+                        block.stop();
+                    }
+                }).error(function(){
+                    block.stop();
+                    SweetAlert.error("获取详细记录失败!");
+                    $scope.closeThisDialog("ok");
+                });
+            }
+        });
+
+        //用于搜索物资
+        $scope.titles = [];
+        $scope.search = function(data){
+            var tableParameters = {searchStr : data, page : 1, count: 40};
+            StockService.listGoods(tableParameters).success(function(data){
+                if(data.status == 200){
+                    $scope.titles = data.data;
+                    blockUI.stop();
+                }
+            }).error(function(){
+                SweetAlert.error("网络问题, 请稍后重试!");
+                blockUI.stop();
+            });
+        }
+
+
+        $scope.itemSelected = function(row, $item){
+            row.gg = $item.gg;
+            row.cjmc = $item.cjmc;
+        }
+
+
+        $scope.validate = function(data){
+            return true;
+        }
+
+        $scope.addStockIn = function(){
+            if(!$scope.validate($scope.stock)){
+                return;
+            }
+            $scope.stock.items = $scope.stockItems;
+            block.start()
+            StockService.addInStock($scope.stock).success(function(data){
+                block.stop();
+                SweetAlert.success("成功");
+                $scope.closeThisDialog("reload");
+            }).error(function(){
+                block.stop();
+                SweetAlert.error("失败");
+            });
+        }
+
+    }
+
+})();
+(function(){
+
+    angular.module("custom")
+        .controller("StockOutListController", StockOutListController);
+
+    StockOutListController.$inject = ['$scope', 'StockService', 'NgTableParams', 'blockUI', 'SweetAlert', 'ngDialog'];
+
+    function StockOutListController($scope, StockService, NgTableParams, blockUI, SweetAlert, ngDialog){
+
+        $scope.tableParams = {
+            searchStr: null,
+            stockType: '出库',
+            page : 1,
+            count : 10
+        }
+
+        $scope.search = function(){
+            $scope.stockInTableParams = new NgTableParams($scope.tableParams, {
+                getData: function($defer, params){
+                    blockUI.start();
+                    StockService.listOutStock(params.parameters()).success(function(data){
+                        if(data.status == 200){
+                            params.total(data.totalCount);
+                            $defer.resolve(data.data);
+                            console.log(data.data);
+                            blockUI.stop();
+                        }
+                    }).error(function(){
+                        SweetAlert.error("网络问题, 请稍后重试!");
+                        blockUI.stop();
+                    });
+                }
+            })
+        }
+
+        $scope.search();
+
+
+        $scope.addNewOutStock = function(){
+            var dialog= ngDialog.open({
+                template: 'app/views/custom/stock/stock-out/stock-out-add.html',
+                controller: 'AddOutStockController',
+                className: 'ngdialog-theme-default max-dialog',
+            });
+            dialog.closePromise.then(function(data){
+                if(data.value != 'reload'){
+                    return;
+                }
+                $scope.stockInTableParams.reload();
+            });
+        }
+
+        $scope.openStockOutDetail = function(data){
+            var dialog= ngDialog.open({
+                template: 'app/views/custom/stock/stock-out/stock-out-detail.html',
+                controller: 'StockOutDetailController',
+                className: 'ngdialog-theme-default max-dialog',
+                data: {data : data}
+            });
+            dialog.closePromise.then(function(data){
+                if(data.value != 'reload'){
+                    return;
+                }
+                $scope.stockInTableParams.reload();
+            });
+        }
+
+    }
+
+})();
+(function () {
+    'use strict';
+    angular
+        .module('custom')
+        .controller('StudentViewWorktableController', StudentViewWorktableController);
+    StudentViewWorktableController.$inject = ['$scope', 'StudentService', 'DicService', 'SweetAlert', 'NgTableParams', 'blockUI', 'Notify'];
+
+    function StudentViewWorktableController($scope, StudentService,DicService, SweetAlert, NgTableParams, blockUI, Notify) {
+
+        $scope.obj = {};
+
+        //左边侧边栏的查询条件
+        $scope.tableParams = {
+            page : 1,
+            count : 12
+        };
+
+        $scope.gradeList = [];
+        $scope.classList = [];
+
+        //初始化选择器列表
+        function initSelector(){
+            blockUI.start();
+            DicService.loadAllGrade().success(function(data){
+                if(data.status == 200){
+                    $scope.gradeList = data.data;
+                }
+                blockUI.stop();
+            }).error(function(){
+                SweetAlert.error("网络异常, 请稍后重试!");
+                blockUI.stop();
+            });
+
+            $scope.selectGrade = function(data){
+                $scope.classList = data.classList;
+            }
+        }
+
+        initSelector();
+
+
+
+
+        $scope.search = function() {
+            $scope.studentTableParams = new NgTableParams($scope.tableParams, {
+                counts: [],
+                getData: function ($defer, params) {
+                    blockUI.start();
+                    StudentService.searchStudent(params.parameters()).success(function (data) {
+                        if (data.status == 200) {
+                            params.total(data.totalCount);
+                            $scope.obj.totalCount = data.totalCount;
+                            console.log(data);
+                            $defer.resolve(data.data);
+                            blockUI.stop();
+                        }
+                    }).error(function () {
+                        SweetAlert.error("网络问题,请稍后重试!");
+                        blockUI.stop();
+                    });
+                }
+            });
+        }
+
+
+    }
+})();
+(function () {
+    'use strict';
+    angular
+        .module('custom')
+        .controller('CourseSettingController', CourseSettingController);
+    CourseSettingController.$inject = ['$scope', 'SettingService', 'SweetAlert', 'NgTableParams', 'ngDialog', 'blockUI', 'Notify', '$resource'];
+
+    function CourseSettingController($scope, SettingService, SweetAlert, NgTableParams, ngDialog, blockUI, Notify, $resource) {
+
+        $scope.tableParams = {
+            page : 1,
+            count: 20
+        };
+
+        $scope.activate = function() {
+            $scope.courseTableParams = new NgTableParams($scope.tableParams, {
+                getData: function($defer, params){
+                    blockUI.start();
+                    SettingService.listCourse(params.parameters()).success(function(data){
+                        if(data.status == 200){
+                            $defer.resolve(data.data);
+                            params.total(data.totalCount);
+                        }
+                        blockUI.stop();
+                    }).error(function(){
+                        SweetAlert.error("网络异常, 请稍后重试!");
+                        blockUI.stop();
+                    });
+                }
+            })
+        }
+
+        $scope.activate();
+
+        //年级操作
+        $scope.addCourse = function(){
+            var dialog= ngDialog.open({
+                template: 'app/views/custom/admin/edu-setting/course/edit-course.html',
+                controller: 'EditCourseController',
+                className: 'ngdialog-theme-default custom-width-800',
+                data : {type: 'add'}
+            });
+            dialog.closePromise.then(function(data){
+                if(data.value != 'reload'){
+                    return;
+                }
+                $scope.courseTableParams.reload();
+            });
+        }
+
+        $scope.editCourse = function(course){
+            var dialog= ngDialog.open({
+                template: 'app/views/custom/admin/edu-setting/course/edit-course.html',
+                controller: 'EditCourseController',
+                className: 'ngdialog-theme-default custom-width-800',
+                data : {type: 'edit', course : course}
+            });
+            dialog.closePromise.then(function(data){
+                if(data.value != 'reload'){
+                    return;
+                }
+                $scope.courseTableParams.reload();
+            });
+        }
+
+    }
+})();
+(function () {
+    'use strict';
+    angular
+        .module('custom')
+        .controller('EditCourseController', EditCourseController);
+    EditCourseController.$inject = ['$scope', 'SettingService', 'SweetAlert', 'blockUI'];
+
+    function EditCourseController($scope, SettingService, SweetAlert, blockUI) {
+
+        var block = blockUI.instances.get("edit-course");
+
+        $scope.course = _.clone($scope.ngDialogData.course);
+        $scope.type = $scope.ngDialogData.type;
+
+        activate();
+
+
+        function activate(){
+        }
+
+        $scope.loading = false;
+
+        $scope.save = function(course){
+
+            if(!validate(course)){
+                return;
+            }
+
+            $scope.loading = true;
+            block.start();
+            if($scope.type == 'add') {
+                SettingService.addCourse(course).success(function (data) {
+                    $scope.loading = false;
+                    block.stop();
+                    if (data.status == 200) {
+                        SweetAlert.success("添加成功!");
+                        $scope.closeThisDialog('reload');
+                    } else {
+                        //更新失败的情况
+                        SweetAlert.error("服务器异常,请稍后重试");
+                    }
+                }).error(function () {
+                    SweetAlert.error("网络问题,稍后重试!");
+                    $scope.loading = false;
+                    block.stop();
+                });
+            }else if($scope.type == 'edit'){
+                SettingService.updateCourse(course).success(function (data) {
+                    $scope.loading = false;
+                    block.stop();
+                    if (data.status == 200) {
+                        SweetAlert.success("修改成功!");
+                        $scope.closeThisDialog('reload');
+                    } else {
+                        //更新失败的情况
+                        SweetAlert.error("服务器异常,请稍后重试");
+                    }
+                }).error(function () {
+                    SweetAlert.error("网络问题,稍后重试!");
+                    $scope.loading = false;
+                    block.stop();
+                });
+            }
+        }
+
+        function validate(course){
+            return true;
+        }
+
+    }
+})();
+(function () {
+    'use strict';
+    angular
+        .module('custom')
+        .controller('EditTermController', EditTermController);
+    EditTermController.$inject = ['$scope', 'SettingService', 'SweetAlert', 'blockUI'];
+
+    function EditTermController($scope, SettingService, SweetAlert, blockUI) {
+
+        var block = blockUI.instances.get("edit-term");
+
+        $scope.type = $scope.ngDialogData.type;
+        $scope.term = _.clone($scope.ngDialogData.term);
+        $scope.yearId = $scope.ngDialogData.yearId;
+
+        activate();
+
+
+        function activate(){
+        }
+
+        $scope.loading = false;
+
+        $scope.save = function(term){
+
+            if(!validate(term)){
+                return;
+            }
+
+            $scope.loading = true;
+            block.start();
+            if($scope.type == 'add') {
+                term.yearId = $scope.yearId;
+                SettingService.addTerm(term).success(function (data) {
+                    $scope.loading = false;
+                    block.stop();
+                    if (data.status == 200) {
+                        SweetAlert.success("添加成功!");
+                        $scope.closeThisDialog('reload');
+                    } else {
+                        //更新失败的情况
+                        SweetAlert.error("服务器异常,请稍后重试");
+                    }
+                }).error(function () {
+                    SweetAlert.error("网络问题,稍后重试!");
+                    $scope.loading = false;
+                    block.stop();
+                });
+            }else if($scope.type == 'edit'){
+                SettingService.updateTerm(term).success(function (data) {
+                    $scope.loading = false;
+                    block.stop();
+                    if (data.status == 200) {
+                        SweetAlert.success("修改成功!");
+                        $scope.closeThisDialog('reload');
+                    } else {
+                        //更新失败的情况
+                        SweetAlert.error("服务器异常,请稍后重试");
+                    }
+                }).error(function () {
+                    SweetAlert.error("网络问题,稍后重试!");
+                    $scope.loading = false;
+                    block.stop();
+                });
+            }
+        }
+
+        function validate(term){
+            return true;
+        }
+
+    }
+})();
+(function () {
+    'use strict';
+    angular
+        .module('custom')
+        .controller('EditYearController', EditYearController);
+    EditYearController.$inject = ['$scope', 'SettingService', 'SweetAlert', 'blockUI'];
+
+    function EditYearController($scope, SettingService, SweetAlert, blockUI) {
+
+        var block = blockUI.instances.get("edit-year");
+
+        $scope.year = _.clone($scope.ngDialogData.year);
+        $scope.type = $scope.ngDialogData.type;
+
+        activate();
+
+
+        function activate(){
+        }
+
+        $scope.loading = false;
+
+        $scope.save = function(year){
+
+            if(!validate(year)){
+                return;
+            }
+
+            $scope.loading = true;
+            block.start();
+            if($scope.type == 'add') {
+                SettingService.addYear(year).success(function (data) {
+                    $scope.loading = false;
+                    block.stop();
+                    if (data.status == 200) {
+                        SweetAlert.success("添加成功!");
+                        $scope.closeThisDialog('reload');
+                    } else {
+                        //更新失败的情况
+                        SweetAlert.error("服务器异常,请稍后重试");
+                    }
+                }).error(function () {
+                    SweetAlert.error("网络问题,稍后重试!");
+                    $scope.loading = false;
+                    $scope.closeThisDialog('reload');
+                    block.stop();
+                });
+            }else if($scope.type == 'edit'){
+                SettingService.updateYear(year).success(function (data) {
+                    $scope.loading = false;
+                    block.stop();
+                    if (data.status == 200) {
+                        SweetAlert.success("修改成功!");
+                        $scope.closeThisDialog('reload');
+                    } else {
+                        //更新失败的情况
+                        SweetAlert.error("服务器异常,请稍后重试");
+                    }
+                }).error(function () {
+                    SweetAlert.error("网络问题,稍后重试!");
+                    $scope.loading = false;
+                    block.stop();
+                });
+            }
+        }
+
+        function validate(year){
+            return true;
+        }
+
+    }
+})();
+(function () {
+    'use strict';
+    angular
+        .module('custom')
+        .controller('TermSettingController', TermSettingController);
+    TermSettingController.$inject = ['$scope', 'SettingService', 'SweetAlert', 'NgTableParams', 'ngDialog', 'blockUI', 'Notify', '$resource'];
+
+    function TermSettingController($scope, SettingService, SweetAlert, NgTableParams, ngDialog, blockUI, Notify, $resource) {
+
+        $scope.tableParams = {
+            page : 1,
+            count: 20
+        };
+
+        $scope.tableParams.yearId = $scope.ngDialogData.yearId;
+
+        $scope.activate = function() {
+            $scope.termTableParams = new NgTableParams($scope.tableParams, {
+                getData: function($defer, params){
+                    blockUI.start();
+                    SettingService.listTerm(params.parameters()).success(function(data){
+                        if(data.status == 200){
+                            $defer.resolve(data.data);
+                            params.total(data.totalCount);
+                        }
+                        blockUI.stop();
+                    }).error(function(){
+                        SweetAlert.error("网络异常, 请稍后重试!");
+                        blockUI.stop();
+                    });
+                }
+            })
+        }
+
+        $scope.activate();
+
+        //学期操作
+        $scope.addTerm = function(yearId){
+            var dialog= ngDialog.open({
+                template: 'app/views/custom/admin/edu-setting/year/edit-term.html',
+                controller: 'EditTermController',
+                className: 'ngdialog-theme-default custom-width-800',
+                data : {type: 'add', yearId: yearId}
+            });
+            dialog.closePromise.then(function(data){
+                if(data.value != 'reload'){
+                    return;
+                }
+                $scope.termTableParams.reload();
+            });
+        }
+
+        $scope.editTerm = function(term){
+            var dialog= ngDialog.open({
+                template: 'app/views/custom/admin/edu-setting/year/edit-term.html',
+                controller: 'EditTermController',
+                className: 'ngdialog-theme-default custom-width-800',
+                data : {type: 'edit', term : term}
+            });
+            dialog.closePromise.then(function(data){
+                if(data.value != 'reload'){
+                    return;
+                }
+                $scope.termTableParams.reload();
+            });
+        }
+
+    }
+})();
+(function () {
+    'use strict';
+    angular
+        .module('custom')
+        .controller('YearSettingController', YearSettingController);
+    YearSettingController.$inject = ['$scope', 'SettingService', 'SweetAlert', 'NgTableParams', 'ngDialog', 'blockUI', 'Notify', '$resource'];
+
+    function YearSettingController($scope, SettingService, SweetAlert, NgTableParams, ngDialog, blockUI, Notify, $resource) {
+
+        $scope.tableParams = {
+            page : 1,
+            count: 20
+        };
+
+        $scope.activate = function() {
+            $scope.yearTableParams = new NgTableParams($scope.tableParams, {
+                getData: function($defer, params){
+                    blockUI.start();
+                    SettingService.listYear(params.parameters()).success(function(data){
+                        if(data.status == 200){
+                            $defer.resolve(data.data);
+                            params.total(data.totalCount);
+                        }
+                        blockUI.stop();
+                    }).error(function(){
+                        SweetAlert.error("网络异常, 请稍后重试!");
+                        blockUI.stop();
+                    });
+                }
+            })
+        }
+
+        $scope.activate();
+
+        //年级操作
+        $scope.addYear = function(){
+            var dialog= ngDialog.open({
+                template: 'app/views/custom/admin/edu-setting/year/edit-year.html',
+                controller: 'EditYearController',
+                className: 'ngdialog-theme-default custom-width-800',
+                data : {type: 'add'}
+            });
+            dialog.closePromise.then(function(data){
+                if(data.value != 'reload'){
+                    return;
+                }
+                $scope.yearTableParams.reload();
+            });
+        }
+
+        $scope.editYear = function(year){
+            var dialog= ngDialog.open({
+                template: 'app/views/custom/admin/edu-setting/year/edit-year.html',
+                controller: 'EditYearController',
+                className: 'ngdialog-theme-default custom-width-800',
+                data : {type: 'edit', year : year}
+            });
+            dialog.closePromise.then(function(data){
+                if(data.value != 'reload'){
+                    return;
+                }
+                $scope.yearTableParams.reload();
+            });
+        }
+
+
+        //显示学期
+        $scope.showTerm = function(yearId){
+            var dialog= ngDialog.open({
+                template: 'app/views/custom/admin/edu-setting/year/term-setting.html',
+                controller: 'TermSettingController',
+                className: 'ngdialog-theme-default max-dialog',
+                data : {yearId : yearId}
+            });
+            dialog.closePromise.then(function(data){
+                if(data.value != 'reload'){
+                    return;
+                }
+                $scope.yearTableParams.reload();
+            });
+        }
+
+    }
+})();
+(function () {
+    'use strict';
+    angular
+        .module('custom')
+        .controller('ClassSettingController', ClassSettingController);
+    ClassSettingController.$inject = ['$scope', 'SettingService', 'SweetAlert', 'NgTableParams', 'ngDialog', 'blockUI', 'Notify', '$resource'];
+
+    function ClassSettingController($scope, SettingService, SweetAlert, NgTableParams, ngDialog, blockUI, Notify, $resource) {
+
+        $scope.tableParams = {
+            page : 1,
+            count: 20
+        };
+
+        $scope.tableParams.gradeId = $scope.ngDialogData.gradeId;
+
+        $scope.activate = function() {
+            $scope.classTableParams = new NgTableParams($scope.tableParams, {
+                getData: function($defer, params){
+                    blockUI.start();
+                    SettingService.listClass(params.parameters()).success(function(data){
+                        if(data.status == 200){
+                            $defer.resolve(data.data);
+                            params.total(data.totalCount);
+                        }
+                        blockUI.stop();
+                    }).error(function(){
+                        SweetAlert.error("网络异常, 请稍后重试!");
+                        blockUI.stop();
+                    });
+                }
+            })
+        }
+
+        $scope.activate();
+
+        //添加班级
+        $scope.addClass = function(gradeId){
+            var dialog= ngDialog.open({
+                template: 'app/views/custom/admin/edu-setting/grade/edit-class.html',
+                controller: 'EditClassController',
+                className: 'ngdialog-theme-default custom-width-800',
+                data : {type: 'add', gradeId: gradeId}
+            });
+            dialog.closePromise.then(function(data){
+                if(data.value != 'reload'){
+                    return;
+                }
+                $scope.classTableParams.reload();
+            });
+        }
+
+        $scope.editClass = function(group){
+            var dialog= ngDialog.open({
+                template: 'app/views/custom/admin/edu-setting/grade/edit-class.html',
+                controller: 'EditClassController',
+                className: 'ngdialog-theme-default custom-width-800',
+                data : {type: 'edit', data : group}
+            });
+            dialog.closePromise.then(function(data){
+                if(data.value != 'reload'){
+                    return;
+                }
+                $scope.classTableParams.reload();
+            });
+        }
+
+        $scope.deleteClass = function(id){
+            SweetAlert.swal({
+                title: '确认删除?',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#DD6B55',
+                confirmButtonText: '是',
+                cancelButtonText: '否',
+                closeOnConfirm: true,
+                closeOnCancel: true
+            }, function(isConfirm){
+                if (isConfirm) {
+                    //这里可以进行调试,查看$scope,因为table会创建一个子scope
+                    //然后子scope里面就不能用this了,因为this就指向了子scope,
+                    //实际上在table的每一行里面的点击是调用了父scope的delete方法
+                    blockUI.start();
+                    SettingService.deleteClass(id).success(function () {
+                        Notify.alert("删除成功!", {status:"success", timeout: 3000});
+                        $scope.classTableParams.reload();
+                        blockUI.stop();
+                    }).error(function(){
+                        blockUI.stop();
+                        Notify.alert("网络有问题,请稍后重试!", {status:"error", timeout: 3000});
+                    });
+                }
+            });
+        }
+
+    }
+})();
+(function () {
+    'use strict';
+    angular
+        .module('custom')
+        .controller('EditClassController', EditClassController);
+    EditClassController.$inject = ['$scope', 'SettingService', 'SweetAlert', 'blockUI'];
+
+    function EditClassController($scope, SettingService, SweetAlert, blockUI) {
+
+        var block = blockUI.instances.get("edit-class");
+
+        $scope.group = _.clone($scope.ngDialogData.data);
+        $scope.type = $scope.ngDialogData.type;
+        $scope.gradeId = $scope.ngDialogData.gradeId;
+
+        activate();
+
+
+        function activate(){
+        }
+
+        $scope.loading = false;
+
+        $scope.save = function(group){
+
+            if(!validate(group)){
+                return;
+            }
+
+            $scope.loading = true;
+            block.start();
+            if($scope.type == 'add') {
+                group.gradeId = $scope.gradeId;
+                SettingService.addClass(group).success(function (data) {
+                    $scope.loading = false;
+                    block.stop();
+                    if (data.status == 200) {
+                        SweetAlert.success("添加成功!");
+                        $scope.closeThisDialog('reload');
+                    } else {
+                        //更新失败的情况
+                        SweetAlert.error("服务器异常,请稍后重试");
+                    }
+                }).error(function () {
+                    SweetAlert.error("网络问题,稍后重试!");
+                    $scope.loading = false;
+                    $scope.closeThisDialog('reload');
+                    block.stop();
+                });
+            }else if($scope.type == 'edit'){
+                SettingService.updateClass(group).success(function (data) {
+                    $scope.loading = false;
+                    block.stop();
+                    if (data.status == 200) {
+                        SweetAlert.success("修改成功!");
+                        $scope.closeThisDialog('reload');
+                    } else {
+                        //更新失败的情况
+                        SweetAlert.error("服务器异常,请稍后重试");
+                    }
+                }).error(function () {
+                    SweetAlert.error("网络问题,稍后重试!");
+                    $scope.loading = false;
+                    $scope.closeThisDialog('reload');
+                    block.stop();
+                });
+            }
+        }
+
+        function validate(group){
+            return true;
+        }
+
+    }
+})();
+(function () {
+    'use strict';
+    angular
+        .module('custom')
+        .controller('EditGradeController', EditGradeController);
+    EditGradeController.$inject = ['$scope', 'SettingService', 'SweetAlert', 'blockUI'];
+
+    function EditGradeController($scope, SettingService, SweetAlert, blockUI) {
+
+        var block = blockUI.instances.get("edit-grade");
+
+        $scope.grade = _.clone($scope.ngDialogData.grade);
+        $scope.type = $scope.ngDialogData.type;
+
+        activate();
+
+
+        function activate(){
+        }
+
+        $scope.loading = false;
+
+        $scope.save = function(grade){
+
+            if(!validate(grade)){
+                return;
+            }
+
+            $scope.loading = true;
+            block.start();
+            if($scope.type == 'add') {
+                SettingService.addGrade(grade).success(function (data) {
+                    $scope.loading = false;
+                    block.stop();
+                    if (data.status == 200) {
+                        SweetAlert.success("添加成功!");
+                        $scope.closeThisDialog('reload');
+                    } else {
+                        //更新失败的情况
+                        SweetAlert.error("服务器异常,请稍后重试");
+                    }
+                }).error(function () {
+                    SweetAlert.error("网络问题,稍后重试!");
+                    $scope.loading = false;
+                    block.stop();
+                });
+            }else if($scope.type == 'edit'){
+                SettingService.updateGrade(grade).success(function (data) {
+                    $scope.loading = false;
+                    block.stop();
+                    if (data.status == 200) {
+                        SweetAlert.success("修改成功!");
+                        $scope.closeThisDialog('reload');
+                    } else {
+                        //更新失败的情况
+                        SweetAlert.error("服务器异常,请稍后重试");
+                    }
+                }).error(function () {
+                    SweetAlert.error("网络问题,稍后重试!");
+                    $scope.loading = false;
+                    block.stop();
+                });
+            }
+        }
+
+        function validate(grade){
+            return true;
+        }
+
+    }
+})();
+(function () {
+    'use strict';
+    angular
+        .module('custom')
+        .controller('GradeSettingController', GradeSettingController);
+    GradeSettingController.$inject = ['$scope', 'SettingService', 'SweetAlert', 'NgTableParams', 'ngDialog', 'blockUI', 'Notify', '$resource'];
+
+    function GradeSettingController($scope, SettingService, SweetAlert, NgTableParams, ngDialog, blockUI, Notify, $resource) {
+
+        $scope.tableParams = {
+            page : 1,
+            count: 20
+        };
+
+        $scope.activate = function() {
+            $scope.gradeTableParams = new NgTableParams($scope.tableParams, {
+                getData: function($defer, params){
+                    blockUI.start();
+                    SettingService.listGrade(params.parameters()).success(function(data){
+                        if(data.status == 200){
+                            $defer.resolve(data.data);
+                            params.total(data.totalCount);
+                        }
+                        blockUI.stop();
+                    }).error(function(){
+                        SweetAlert.error("网络异常, 请稍后重试!");
+                        blockUI.stop();
+                    });
+                }
+            })
+        }
+
+        $scope.activate();
+
+        //年级操作
+        $scope.addGrade = function(){
+            var dialog= ngDialog.open({
+                template: 'app/views/custom/admin/edu-setting/grade/edit-grade.html',
+                controller: 'EditGradeController',
+                className: 'ngdialog-theme-default custom-width-800',
+                data : {type: 'add'}
+            });
+            dialog.closePromise.then(function(data){
+                if(data.value != 'reload'){
+                    return;
+                }
+                $scope.gradeTableParams.reload();
+            });
+        }
+
+        $scope.editGrade = function(grade){
+            var dialog= ngDialog.open({
+                template: 'app/views/custom/admin/edu-setting/grade/edit-grade.html',
+                controller: 'EditGradeController',
+                className: 'ngdialog-theme-default custom-width-800',
+                data : {type: 'edit', grade : grade}
+            });
+            dialog.closePromise.then(function(data){
+                if(data.value != 'reload'){
+                    return;
+                }
+                $scope.gradeTableParams.reload();
+            });
+        }
+
+
+        //显示班级
+        $scope.showClass = function(gradeId){
+            var dialog= ngDialog.open({
+                template: 'app/views/custom/admin/edu-setting/grade/class-setting.html',
+                controller: 'ClassSettingController',
+                className: 'ngdialog-theme-default max-dialog',
+                data : {gradeId : gradeId}
+            });
+            dialog.closePromise.then(function(data){
+                if(data.value != 'reload'){
+                    return;
+                }
+                $scope.gradeTableParams.reload();
+            });
+        }
+
+        $scope.deleteGrade = function(id){
+            SweetAlert.swal({
+                title: '确认删除?',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#DD6B55',
+                confirmButtonText: '是',
+                cancelButtonText: '否',
+                closeOnConfirm: true,
+                closeOnCancel: true
+            }, function(isConfirm){
+                if (isConfirm) {
+                    //这里可以进行调试,查看$scope,因为table会创建一个子scope
+                    //然后子scope里面就不能用this了,因为this就指向了子scope,
+                    //实际上在table的每一行里面的点击是调用了父scope的delete方法
+                    blockUI.start();
+                    SettingService.deleteGrade(id).success(function () {
+                        Notify.alert("删除成功!", {status:"success", timeout: 3000});
+                        $scope.gradeTableParams.reload();
+                        blockUI.stop();
+                    }).error(function(){
+                        blockUI.stop();
+                        Notify.alert("网络有问题,请稍后重试!", {status:"error", timeout: 3000});
+                    });
+                }
+            });
+        }
+
+    }
+})();
+(function () {
+    'use strict';
+    angular
+        .module('custom')
+        .controller('StudentGraduateListController', StudentGraduateListController);
+    StudentGraduateListController.$inject = ['$scope','GraduateService', 'SweetAlert', 'NgTableParams', 'blockUI', 'Notify'];
+
+    function StudentGraduateListController($scope, GraduateService, SweetAlert, NgTableParams, blockUI, Notify) {
+
+        $scope.activate = function() {
+        }
+
+        $scope.activate();
+
+    }
+})();
+(function () {
+    'use strict';
+    angular
+        .module('custom')
+        .controller('StudentBaseInfoController', StudentBaseInfoController);
+    StudentBaseInfoController.$inject = ['$scope','StudentService', 'SweetAlert', 'NgTableParams', 'blockUI', 'Notify'];
+
+    function StudentBaseInfoController($scope, StudentService, SweetAlert, NgTableParams, blockUI, Notify) {
+
+        $scope.isEdit = true;
+
+        $scope.activate = function() {
+        }
+
+        $scope.activate();
+
+    }
+})();
+(function () {
+    'use strict';
+    angular
+        .module('custom')
+        .controller('StudentOpLogListController', StudentOpLogListController);
+    StudentOpLogListController.$inject = ['$scope','OpLogService', 'SweetAlert', 'NgTableParams', 'blockUI', 'Notify'];
+
+    function StudentOpLogListController($scope, OpLogService, SweetAlert, NgTableParams, blockUI, Notify) {
+
+        $scope.activate = function() {
+        }
+
+        $scope.activate();
+
+    }
+})();
+(function () {
+    'use strict';
+    angular
+        .module('custom')
+        .controller('StudentPayListController', StudentPayListController);
+    StudentPayListController.$inject = ['$scope','PayService', 'SweetAlert', 'NgTableParams', 'blockUI', 'Notify'];
+
+    function StudentPayListController($scope, PayService, SweetAlert, NgTableParams, blockUI, Notify) {
+
+        $scope.activate = function() {
+        }
+
+        $scope.activate();
+
+    }
+})();
+(function () {
+    'use strict';
+    angular
+        .module('custom')
+        .controller('StudentRewardListController', StudentRewardListController);
+    StudentRewardListController.$inject = ['$scope','RewardService', 'SweetAlert', 'NgTableParams', 'blockUI', 'Notify'];
+
+    function StudentRewardListController($scope, RewardService, SweetAlert, NgTableParams, blockUI, Notify) {
+
+        $scope.activate = function() {
+        }
+
+        $scope.activate();
+
+    }
 })();

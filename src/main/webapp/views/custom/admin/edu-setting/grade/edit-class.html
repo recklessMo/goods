@@ -1,0 +1,67 @@
+<div block-ui="edit-class" class="container-fluid">
+
+    <fieldset>
+        <div class="row">
+            <div class="col-md-12">
+                <h5 style="margin-top: 0;" ng-show="type == 'add'">
+                    <span class="icon-user"/>
+                    添加班级
+                </h5>
+                <h5 style="margin-top: 0;" ng-show="type == 'edit'">
+                    <span class="icon-user"/>
+                    编辑班级
+                </h5>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <label class="text-info">
+                    <span>I 基本属性  (红色为必填)</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 30px;">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-addon" style="color:red">班级名称</span>
+                    <input ng-class="!user.userName?'field-dirty' : ''" type="text" class="form-control" ng-model="group.className"/>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-addon" style="color:red">班主任</span>
+                    <input ng-class="!user.pwd?'field-dirty' : ''" type="text" class="form-control" ng-model="group.charger">
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-addon">主任电话</span>
+                    <input ng-class="!user.name?'field-dirty' : ''" type="text" class="form-control" ng-model="group.phone">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-addon">备注</span>
+                    <input ng-class="!user.name?'field-dirty' : ''" type="text" class="form-control" ng-model="group.detail">
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+
+    <div class="row" style="text-align: center;margin-top:50px;">
+        <div class="col-md-12" style="text-align: center;">
+            <button data-style="expand-left" ladda="loading" class="btn btn-primary" ng-click="save(group)">保存</button>
+            <button class="btn btn-primary" ng-click="closeThisDialog('cancel')">取消</button>
+        </div>
+    </div>
+
+</div>
+

@@ -1,0 +1,125 @@
+<div ng-controller="StudentAddController" class="container-fluid" style="height: 100%;overflow:auto;">
+    <div class="row" style="margin-left: 0px;margin-right: 0px;">
+        <div class="col-lg-12" style="padding-left:0px;padding-right:0px;">
+            <div class="panel panel-default" style="border:none;">
+                <div class="panel-heading" style="font-size:15px;font-weight: bold;">
+                    <i class="fa fa-user-plus" aria-hidden="true"></i>
+                    录入信息
+                    <div class="pull-right">
+                        <button ng-click="save()" class="btn btn-info">保存</button>
+                    </div>
+                </div>
+                <div class="panel-body" style="padding-top:0px;">
+                    <form method="get" action="/" class="form-horizontal">
+                        <hr/>
+                        <h5>I 基本信息</h5>
+                        <div class="form-group from-inline">
+                            <label class="col-md-1 control-label">姓名</label>
+                            <div class="col-md-2" style="padding-left: 0px">
+                                <input type="text" class="form-control" ng-model="student.name"/>
+                            </div>
+
+                            <label class="col-md-1 control-label">曾用名</label>
+                            <div class="col-md-2" style="padding-left: 0px">
+                                <input type="text" class="form-control" ng-model="student.otherName"/>
+                            </div>
+
+                            <label class="col-md-1 control-label">手机号</label>
+                            <div class="col-md-2" style="padding-left: 0px">
+                                <input type="text" class="form-control" ng-model="student.phone"/>
+                            </div>
+
+                            <label class="col-md-1 control-label">身份证号</label>
+                            <div class="col-md-2" style="padding-left: 0px">
+                                <input type="text" class="form-control" ng-model="student.scn"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group from-inline">
+                            <label class="col-md-1 control-label">性别</label>
+                            <div class="col-md-2" style="padding-left: 0px">
+                                <input type="text" class="form-control" ng-model="student.gender"/>
+                            </div>
+
+                            <label class="col-md-1 control-label">出生年月</label>
+                            <div class="col-md-2" style="padding-left: 0px">
+                                <input type="text" class="form-control" ng-model="student.birth"/>
+                            </div>
+
+                            <label class="col-md-1 control-label">户口所在地</label>
+                            <div class="col-md-2" style="padding-left: 0px">
+                                <input type="text" class="form-control" ng-model="student.homeTown"/>
+                            </div>
+
+                            <label class="col-md-1 control-label">民族</label>
+                            <div class="col-md-2" style="padding-left: 0px">
+                                <input type="text" class="form-control" ng-model="student.people"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group from-inline">
+                            <label class="col-md-1 control-label">籍贯</label>
+                            <div class="col-md-2" style="padding-left: 0px">
+                                <input type="text" class="form-control" ng-model="student.birthTown"/>
+                            </div>
+
+                            <label class="col-md-1 control-label">家庭住址</label>
+                            <div class="col-md-2" style="padding-left: 0px">
+                                <input type="text" class="form-control" ng-model="student.address"/>
+                            </div>
+
+                            <label class="col-md-1 control-label">qq号码</label>
+                            <div class="col-md-2" style="padding-left: 0px">
+                                <input type="text" class="form-control" ng-model="student.qq"/>
+                            </div>
+
+                            <label class="col-md-1 control-label">微信号码</label>
+                            <div class="col-md-2" style="padding-left: 0px">
+                                <input type="text" class="form-control" ng-model="student.wechat"/>
+                            </div>
+                        </div>
+
+                        <hr/>
+                        <h5>I 教务信息</h5>
+                        <div class="form-group from-inline">
+                            <label class="col-md-1 control-label">学号</label>
+                            <div class="col-md-2" style="padding-left: 0px">
+                                <input type="text" class="form-control" ng-model="student.sid"/>
+                            </div>
+
+                            <label class="col-md-1 control-label">年级</label>
+                            <div class="col-md-2" style="padding-left: 0px">
+                                <ui-select ng-model="student.gradeId" theme="bootstrap"
+                                           class="text-left" style="width:100%;" on-select="selectGrade($item)">
+                                    <ui-select-match placeholder="选择年级">{{$select.selected.gradeName}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="grade.gradeId as grade in gradeList">
+                                        <span ng-bind-html="grade.gradeName"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+
+                            <label class="col-md-1 control-label">班级</label>
+                            <div class="col-md-2" style="padding-left: 0px">
+                                <ui-select ng-model="student.classId" theme="bootstrap"
+                                           class="text-left" style="width:100%;">
+                                    <ui-select-match placeholder="选择班级">{{$select.selected.className}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="class.classId as class in classList">
+                                        <span ng-bind-html="class.className"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+
+                            <label class="col-md-1 control-label">班内职务</label>
+                            <div class="col-md-2" style="padding-left: 0px">
+                                <input type="text" class="form-control" ng-model="student.job"/>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

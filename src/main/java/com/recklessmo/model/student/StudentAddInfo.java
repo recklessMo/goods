@@ -32,10 +32,55 @@ public class StudentAddInfo {
     private String qq = "";
     private String wechat = "";
 
-    //暂时先不以结构化来表示,似乎json串就够了
-    private String educations;
-    private String relations;
+//    //暂时先不以结构化来表示,似乎json串就够了
+//    private String educations;
+//    private String relations;
 
+    private long gradeId;
+    private String gradeName = "";
+    private long classId;
+    private String className = "";
+    private String job = "";
+
+    public long getGradeId() {
+        return gradeId;
+    }
+
+    public void setGradeId(long gradeId) {
+        this.gradeId = gradeId;
+    }
+
+    public String getGradeName() {
+        return gradeName;
+    }
+
+    public void setGradeName(String gradeName) {
+        this.gradeName = gradeName;
+    }
+
+    public long getClassId() {
+        return classId;
+    }
+
+    public void setClassId(long classId) {
+        this.classId = classId;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
+    }
+
+    public String getJob() {
+        return job;
+    }
+
+    public void setJob(String job) {
+        this.job = job;
+    }
 
     public long getSid() {
         return sid;
@@ -141,46 +186,46 @@ public class StudentAddInfo {
         this.wechat = wechat;
     }
 
-    public String getEducations() {
-        return educations;
-    }
+//    public String getEducations() {
+//        return educations;
+//    }
+//
+//    public void setEducations(String educations) {
+//        this.educations = educations;
+//    }
+//
+//    public String getRelations() {
+//        return relations;
+//    }
+//
+//    public void setRelations(String relations) {
+//        this.relations = relations;
+//    }
 
-    public void setEducations(String educations) {
-        this.educations = educations;
-    }
 
-    public String getRelations() {
-        return relations;
-    }
-
-    public void setRelations(String relations) {
-        this.relations = relations;
-    }
-
-
-    /**
-     * JSON FIELD 会根据name字段来找到set方法,然后根据set方法的参数去读取对应的string字段来进行解析?
-     * @return
-     */
-
-    @JSONField(name="educationList")
-    public JSONArray getEducationList() {
-        return JSON.parseArray(educations);
-    }
-
-    @JSONField(name="educationList")
-    public void setEducationList(JSONArray educations) {
-        this.educations = JSON.toJSONString(educations);
-    }
-
-    @JSONField(name="relationList")
-    public JSONArray getRelationList() {
-        return JSON.parseArray(educations);
-    }
-
-    @JSONField(name="relationList")
-    public void setRelationList(JSONArray relations) {
-        this.relations = JSON.toJSONString(relations);
-    }
+//    /**
+//     * JSON FIELD 会根据name字段来找到set方法,然后根据set方法的参数去读取对应的string字段来进行解析?
+//     * @return
+//     */
+//
+//    @JSONField(name="educationList")
+//    public JSONArray getEducationList() {
+//        return JSON.parseArray(educations);
+//    }
+//
+//    @JSONField(name="educationList")
+//    public void setEducationList(JSONArray educations) {
+//        this.educations = JSON.toJSONString(educations);
+//    }
+//
+//    @JSONField(name="relationList")
+//    public JSONArray getRelationList() {
+//        return JSON.parseArray(educations);
+//    }
+//
+//    @JSONField(name="relationList")
+//    public void setRelationList(JSONArray relations) {
+//        this.relations = JSON.toJSONString(relations);
+//    }
 
 }

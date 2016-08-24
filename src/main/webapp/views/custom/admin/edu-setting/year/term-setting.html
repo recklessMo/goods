@@ -1,0 +1,27 @@
+<div ng-controller="TermSettingController" style="background: #fff;overflow: auto;height:100%;padding: 15px;">
+    <div class="row">
+        <div class="col-md-3 pull-left">
+            <button class="btn btn-info" ng-click="addTerm(tableParams.yearId)">
+                添加新的学期
+            </button>
+            <button class="btn btn-info" ng-click="activate()">
+                刷新
+            </button>
+        </div>
+    </div>
+
+    <div style="margin-top: 20px;">
+        <table ng-table="termTableParams" class="table table-bordered table-hover table-condensed editable-table table-min" style="border:1px solid #eeeeee;">
+            <tr ng-repeat="item in $data" ng-dblclick="showClass(item.gradeId)">
+                <td data-title="'序号'" style="text-align: center;width: 10%;">{{item.termId}}</td>
+                <td data-title="'学期名称'" style="text-align: center;width:15%;">{{item.termName}}</td>
+                <td data-title="'创建时间'" style="text-align: center;width: 15%;">{{item.createTime}}</td>
+                <td data-title="'操作'" style="text-align: center;width:45%;">
+                    <button class="btn btn-info" ng-click="editTerm(item)">编辑</button>
+                    <button class="btn btn-danger" ng-click="deleteTerm(item.gradeId)">删除</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</div>

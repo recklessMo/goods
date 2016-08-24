@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.recklessmo.dao.setting.GradeSettingDAO">
+
+    <sql id = "gradeColumns">
+        grade_id, grade_name, charger, phone, detail
+    </sql>
+
+    <sql id = "gradeColumnsWithoutId">
+        grade_name, charger, phone, detail
+    </sql>
+
+    <sql id = "classColumns">
+        class_id, grade_id, class_name, charger, phone, detail
+    </sql>
+
+    <sql id = "classColumnsWithoutId">
+        grade_id, class_name, charger, phone, detail
+    </sql>
+
+    <insert id="addGrade">
+        insert into grade
+        (
+        <include refid="gradeColumnsWithoutId"/>
+        )
+        values(#{gradeName},#{charger}, #{phone}, #{detail})
+    </insert>
+
+    <insert id="addClass">
+        insert into class
+        (
+        <include refid="classColumnsWithoutId"/>
+        )
+        values(#{gradeId}, #{className},#{charger},#{phone},#{detail})
+    </insert>
+
+    <update id="deleteGrade">
+        delete from grade where grade_id = #{id}
+    </update>
+
+    <update id="deleteClass">
+        delete from class where class_id = #{id}
+    </update>
+
+    <update id="updateGrade">
+        replace into grade
+        (
+        <include refid="gradeColumns"/>
+        )
+        values(#{gradeId}, #{gradeName},#{charger}, #{phone}, #{detail})
+    </update>
+
+    <update id="updateClass">
+        replace into class
+        (
+        <include refid="classColumns"/>
+        )
+        values(#{classId}, #{gradeId}, #{className},#{charger},#{phone},#{detail})
+    </update>
+
+    <select id="listGrade" resultType="com.recklessmo.model.setting.Grade">
+        select
+        <include refid="gradeColumns"/>
+        from grade
+        limit #{startIndex}, #{count}
+    </select>
+
+    <select id="listGradeCount" resultType="java.lang.Integer">
+        select
+        count(1)
+        from grade
+    </select>
+
+    <select id="listClass" resultType="com.recklessmo.model.setting.Group">
+        select
+        <include refid="classColumns"/>
+        from class
+        where grade_id = #{gradeId}
+        limit #{startIndex}, #{count}
+    </select>
+
+    <select id="listClassCount" resultType="java.lang.Integer">
+        select
+        count(1)
+        from class
+        where grade_id = #{gradeId}
+    </select>
+
+    <sql id="gradeColumnsWithClass">
+        g.grade_id as g_grade_id,
+        g.grade_name as g_grade_name,
+        g.charger as g_charger,
+        g.phone as g_phone,
+        g.detail as g_detail,
+        c.class_id as c_class_id,
+        c.grade_id as c_grade_id,
+        c.class_name as c_class_name,
+        c.charger as c_charger,
+        c.phone as c_phone,
+        c.detail as c_detail
+    </sql>
+
+    <resultMap id="gradeMap" type="com.recklessmo.model.setting.Grade">
+        <result column="g_grade_id" property="gradeId"/>
+        <result column="g_grade_name" property="gradeName"/>
+        <result column="g_charger" property="charger"/>
+        <result column="g_phone" property="phone"/>
+        <result column="g_detail" property="detail"/>
+        <collection property="classList" resultMap="classMap"/>
+    </resultMap>
+
+    <resultMap id="classMap" type="com.recklessmo.model.setting.Group">
+        <result column="c_class_id" property="classId"/>
+        <result column="c_grade_id" property="gradeId"/>
+        <result column="c_class_name" property="className"/>
+        <result column="c_charger" property="charger"/>
+        <result column="c_phone" property="phone"/>
+        <result column="c_detail" property="detail"/>
+    </resultMap>
+
+    <select id="listAllGrade" resultMap="gradeMap">
+        select 
+        <include refid="gradeColumnsWithClass"/>
+        from
+        grade g  left join class c on c.grade_id = g.grade_id
+    </select>
+
+</mapper>

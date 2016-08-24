@@ -41,16 +41,18 @@ public class Menu{
     public static Menu[] menuListTest = {
             //定义一级菜单
             new Menu(null, "教务站", null, "icon-book-open", null, 1),
-            new Menu(null, "财务站", null, "icon-notebook", null, 2),
-            new Menu(null, "库存站", "ROLE_USER", "icon-basket-loaded", "app.stock-worktable", 3),
-            new Menu(null, "管理站", null, "icon-settings", null, 4),
-            new Menu(null, "个人中心", null, "icon-info", null, 5),
+            new Menu(null, "成绩站", null, "icon-book-open", null, 2),
+            new Menu(null, "财务站", null, "icon-notebook", null, 3),
+            new Menu(null, "库存站", "ROLE_USER", "icon-basket-loaded", "app.stock-worktable", 4),
+            new Menu(null, "管理站", null, "icon-settings", null, 5),
+            new Menu(null, "个人中心", null, "icon-info", null, 6),
 
             //定义二级菜单
-            new Menu("教务站", "学生管理", "ROLE_USER", "icon-people", "app.student-worktable", 3),
-            new Menu("教务站", "学生录入", "ROLE_USER", "icon-user-follow", "app.student-add", 4),
+            new Menu("教务站", "学生查询", "ROLE_USER", "icon-people", "app.student-view-worktable", 3),
+            new Menu("教务站", "学生录入", "ROLE_USER", "icon-user-follow", "app.student-add-worktable", 4),
+            new Menu("教务站", "学生修改", "ROLE_USER", "icon-user-follow", "app.student-view-worktable", 5),
             //用于分班,升级,以及毕业等,可以批量管理,快速的进行分班,可以设定排序规则进行成绩打印,期中期末的时候需要成绩打印
-            new Menu("教务站", "批量管理", "ROLE_USER", "icon-user-follow", "app.student-add", 5),
+            new Menu("教务站", "批量修改", "ROLE_USER", "icon-user-follow", "app.student-edit-worktable", 6),
 
             new Menu("财务站", "缴费", "ROLE_USER", "icon-plus", "app.finance", 1),
             new Menu("财务站", "报销", "ROLE_USER", "icon-check", "app.finance", 2),
@@ -58,10 +60,9 @@ public class Menu{
 
             new Menu("管理站", "帐号管理", "ROLE_USER", "icon-user-female", "app.account", 1),
             new Menu("管理站", "常规设置", "ROLE_USER", "icon-wrench", "app.account", 2),
-            //设置年级,班级,专业等内容,目前先做成不相关联
             new Menu("管理站", "教务设置", "ROLE_USER", "icon-wrench", "app.edu-setting", 3),
 
-            new Menu("个人中心", "待办事项", "ROLE_USER", "icon-info", "app.todo", 1),
+            new Menu("个人中心", "我的课表", "ROLE_USER", "icon-info", "app.todo", 1),
             new Menu("个人中心", "日历提醒", "ROLE_USER", "icon-info", "app.account", 1),
     };
 

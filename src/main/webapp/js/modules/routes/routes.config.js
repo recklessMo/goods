@@ -19,7 +19,7 @@
         $locationProvider.html5Mode(false);
 
         // defaults to dashboard
-        $urlRouterProvider.otherwise('/app/edu-setting');
+        $urlRouterProvider.otherwise('/app/student-view-worktable');
 
         //
         // Application Routes
@@ -42,11 +42,16 @@
         title: 'admission-manage',
         templateUrl: helper.basepath('custom/admission/admission-manage.html')
       })
-      .state('app.student-worktable', {
-          url: '/student-worktable',
+      .state('app.student-view-worktable', {
+          url: '/student-view-worktable',
           title: '学生管理',
-          templateUrl: helper.basepath('custom/student/student-worktable.html')
+          templateUrl: helper.basepath('custom/student/list/student-view-worktable.html')
       })
+        .state('app.student-add-worktable', {
+            url: '/student-add-worktable',
+            title: '学生录入',
+            templateUrl: helper.basepath('custom/student/add/student-add-worktable.html')
+        })
       .state('app.stock-worktable', {
          url: '/stock-worktable',
          title: '库存',
@@ -67,7 +72,7 @@
         .state('app.edu-setting', {
             url: '/edu-setting',
             title: '教务设置',
-            templateUrl: helper.basepath('custom/admin/edu-setting/grade-setting.html')
+            templateUrl: helper.basepath('custom/admin/edu-setting/edu-setting-worktable.html')
         })
         .state('app.todo', {
             url: '/todo',

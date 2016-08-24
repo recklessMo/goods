@@ -6,11 +6,27 @@ package com.recklessmo.web.webmodel.page;
 public class StudentPage extends Page{
 
     private String orgName;
-    private String gradeName;
-    private String className;
+    private String gradeId;
+    private String classId;
     private int gender;
     private String searchStr;
 
+
+    public String getClassId() {
+        return classId;
+    }
+
+    public void setClassId(String classId) {
+        this.classId = classId;
+    }
+
+    public String getGradeId() {
+        return gradeId;
+    }
+
+    public void setGradeId(String gradeId) {
+        this.gradeId = gradeId;
+    }
 
     public String getOrgName() {
         return orgName;
@@ -20,21 +36,6 @@ public class StudentPage extends Page{
         this.orgName = orgName;
     }
 
-    public String getGradeName() {
-        return gradeName;
-    }
-
-    public void setGradeName(String gradeName) {
-        this.gradeName = gradeName;
-    }
-
-    public String getClassName() {
-        return className;
-    }
-
-    public void setClassName(String className) {
-        this.className = className;
-    }
 
     public int getGender() {
         return gender;

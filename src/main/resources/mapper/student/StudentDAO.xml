@@ -7,7 +7,7 @@
     </sql>
 
     <sql id = "studentAddColumns">
-        sid, name, other_name,phone, scn, gender, birth, home_town, people, birth_town, address, qq, wechat, relations, educations
+        sid, name, other_name,phone, scn, gender, birth, home_town, people, birth_town, address, qq, wechat, grade_id, grade_name, class_id, class_name, job
     </sql>
 
     <insert id="insertStudentAddInfo" parameterType="com.recklessmo.model.student.StudentAddInfo">
@@ -16,7 +16,7 @@
         <include refid="studentAddColumns"/>
         )
         VALUES (
-        #{sid},#{name}, #{otherName}, #{phone}, #{scn}, #{gender}, #{birth}, #{homeTown}, #{people}, #{birthTown}, #{address}, #{qq}, #{wechat}, #{relations}, #{educations}
+        #{sid},#{name}, #{otherName}, #{phone}, #{scn}, #{gender}, #{birth}, #{homeTown}, #{people}, #{birthTown}, #{address}, #{qq}, #{wechat}, #{gradeId}, #{gradeName}, #{classId}, #{className}, #{job}
         )
     </insert>
 
@@ -29,6 +29,7 @@
         <include refid="baseInfoColumns"/>
         from student
         <include refid="byPageQuery"/>
+        limit #{startIndex}, #{count}
     </select>
 
     <select id="getStudentBaseInfoListTotalCount" resultType="java.lang.Integer">

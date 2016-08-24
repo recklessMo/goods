@@ -1,0 +1,29 @@
+<div ng-controller="GradeSettingController as account" style="background: #fff;overflow: auto;height:100%;padding: 15px;">
+    <div class="row">
+        <div class="col-md-3 pull-left">
+            <button class="btn btn-info" ng-click="addGrade()">
+                添加新的年级
+            </button>
+            <button class="btn btn-info" ng-click="activate()">
+                刷新
+            </button>
+        </div>
+    </div>
+
+    <div style="margin-top: 20px;">
+        <table ng-table="gradeTableParams" class="table table-bordered table-hover table-condensed editable-table table-min" style="border:1px solid #eeeeee;">
+            <tr ng-repeat="item in $data" ng-dblclick="showClass(item.gradeId)">
+                <td data-title="'序号'" style="text-align: center;width: 10%;">{{item.gradeId}}</td>
+                <td data-title="'名称'" style="text-align: center;width:15%;">{{item.gradeName}}</td>
+                <td data-title="'年级主任'" style="text-align: center;width: 15%;">{{item.charger}}</td>
+                <td data-title="'主任电话'" style="text-align: center;width: 15%;">{{item.phone}}</td>
+                <td data-title="'操作'" style="text-align: center;width:45%;">
+                    <button class="btn btn-info" ng-click="showClass(item.gradeId)">查看下属班级</button>
+                    <button class="btn btn-info" ng-click="editGrade(item)">编辑</button>
+                    <button class="btn btn-danger" ng-click="deleteGrade(item.gradeId)">删除</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</div>

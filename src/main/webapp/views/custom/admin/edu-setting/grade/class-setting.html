@@ -1,0 +1,28 @@
+<div style="background: #fff;overflow: auto;height:100%;padding: 15px;">
+    <div class="row">
+        <div class="col-md-3 pull-left">
+            <button class="btn btn-info" ng-click="addClass(tableParams.gradeId)">
+                添加新的班级
+            </button>
+            <button class="btn btn-info" ng-click="activate()">
+                刷新
+            </button>
+        </div>
+    </div>
+
+    <div style="margin-top: 20px;">
+        <table ng-table="classTableParams" class="table table-bordered table-hover table-condensed editable-table table-min">
+            <tr ng-repeat="item in $data" ng-dblclick="editClass(item)">
+                <td data-title="'序号'" style="text-align: center;width: 10%;">{{item.classId}}</td>
+                <td data-title="'班级名称'" style="text-align: center;width:15%;">{{item.className}}</td>
+                <td data-title="'班主任'" style="text-align: center;width: 15%;">{{item.charger}}</td>
+                <td data-title="'班主任电话'" style="text-align: center;width: 15%;">{{item.phone}}</td>
+                <td data-title="'操作'" style="text-align: center;width:45%;">
+                    <button class="btn btn-info" ng-click="editClass(item)">编辑</button>
+                    <button class="btn btn-danger" ng-click="deleteClass(item.classId)">删除</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</div>

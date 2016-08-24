@@ -1,0 +1,28 @@
+<div ng-controller="YearSettingController" style="background: #fff;overflow: auto;height:100%;padding: 15px;">
+    <div class="row">
+        <div class="col-md-3 pull-left">
+            <button class="btn btn-info" ng-click="addYear()">
+                添加新的学年
+            </button>
+            <button class="btn btn-info" ng-click="activate()">
+                刷新
+            </button>
+        </div>
+    </div>
+
+    <div style="margin-top: 20px;">
+        <table ng-table="yearTableParams" class="table table-bordered table-hover table-condensed editable-table table-min" style="border:1px solid #eeeeee;">
+            <tr ng-repeat="item in $data" ng-dblclick="showClass(item.gradeId)">
+                <td data-title="'序号'" style="text-align: center;width: 10%;">{{item.yearId}}</td>
+                <td data-title="'学年'" style="text-align: center;width:15%;">{{item.yearName}}</td>
+                <td data-title="'创建时间'" style="text-align: center;width: 15%;">{{item.createTime}}</td>
+                <td data-title="'操作'" style="text-align: center;width:45%;">
+                    <button class="btn btn-info" ng-click="showTerm(item.yearId)">查看下属学期</button>
+                    <button class="btn btn-info" ng-click="editYear(item)">编辑</button>
+                    <button class="btn btn-danger" ng-click="deleteYear(item.yearId)">删除</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</div>

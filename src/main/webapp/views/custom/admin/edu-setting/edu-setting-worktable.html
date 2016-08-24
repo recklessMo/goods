@@ -1,0 +1,34 @@
+<div ng-controller="EduSettingController" style="height: 100%;" class="container-fluid">
+    <div class="row" style="height: 100%;">
+        <div class="col-xs-12" style="height: 100%;;">
+            <div class="panel" style="height: 100%;" >
+                <uib-tabset class="tab-full-content" style="height: 100%;" justified="true">
+                    <uib-tab active="true"
+                             style="text-align: center;">
+                        <uib-tab-heading>
+                            年级设置
+                        </uib-tab-heading>
+                        <div ng-include="'app/views/custom/admin/edu-setting/grade/grade-setting.html'" style="height: 100%;">
+                        </div>
+                    </uib-tab>
+                    <uib-tab active="false"
+                             style="text-align: center;">
+                        <uib-tab-heading>
+                            学年设置
+                        </uib-tab-heading>
+                        <div ng-include="'app/views/custom/admin/edu-setting/year/year-setting.html'" style="height: 100%;">
+                        </div>
+                    </uib-tab>
+                    <uib-tab active="false"
+                             style="text-align: center;">
+                        <uib-tab-heading>
+                            学科设置
+                        </uib-tab-heading>
+                        <div ng-include="'app/views/custom/admin/edu-setting/course/course-setting.html'" style="height: 100%;">
+                        </div>
+                    </uib-tab>
+                </uib-tabset>
+            </div>
+        </div>
+    </div>
+</div>

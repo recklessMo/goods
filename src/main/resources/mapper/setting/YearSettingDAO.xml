@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.recklessmo.dao.setting.YearSettingDAO">
+
+    <sql id = "yearColumns">
+        year_id, year_name, create_time, status
+    </sql>
+
+    <sql id = "yearColumnsWithoutId">
+        year_name, create_time, status
+    </sql>
+
+    <sql id = "termColumns">
+        term_id, year_id, term_name, create_time, status
+    </sql>
+
+    <sql id = "termColumnsWithoutId">
+        year_id, term_name, create_time, status
+    </sql>
+
+    <insert id="addYear">
+        insert into year
+        (
+        <include refid="yearColumnsWithoutId"/>
+        )
+        values(#{yearName},#{createTime}, #{status})
+    </insert>
+
+    <insert id="addTerm">
+        insert into term
+        (
+        <include refid="termColumnsWithoutId"/>
+        )
+        values(#{yearId}, #{termName},#{createTime},#{status})
+    </insert>
+
+    <update id="updateYear">
+        replace into year
+        (
+        <include refid="yearColumns"/>
+        )
+        values(#{yearId}, #{yearName},#{createTime}, #{status})
+    </update>
+
+    <update id="updateClass">
+        replace into class
+        (
+        <include refid="termColumns"/>
+        )
+        values(#{termId}, #{yearId}, #{termName},#{creteTime},#{status})
+    </update>
+
+    <select id="listYear" resultType="com.recklessmo.model.setting.Year">
+        select
+        <include refid="yearColumns"/>
+        from year
+        limit #{startIndex}, #{count}
+    </select>
+
+    <select id="listYearCount" resultType="java.lang.Integer">
+        select
+        count(1)
+        from year
+    </select>
+
+    <select id="listTerm" resultType="com.recklessmo.model.setting.Term">
+        select
+        <include refid="termColumns"/>
+        from term
+        where year_id = #{yearId}
+        limit #{startIndex}, #{count}
+    </select>
+
+    <select id="listTermCount" resultType="java.lang.Integer">
+        select
+        count(1)
+        from term
+        where year_id = #{yearId}
+    </select>
+
+</mapper>

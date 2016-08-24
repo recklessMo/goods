@@ -1,0 +1,43 @@
+<div block-ui="edit-year" class="container-fluid">
+
+    <fieldset>
+        <div class="row">
+            <div class="col-md-12">
+                <h5 style="margin-top: 0;" ng-show="type == 'add'">
+                    <span class="icon-user"/>
+                    添加学年信息
+                </h5>
+                <h5 style="margin-top: 0;" ng-show="type == 'edit'">
+                    <span class="icon-user"/>
+                    编辑学年信息
+                </h5>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-addon" style="color:red">学年名称</span>
+                    <input ng-class="!user.userName?'field-dirty' : ''" type="text" class="form-control" ng-model="year.yearName"/>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-addon">状态</span>
+                    <input ng-class="!user.name?'field-dirty' : ''" type="text" class="form-control" ng-model="year.status">
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+
+    <div class="row" style="text-align: center;margin-top:50px;">
+        <div class="col-md-12" style="text-align: center;">
+            <button data-style="expand-left" ladda="loading" class="btn btn-primary" ng-click="save(year)">保存</button>
+            <button class="btn btn-primary" ng-click="closeThisDialog('cancel')">取消</button>
+        </div>
+    </div>
+
+</div>
+
