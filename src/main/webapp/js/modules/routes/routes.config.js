@@ -19,7 +19,7 @@
         $locationProvider.html5Mode(false);
 
         // defaults to dashboard
-        $urlRouterProvider.otherwise('/app/student-view-worktable');
+        $urlRouterProvider.otherwise('/app/analyze-score');
 
         //
         // Application Routes
@@ -69,6 +69,22 @@
               title: '帐号管理',
               templateUrl: helper.basepath('custom/admin/account/account.html')
           })
+        .state('app.exam', {
+            url: '/exam',
+            title: '考试管理',
+            templateUrl: helper.basepath('custom/performance/exam/exam.html')
+        })
+        .state('app.analyze-score', {
+            url: '/analyze-score',
+            title: '成绩分析',
+            templateUrl: helper.basepath('custom/performance/score/analyze-score.html'),
+            resolve: helper.resolveFor('angularFileUpload', 'filestyle')
+        })
+        .state('app.analyze-template', {
+            url: '/analyze-template',
+            title: '分析模版',
+            templateUrl: helper.basepath('custom/performance/template/template.html')
+        })
         .state('app.edu-setting', {
             url: '/edu-setting',
             title: '教务设置',
