@@ -22,16 +22,17 @@
     </div>
 
     <div style="margin-top: 10px;">
-        <table ng-table="examTableParams" class="table table-bordered table-hover table-condensed editable-table table-min" style="table-layout: fixed;">
+        <table ng-table="examTableParams" class="table table-bordered table-hover table-condensed editable-table table-min">
             <tr ng-repeat="item in $data" ng-dblclick="show(item.id)">
+                <td data-title="'考试ID'" style="text-align: center;">{{item.examId}}</td>
                 <td data-title="'考试名称'" style="text-align: center">{{item.examName}}</td>
                 <td data-title="'所属年级'" style="text-align: center">{{item.gradeId}}</td>
                 <td data-title="'年级别名'" style="text-align: center">xx</td>
+                <td data-title="'上传成绩'" style="text-align: center;">已上传</td>
+                <td data-title="'分析成绩'" style="text-align: center">已分析/已发布</td>
                 <td data-title="'操作'" style="text-align: center">
-                    <button class="btn btn-info" ng-click="analyze(item.id)" ng-if="item.status == 0">去分析成绩</button>
-                    <button class="btn btn-info" ng-click="show(item.id)" ng-if="item.status == 1">查看成绩分析结果</button>
-                    <!--<button class="btn btn-info" ng-click="edit(item.id)">编辑</button>-->
-                    <!--<button class="btn btn-danger" ng-click="delete(item.id)">删除</button>-->
+                    <button class="btn btn-info" ng-click="analyze(item.id)" ng-if="item.status == 0">发布成绩结果</button>
+                    <button class="btn btn-danger" ng-click="delete(item.id)">删除</button>
                 </td>
             </tr>
         </table>

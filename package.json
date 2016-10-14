@@ -4,9 +4,10 @@
   "description": "Angle - Bootstrap Admin App + AngularJS",
   "author": "@themicon_co",
   "dependencies": {
-	"gulp-rev": "^7.0.0",
-    "gulp-rev-collector": "^1.0.2",
-	"gulp-connect": "^2.3.1"
+    "echarts": "^3.2.3",
+    "gulp-connect": "^2.3.1",
+    "gulp-rev": "^7.0.0",
+    "gulp-rev-collector": "^1.0.2"
   },
   "devDependencies": {
     "css-flip": "git://github.com/geedmo/css-flip",

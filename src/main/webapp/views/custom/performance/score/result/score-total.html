@@ -1,0 +1,47 @@
+<div ng-controller="ScoreTotalController">
+
+    <div class="col-xs-4 col-xs-offset-8">
+        <div class="row">
+            <div class="col-xs-6 btn-group">
+                <button class="btn btn-default" ng-class="{active:flag.show == 1}" ng-click="showTables()">表格</button>
+                <button class="btn btn-default" ng-class="{active:flag.show == 2}" ng-click="showCharts()">图形</button>
+            </div>
+            <div class="col-xs-6">
+                <ui-select ng-model="tableParams.classId" theme="bootstrap"
+                           class="text-left" style="width:100%;">
+                    <ui-select-match placeholder="选择班级">{{$select.selected.className}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="class.classId as class in classList">
+                        <span ng-bind-html="class.className"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+        </div>
+    </div>
+
+    <div style="padding-top:50px;" ng-show="flag.show == 1">
+        <table ng-table="scoreTotalTableParams" class="table table-bordered table-hover table-condensed editable-table table-min">
+            <tr ng-repeat="item in $data" ng-dblclick="show(item.id)">
+                <td data-title="'班级'" style="text-align: center;">{{item.cid}}</td>
+                <td data-title="'学科'" style="text-align: center;">{{item.courseName}}</td>
+                <td data-title="'参考人数'" style="text-align: center;">{{item.totalCount}}</td>
+                <td data-title="'最高分'" style="text-align: center;">{{item.max}}</td>
+                <td data-title="'最低分'" style="text-align: center;">{{item.min}}</td>
+                <td data-title="'平均分'" style="text-align: center;">{{item.avg}}</td>
+                <td data-title="'标准差'" style="text-align: center;">{{item.stdAvg}}</td>
+                <td data-title="'满分(人)'" style="text-align: center">{{item.full}}</td>
+                <td data-title="'满分率'" style="text-align: center;">{{item.full}}</td>
+                <td data-title="'优秀(人)'" style="text-align: center">{{item.best}}</td>
+                <td data-title="'优秀率'" style="text-align: center;">{{item.best}}</td>
+                <td data-title="'良好(人)'" style="text-align: center">{{item.good}}</td>
+                <td data-title="'良好率'" style="text-align: center;">{{item.good}}</td>
+                <td data-title="'及格(人)'" style="text-align: center">{{item.qualified}}</td>
+                <td data-title="'及格率'" style="text-align: center;">{{item.qualified}}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div style="padding-top:50px;text-align: center;" ng-show="flag.show == 2">
+        <div id="main" style="height: 400px; width: 800px;margin:auto;"></div>
+    </div>
+</div>

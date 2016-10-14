@@ -24,6 +24,12 @@
         <property name="jdbcUrl" value="${url}"/>
         <property name="user" value="${user}"/>
         <property name="password" value="${password}"/>
+        <!--以前没加下面这几个配置的时候会偶尔报错-->
+        <property name="initialPoolSize" value="${initialPoolSize}"/>
+        <property name="minPoolSize" value="${minPoolSize}"/>
+        <property name="maxPoolSize" value="${maxPoolSize}"/>
+        <property name="maxIdleTime" value="${maxIdleTime}"/>
+        <property name="acquireIncrement" value="${acquireIncrement}"/>
     </bean>
 
     <!--  配置mybatis sqlsessionfactory -->

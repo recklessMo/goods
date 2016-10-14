@@ -1,0 +1,23 @@
+<div ng-controller="TemplateListController" style="background: #fff;overflow: auto;height:100%;padding: 15px;border: 1px solid #cfdbe2;">
+    <div class="row">
+        <div class="col-md-3 pull-left">
+            <button class="btn btn-info" ng-click="add(-1)">
+                添加新模板
+            </button>
+        </div>
+    </div>
+
+    <div style="margin-top: 10px;">
+    <table ng-table="templateTableParams" class="table table-bordered table-hover table-condensed editable-table table-min" style="table-layout: fixed;">
+        <tr ng-repeat="item in $data" ng-dblclick="show(item.id)">
+            <td data-title="'模板ID'" style="text-align: center">{{item.id}}</td>
+            <td data-title="'模板名称'" style="text-align: center">{{item.name}}</td>
+            <td data-title="'操作'" style="text-align: center">
+                <button class="btn btn-info" ng-click="edit(item)">编辑</button>
+                <button class="btn btn-danger" ng-click="delete(item.id)">删除</button>
+            </td>
+        </tr>
+    </table>
+</div>
+
+</div>

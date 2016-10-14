@@ -49,13 +49,13 @@
     'use strict';
 
     angular
-        .module('app.charts', []);
+        .module('app.bootstrapui', []);
 })();
 (function() {
     'use strict';
 
     angular
-        .module('app.bootstrapui', []);
+        .module('app.charts', []);
 })();
 (function() {
     'use strict';
@@ -216,6 +216,566 @@
         .module('app.utils', [
           'app.colors'
           ]);
+})();
+
+/**=========================================================
+ * Module: demo-alerts.js
+ * Provides a simple demo for pagination
+ =========================================================*/
+(function() {
+    'use strict';
+
+    angular
+        .module('app.bootstrapui')
+        .controller('AlertDemoCtrl', AlertDemoCtrl);
+
+    function AlertDemoCtrl() {
+        var vm = this;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+          vm.alerts = [
+            { type: 'danger', msg: 'Oh snap! Change a few things up and try submitting again.' },
+            { type: 'warning', msg: 'Well done! You successfully read this important alert message.' }
+          ];
+
+          vm.addAlert = function() {
+            vm.alerts.push({msg: 'Another alert!'});
+          };
+
+          vm.closeAlert = function(index) {
+            vm.alerts.splice(index, 1);
+          };
+        }
+    }
+})();
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.bootstrapui')
+        .config(bootstrapuiConfig);
+
+    bootstrapuiConfig.$inject = ['$uibTooltipProvider'];
+    function bootstrapuiConfig($uibTooltipProvider){
+      $uibTooltipProvider.options({appendToBody: true});
+    }
+})();
+/**=========================================================
+ * Module: demo-buttons.js
+ * Provides a simple demo for buttons actions
+ =========================================================*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.bootstrapui')
+        .controller('ButtonsCtrl', ButtonsCtrl);
+
+    function ButtonsCtrl() {
+        var vm = this;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+          vm.singleModel = 1;
+
+          vm.radioModel = 'Middle';
+
+          vm.checkModel = {
+            left: false,
+            middle: true,
+            right: false
+          };
+        }
+    }
+})();
+
+/**=========================================================
+ * Module: demo-carousel.js
+ * Provides a simple demo for bootstrap ui carousel
+ =========================================================*/
+(function() {
+    'use strict';
+
+    angular
+        .module('app.bootstrapui')
+        .controller('CarouselDemoCtrl', CarouselDemoCtrl);
+
+    function CarouselDemoCtrl() {
+        var vm = this;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+          vm.myInterval = 5000;
+
+          var slides = vm.slides = [];
+          vm.addSlide = function(id) {
+            id = id || 8;
+            slides.push({
+              image: 'app/img/bg' + id + '.jpg',
+              text: ['More','Extra','Lots of','Surplus'][slides.length % 2] + ' ' +
+                ['Cats', 'Kittys', 'Felines', 'Cutes'][slides.length % 2]
+            });
+          };
+
+          vm.addSlide(4);
+          vm.addSlide(7);
+          vm.addSlide(8);
+
+        }
+    }
+})();
+
+/**=========================================================
+ * Module: demo-datepicker.js
+ * Provides a simple demo for bootstrap datepicker
+ =========================================================*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.bootstrapui')
+        .controller('DatepickerDemoCtrl', DatepickerDemoCtrl);
+
+    function DatepickerDemoCtrl() {
+        var vm = this;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+          vm.today = function() {
+            vm.dt = new Date();
+          };
+          vm.today();
+
+          vm.clear = function () {
+            vm.dt = null;
+          };
+
+          // Disable weekend selection
+          vm.disabled = function(date, mode) {
+            return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+          };
+
+          vm.toggleMin = function() {
+            vm.minDate = vm.minDate ? null : new Date();
+          };
+          vm.toggleMin();
+
+          vm.open = function($event) {
+            $event.preventDefault();
+            $event.stopPropagation();
+
+            vm.opened = true;
+          };
+
+          vm.dateOptions = {
+            formatYear: 'yy',
+            startingDay: 1
+          };
+
+          vm.initDate = new Date('2019-10-20');
+          vm.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+          vm.format = vm.formats[0];
+        }
+    }
+})();
+
+
+/**=========================================================
+ * Module: modals.js
+ * Provides a simple way to implement bootstrap modals from templates
+ =========================================================*/
+(function() {
+    'use strict';
+
+    angular
+        .module('app.bootstrapui')
+        .controller('ModalController', ModalController);
+
+    ModalController.$inject = ['$uibModal'];
+    function ModalController($uibModal) {
+        var vm = this;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+
+          vm.open = function (size) {
+
+            var modalInstance = $uibModal.open({
+              templateUrl: '/myModalContent.html',
+              controller: ModalInstanceCtrl,
+              size: size
+            });
+
+            var state = $('#modal-state');
+            modalInstance.result.then(function () {
+              state.text('Modal dismissed with OK status');
+            }, function () {
+              state.text('Modal dismissed with Cancel status');
+            });
+          };
+
+          // Please note that $uibModalInstance represents a modal window (instance) dependency.
+          // It is not the same as the $uibModal service used above.
+
+          ModalInstanceCtrl.$inject = ['$scope', '$uibModalInstance'];
+          function ModalInstanceCtrl($scope, $uibModalInstance) {
+
+            $scope.ok = function () {
+              $uibModalInstance.close('closed');
+            };
+
+            $scope.cancel = function () {
+              $uibModalInstance.dismiss('cancel');
+            };
+          }
+        }
+    }
+
+})();
+
+/**=========================================================
+ * Module: demo-pagination.js
+ * Provides a simple demo for pagination
+ =========================================================*/
+(function() {
+    'use strict';
+
+    angular
+        .module('app.bootstrapui')
+        .controller('PaginationDemoCtrl', PaginationDemoCtrl);
+
+    function PaginationDemoCtrl() {
+        var vm = this;
+
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+          vm.totalItems = 64;
+          vm.currentPage = 4;
+
+          vm.setPage = function (pageNo) {
+            vm.currentPage = pageNo;
+          };
+
+          vm.pageChanged = function() {
+            console.log('Page changed to: ' + vm.currentPage);
+          };
+
+          vm.maxSize = 5;
+          vm.bigTotalItems = 175;
+          vm.bigCurrentPage = 1;
+        }
+    }
+})();
+
+/**=========================================================
+ * Module: demo-popover.js
+ * Provides a simple demo for popovers
+ =========================================================*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.bootstrapui')
+        .controller('PopoverDemoCtrl', PopoverDemoCtrl);
+
+    function PopoverDemoCtrl() {
+        var vm = this;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+          vm.dynamicPopover = 'Hello, World!';
+          vm.dynamicPopoverTitle = 'Title';
+        }
+    }
+})();
+
+/**=========================================================
+ * Module: demo-progress.js
+ * Provides a simple demo to animate progress bar
+ =========================================================*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.bootstrapui')
+        .controller('ProgressDemoCtrl', ProgressDemoCtrl);
+
+    function ProgressDemoCtrl() {
+        var vm = this;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+          vm.max = 200;
+
+          vm.random = function() {
+            var value = Math.floor((Math.random() * 100) + 1);
+            var type;
+
+            if (value < 25) {
+              type = 'success';
+            } else if (value < 50) {
+              type = 'info';
+            } else if (value < 75) {
+              type = 'warning';
+            } else {
+              type = 'danger';
+            }
+
+            vm.showWarning = (type === 'danger' || type === 'warning');
+
+            vm.dynamic = value;
+            vm.type = type;
+          };
+          vm.random();
+
+          vm.randomStacked = function() {
+            vm.stacked = [];
+            var types = ['success', 'info', 'warning', 'danger'];
+
+            for (var i = 0, n = Math.floor((Math.random() * 4) + 1); i < n; i++) {
+                var index = Math.floor((Math.random() * 4));
+                vm.stacked.push({
+                  value: Math.floor((Math.random() * 30) + 1),
+                  type: types[index]
+                });
+            }
+          };
+          vm.randomStacked();
+        }
+    }
+})();
+
+/**=========================================================
+ * Module: demo-rating.js
+ * Provides a demo for ratings UI
+ =========================================================*/
+(function() {
+    'use strict';
+
+    angular
+        .module('app.bootstrapui')
+        .controller('RatingDemoCtrl', RatingDemoCtrl);
+
+    function RatingDemoCtrl() {
+        var vm = this;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+          vm.rate = 7;
+          vm.max = 10;
+          vm.isReadonly = false;
+
+          vm.hoveringOver = function(value) {
+            vm.overStar = value;
+            vm.percent = 100 * (value / vm.max);
+          };
+
+          vm.ratingStates = [
+            {stateOn: 'fa fa-check', stateOff: 'fa fa-check-circle'},
+            {stateOn: 'fa fa-star', stateOff: 'fa fa-star-o'},
+            {stateOn: 'fa fa-heart', stateOff: 'fa fa-ban'},
+            {stateOn: 'fa fa-heart'},
+            {stateOff: 'fa fa-power-off'}
+          ];
+        }
+    }
+})();
+
+/**=========================================================
+ * Module: demo-timepicker.js
+ * Provides a simple demo for bootstrap ui timepicker
+ =========================================================*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.bootstrapui')
+        .controller('TimepickerDemoCtrl', TimepickerDemoCtrl);
+
+    function TimepickerDemoCtrl() {
+        var vm = this;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+          vm.mytime = new Date();
+
+          vm.hstep = 1;
+          vm.mstep = 15;
+
+          vm.options = {
+            hstep: [1, 2, 3],
+            mstep: [1, 5, 10, 15, 25, 30]
+          };
+
+          vm.ismeridian = true;
+          vm.toggleMode = function() {
+            vm.ismeridian = ! vm.ismeridian;
+          };
+
+          vm.update = function() {
+            var d = new Date();
+            d.setHours( 14 );
+            d.setMinutes( 0 );
+            vm.mytime = d;
+          };
+
+          vm.changed = function () {
+            console.log('Time changed to: ' + vm.mytime);
+          };
+
+          vm.clear = function() {
+            vm.mytime = null;
+          };
+        }
+    }
+})();
+
+/**=========================================================
+ * Module: demo-tooltip.js
+ * Provides a simple demo for tooltip
+ =========================================================*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.bootstrapui')
+        .controller('TooltipDemoCtrl', TooltipDemoCtrl);
+
+    function TooltipDemoCtrl() {
+        var vm = this;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+          vm.dynamicTooltip = 'Hello, World!';
+          vm.dynamicTooltipText = 'dynamic';
+          vm.htmlTooltip = 'I\'ve been made <b>bold</b>!';
+
+          vm.autoplace = function (context, source) {
+            //return (predictTooltipTop(source) < 0) ?  "bottom": "top";
+            var pos = 'top';
+            if(predictTooltipTop(source) < 0)
+              pos = 'bottom';
+            if(predictTooltipLeft(source) < 0)
+              pos = 'right';
+            return pos;
+          };
+
+            // Predicts tooltip top position 
+            // based on the trigger element
+            function predictTooltipTop(el) {
+              var top = el.offsetTop;
+              var height = 40; // asumes ~40px tooltip height
+
+              while(el.offsetParent) {
+                el = el.offsetParent;
+                top += el.offsetTop;
+              }
+              return (top - height) - (window.pageYOffset);
+            }
+
+            // Predicts tooltip top position 
+            // based on the trigger element
+            function predictTooltipLeft(el) {
+              var left = el.offsetLeft;
+              var width = el.offsetWidth;
+
+              while(el.offsetParent) {
+                el = el.offsetParent;
+                left += el.offsetLeft;
+              }
+              return (left - width) - (window.pageXOffset);
+            }
+        }
+    }
+})();
+
+/**=========================================================
+ * Module: demo-typeahead.js
+ * Provides a simple demo for typeahead
+ =========================================================*/
+(function() {
+    'use strict';
+
+    angular
+        .module('app.bootstrapui')
+        .controller('TypeaheadCtrl', TypeaheadCtrl);
+
+    TypeaheadCtrl.$inject = ['$http'];
+    function TypeaheadCtrl($http) {
+        var vm = this;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+
+          vm.selected = undefined;
+          vm.states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Dakota', 'North Carolina', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
+
+          // Any function returning a promise object can be used to load values asynchronously
+          vm.getLocation = function(val) {
+            return $http.get('//maps.googleapis.com/maps/api/geocode/json', {
+              params: {
+                address: val,
+                sensor: false
+              }
+            }).then(function(res){
+              var addresses = [];
+              angular.forEach(res.data.results, function(item){
+                /*jshint -W106*/
+                addresses.push(item.formatted_address);
+              });
+              return addresses;
+            });
+          };
+
+          vm.statesWithFlags = [{'name':'Alabama','flag':'5/5c/Flag_of_Alabama.svg/45px-Flag_of_Alabama.svg.png'},{'name':'Alaska','flag':'e/e6/Flag_of_Alaska.svg/43px-Flag_of_Alaska.svg.png'},{'name':'Arizona','flag':'9/9d/Flag_of_Arizona.svg/45px-Flag_of_Arizona.svg.png'},{'name':'Arkansas','flag':'9/9d/Flag_of_Arkansas.svg/45px-Flag_of_Arkansas.svg.png'},{'name':'California','flag':'0/01/Flag_of_California.svg/45px-Flag_of_California.svg.png'},{'name':'Colorado','flag':'4/46/Flag_of_Colorado.svg/45px-Flag_of_Colorado.svg.png'},{'name':'Connecticut','flag':'9/96/Flag_of_Connecticut.svg/39px-Flag_of_Connecticut.svg.png'},{'name':'Delaware','flag':'c/c6/Flag_of_Delaware.svg/45px-Flag_of_Delaware.svg.png'},{'name':'Florida','flag':'f/f7/Flag_of_Florida.svg/45px-Flag_of_Florida.svg.png'},{'name':'Georgia','flag':'5/54/Flag_of_Georgia_%28U.S._state%29.svg/46px-Flag_of_Georgia_%28U.S._state%29.svg.png'},{'name':'Hawaii','flag':'e/ef/Flag_of_Hawaii.svg/46px-Flag_of_Hawaii.svg.png'},{'name':'Idaho','flag':'a/a4/Flag_of_Idaho.svg/38px-Flag_of_Idaho.svg.png'},{'name':'Illinois','flag':'0/01/Flag_of_Illinois.svg/46px-Flag_of_Illinois.svg.png'},{'name':'Indiana','flag':'a/ac/Flag_of_Indiana.svg/45px-Flag_of_Indiana.svg.png'},{'name':'Iowa','flag':'a/aa/Flag_of_Iowa.svg/44px-Flag_of_Iowa.svg.png'},{'name':'Kansas','flag':'d/da/Flag_of_Kansas.svg/46px-Flag_of_Kansas.svg.png'},{'name':'Kentucky','flag':'8/8d/Flag_of_Kentucky.svg/46px-Flag_of_Kentucky.svg.png'},{'name':'Louisiana','flag':'e/e0/Flag_of_Louisiana.svg/46px-Flag_of_Louisiana.svg.png'},{'name':'Maine','flag':'3/35/Flag_of_Maine.svg/45px-Flag_of_Maine.svg.png'},{'name':'Maryland','flag':'a/a0/Flag_of_Maryland.svg/45px-Flag_of_Maryland.svg.png'},{'name':'Massachusetts','flag':'f/f2/Flag_of_Massachusetts.svg/46px-Flag_of_Massachusetts.svg.png'},{'name':'Michigan','flag':'b/b5/Flag_of_Michigan.svg/45px-Flag_of_Michigan.svg.png'},{'name':'Minnesota','flag':'b/b9/Flag_of_Minnesota.svg/46px-Flag_of_Minnesota.svg.png'},{'name':'Mississippi','flag':'4/42/Flag_of_Mississippi.svg/45px-Flag_of_Mississippi.svg.png'},{'name':'Missouri','flag':'5/5a/Flag_of_Missouri.svg/46px-Flag_of_Missouri.svg.png'},{'name':'Montana','flag':'c/cb/Flag_of_Montana.svg/45px-Flag_of_Montana.svg.png'},{'name':'Nebraska','flag':'4/4d/Flag_of_Nebraska.svg/46px-Flag_of_Nebraska.svg.png'},{'name':'Nevada','flag':'f/f1/Flag_of_Nevada.svg/45px-Flag_of_Nevada.svg.png'},{'name':'New Hampshire','flag':'2/28/Flag_of_New_Hampshire.svg/45px-Flag_of_New_Hampshire.svg.png'},{'name':'New Jersey','flag':'9/92/Flag_of_New_Jersey.svg/45px-Flag_of_New_Jersey.svg.png'},{'name':'New Mexico','flag':'c/c3/Flag_of_New_Mexico.svg/45px-Flag_of_New_Mexico.svg.png'},{'name':'New York','flag':'1/1a/Flag_of_New_York.svg/46px-Flag_of_New_York.svg.png'},{'name':'North Carolina','flag':'b/bb/Flag_of_North_Carolina.svg/45px-Flag_of_North_Carolina.svg.png'},{'name':'North Dakota','flag':'e/ee/Flag_of_North_Dakota.svg/38px-Flag_of_North_Dakota.svg.png'},{'name':'Ohio','flag':'4/4c/Flag_of_Ohio.svg/46px-Flag_of_Ohio.svg.png'},{'name':'Oklahoma','flag':'6/6e/Flag_of_Oklahoma.svg/45px-Flag_of_Oklahoma.svg.png'},{'name':'Oregon','flag':'b/b9/Flag_of_Oregon.svg/46px-Flag_of_Oregon.svg.png'},{'name':'Pennsylvania','flag':'f/f7/Flag_of_Pennsylvania.svg/45px-Flag_of_Pennsylvania.svg.png'},{'name':'Rhode Island','flag':'f/f3/Flag_of_Rhode_Island.svg/32px-Flag_of_Rhode_Island.svg.png'},{'name':'South Carolina','flag':'6/69/Flag_of_South_Carolina.svg/45px-Flag_of_South_Carolina.svg.png'},{'name':'South Dakota','flag':'1/1a/Flag_of_South_Dakota.svg/46px-Flag_of_South_Dakota.svg.png'},{'name':'Tennessee','flag':'9/9e/Flag_of_Tennessee.svg/46px-Flag_of_Tennessee.svg.png'},{'name':'Texas','flag':'f/f7/Flag_of_Texas.svg/45px-Flag_of_Texas.svg.png'},{'name':'Utah','flag':'f/f6/Flag_of_Utah.svg/45px-Flag_of_Utah.svg.png'},{'name':'Vermont','flag':'4/49/Flag_of_Vermont.svg/46px-Flag_of_Vermont.svg.png'},{'name':'Virginia','flag':'4/47/Flag_of_Virginia.svg/44px-Flag_of_Virginia.svg.png'},{'name':'Washington','flag':'5/54/Flag_of_Washington.svg/46px-Flag_of_Washington.svg.png'},{'name':'West Virginia','flag':'2/22/Flag_of_West_Virginia.svg/46px-Flag_of_West_Virginia.svg.png'},{'name':'Wisconsin','flag':'2/22/Flag_of_Wisconsin.svg/45px-Flag_of_Wisconsin.svg.png'},{'name':'Wyoming','flag':'b/bc/Flag_of_Wyoming.svg/43px-Flag_of_Wyoming.svg.png'}];
+
+        }
+    }
 })();
 
 /**=========================================================
@@ -1858,566 +2418,6 @@
     }
     
 
-})();
-
-/**=========================================================
- * Module: demo-alerts.js
- * Provides a simple demo for pagination
- =========================================================*/
-(function() {
-    'use strict';
-
-    angular
-        .module('app.bootstrapui')
-        .controller('AlertDemoCtrl', AlertDemoCtrl);
-
-    function AlertDemoCtrl() {
-        var vm = this;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-          vm.alerts = [
-            { type: 'danger', msg: 'Oh snap! Change a few things up and try submitting again.' },
-            { type: 'warning', msg: 'Well done! You successfully read this important alert message.' }
-          ];
-
-          vm.addAlert = function() {
-            vm.alerts.push({msg: 'Another alert!'});
-          };
-
-          vm.closeAlert = function(index) {
-            vm.alerts.splice(index, 1);
-          };
-        }
-    }
-})();
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.bootstrapui')
-        .config(bootstrapuiConfig);
-
-    bootstrapuiConfig.$inject = ['$uibTooltipProvider'];
-    function bootstrapuiConfig($uibTooltipProvider){
-      $uibTooltipProvider.options({appendToBody: true});
-    }
-})();
-/**=========================================================
- * Module: demo-buttons.js
- * Provides a simple demo for buttons actions
- =========================================================*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.bootstrapui')
-        .controller('ButtonsCtrl', ButtonsCtrl);
-
-    function ButtonsCtrl() {
-        var vm = this;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-          vm.singleModel = 1;
-
-          vm.radioModel = 'Middle';
-
-          vm.checkModel = {
-            left: false,
-            middle: true,
-            right: false
-          };
-        }
-    }
-})();
-
-/**=========================================================
- * Module: demo-carousel.js
- * Provides a simple demo for bootstrap ui carousel
- =========================================================*/
-(function() {
-    'use strict';
-
-    angular
-        .module('app.bootstrapui')
-        .controller('CarouselDemoCtrl', CarouselDemoCtrl);
-
-    function CarouselDemoCtrl() {
-        var vm = this;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-          vm.myInterval = 5000;
-
-          var slides = vm.slides = [];
-          vm.addSlide = function(id) {
-            id = id || 8;
-            slides.push({
-              image: 'app/img/bg' + id + '.jpg',
-              text: ['More','Extra','Lots of','Surplus'][slides.length % 2] + ' ' +
-                ['Cats', 'Kittys', 'Felines', 'Cutes'][slides.length % 2]
-            });
-          };
-
-          vm.addSlide(4);
-          vm.addSlide(7);
-          vm.addSlide(8);
-
-        }
-    }
-})();
-
-/**=========================================================
- * Module: demo-datepicker.js
- * Provides a simple demo for bootstrap datepicker
- =========================================================*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.bootstrapui')
-        .controller('DatepickerDemoCtrl', DatepickerDemoCtrl);
-
-    function DatepickerDemoCtrl() {
-        var vm = this;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-          vm.today = function() {
-            vm.dt = new Date();
-          };
-          vm.today();
-
-          vm.clear = function () {
-            vm.dt = null;
-          };
-
-          // Disable weekend selection
-          vm.disabled = function(date, mode) {
-            return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
-          };
-
-          vm.toggleMin = function() {
-            vm.minDate = vm.minDate ? null : new Date();
-          };
-          vm.toggleMin();
-
-          vm.open = function($event) {
-            $event.preventDefault();
-            $event.stopPropagation();
-
-            vm.opened = true;
-          };
-
-          vm.dateOptions = {
-            formatYear: 'yy',
-            startingDay: 1
-          };
-
-          vm.initDate = new Date('2019-10-20');
-          vm.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-          vm.format = vm.formats[0];
-        }
-    }
-})();
-
-
-/**=========================================================
- * Module: modals.js
- * Provides a simple way to implement bootstrap modals from templates
- =========================================================*/
-(function() {
-    'use strict';
-
-    angular
-        .module('app.bootstrapui')
-        .controller('ModalController', ModalController);
-
-    ModalController.$inject = ['$uibModal'];
-    function ModalController($uibModal) {
-        var vm = this;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-
-          vm.open = function (size) {
-
-            var modalInstance = $uibModal.open({
-              templateUrl: '/myModalContent.html',
-              controller: ModalInstanceCtrl,
-              size: size
-            });
-
-            var state = $('#modal-state');
-            modalInstance.result.then(function () {
-              state.text('Modal dismissed with OK status');
-            }, function () {
-              state.text('Modal dismissed with Cancel status');
-            });
-          };
-
-          // Please note that $uibModalInstance represents a modal window (instance) dependency.
-          // It is not the same as the $uibModal service used above.
-
-          ModalInstanceCtrl.$inject = ['$scope', '$uibModalInstance'];
-          function ModalInstanceCtrl($scope, $uibModalInstance) {
-
-            $scope.ok = function () {
-              $uibModalInstance.close('closed');
-            };
-
-            $scope.cancel = function () {
-              $uibModalInstance.dismiss('cancel');
-            };
-          }
-        }
-    }
-
-})();
-
-/**=========================================================
- * Module: demo-pagination.js
- * Provides a simple demo for pagination
- =========================================================*/
-(function() {
-    'use strict';
-
-    angular
-        .module('app.bootstrapui')
-        .controller('PaginationDemoCtrl', PaginationDemoCtrl);
-
-    function PaginationDemoCtrl() {
-        var vm = this;
-
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-          vm.totalItems = 64;
-          vm.currentPage = 4;
-
-          vm.setPage = function (pageNo) {
-            vm.currentPage = pageNo;
-          };
-
-          vm.pageChanged = function() {
-            console.log('Page changed to: ' + vm.currentPage);
-          };
-
-          vm.maxSize = 5;
-          vm.bigTotalItems = 175;
-          vm.bigCurrentPage = 1;
-        }
-    }
-})();
-
-/**=========================================================
- * Module: demo-popover.js
- * Provides a simple demo for popovers
- =========================================================*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.bootstrapui')
-        .controller('PopoverDemoCtrl', PopoverDemoCtrl);
-
-    function PopoverDemoCtrl() {
-        var vm = this;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-          vm.dynamicPopover = 'Hello, World!';
-          vm.dynamicPopoverTitle = 'Title';
-        }
-    }
-})();
-
-/**=========================================================
- * Module: demo-progress.js
- * Provides a simple demo to animate progress bar
- =========================================================*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.bootstrapui')
-        .controller('ProgressDemoCtrl', ProgressDemoCtrl);
-
-    function ProgressDemoCtrl() {
-        var vm = this;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-          vm.max = 200;
-
-          vm.random = function() {
-            var value = Math.floor((Math.random() * 100) + 1);
-            var type;
-
-            if (value < 25) {
-              type = 'success';
-            } else if (value < 50) {
-              type = 'info';
-            } else if (value < 75) {
-              type = 'warning';
-            } else {
-              type = 'danger';
-            }
-
-            vm.showWarning = (type === 'danger' || type === 'warning');
-
-            vm.dynamic = value;
-            vm.type = type;
-          };
-          vm.random();
-
-          vm.randomStacked = function() {
-            vm.stacked = [];
-            var types = ['success', 'info', 'warning', 'danger'];
-
-            for (var i = 0, n = Math.floor((Math.random() * 4) + 1); i < n; i++) {
-                var index = Math.floor((Math.random() * 4));
-                vm.stacked.push({
-                  value: Math.floor((Math.random() * 30) + 1),
-                  type: types[index]
-                });
-            }
-          };
-          vm.randomStacked();
-        }
-    }
-})();
-
-/**=========================================================
- * Module: demo-rating.js
- * Provides a demo for ratings UI
- =========================================================*/
-(function() {
-    'use strict';
-
-    angular
-        .module('app.bootstrapui')
-        .controller('RatingDemoCtrl', RatingDemoCtrl);
-
-    function RatingDemoCtrl() {
-        var vm = this;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-          vm.rate = 7;
-          vm.max = 10;
-          vm.isReadonly = false;
-
-          vm.hoveringOver = function(value) {
-            vm.overStar = value;
-            vm.percent = 100 * (value / vm.max);
-          };
-
-          vm.ratingStates = [
-            {stateOn: 'fa fa-check', stateOff: 'fa fa-check-circle'},
-            {stateOn: 'fa fa-star', stateOff: 'fa fa-star-o'},
-            {stateOn: 'fa fa-heart', stateOff: 'fa fa-ban'},
-            {stateOn: 'fa fa-heart'},
-            {stateOff: 'fa fa-power-off'}
-          ];
-        }
-    }
-})();
-
-/**=========================================================
- * Module: demo-timepicker.js
- * Provides a simple demo for bootstrap ui timepicker
- =========================================================*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.bootstrapui')
-        .controller('TimepickerDemoCtrl', TimepickerDemoCtrl);
-
-    function TimepickerDemoCtrl() {
-        var vm = this;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-          vm.mytime = new Date();
-
-          vm.hstep = 1;
-          vm.mstep = 15;
-
-          vm.options = {
-            hstep: [1, 2, 3],
-            mstep: [1, 5, 10, 15, 25, 30]
-          };
-
-          vm.ismeridian = true;
-          vm.toggleMode = function() {
-            vm.ismeridian = ! vm.ismeridian;
-          };
-
-          vm.update = function() {
-            var d = new Date();
-            d.setHours( 14 );
-            d.setMinutes( 0 );
-            vm.mytime = d;
-          };
-
-          vm.changed = function () {
-            console.log('Time changed to: ' + vm.mytime);
-          };
-
-          vm.clear = function() {
-            vm.mytime = null;
-          };
-        }
-    }
-})();
-
-/**=========================================================
- * Module: demo-tooltip.js
- * Provides a simple demo for tooltip
- =========================================================*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.bootstrapui')
-        .controller('TooltipDemoCtrl', TooltipDemoCtrl);
-
-    function TooltipDemoCtrl() {
-        var vm = this;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-          vm.dynamicTooltip = 'Hello, World!';
-          vm.dynamicTooltipText = 'dynamic';
-          vm.htmlTooltip = 'I\'ve been made <b>bold</b>!';
-
-          vm.autoplace = function (context, source) {
-            //return (predictTooltipTop(source) < 0) ?  "bottom": "top";
-            var pos = 'top';
-            if(predictTooltipTop(source) < 0)
-              pos = 'bottom';
-            if(predictTooltipLeft(source) < 0)
-              pos = 'right';
-            return pos;
-          };
-
-            // Predicts tooltip top position 
-            // based on the trigger element
-            function predictTooltipTop(el) {
-              var top = el.offsetTop;
-              var height = 40; // asumes ~40px tooltip height
-
-              while(el.offsetParent) {
-                el = el.offsetParent;
-                top += el.offsetTop;
-              }
-              return (top - height) - (window.pageYOffset);
-            }
-
-            // Predicts tooltip top position 
-            // based on the trigger element
-            function predictTooltipLeft(el) {
-              var left = el.offsetLeft;
-              var width = el.offsetWidth;
-
-              while(el.offsetParent) {
-                el = el.offsetParent;
-                left += el.offsetLeft;
-              }
-              return (left - width) - (window.pageXOffset);
-            }
-        }
-    }
-})();
-
-/**=========================================================
- * Module: demo-typeahead.js
- * Provides a simple demo for typeahead
- =========================================================*/
-(function() {
-    'use strict';
-
-    angular
-        .module('app.bootstrapui')
-        .controller('TypeaheadCtrl', TypeaheadCtrl);
-
-    TypeaheadCtrl.$inject = ['$http'];
-    function TypeaheadCtrl($http) {
-        var vm = this;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-
-          vm.selected = undefined;
-          vm.states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Dakota', 'North Carolina', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
-
-          // Any function returning a promise object can be used to load values asynchronously
-          vm.getLocation = function(val) {
-            return $http.get('//maps.googleapis.com/maps/api/geocode/json', {
-              params: {
-                address: val,
-                sensor: false
-              }
-            }).then(function(res){
-              var addresses = [];
-              angular.forEach(res.data.results, function(item){
-                /*jshint -W106*/
-                addresses.push(item.formatted_address);
-              });
-              return addresses;
-            });
-          };
-
-          vm.statesWithFlags = [{'name':'Alabama','flag':'5/5c/Flag_of_Alabama.svg/45px-Flag_of_Alabama.svg.png'},{'name':'Alaska','flag':'e/e6/Flag_of_Alaska.svg/43px-Flag_of_Alaska.svg.png'},{'name':'Arizona','flag':'9/9d/Flag_of_Arizona.svg/45px-Flag_of_Arizona.svg.png'},{'name':'Arkansas','flag':'9/9d/Flag_of_Arkansas.svg/45px-Flag_of_Arkansas.svg.png'},{'name':'California','flag':'0/01/Flag_of_California.svg/45px-Flag_of_California.svg.png'},{'name':'Colorado','flag':'4/46/Flag_of_Colorado.svg/45px-Flag_of_Colorado.svg.png'},{'name':'Connecticut','flag':'9/96/Flag_of_Connecticut.svg/39px-Flag_of_Connecticut.svg.png'},{'name':'Delaware','flag':'c/c6/Flag_of_Delaware.svg/45px-Flag_of_Delaware.svg.png'},{'name':'Florida','flag':'f/f7/Flag_of_Florida.svg/45px-Flag_of_Florida.svg.png'},{'name':'Georgia','flag':'5/54/Flag_of_Georgia_%28U.S._state%29.svg/46px-Flag_of_Georgia_%28U.S._state%29.svg.png'},{'name':'Hawaii','flag':'e/ef/Flag_of_Hawaii.svg/46px-Flag_of_Hawaii.svg.png'},{'name':'Idaho','flag':'a/a4/Flag_of_Idaho.svg/38px-Flag_of_Idaho.svg.png'},{'name':'Illinois','flag':'0/01/Flag_of_Illinois.svg/46px-Flag_of_Illinois.svg.png'},{'name':'Indiana','flag':'a/ac/Flag_of_Indiana.svg/45px-Flag_of_Indiana.svg.png'},{'name':'Iowa','flag':'a/aa/Flag_of_Iowa.svg/44px-Flag_of_Iowa.svg.png'},{'name':'Kansas','flag':'d/da/Flag_of_Kansas.svg/46px-Flag_of_Kansas.svg.png'},{'name':'Kentucky','flag':'8/8d/Flag_of_Kentucky.svg/46px-Flag_of_Kentucky.svg.png'},{'name':'Louisiana','flag':'e/e0/Flag_of_Louisiana.svg/46px-Flag_of_Louisiana.svg.png'},{'name':'Maine','flag':'3/35/Flag_of_Maine.svg/45px-Flag_of_Maine.svg.png'},{'name':'Maryland','flag':'a/a0/Flag_of_Maryland.svg/45px-Flag_of_Maryland.svg.png'},{'name':'Massachusetts','flag':'f/f2/Flag_of_Massachusetts.svg/46px-Flag_of_Massachusetts.svg.png'},{'name':'Michigan','flag':'b/b5/Flag_of_Michigan.svg/45px-Flag_of_Michigan.svg.png'},{'name':'Minnesota','flag':'b/b9/Flag_of_Minnesota.svg/46px-Flag_of_Minnesota.svg.png'},{'name':'Mississippi','flag':'4/42/Flag_of_Mississippi.svg/45px-Flag_of_Mississippi.svg.png'},{'name':'Missouri','flag':'5/5a/Flag_of_Missouri.svg/46px-Flag_of_Missouri.svg.png'},{'name':'Montana','flag':'c/cb/Flag_of_Montana.svg/45px-Flag_of_Montana.svg.png'},{'name':'Nebraska','flag':'4/4d/Flag_of_Nebraska.svg/46px-Flag_of_Nebraska.svg.png'},{'name':'Nevada','flag':'f/f1/Flag_of_Nevada.svg/45px-Flag_of_Nevada.svg.png'},{'name':'New Hampshire','flag':'2/28/Flag_of_New_Hampshire.svg/45px-Flag_of_New_Hampshire.svg.png'},{'name':'New Jersey','flag':'9/92/Flag_of_New_Jersey.svg/45px-Flag_of_New_Jersey.svg.png'},{'name':'New Mexico','flag':'c/c3/Flag_of_New_Mexico.svg/45px-Flag_of_New_Mexico.svg.png'},{'name':'New York','flag':'1/1a/Flag_of_New_York.svg/46px-Flag_of_New_York.svg.png'},{'name':'North Carolina','flag':'b/bb/Flag_of_North_Carolina.svg/45px-Flag_of_North_Carolina.svg.png'},{'name':'North Dakota','flag':'e/ee/Flag_of_North_Dakota.svg/38px-Flag_of_North_Dakota.svg.png'},{'name':'Ohio','flag':'4/4c/Flag_of_Ohio.svg/46px-Flag_of_Ohio.svg.png'},{'name':'Oklahoma','flag':'6/6e/Flag_of_Oklahoma.svg/45px-Flag_of_Oklahoma.svg.png'},{'name':'Oregon','flag':'b/b9/Flag_of_Oregon.svg/46px-Flag_of_Oregon.svg.png'},{'name':'Pennsylvania','flag':'f/f7/Flag_of_Pennsylvania.svg/45px-Flag_of_Pennsylvania.svg.png'},{'name':'Rhode Island','flag':'f/f3/Flag_of_Rhode_Island.svg/32px-Flag_of_Rhode_Island.svg.png'},{'name':'South Carolina','flag':'6/69/Flag_of_South_Carolina.svg/45px-Flag_of_South_Carolina.svg.png'},{'name':'South Dakota','flag':'1/1a/Flag_of_South_Dakota.svg/46px-Flag_of_South_Dakota.svg.png'},{'name':'Tennessee','flag':'9/9e/Flag_of_Tennessee.svg/46px-Flag_of_Tennessee.svg.png'},{'name':'Texas','flag':'f/f7/Flag_of_Texas.svg/45px-Flag_of_Texas.svg.png'},{'name':'Utah','flag':'f/f6/Flag_of_Utah.svg/45px-Flag_of_Utah.svg.png'},{'name':'Vermont','flag':'4/49/Flag_of_Vermont.svg/46px-Flag_of_Vermont.svg.png'},{'name':'Virginia','flag':'4/47/Flag_of_Virginia.svg/44px-Flag_of_Virginia.svg.png'},{'name':'Washington','flag':'5/54/Flag_of_Washington.svg/46px-Flag_of_Washington.svg.png'},{'name':'West Virginia','flag':'2/22/Flag_of_West_Virginia.svg/46px-Flag_of_West_Virginia.svg.png'},{'name':'Wisconsin','flag':'2/22/Flag_of_Wisconsin.svg/45px-Flag_of_Wisconsin.svg.png'},{'name':'Wyoming','flag':'b/bc/Flag_of_Wyoming.svg/43px-Flag_of_Wyoming.svg.png'}];
-
-        }
-    }
 })();
 
 (function() {
@@ -7463,13 +7463,13 @@
         .state('app.analyze-score', {
             url: '/analyze-score',
             title: '成绩分析',
-            templateUrl: helper.basepath('custom/performance/score/analyze-score.html'),
+            templateUrl: helper.basepath('custom/performance/score/analyze-result.html'),
             resolve: helper.resolveFor('angularFileUpload', 'filestyle')
         })
         .state('app.analyze-template', {
             url: '/analyze-template',
             title: '分析模版',
-            templateUrl: helper.basepath('custom/performance/template/template.html')
+            templateUrl: helper.basepath('custom/performance/template/template-list.html'),
         })
         .state('app.edu-setting', {
             url: '/edu-setting',
@@ -7501,12 +7501,6 @@
           title: 'Infinite Scroll',
           templateUrl: helper.basepath('infinite-scroll.html'),
           resolve: helper.resolveFor('infinite-scroll')
-      })
-      .state('app.navtree', {
-          url: '/navtree',
-          title: 'Nav Tree',
-          templateUrl: helper.basepath('nav-tree.html'),
-          resolve: helper.resolveFor('angularBootstrapNavTree')
       })
       .state('app.nestable', {
           url: '/nestable',
@@ -7791,11 +7785,6 @@
                   });
               }]
           }
-      })
-      .state('app.template', {
-          url: '/template',
-          title: 'Blank Template',
-          templateUrl: helper.basepath('template.html')
       })
       .state('app.documentation', {
           url: '/documentation',
@@ -9712,7 +9701,9 @@
     angular
         .module('custom', [
             'angular-ladda',
-            'blockUI'
+            'blockUI',
+            //因为需要修改这个开源组件,所以我们以lib方式引入进来,然后进行修改
+            'angularBootstrapNavTree'
         ]).config(["blockUIConfig", function(blockUIConfig){
         blockUIConfig.autoBlock = false;
         blockUIConfig.message = "正在加载..."
@@ -9885,6 +9876,499 @@
 
     }
 })();
+(function() {
+  var module,
+    __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+
+  module = angular.module('angularBootstrapNavTree', []);
+
+  module.directive('abnTree', [
+    '$timeout', function($timeout) {
+      return {
+        restrict: 'E',
+        template: "<ul class=\"nav nav-list nav-pills nav-stacked abn-tree\">\n  <li ng-repeat=\"row in tree_rows | filter:{visible:true} track by row.branch.uid\" ng-animate=\"'abn-tree-animate'\" ng-class=\"'level-' + {{ row.level }} + (row.branch.selected ? ' active':'') + ' ' +row.classes.join(' ')\" class=\"abn-tree-row\"><a ng-click=\"user_clicks_branch(row.branch)\"><i ng-class=\"row.tree_icon\" ng-click=\"row.branch.expanded = !row.branch.expanded\" class=\"indented tree-icon\"> </i><span class=\"indented tree-label\">{{ row.label }} </span></a></li>\n</ul>",
+        replace: true,
+        scope: {
+          treeData: '=',
+          onSelect: '&',
+          initialSelection: '@',
+          treeControl: '='
+        },
+        link: function(scope, element, attrs) {
+          var error, expand_all_parents, expand_level, for_all_ancestors, for_each_branch, get_parent, n, on_treeData_change, select_branch, selected_branch, tree;
+          error = function(s) {
+            console.log('ERROR:' + s);
+            debugger;
+            return void 0;
+          };
+          if (attrs.iconExpand == null) {
+            attrs.iconExpand = 'icon-plus  glyphicon glyphicon-plus  fa fa-plus';
+          }
+          if (attrs.iconCollapse == null) {
+            attrs.iconCollapse = 'icon-minus glyphicon glyphicon-minus fa fa-minus';
+          }
+          if (attrs.iconLeaf == null) {
+            attrs.iconLeaf = 'icon-file  glyphicon glyphicon-file  fa fa-file';
+          }
+          if (attrs.expandLevel == null) {
+            attrs.expandLevel = '3';
+          }
+          expand_level = parseInt(attrs.expandLevel, 10);
+          if (!scope.treeData) {
+            alert('no treeData defined for the tree!');
+            return;
+          }
+          if (scope.treeData.length == null) {
+            if (treeData.label != null) {
+              scope.treeData = [treeData];
+            } else {
+              alert('treeData should be an array of root branches');
+              return;
+            }
+          }
+          for_each_branch = function(f) {
+            var do_f, root_branch, _i, _len, _ref, _results;
+            do_f = function(branch, level) {
+              var child, _i, _len, _ref, _results;
+              f(branch, level);
+              if (branch.children != null) {
+                _ref = branch.children;
+                _results = [];
+                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                  child = _ref[_i];
+                  _results.push(do_f(child, level + 1));
+                }
+                return _results;
+              }
+            };
+            _ref = scope.treeData;
+            _results = [];
+            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+              root_branch = _ref[_i];
+              _results.push(do_f(root_branch, 1));
+            }
+            return _results;
+          };
+          selected_branch = null;
+          select_branch = function(branch) {
+            if (!branch) {
+              if (selected_branch != null) {
+                selected_branch.selected = false;
+              }
+              selected_branch = null;
+              return;
+            }
+            if (branch !== selected_branch) {
+              if (selected_branch != null) {
+                selected_branch.selected = false;
+              }
+              branch.selected = true;
+              selected_branch = branch;
+              expand_all_parents(branch);
+              if (branch.onSelect != null) {
+                return $timeout(function() {
+                  return branch.onSelect(branch);
+                });
+              } else {
+                if (scope.onSelect != null) {
+                  return $timeout(function() {
+                    return scope.onSelect({
+                      branch: branch
+                    });
+                  });
+                }
+              }
+            }
+          };
+          scope.user_clicks_branch = function(branch) {
+            if (branch !== selected_branch) {
+              return select_branch(branch);
+            }
+          };
+          get_parent = function(child) {
+            var parent;
+            parent = void 0;
+            if (child.parent_uid) {
+              for_each_branch(function(b) {
+                if (b.uid === child.parent_uid) {
+                  return parent = b;
+                }
+              });
+            }
+            return parent;
+          };
+          for_all_ancestors = function(child, fn) {
+            var parent;
+            parent = get_parent(child);
+            if (parent != null) {
+              fn(parent);
+              return for_all_ancestors(parent, fn);
+            }
+          };
+          expand_all_parents = function(child) {
+            return for_all_ancestors(child, function(b) {
+              return b.expanded = true;
+            });
+          };
+          scope.tree_rows = [];
+          on_treeData_change = function() {
+            var add_branch_to_list, root_branch, _i, _len, _ref, _results;
+            for_each_branch(function(b, level) {
+              if (!b.uid) {
+                return b.uid = "" + Math.random();
+              }
+            });
+            console.log('UIDs are set.');
+            for_each_branch(function(b) {
+              var child, _i, _len, _ref, _results;
+              if (angular.isArray(b.children)) {
+                _ref = b.children;
+                _results = [];
+                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                  child = _ref[_i];
+                  _results.push(child.parent_uid = b.uid);
+                }
+                return _results;
+              }
+            });
+            scope.tree_rows = [];
+            for_each_branch(function(branch) {
+              var child, f;
+              if (branch.children) {
+                if (branch.children.length > 0) {
+                  f = function(e) {
+                    if (typeof e === 'string') {
+                      return {
+                        label: e,
+                        children: []
+                      };
+                    } else {
+                      return e;
+                    }
+                  };
+                  return branch.children = (function() {
+                    var _i, _len, _ref, _results;
+                    _ref = branch.children;
+                    _results = [];
+                    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                      child = _ref[_i];
+                      _results.push(f(child));
+                    }
+                    return _results;
+                  })();
+                }
+              } else {
+                return branch.children = [];
+              }
+            });
+            add_branch_to_list = function(level, branch, visible) {
+              var child, child_visible, tree_icon, _i, _len, _ref, _results;
+              if (branch.expanded == null) {
+                branch.expanded = false;
+              }
+              if (branch.classes == null) {
+                branch.classes = [];
+              }
+              if (!branch.noLeaf && (!branch.children || branch.children.length === 0)) {
+                tree_icon = attrs.iconLeaf;
+                if (__indexOf.call(branch.classes, "leaf") < 0) {
+                  branch.classes.push("leaf");
+                }
+              } else {
+                if (branch.expanded) {
+                  tree_icon = attrs.iconCollapse;
+                } else {
+                  tree_icon = attrs.iconExpand;
+                }
+              }
+              scope.tree_rows.push({
+                level: level,
+                branch: branch,
+                label: branch.label,
+                classes: branch.classes,
+                tree_icon: tree_icon,
+                visible: visible
+              });
+              if (branch.children != null) {
+                _ref = branch.children;
+                _results = [];
+                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                  child = _ref[_i];
+                  child_visible = visible && branch.expanded;
+                  _results.push(add_branch_to_list(level + 1, child, child_visible));
+                }
+                return _results;
+              }
+            };
+            _ref = scope.treeData;
+            _results = [];
+            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+              root_branch = _ref[_i];
+              _results.push(add_branch_to_list(1, root_branch, true));
+            }
+            return _results;
+          };
+          scope.$watch('treeData', on_treeData_change, true);
+          if (attrs.initialSelection != null) {
+            for_each_branch(function(b) {
+              if (b.label === attrs.initialSelection) {
+                return $timeout(function() {
+                  return select_branch(b);
+                });
+              }
+            });
+          }
+          n = scope.treeData.length;
+          console.log('num root branches = ' + n);
+          for_each_branch(function(b, level) {
+            b.level = level;
+            return b.expanded = b.level < expand_level;
+          });
+          if (scope.treeControl != null) {
+            if (angular.isObject(scope.treeControl)) {
+              tree = scope.treeControl;
+              tree.expand_all = function() {
+                return for_each_branch(function(b, level) {
+                  return b.expanded = true;
+                });
+              };
+              tree.collapse_all = function() {
+                return for_each_branch(function(b, level) {
+                  return b.expanded = false;
+                });
+              };
+              tree.get_first_branch = function() {
+                n = scope.treeData.length;
+                if (n > 0) {
+                  return scope.treeData[0];
+                }
+              };
+              tree.select_first_branch = function() {
+                var b;
+                b = tree.get_first_branch();
+                return tree.select_branch(b);
+              };
+              tree.get_selected_branch = function() {
+                return selected_branch;
+              };
+              tree.get_parent_branch = function(b) {
+                return get_parent(b);
+              };
+              tree.select_branch = function(b) {
+                select_branch(b);
+                return b;
+              };
+              tree.get_children = function(b) {
+                return b.children;
+              };
+              tree.select_parent_branch = function(b) {
+                var p;
+                if (b == null) {
+                  b = tree.get_selected_branch();
+                }
+                if (b != null) {
+                  p = tree.get_parent_branch(b);
+                  if (p != null) {
+                    tree.select_branch(p);
+                    return p;
+                  }
+                }
+              };
+              tree.add_branch = function(parent, new_branch) {
+                if (parent != null) {
+                  parent.children.push(new_branch);
+                  parent.expanded = true;
+                } else {
+                  scope.treeData.push(new_branch);
+                }
+                return new_branch;
+              };
+              tree.add_root_branch = function(new_branch) {
+                tree.add_branch(null, new_branch);
+                return new_branch;
+              };
+              tree.expand_branch = function(b) {
+                if (b == null) {
+                  b = tree.get_selected_branch();
+                }
+                if (b != null) {
+                  b.expanded = true;
+                  return b;
+                }
+              };
+              tree.collapse_branch = function(b) {
+                if (b == null) {
+                  b = selected_branch;
+                }
+                if (b != null) {
+                  b.expanded = false;
+                  return b;
+                }
+              };
+              tree.get_siblings = function(b) {
+                var p, siblings;
+                if (b == null) {
+                  b = selected_branch;
+                }
+                if (b != null) {
+                  p = tree.get_parent_branch(b);
+                  if (p) {
+                    siblings = p.children;
+                  } else {
+                    siblings = scope.treeData;
+                  }
+                  return siblings;
+                }
+              };
+              tree.get_next_sibling = function(b) {
+                var i, siblings;
+                if (b == null) {
+                  b = selected_branch;
+                }
+                if (b != null) {
+                  siblings = tree.get_siblings(b);
+                  n = siblings.length;
+                  i = siblings.indexOf(b);
+                  if (i < n) {
+                    return siblings[i + 1];
+                  }
+                }
+              };
+              tree.get_prev_sibling = function(b) {
+                var i, siblings;
+                if (b == null) {
+                  b = selected_branch;
+                }
+                siblings = tree.get_siblings(b);
+                n = siblings.length;
+                i = siblings.indexOf(b);
+                if (i > 0) {
+                  return siblings[i - 1];
+                }
+              };
+              tree.select_next_sibling = function(b) {
+                var next;
+                if (b == null) {
+                  b = selected_branch;
+                }
+                if (b != null) {
+                  next = tree.get_next_sibling(b);
+                  if (next != null) {
+                    return tree.select_branch(next);
+                  }
+                }
+              };
+              tree.select_prev_sibling = function(b) {
+                var prev;
+                if (b == null) {
+                  b = selected_branch;
+                }
+                if (b != null) {
+                  prev = tree.get_prev_sibling(b);
+                  if (prev != null) {
+                    return tree.select_branch(prev);
+                  }
+                }
+              };
+              tree.get_first_child = function(b) {
+                var _ref;
+                if (b == null) {
+                  b = selected_branch;
+                }
+                if (b != null) {
+                  if (((_ref = b.children) != null ? _ref.length : void 0) > 0) {
+                    return b.children[0];
+                  }
+                }
+              };
+              tree.get_closest_ancestor_next_sibling = function(b) {
+                var next, parent;
+                next = tree.get_next_sibling(b);
+                if (next != null) {
+                  return next;
+                } else {
+                  parent = tree.get_parent_branch(b);
+                  return tree.get_closest_ancestor_next_sibling(parent);
+                }
+              };
+              tree.get_next_branch = function(b) {
+                var next;
+                if (b == null) {
+                  b = selected_branch;
+                }
+                if (b != null) {
+                  next = tree.get_first_child(b);
+                  if (next != null) {
+                    return next;
+                  } else {
+                    next = tree.get_closest_ancestor_next_sibling(b);
+                    return next;
+                  }
+                }
+              };
+              tree.select_next_branch = function(b) {
+                var next;
+                if (b == null) {
+                  b = selected_branch;
+                }
+                if (b != null) {
+                  next = tree.get_next_branch(b);
+                  if (next != null) {
+                    tree.select_branch(next);
+                    return next;
+                  }
+                }
+              };
+              tree.last_descendant = function(b) {
+                var last_child;
+                if (b == null) {
+                  debugger;
+                }
+                n = b.children.length;
+                if (n === 0) {
+                  return b;
+                } else {
+                  last_child = b.children[n - 1];
+                  return tree.last_descendant(last_child);
+                }
+              };
+              tree.get_prev_branch = function(b) {
+                var parent, prev_sibling;
+                if (b == null) {
+                  b = selected_branch;
+                }
+                if (b != null) {
+                  prev_sibling = tree.get_prev_sibling(b);
+                  if (prev_sibling != null) {
+                    return tree.last_descendant(prev_sibling);
+                  } else {
+                    parent = tree.get_parent_branch(b);
+                    return parent;
+                  }
+                }
+              };
+              return tree.select_prev_branch = function(b) {
+                var prev;
+                if (b == null) {
+                  b = selected_branch;
+                }
+                if (b != null) {
+                  prev = tree.get_prev_branch(b);
+                  if (prev != null) {
+                    tree.select_branch(prev);
+                    return prev;
+                  }
+                }
+              };
+            }
+          }
+        }
+      };
+    }
+  ]);
+
+}).call(this);
+
 /*!
    angular-block-ui v0.2.1
    (c) 2015 (null) McNull https://github.com/McNull/angular-block-ui
@@ -11087,6 +11571,17 @@ angular.module('blockUI').run(['$templateCache', function($templateCache){
     ScoreService.$inject = ['$http'];
     function ScoreService($http) {
 
+        this.loadTotalScore = loadTotalScore;
+
+        function loadTotalScore(data){
+            return $http({
+                url: "/v1/score/load",
+                data: $.param({id: data}),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                method: "POST",
+                timeout: 5000
+            });
+        }
 
     }
 })
@@ -11216,6 +11711,51 @@ angular.module('blockUI').run(['$templateCache', function($templateCache){
                     url: "/v1/student/add",
                     data: data,
                     timeout: 5000
+            });
+        }
+
+    }
+})
+();
+
+(function () {
+    'use strict';
+
+    angular
+        .module('custom')
+        .service('TemplateService', TemplateService);
+
+    TemplateService.$inject = ['$http'];
+    function TemplateService($http) {
+
+        this.addTemplate = addTemplate;
+        this.deleteTemplate = deleteTemplate;
+        this.loadTemplates = loadTemplates;
+
+        function addTemplate(data){
+            return $http({
+                method: "POST",
+                data: data,
+                timeout: 5000,
+                url: "/v1/template/add"
+            });
+        }
+
+        function deleteTemplate(data){
+            return $http({
+                method: "POST",
+                data: data,
+                timeout: 5000,
+                url: "/v1/template/delete"
+            });
+        }
+
+        function loadTemplates(data){
+            return $http({
+                method : "POST",
+                data: data,
+                timeout: 5000,
+                url: "/v1/template/list"
             });
         }
 
@@ -11563,7 +12103,6 @@ angular.module('blockUI').run(['$templateCache', function($templateCache){
 
     }
 })();
-
 (function () {
     'use strict';
     angular
@@ -11649,6 +12188,102 @@ angular.module('blockUI').run(['$templateCache', function($templateCache){
 
     }
 
+})();
+(function () {
+    'use strict';
+    angular
+        .module('custom')
+        .controller('TemplateListController', TemplateListController);
+    TemplateListController.$inject = ['$scope', 'TemplateService', 'SweetAlert', 'NgTableParams', 'ngDialog', 'blockUI', 'Notify'];
+
+    function TemplateListController($scope, TemplateService, SweetAlert, NgTableParams, ngDialog, blockUI, Notify) {
+
+        $scope.tableParams = {page : 1, count : 10, searchStr: null};
+
+        $scope.activate = function() {
+            $scope.templateTableParams = new NgTableParams($scope.tableParams, {
+                getData: function ($defer, params) {
+                    blockUI.start();
+                    TemplateService.loadTemplates(params.parameters()).success(function (data) {
+                        if (data.status == 200) {
+                            params.total(data.totalCount);
+                            console.log(data);
+                            $defer.resolve(data.data);
+                            blockUI.stop();
+                        }
+                    }).error(function () {
+                        SweetAlert.error("网络问题,请稍后重试!");
+                        blockUI.stop();
+                    });
+                }
+            });
+        }
+
+        $scope.activate();
+
+        //删除用户
+        $scope.delete = function(id){
+            SweetAlert.swal({
+                title: '确认删除?',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#DD6B55',
+                confirmButtonText: '是',
+                cancelButtonText: '否',
+                closeOnConfirm: true,
+                closeOnCancel: true
+            }, function(isConfirm){
+                if (isConfirm) {
+                    //这里可以进行调试,查看$scope,因为table会创建一个子scope
+                    //然后子scope里面就不能用this了,因为this就指向了子scope,
+                    //实际上在table的每一行里面的点击是调用了父scope的delete方法
+                    blockUI.start();
+                    TemplateService.deleteTemplate(id).success(function () {
+                        Notify.alert("删除成功!", {status:"success", timeout: 3000});
+                        $scope.templateTableParams.reload();
+                        blockUI.stop();
+                    }).error(function(){
+                        blockUI.stop();
+                        SweetAlert.error("网络问题,请稍后重试!");
+                    });
+                }
+            });
+        }
+
+        //增加模板
+        $scope.add = function() {
+            var dialog= ngDialog.open({
+                template: 'app/views/custom/performance/template/edit/template-edit.html',
+                controller: 'TemplateEditController',
+                className: 'ngdialog-theme-default max-dialog',
+                data: {type: 'add'}
+            });
+            dialog.closePromise.then(function(data){
+                if(data.value != 'reload'){
+                    return;
+                }
+                $scope.templateTableParams.reload();
+            });
+        }
+
+        //编辑模板
+        $scope.edit = function(item) {
+            var dialog= ngDialog.open({
+                template: 'app/views/custom/performance/template/edit/template-edit.html',
+                controller: 'TemplateEditController',
+                className: 'ngdialog-theme-default max-dialog',
+                data : {type: 'edit', data: item}
+            });
+            dialog.closePromise.then(function(data){
+                if(data.value != 'reload'){
+                    return;
+                }
+                $scope.templateTableParams.reload();
+            });
+        }
+
+
+    }
 })();
 (function(){
 
@@ -12564,304 +13199,6 @@ angular.module('blockUI').run(['$templateCache', function($templateCache){
     'use strict';
     angular
         .module('custom')
-        .controller('EditTermController', EditTermController);
-    EditTermController.$inject = ['$scope', 'SettingService', 'SweetAlert', 'blockUI'];
-
-    function EditTermController($scope, SettingService, SweetAlert, blockUI) {
-
-        var block = blockUI.instances.get("edit-term");
-
-        $scope.type = $scope.ngDialogData.type;
-        $scope.term = _.clone($scope.ngDialogData.term);
-        $scope.yearId = $scope.ngDialogData.yearId;
-
-        activate();
-
-
-        function activate(){
-        }
-
-        $scope.loading = false;
-
-        $scope.save = function(term){
-
-            if(!validate(term)){
-                return;
-            }
-
-            $scope.loading = true;
-            block.start();
-            if($scope.type == 'add') {
-                term.yearId = $scope.yearId;
-                SettingService.addTerm(term).success(function (data) {
-                    $scope.loading = false;
-                    block.stop();
-                    if (data.status == 200) {
-                        SweetAlert.success("添加成功!");
-                        $scope.closeThisDialog('reload');
-                    } else {
-                        //更新失败的情况
-                        SweetAlert.error("服务器异常,请稍后重试");
-                    }
-                }).error(function () {
-                    SweetAlert.error("网络问题,稍后重试!");
-                    $scope.loading = false;
-                    block.stop();
-                });
-            }else if($scope.type == 'edit'){
-                SettingService.updateTerm(term).success(function (data) {
-                    $scope.loading = false;
-                    block.stop();
-                    if (data.status == 200) {
-                        SweetAlert.success("修改成功!");
-                        $scope.closeThisDialog('reload');
-                    } else {
-                        //更新失败的情况
-                        SweetAlert.error("服务器异常,请稍后重试");
-                    }
-                }).error(function () {
-                    SweetAlert.error("网络问题,稍后重试!");
-                    $scope.loading = false;
-                    block.stop();
-                });
-            }
-        }
-
-        function validate(term){
-            return true;
-        }
-
-    }
-})();
-(function () {
-    'use strict';
-    angular
-        .module('custom')
-        .controller('EditYearController', EditYearController);
-    EditYearController.$inject = ['$scope', 'SettingService', 'SweetAlert', 'blockUI'];
-
-    function EditYearController($scope, SettingService, SweetAlert, blockUI) {
-
-        var block = blockUI.instances.get("edit-year");
-
-        $scope.year = _.clone($scope.ngDialogData.year);
-        $scope.type = $scope.ngDialogData.type;
-
-        activate();
-
-
-        function activate(){
-        }
-
-        $scope.loading = false;
-
-        $scope.save = function(year){
-
-            if(!validate(year)){
-                return;
-            }
-
-            $scope.loading = true;
-            block.start();
-            if($scope.type == 'add') {
-                SettingService.addYear(year).success(function (data) {
-                    $scope.loading = false;
-                    block.stop();
-                    if (data.status == 200) {
-                        SweetAlert.success("添加成功!");
-                        $scope.closeThisDialog('reload');
-                    } else {
-                        //更新失败的情况
-                        SweetAlert.error("服务器异常,请稍后重试");
-                    }
-                }).error(function () {
-                    SweetAlert.error("网络问题,稍后重试!");
-                    $scope.loading = false;
-                    $scope.closeThisDialog('reload');
-                    block.stop();
-                });
-            }else if($scope.type == 'edit'){
-                SettingService.updateYear(year).success(function (data) {
-                    $scope.loading = false;
-                    block.stop();
-                    if (data.status == 200) {
-                        SweetAlert.success("修改成功!");
-                        $scope.closeThisDialog('reload');
-                    } else {
-                        //更新失败的情况
-                        SweetAlert.error("服务器异常,请稍后重试");
-                    }
-                }).error(function () {
-                    SweetAlert.error("网络问题,稍后重试!");
-                    $scope.loading = false;
-                    block.stop();
-                });
-            }
-        }
-
-        function validate(year){
-            return true;
-        }
-
-    }
-})();
-(function () {
-    'use strict';
-    angular
-        .module('custom')
-        .controller('TermSettingController', TermSettingController);
-    TermSettingController.$inject = ['$scope', 'SettingService', 'SweetAlert', 'NgTableParams', 'ngDialog', 'blockUI', 'Notify', '$resource'];
-
-    function TermSettingController($scope, SettingService, SweetAlert, NgTableParams, ngDialog, blockUI, Notify, $resource) {
-
-        $scope.tableParams = {
-            page : 1,
-            count: 20
-        };
-
-        $scope.tableParams.yearId = $scope.ngDialogData.yearId;
-
-        $scope.activate = function() {
-            $scope.termTableParams = new NgTableParams($scope.tableParams, {
-                getData: function($defer, params){
-                    blockUI.start();
-                    SettingService.listTerm(params.parameters()).success(function(data){
-                        if(data.status == 200){
-                            $defer.resolve(data.data);
-                            params.total(data.totalCount);
-                        }
-                        blockUI.stop();
-                    }).error(function(){
-                        SweetAlert.error("网络异常, 请稍后重试!");
-                        blockUI.stop();
-                    });
-                }
-            })
-        }
-
-        $scope.activate();
-
-        //学期操作
-        $scope.addTerm = function(yearId){
-            var dialog= ngDialog.open({
-                template: 'app/views/custom/admin/edu-setting/year/edit-term.html',
-                controller: 'EditTermController',
-                className: 'ngdialog-theme-default custom-width-800',
-                data : {type: 'add', yearId: yearId}
-            });
-            dialog.closePromise.then(function(data){
-                if(data.value != 'reload'){
-                    return;
-                }
-                $scope.termTableParams.reload();
-            });
-        }
-
-        $scope.editTerm = function(term){
-            var dialog= ngDialog.open({
-                template: 'app/views/custom/admin/edu-setting/year/edit-term.html',
-                controller: 'EditTermController',
-                className: 'ngdialog-theme-default custom-width-800',
-                data : {type: 'edit', term : term}
-            });
-            dialog.closePromise.then(function(data){
-                if(data.value != 'reload'){
-                    return;
-                }
-                $scope.termTableParams.reload();
-            });
-        }
-
-    }
-})();
-(function () {
-    'use strict';
-    angular
-        .module('custom')
-        .controller('YearSettingController', YearSettingController);
-    YearSettingController.$inject = ['$scope', 'SettingService', 'SweetAlert', 'NgTableParams', 'ngDialog', 'blockUI', 'Notify', '$resource'];
-
-    function YearSettingController($scope, SettingService, SweetAlert, NgTableParams, ngDialog, blockUI, Notify, $resource) {
-
-        $scope.tableParams = {
-            page : 1,
-            count: 20
-        };
-
-        $scope.activate = function() {
-            $scope.yearTableParams = new NgTableParams($scope.tableParams, {
-                getData: function($defer, params){
-                    blockUI.start();
-                    SettingService.listYear(params.parameters()).success(function(data){
-                        if(data.status == 200){
-                            $defer.resolve(data.data);
-                            params.total(data.totalCount);
-                        }
-                        blockUI.stop();
-                    }).error(function(){
-                        SweetAlert.error("网络异常, 请稍后重试!");
-                        blockUI.stop();
-                    });
-                }
-            })
-        }
-
-        $scope.activate();
-
-        //年级操作
-        $scope.addYear = function(){
-            var dialog= ngDialog.open({
-                template: 'app/views/custom/admin/edu-setting/year/edit-year.html',
-                controller: 'EditYearController',
-                className: 'ngdialog-theme-default custom-width-800',
-                data : {type: 'add'}
-            });
-            dialog.closePromise.then(function(data){
-                if(data.value != 'reload'){
-                    return;
-                }
-                $scope.yearTableParams.reload();
-            });
-        }
-
-        $scope.editYear = function(year){
-            var dialog= ngDialog.open({
-                template: 'app/views/custom/admin/edu-setting/year/edit-year.html',
-                controller: 'EditYearController',
-                className: 'ngdialog-theme-default custom-width-800',
-                data : {type: 'edit', year : year}
-            });
-            dialog.closePromise.then(function(data){
-                if(data.value != 'reload'){
-                    return;
-                }
-                $scope.yearTableParams.reload();
-            });
-        }
-
-
-        //显示学期
-        $scope.showTerm = function(yearId){
-            var dialog= ngDialog.open({
-                template: 'app/views/custom/admin/edu-setting/year/term-setting.html',
-                controller: 'TermSettingController',
-                className: 'ngdialog-theme-default max-dialog',
-                data : {yearId : yearId}
-            });
-            dialog.closePromise.then(function(data){
-                if(data.value != 'reload'){
-                    return;
-                }
-                $scope.yearTableParams.reload();
-            });
-        }
-
-    }
-})();
-(function () {
-    'use strict';
-    angular
-        .module('custom')
         .controller('ClassSettingController', ClassSettingController);
     ClassSettingController.$inject = ['$scope', 'SettingService', 'SweetAlert', 'NgTableParams', 'ngDialog', 'blockUI', 'Notify', '$resource'];
 
@@ -13217,6 +13554,492 @@ angular.module('blockUI').run(['$templateCache', function($templateCache){
     'use strict';
     angular
         .module('custom')
+        .controller('EditTermController', EditTermController);
+    EditTermController.$inject = ['$scope', 'SettingService', 'SweetAlert', 'blockUI'];
+
+    function EditTermController($scope, SettingService, SweetAlert, blockUI) {
+
+        var block = blockUI.instances.get("edit-term");
+
+        $scope.type = $scope.ngDialogData.type;
+        $scope.term = _.clone($scope.ngDialogData.term);
+        $scope.yearId = $scope.ngDialogData.yearId;
+
+        activate();
+
+
+        function activate(){
+        }
+
+        $scope.loading = false;
+
+        $scope.save = function(term){
+
+            if(!validate(term)){
+                return;
+            }
+
+            $scope.loading = true;
+            block.start();
+            if($scope.type == 'add') {
+                term.yearId = $scope.yearId;
+                SettingService.addTerm(term).success(function (data) {
+                    $scope.loading = false;
+                    block.stop();
+                    if (data.status == 200) {
+                        SweetAlert.success("添加成功!");
+                        $scope.closeThisDialog('reload');
+                    } else {
+                        //更新失败的情况
+                        SweetAlert.error("服务器异常,请稍后重试");
+                    }
+                }).error(function () {
+                    SweetAlert.error("网络问题,稍后重试!");
+                    $scope.loading = false;
+                    block.stop();
+                });
+            }else if($scope.type == 'edit'){
+                SettingService.updateTerm(term).success(function (data) {
+                    $scope.loading = false;
+                    block.stop();
+                    if (data.status == 200) {
+                        SweetAlert.success("修改成功!");
+                        $scope.closeThisDialog('reload');
+                    } else {
+                        //更新失败的情况
+                        SweetAlert.error("服务器异常,请稍后重试");
+                    }
+                }).error(function () {
+                    SweetAlert.error("网络问题,稍后重试!");
+                    $scope.loading = false;
+                    block.stop();
+                });
+            }
+        }
+
+        function validate(term){
+            return true;
+        }
+
+    }
+})();
+(function () {
+    'use strict';
+    angular
+        .module('custom')
+        .controller('EditYearController', EditYearController);
+    EditYearController.$inject = ['$scope', 'SettingService', 'SweetAlert', 'blockUI'];
+
+    function EditYearController($scope, SettingService, SweetAlert, blockUI) {
+
+        var block = blockUI.instances.get("edit-year");
+
+        $scope.year = _.clone($scope.ngDialogData.year);
+        $scope.type = $scope.ngDialogData.type;
+
+        activate();
+
+
+        function activate(){
+        }
+
+        $scope.loading = false;
+
+        $scope.save = function(year){
+
+            if(!validate(year)){
+                return;
+            }
+
+            $scope.loading = true;
+            block.start();
+            if($scope.type == 'add') {
+                SettingService.addYear(year).success(function (data) {
+                    $scope.loading = false;
+                    block.stop();
+                    if (data.status == 200) {
+                        SweetAlert.success("添加成功!");
+                        $scope.closeThisDialog('reload');
+                    } else {
+                        //更新失败的情况
+                        SweetAlert.error("服务器异常,请稍后重试");
+                    }
+                }).error(function () {
+                    SweetAlert.error("网络问题,稍后重试!");
+                    $scope.loading = false;
+                    $scope.closeThisDialog('reload');
+                    block.stop();
+                });
+            }else if($scope.type == 'edit'){
+                SettingService.updateYear(year).success(function (data) {
+                    $scope.loading = false;
+                    block.stop();
+                    if (data.status == 200) {
+                        SweetAlert.success("修改成功!");
+                        $scope.closeThisDialog('reload');
+                    } else {
+                        //更新失败的情况
+                        SweetAlert.error("服务器异常,请稍后重试");
+                    }
+                }).error(function () {
+                    SweetAlert.error("网络问题,稍后重试!");
+                    $scope.loading = false;
+                    block.stop();
+                });
+            }
+        }
+
+        function validate(year){
+            return true;
+        }
+
+    }
+})();
+(function () {
+    'use strict';
+    angular
+        .module('custom')
+        .controller('TermSettingController', TermSettingController);
+    TermSettingController.$inject = ['$scope', 'SettingService', 'SweetAlert', 'NgTableParams', 'ngDialog', 'blockUI', 'Notify', '$resource'];
+
+    function TermSettingController($scope, SettingService, SweetAlert, NgTableParams, ngDialog, blockUI, Notify, $resource) {
+
+        $scope.tableParams = {
+            page : 1,
+            count: 20
+        };
+
+        $scope.tableParams.yearId = $scope.ngDialogData.yearId;
+
+        $scope.activate = function() {
+            $scope.termTableParams = new NgTableParams($scope.tableParams, {
+                getData: function($defer, params){
+                    blockUI.start();
+                    SettingService.listTerm(params.parameters()).success(function(data){
+                        if(data.status == 200){
+                            $defer.resolve(data.data);
+                            params.total(data.totalCount);
+                        }
+                        blockUI.stop();
+                    }).error(function(){
+                        SweetAlert.error("网络异常, 请稍后重试!");
+                        blockUI.stop();
+                    });
+                }
+            })
+        }
+
+        $scope.activate();
+
+        //学期操作
+        $scope.addTerm = function(yearId){
+            var dialog= ngDialog.open({
+                template: 'app/views/custom/admin/edu-setting/year/edit-term.html',
+                controller: 'EditTermController',
+                className: 'ngdialog-theme-default custom-width-800',
+                data : {type: 'add', yearId: yearId}
+            });
+            dialog.closePromise.then(function(data){
+                if(data.value != 'reload'){
+                    return;
+                }
+                $scope.termTableParams.reload();
+            });
+        }
+
+        $scope.editTerm = function(term){
+            var dialog= ngDialog.open({
+                template: 'app/views/custom/admin/edu-setting/year/edit-term.html',
+                controller: 'EditTermController',
+                className: 'ngdialog-theme-default custom-width-800',
+                data : {type: 'edit', term : term}
+            });
+            dialog.closePromise.then(function(data){
+                if(data.value != 'reload'){
+                    return;
+                }
+                $scope.termTableParams.reload();
+            });
+        }
+
+    }
+})();
+(function () {
+    'use strict';
+    angular
+        .module('custom')
+        .controller('YearSettingController', YearSettingController);
+    YearSettingController.$inject = ['$scope', 'SettingService', 'SweetAlert', 'NgTableParams', 'ngDialog', 'blockUI', 'Notify', '$resource'];
+
+    function YearSettingController($scope, SettingService, SweetAlert, NgTableParams, ngDialog, blockUI, Notify, $resource) {
+
+        $scope.tableParams = {
+            page : 1,
+            count: 20
+        };
+
+        $scope.activate = function() {
+            $scope.yearTableParams = new NgTableParams($scope.tableParams, {
+                getData: function($defer, params){
+                    blockUI.start();
+                    SettingService.listYear(params.parameters()).success(function(data){
+                        if(data.status == 200){
+                            $defer.resolve(data.data);
+                            params.total(data.totalCount);
+                        }
+                        blockUI.stop();
+                    }).error(function(){
+                        SweetAlert.error("网络异常, 请稍后重试!");
+                        blockUI.stop();
+                    });
+                }
+            })
+        }
+
+        $scope.activate();
+
+        //年级操作
+        $scope.addYear = function(){
+            var dialog= ngDialog.open({
+                template: 'app/views/custom/admin/edu-setting/year/edit-year.html',
+                controller: 'EditYearController',
+                className: 'ngdialog-theme-default custom-width-800',
+                data : {type: 'add'}
+            });
+            dialog.closePromise.then(function(data){
+                if(data.value != 'reload'){
+                    return;
+                }
+                $scope.yearTableParams.reload();
+            });
+        }
+
+        $scope.editYear = function(year){
+            var dialog= ngDialog.open({
+                template: 'app/views/custom/admin/edu-setting/year/edit-year.html',
+                controller: 'EditYearController',
+                className: 'ngdialog-theme-default custom-width-800',
+                data : {type: 'edit', year : year}
+            });
+            dialog.closePromise.then(function(data){
+                if(data.value != 'reload'){
+                    return;
+                }
+                $scope.yearTableParams.reload();
+            });
+        }
+
+
+        //显示学期
+        $scope.showTerm = function(yearId){
+            var dialog= ngDialog.open({
+                template: 'app/views/custom/admin/edu-setting/year/term-setting.html',
+                controller: 'TermSettingController',
+                className: 'ngdialog-theme-default max-dialog',
+                data : {yearId : yearId}
+            });
+            dialog.closePromise.then(function(data){
+                if(data.value != 'reload'){
+                    return;
+                }
+                $scope.yearTableParams.reload();
+            });
+        }
+
+    }
+})();
+(function () {
+    'use strict';
+    angular
+        .module('custom')
+        .controller('ScoreTotalController', ScoreTotalController);
+    ScoreTotalController.$inject = ['$scope', 'ScoreService', 'SweetAlert', 'NgTableParams', 'blockUI', 'Notify'];
+
+    function ScoreTotalController($scope, ScoreService, SweetAlert, NgTableParams, blockUI, Notify) {
+
+        $scope.examId = 0;
+        //所有的数据,包括整体的和各班级的
+        $scope.totalScoreList = [];
+        //当前需要显示的部分
+        $scope.scoreList = [];
+
+        //显示标志
+        $scope.flag = {};
+        $scope.flag.show = 1;
+
+        //后续需要加上排序以及过滤的一系列逻辑.
+        $scope.showTables = function(){
+            $scope.flag.show = 1;
+            $scope.scoreTotalTableParams = new NgTableParams({}, {
+                counts: [],
+                getData: function ($defer, params) {
+                    $defer.resolve($scope.scoreList);
+                }
+            });
+        }
+
+
+        $scope.activate = function() {
+            ScoreService.loadTotalScore($scope.examId).success(function(data){
+                blockUI.stop();
+                if(data.status == 200){
+                    $scope.scoreList = data.data;
+                    $scope.showTables();
+                }else{
+                    SweetAlert.error("发生了错误! 请刷新页面!");
+                }
+            }).error(function(){
+                blockUI.stop();
+            });
+        }
+
+
+        $scope.activate();
+
+        $scope.showCharts = function(){
+            $scope.flag.show = 2;
+            // 基于准备好的dom，初始化echarts实例
+            var myChart = echarts.init(document.getElementById('main'));
+
+            $scope.fullList = $scope.scoreList.map(function(a){
+                return a.full;
+            });
+            $scope.bestList = $scope.scoreList.map(function(a){
+                return a.best;
+            });
+            $scope.goodList = $scope.scoreList.map(function(a){
+                return a.good;
+            });
+            $scope.qualifyList = $scope.scoreList.map(function(a){
+                return a.qualified;
+            });
+
+            //处理几个list
+
+            // 指定图表的配置项和数据
+            var option = {
+                title: {
+                    text: '统计信息'
+                },
+                tooltip: {},
+                legend: {
+                    data:['满分', '优秀', '良好', '及格']
+                },
+                xAxis: {
+                    type: 'category',
+                    data: ['语文', '数学', '英语', '政治', '历史', '地理', '物理', '化学', '生物']
+                },
+                yAxis: {data:'人数'},
+                series: [
+                    {
+                        name: '满分',
+                        type: 'bar',
+                        data: $scope.fullList
+                    },
+                    {
+                        name: '优秀',
+                        type: 'bar',
+                        data: $scope.bestList
+                    },
+                    {
+                        name: '良好',
+                        type: 'bar',
+                        data: $scope.goodList
+                    },
+                    {
+                        name: '及格',
+                        type: 'bar',
+                        data: $scope.qualifyList
+                    }
+                ]
+            };
+
+
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+        }
+
+
+    }
+
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('custom')
+        .controller('TemplateEditController', TemplateEditController);
+
+    TemplateEditController.$inject = ['$scope', 'TemplateService', '$timeout', '$resource', 'blockUI', 'SweetAlert'];
+    function TemplateEditController($scope,TemplateService, $timeout, $resource, blockUI, SweetAlert) {
+        var vm = this;
+
+        activate();
+
+        vm.label = -1;
+
+        $scope.type = $scope.ngDialogData.type;
+        //分数模板
+        $scope.scoreTemplate = ($scope.type == 'edit' ? $scope.ngDialogData.data : {});
+
+
+        function activate() {
+            vm.my_tree_handler = function(branch) {
+                vm.label = branch.label;
+            };
+
+            var settings = [
+                {
+                    label: '分数线设置',
+                    children: [
+                        {
+                            label: '语文'
+                        },{
+                            label: '数学'
+                        },{
+                            label: '英语'
+                        },{
+                            label: '政治'
+                        },{
+                            label: '历史'
+                        },{
+                            label: '地理'
+                        },{
+                            label: '物理'
+                        },{
+                            label: '化学'
+                        },{
+                            label: '生物'
+                        }
+                    ]
+                }
+            ];
+            vm.my_data = settings;
+            vm.my_tree = {};
+        }
+
+
+        $scope.save = function(){
+            blockUI.start();
+            TemplateService.addTemplate($scope.scoreTemplate).success(function(data){
+                if(data.status == 200){
+                    SweetAlert.success("成功!");
+                    $scope.closeThisDialog('reload');
+                    blockUI.stop();
+                }
+            }).error(function(){
+                SweetAlert.error("网络问题,请稍后重试!");
+                blockUI.stop();
+            });
+        }
+    }
+})();
+
+
+(function () {
+    'use strict';
+    angular
+        .module('custom')
         .controller('StudentGraduateListController', StudentGraduateListController);
     StudentGraduateListController.$inject = ['$scope','GraduateService', 'SweetAlert', 'NgTableParams', 'blockUI', 'Notify'];
 
@@ -13267,10 +14090,10 @@ angular.module('blockUI').run(['$templateCache', function($templateCache){
     'use strict';
     angular
         .module('custom')
-        .controller('StudentRewardListController', StudentRewardListController);
-    StudentRewardListController.$inject = ['$scope','RewardService', 'SweetAlert', 'NgTableParams', 'blockUI', 'Notify'];
+        .controller('StudentPayListController', StudentPayListController);
+    StudentPayListController.$inject = ['$scope','PayService', 'SweetAlert', 'NgTableParams', 'blockUI', 'Notify'];
 
-    function StudentRewardListController($scope, RewardService, SweetAlert, NgTableParams, blockUI, Notify) {
+    function StudentPayListController($scope, PayService, SweetAlert, NgTableParams, blockUI, Notify) {
 
         $scope.activate = function() {
         }
@@ -13283,10 +14106,10 @@ angular.module('blockUI').run(['$templateCache', function($templateCache){
     'use strict';
     angular
         .module('custom')
-        .controller('StudentPayListController', StudentPayListController);
-    StudentPayListController.$inject = ['$scope','PayService', 'SweetAlert', 'NgTableParams', 'blockUI', 'Notify'];
+        .controller('StudentRewardListController', StudentRewardListController);
+    StudentRewardListController.$inject = ['$scope','RewardService', 'SweetAlert', 'NgTableParams', 'blockUI', 'Notify'];
 
-    function StudentPayListController($scope, PayService, SweetAlert, NgTableParams, blockUI, Notify) {
+    function StudentRewardListController($scope, RewardService, SweetAlert, NgTableParams, blockUI, Notify) {
 
         $scope.activate = function() {
         }

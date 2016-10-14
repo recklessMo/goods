@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.recklessmo.dao.score.ScoreDAO">
+
+    <sql id = "columns">
+        exam_id, sid, chinese, math, english, polotics, history, geo, physics, chemistry, biology
+    </sql>
+
+
+    <insert id="insertList" parameterType="com.recklessmo.model.score.Score">
+        insert into score(exam_id, sid, chinese, math, english, polotics, history, geo, physics, chemistry, biology) values
+        <foreach collection="scoreList" item="item" separator=",">
+            (#{item.examId}, #{item.sid}, #{item.chinese}, #{item.math}, #{item.english}, #{item.polotics}, #{item.history}, #{item.geo}, #{item.physics}, #{item.chemistry}, #{item.biology})
+        </foreach>
+    </insert>
+
+    <select id="getList" resultType="com.recklessmo.model.score.Score">
+        select
+        <include refid="columns"/>
+        from score
+        where exam_id = #{examId}
+    </select>
+    
+
+</mapper>

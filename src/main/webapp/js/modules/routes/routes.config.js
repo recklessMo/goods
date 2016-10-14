@@ -77,13 +77,13 @@
         .state('app.analyze-score', {
             url: '/analyze-score',
             title: '成绩分析',
-            templateUrl: helper.basepath('custom/performance/score/analyze-score.html'),
+            templateUrl: helper.basepath('custom/performance/score/analyze-result.html'),
             resolve: helper.resolveFor('angularFileUpload', 'filestyle')
         })
         .state('app.analyze-template', {
             url: '/analyze-template',
             title: '分析模版',
-            templateUrl: helper.basepath('custom/performance/template/template.html')
+            templateUrl: helper.basepath('custom/performance/template/template-list.html'),
         })
         .state('app.edu-setting', {
             url: '/edu-setting',
@@ -115,12 +115,6 @@
           title: 'Infinite Scroll',
           templateUrl: helper.basepath('infinite-scroll.html'),
           resolve: helper.resolveFor('infinite-scroll')
-      })
-      .state('app.navtree', {
-          url: '/navtree',
-          title: 'Nav Tree',
-          templateUrl: helper.basepath('nav-tree.html'),
-          resolve: helper.resolveFor('angularBootstrapNavTree')
       })
       .state('app.nestable', {
           url: '/nestable',
@@ -405,11 +399,6 @@
                   });
               }]
           }
-      })
-      .state('app.template', {
-          url: '/template',
-          title: 'Blank Template',
-          templateUrl: helper.basepath('template.html')
       })
       .state('app.documentation', {
           url: '/documentation',

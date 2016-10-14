@@ -32,5 +32,6 @@
   "bower_components/ladda/dist/ladda.min.js",
   "bower_components/ladda/dist/ladda.jquery.min.js",
   "bower_components/angular-ladda/dist/angular-ladda.js",
-  "bower_components/lodash/dist/lodash.min.js"
+  "bower_components/lodash/dist/lodash.min.js",
+  "node_modules/echarts/dist/echarts.min.js"
 ]
