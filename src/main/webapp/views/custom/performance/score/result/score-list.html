@@ -1,0 +1,38 @@
+<div ng-controller="ScoreListController">
+
+    <div class="col-xs-3 col-xs-offset-9" style="padding-top:20px;">
+        <div class="row">
+            <div class="col-xs-12">
+                <ui-select ng-model="tableParams.classId" theme="bootstrap"
+                           class="text-left" style="width:100%;">
+                    <ui-select-match placeholder="选择班级">{{$select.selected.className}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="class.classId as class in classList">
+                        <span ng-bind-html="class.className"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+        </div>
+    </div>
+
+    <div style="padding-top:70px;">
+        <table show-filter="true" ng-table="scoreListTableParams" class="table table-bordered table-hover table-condensed editable-table table-min">
+            <tr ng-repeat="item in $data" ng-dblclick="show(item.id)">
+                <td data-title="'班级'" style="text-align: center;">{{item.cid}}</td>
+                <td data-title="'学号'" style="text-align: center;">{{item.sid}}</td>
+                <td data-title="'姓名'" style="text-align: center;">{{item.name}}</td>
+                <td data-title="'总分'" style="text-align: center;">{{item.total}}</td>
+                <td data-title="'语文'" style="text-align: center;" sortable="'chinese'">{{item.chinese}}</td>
+                <td data-title="'数学'" style="text-align: center;">{{item.math}}</td>
+                <td data-title="'英语'" style="text-align: center;">{{item.english}}</td>
+                <td data-title="'政治'" style="text-align: center;">{{item.polotics}}</td>
+                <td data-title="'历史'" style="text-align: center;">{{item.history}}</td>
+                <td data-title="'地理'" style="text-align: center;">{{item.geo}}</td>
+                <td data-title="'物理'" style="text-align: center;">{{item.physics}}</td>
+                <td data-title="'化学'" style="text-align: center;">{{item.chemistry}}</td>
+                <td data-title="'生物'" style="text-align: center;">{{item.biology}}</td>
+            </tr>
+        </table>
+    </div>
+
+</div>

@@ -24,10 +24,10 @@
         <tr ng-repeat="row in $data" ng-dblclick="openStockDetail(row)" style="text-align: center;">
             <td data-title="'物资编号'">{{row.id}}</td>
             <td data-title="'名称'">{{row.name}}</td>
-            <td data-title="'规格'">{{row.gg}}</td>
-            <td data-title="'厂家名称'">{{row.cjmc}}</td>
+            <td data-title="'类别'">{{row.category}}</td>
             <td data-title="'剩余数量'">{{row.currentCount}}</td>
             <td data-title="'操作'">
+                <a class="" ng-click="openStockDetail(row.id)">查看物资明细</a>
                 <a class="" ng-click="openStockDetail(row.id)">查看出入库明细</a>
             </td>
         </tr>

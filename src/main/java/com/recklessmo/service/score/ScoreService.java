@@ -89,7 +89,7 @@ public class ScoreService {
 
 
     /**
-     *
+     * 获取整体分析的结果
      */
     public List<SingleCourseTotal> loadTotalScore(long examId){
         List<ScoreTotal> scoreTotalList =  scoreTotalDAO.getByExamAndCID(examId);
@@ -99,6 +99,12 @@ public class ScoreService {
             result.addAll(allCourseTotal.getCourseMap().values());
         }
         return result;
+    }
+
+
+    public List<Score> loadScoreList(long examId){
+        List<Score> scoreList = scoreDAO.getList(examId);
+        return scoreList;
     }
 
 

@@ -8,24 +8,24 @@
       <!-- START sidebar nav-->
       <ul class="nav">
          <!-- START user info-->
-         <li class="has-user-block">
-            <div uib-collapse="false" ng-controller="UserBlockController">
-               <div class="item user-block">
-                  <!-- User picture-->
-                  <div class="user-block-picture">
-                     <div class="user-block-status">
-                        <img ng-src="{{user.picture}}" alt="Avatar" class="img-thumbnail img-circle" />
-                        <div class="circle circle-success circle-lg"></div>
-                     </div>
-                  </div>
-                  <!-- Name and Job-->
-                  <div class="user-block-info">
-                     <span class="user-block-name">{{ '你好'}} {{user.name}}</span>
-                     <span class="user-block-role">{{user.job}}</span>
-                  </div>
-               </div>
-            </div>
-         </li>
+         <!--<li class="has-user-block">-->
+            <!--<div uib-collapse="false" ng-controller="UserBlockController">-->
+               <!--<div class="item user-block">-->
+                  <!--&lt;!&ndash; User picture&ndash;&gt;-->
+                  <!--<div class="user-block-picture">-->
+                     <!--<div class="user-block-status">-->
+                        <!--<img ng-src="{{user.picture}}" alt="Avatar" class="img-thumbnail img-circle" />-->
+                        <!--<div class="circle circle-success circle-lg"></div>-->
+                     <!--</div>-->
+                  <!--</div>-->
+                  <!--&lt;!&ndash; Name and Job&ndash;&gt;-->
+                  <!--<div class="user-block-info">-->
+                     <!--<span class="user-block-name">{{ '你好'}} {{user.name}}</span>-->
+                     <!--<span class="user-block-role">{{user.job}}</span>-->
+                  <!--</div>-->
+               <!--</div>-->
+            <!--</div>-->
+         <!--</li>-->
          <!-- END user info-->
          <!-- Iterates over all sidebar items-->
          <li ng-class="getMenuItemPropClasses(item)" ng-repeat="item in menuItems" ng-init="pIndex = $index" ng-include="'sidebar-renderer.html'" ng-click="toggleCollapse(pIndex, true)"></li>

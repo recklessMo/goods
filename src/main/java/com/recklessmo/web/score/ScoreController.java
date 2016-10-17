@@ -1,9 +1,8 @@
 package com.recklessmo.web.score;
 
-import com.recklessmo.model.score.result.ScoreTotal;
+import com.recklessmo.model.score.Score;
 import com.recklessmo.service.score.ScoreService;
 import com.recklessmo.service.score.model.total.SingleCourseTotal;
-import org.springframework.security.web.authentication.ExceptionMappingAuthenticationFailureHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.recklessmo.response.JsonResponse;
@@ -34,6 +33,13 @@ public class ScoreController {
     @ResponseBody
     public JsonResponse load(@RequestParam("id")long examId){
         List<SingleCourseTotal> data = scoreService.loadTotalScore(examId);
+        return new JsonResponse(200, data, null);
+    }
+
+    @RequestMapping(value = "/list", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public JsonResponse list(@RequestParam("id")long examId){
+        List<Score> data = scoreService.loadScoreList(examId);
         return new JsonResponse(200, data, null);
     }
 

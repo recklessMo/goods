@@ -1,0 +1,19 @@
+<div class="his-datepicker">
+    <div style="width: 100%" >
+        <input type="text" class="form-control normal-input" max="9999-12-31" style="width: 100%"
+               ng-click="openDatePicker()"
+               uib-datepicker-popup="yyyy-MM-dd"
+               placeholder="年-月-日"
+               is-open="datePicker.opened"
+               auto-fill-zero-in-date
+               ng-model="value"
+               onclick="var self = this; setTimeout(function() { self.focus()},200);"/>
+       <span class="input-group-btn" ng-if="showIcon" style="float: right; margin-top: -35px; margin-right: -5px;">
+         <div type="button" ng-click="openDatePicker()" class="btn btn-default"
+              style="min-width: 30px;max-width:30px; font-size: 17px; padding: 4px 6px;margin-left: -30px;">
+                <em class="fa fa-calendar"></em>
+         </div>
+       </span>
+    </div>
+
+</div>
