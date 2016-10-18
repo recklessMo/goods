@@ -1,0 +1,8 @@
+/bower_components
+/node_modules
+/goods.iml
+/build
+/src/main/webapp/app
+/src/main/webapp/vendor
+/out
+/.idea
