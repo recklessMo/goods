@@ -1,10 +1,12 @@
 package com.recklessmo.web.stock;
 
+import com.recklessmo.model.security.DefaultUserDetails;
 import com.recklessmo.model.stock.Goods;
 import com.recklessmo.model.stock.Stock;
 import com.recklessmo.model.stock.StockItem;
 import com.recklessmo.response.JsonResponse;
 import com.recklessmo.service.stock.StockService;
+import com.recklessmo.util.ContextUtils;
 import com.recklessmo.web.webmodel.page.GoodsPage;
 import com.recklessmo.web.webmodel.page.StockPage;
 import org.omg.CORBA.Request;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -45,7 +48,28 @@ public class StockController {
     @RequestMapping(value = "/goods/add", method = {RequestMethod.GET, RequestMethod.POST})
     public JsonResponse addGoods(@RequestBody Goods goods){
         //TODO 为了避免脏数据,可以采用annotation的方式来进行非空校验
+        DefaultUserDetails defaultUserDetails = ContextUtils.getLoginUserDetail();
+        goods.setInUserName(defaultUserDetails.getUsername());
         stockService.addGoods(goods);
+        return new JsonResponse(200, null, null);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/goods/update", method = {RequestMethod.GET, RequestMethod.POST})
+    public JsonResponse updateGoods(@RequestBody Goods goods){
+        //TODO 为了避免脏数据,可以采用annotation的方式来进行非空校验
+        DefaultUserDetails defaultUserDetails = ContextUtils.getLoginUserDetail();
+        goods.setUpdated(new Date());
+        stockService.updateGoods(goods);
+        return new JsonResponse(200, null, null);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/goods/delete", method = {RequestMethod.GET, RequestMethod.POST})
+    public JsonResponse deleteGoods(@RequestBody long id){
+        //TODO 为了避免脏数据,可以采用annotation的方式来进行非空校验
+        DefaultUserDetails defaultUserDetails = ContextUtils.getLoginUserDetail();
+        stockService.deleteGoods(id);
         return new JsonResponse(200, null, null);
     }
 

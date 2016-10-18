@@ -7,24 +7,74 @@ import java.util.Date;
  */
 public class Goods {
 
+    public static int GOODS_NORMAL = 0;
+    public static int GOODS_DELETE = 1;
+
+
     private long id;
-    //剩余数量
-    private long currentCount;
+
     //唯一确定一种物资
     private String name = "";
+    private String pym = "";
     private String gg = "";
-    private String cjmc = "";
-    //备注
-    private String comment = "";
     //类别,教材,耗材什么的
     private String type = "";
-
+    private String dw = "";
+    private String cjmc = "";
+    private int dcbz = 0;
     //添加时间
     private Date inTime = new Date();
 
     private long inUserId;
-    private int status;
+    private String inUserName = "";
 
+    //剩余数量
+    private long currentCount;
+    private int status = 0;
+    private Date updated = new Date();
+    //备注
+    private String comment = "";
+
+
+    public String getPym() {
+        return pym;
+    }
+
+    public void setPym(String pym) {
+        this.pym = pym;
+    }
+
+    public String getDw() {
+        return dw;
+    }
+
+    public void setDw(String dw) {
+        this.dw = dw;
+    }
+
+    public int getDcbz() {
+        return dcbz;
+    }
+
+    public void setDcbz(int dcbz) {
+        this.dcbz = dcbz;
+    }
+
+    public Date getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(Date updated) {
+        this.updated = updated;
+    }
+
+    public String getInUserName() {
+        return inUserName;
+    }
+
+    public void setInUserName(String inUserName) {
+        this.inUserName = inUserName;
+    }
 
     public int getStatus() {
         return status;

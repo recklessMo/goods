@@ -19,7 +19,7 @@
         $locationProvider.html5Mode(false);
 
         // defaults to dashboard
-        $urlRouterProvider.otherwise('/app/analyze-score');
+        $urlRouterProvider.otherwise('/app/item');
 
         //
         // Application Routes
@@ -51,6 +51,11 @@
             url: '/student-add-worktable',
             title: '学生录入',
             templateUrl: helper.basepath('custom/student/add/student-add-worktable.html')
+        })
+        .state('app.item', {
+            url: '/item',
+            title: '物资',
+            templateUrl: helper.basepath('custom/stock/goods/goods-list.html')
         })
       .state('app.stock-worktable', {
          url: '/stock-worktable',

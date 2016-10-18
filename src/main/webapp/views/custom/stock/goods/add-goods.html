@@ -2,9 +2,13 @@
 
     <div class="row">
         <div class="col-md-12">
-            <h5 style="margin-top: 0;" ng-show="type == 2">
-                <span class="icon-user"/>
+            <h5 style="margin-top: 0;" ng-if="obj.type == true">
+                <span class="icon-plus"/>
                 添加新物资
+            </h5>
+            <h5 style="margin-top: 0;" ng-if="obj.type == false">
+                <span class="icon-plus"/>
+                编辑物资
             </h5>
         </div>
     </div>
@@ -28,7 +32,14 @@
         <div class="col-md-6">
             <div class="input-group">
                 <span class="input-group-addon" style="color:red">类别</span>
-                <input ng-class="!goods.type?'field-dirty' : ''" type="text" class="form-control" ng-model="goods.type">
+                <ui-select ng-model="goods.type" theme="bootstrap"
+                           class="text-left" style="width:100%;">
+                    <ui-select-match placeholder="选择类别">{{$select.selected}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="type in typeList">
+                        <span ng-bind-html="type"></span>
+                    </ui-select-choices>
+                </ui-select>
             </div>
         </div>
     </div>
@@ -49,6 +60,38 @@
         </div>
     </div>
 
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-md-6">
+            <div class="input-group">
+                <span class="input-group-addon">单位</span>
+                <ui-select ng-model="goods.dw" theme="bootstrap"
+                           class="text-left" style="width:100%;">
+                    <ui-select-match placeholder="选择单位">{{$select.selected}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="dw in dwList">
+                        <span ng-bind-html="dw"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="input-group">
+                <span class="input-group-addon">低存储报警</span>
+                <input ng-class="!goods.dcbz?'field-dirty' : ''" type="number" min="1" class="form-control" ng-model="goods.dcbz">
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-md-12">
+            <div class="input-group" style="height: 60px;">
+                <span class="input-group-addon" style="height: 60px;">备注</span>
+                <input ng-class="!goods.cjmc?'field-dirty' : ''" type="text" class="form-control" ng-model="goods.comment" style="height: 60px;">
+            </div>
+        </div>
+    </div>
+
 
     <div class="row" style="text-align: center;margin-top:50px;">
         <div class="col-md-12" style="text-align: center;">
@@ -58,5 +101,3 @@
     </div>
 
 </div>
-</div>
-

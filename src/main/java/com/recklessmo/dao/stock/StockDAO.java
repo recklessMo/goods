@@ -17,6 +17,8 @@ public interface StockDAO {
     List<Goods> listGoods(GoodsPage page);
     int listGoodsCount(GoodsPage page);
     void addGoods(Goods goods);
+    void updateGoods(Goods goods);
+    void deleteGoods(@Param("id") long id, @Param("status")int status);
 
 
     List<Stock> listStock(StockPage page);

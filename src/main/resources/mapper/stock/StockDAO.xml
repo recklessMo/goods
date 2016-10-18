@@ -35,12 +35,33 @@
     </resultMap>
     
     <sql id = "goodscolumns">
-        id, name, cjmc, gg, current_count, in_user_id, status
+        id, name, pym, gg, type, dw, cjmc, dcbz, in_time, in_user_id, in_user_name, current_count, status, updated, comment
     </sql>
 
     <sql id = "goodscolumnsWithoutid">
-        (name, cjmc, gg, current_count, in_time, in_user_id, status)
+        (name, pym, gg, type, dw, cjmc, dcbz, in_time, in_user_id, in_user_name, current_count, status, updated, comment)
     </sql>
+
+
+    <insert id="addGoods" parameterType="com.recklessmo.model.stock.Goods">
+        insert into goods
+        <include refid="goodscolumnsWithoutid"/>
+        values(#{name}, #{pym}, #{gg}, #{type}, #{dw}, #{cjmc}, #{dcbz}, #{inTime}, #{inUserId}, #{inUserName}, #{currentCount}, #{status}, #{updated}, #{comment})
+    </insert>
+
+    <insert id="updateGoods" parameterType="com.recklessmo.model.stock.Goods">
+        update goods
+        set name = #{name}, pym = #{pym}, gg = #{gg}, type = #{type}, dw = #{dw}, cjmc = #{cjmc}, dcbz = #{dcbz}, in_time = #{inTime}, in_user_id = #{inUserId}, in_user_name = #{inUserName}
+        , current_count = #{currentCount}, status = #{status}, updated = #{updated}, comment = #{comment}
+        where id = #{id}
+    </insert>
+
+    <update id="deleteGoods">
+        update goods
+        set status = #{status}
+        where id = #{id}
+    </update>
+
 
     <sql id="getStockColumns">
         s.id as s_id,
@@ -87,16 +108,13 @@
         stock_id, stock_type, category, goods_id,purchase_price, count, cost
     </sql>
 
-    <insert id="addGoods" parameterType="com.recklessmo.model.stock.Goods">
-        insert into goods
-        <include refid="goodscolumnsWithoutid"/>
-        values(#{name}, #{cjmc}, #{gg}, #{currentCount}, #{inTime}, #{inUserId}, #{status})
-    </insert>
 
     <sql id="byGoodsPageQuery">
+        where org_id=#{orgId} and status = #{status}
         <if test="null != searchStr and '' != searchStr">
-            where name like "%"#{searchStr}"%" or cjmc like "%"#{searchStr}"%"
+           and (name like "%"#{searchStr}"%" or cjmc like "%"#{searchStr}"%" or pym like "%"#{searchStr}"%")
         </if>
+        order by in_time desc
     </sql>
 
     <select id="listGoods" resultType="com.recklessmo.model.stock.Goods">

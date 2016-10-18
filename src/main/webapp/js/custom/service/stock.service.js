@@ -10,6 +10,9 @@
 
         this.listGoods = listGoods;
         this.addGoods = addGoods;
+        this.updateGoods = updateGoods;
+        this.deleteGoods = deleteGoods;
+
         this.listInStock = listInStock;
         this.addInStock = addInStock;
         this.listOutStock = listOutStock;
@@ -17,6 +20,15 @@
 
         this.getStock = getStock;
         this.getGoodsHistory = getGoodsHistory;
+
+        function deleteGoods(data){
+            return $http({
+                method: "POST",
+                data: data,
+                url: "/v1/stock/goods/delete",
+                timeout: 5000
+            });
+        }
 
         function listGoods(data){
             return $http({
@@ -35,6 +47,16 @@
                 timeout: 5000
             })
         }
+
+        function updateGoods(data){
+            return $http({
+                method: "POST",
+                data: data,
+                url: "/v1/stock/goods/update",
+                timeout: 5000
+            })
+        }
+
 
         function listInStock(data){
             return $http({

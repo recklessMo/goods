@@ -1,40 +1,47 @@
-<div class="col-xs-12">
-    <button class="btn btn-info" ng-click="addNewGoods()">
-        <span class="fa fa-plus"></span>
-        添加新物资
-    </button>
-    <form role="form" class="form-inline pull-right">
-        <div class="form-group">
-            <!--各种查询条件-->
-            <input
-                    style="width: 300px;"
-                    ng-model="tableParams.searchStr"
-                    class="form-control"
-                    placeholder="输入拼音首字母进行查询"/>
+<div ng-controller="GoodsListController" style="background: #fff;overflow: auto;height:100%;padding: 15px;border: 1px solid #cfdbe2;">
+    <div class="col-xs-12">
+        <button class="btn btn-info" ng-click="addNewGoods()">
+            <span class="fa fa-plus"></span>
+            添加新物资
+        </button>
+        <form role="form" class="form-inline pull-right">
+            <div class="form-group">
+                <!--各种查询条件-->
+                <input
+                        style="width: 300px;"
+                        ng-model="tableParams.searchStr"
+                        class="form-control"
+                        placeholder="输入拼音首字母进行查询"/>
 
-            <button class="btn btn-info form-control" ng-click="search()">
-                查询物资
-            </button>
-        </div>
-    </form>
-</div>
+                <button class="btn btn-info form-control" ng-click="search()">
+                    查询物资
+                </button>
+            </div>
+        </form>
+    </div>
 
-<div class="col-xs-12" style="height: 100%;padding-bottom:40px;margin-top:10px;">
-    <table ng-table="goodsTableParams" class="table table-condensed table-bordered table-striped" style="border: 1px solid #eeeeee;">
-        <tr ng-repeat="row in $data" ng-dblclick="openStockDetail(row)" style="text-align: center;">
-            <td data-title="'物资编号'">{{row.id}}</td>
-            <td data-title="'名称'">{{row.name}}</td>
-            <td data-title="'类别'">{{row.category}}</td>
-            <td data-title="'剩余数量'">{{row.currentCount}}</td>
-            <td data-title="'操作'">
-                <a class="" ng-click="openStockDetail(row.id)">查看物资明细</a>
-                <a class="" ng-click="openStockDetail(row.id)">查看出入库明细</a>
-            </td>
-        </tr>
-        <tfoot ng-if="!$data || $data.length<1">
-            <tr>
-                <td colspan="6" style="text-align: center;"> 无数据 </td>
+    <div class="col-xs-12" style="height: calc(100% - 45px);margin-top:10px;">
+        <table ng-table="goodsTableParams" class="table table-condensed table-bordered table-striped" style="border: 1px solid #eeeeee;">
+            <tr ng-repeat="row in $data" ng-dblclick="openStockDetail(row)" style="text-align: center;">
+                <td data-title="'编号'">{{row.id}}</td>
+                <td data-title="'名称'">{{row.name}}</td>
+                <td data-title="'规格'">{{row.gg}}</td>
+                <td data-title="'厂家'">{{row.cjmc}}</td>
+                <td data-title="'单位'">{{row.dw}}</td>
+                <td data-title="'类别'">{{row.type}}</td>
+                <td data-title="'创建人'">{{row.inUserName}}</td>
+                <td data-title="'创建时间'">{{row.inTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                <!--<td data-title="'修改时间'">{{row.updated |  date:'yyyy-MM-dd'}}</td>-->
+                <td data-title="'操作'">
+                    <button class="btn btn-info" ng-click="editNewGoods(row)">编辑</button>
+                    <button class="btn btn-danger" ng-click="delete(row.id)">删除</button>
+                </td>
             </tr>
-        </tfoot>
-    </table>
+            <tfoot ng-if="!$data || $data.length<1">
+                <tr>
+                    <td colspan="10" style="text-align: center;"> 无数据 </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
 </div>

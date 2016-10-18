@@ -45,7 +45,7 @@ public class Menu{
             new Menu(null, "成绩站", null, "icon-book-open", null, 3),
             new Menu(null, "财务站", null, "icon-notebook", null, 4),
             new Menu(null, "统计站", null, "icon-book-open", null, 5),
-            new Menu(null, "库存站", "ROLE_USER", "icon-basket-loaded", "app.stock-worktable", 6),
+            new Menu(null, "库存站", null, "icon-basket-loaded", null, 6),
             new Menu(null, "管理站", null, "icon-settings", null, 7),
             new Menu(null, "个人中心", null, "icon-info", null, 8),
 
@@ -62,6 +62,10 @@ public class Menu{
 
             new Menu("财务站", "缴费", "ROLE_USER", "icon-plus", "app.finance", 1),
             new Menu("财务站", "报销", "ROLE_USER", "icon-check", "app.finance", 2),
+
+            new Menu("库存站", "物资", "ROLE_USER", "icon-plus", "app.item", 1),
+            new Menu("库存站", "出入库", "ROLE_USER", "icon-check", "app.stock-worktable", 2),
+
 
             new Menu("统计站", "财务统计", "ROLE_USER", "icon-wallet", "app.payStat", 1),
             new Menu("统计站", "学生统计", "ROLE_USER", "icon-wallet", "app.payStat", 3),

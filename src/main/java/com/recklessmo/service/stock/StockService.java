@@ -29,15 +29,25 @@ public class StockService {
      * @return
      */
     public List<Goods> listGoods(GoodsPage page){
+        page.setStatus(Goods.GOODS_NORMAL);
         return stockDAO.listGoods(page);
     }
 
     public int listGoodsCount(GoodsPage page){
+        page.setStatus(Goods.GOODS_NORMAL);
         return stockDAO.listGoodsCount(page);
     }
 
     public void addGoods(Goods goods){
         stockDAO.addGoods(goods);
+    }
+
+    public void updateGoods(Goods goods){
+        stockDAO.updateGoods(goods);
+    }
+
+    public void deleteGoods(long id){
+        stockDAO.deleteGoods(id, Goods.GOODS_DELETE);
     }
 
     /**
