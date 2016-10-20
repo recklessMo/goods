@@ -15,7 +15,7 @@
         }
 
         $scope.search = function(){
-            $scope.stockInTableParams = new NgTableParams($scope.tableParams, {
+            $scope.stockOutTableParams = new NgTableParams($scope.tableParams, {
                 getData: function($defer, params){
                     blockUI.start();
                     StockService.listOutStock(params.parameters()).success(function(data){
@@ -46,7 +46,7 @@
                 if(data.value != 'reload'){
                     return;
                 }
-                $scope.stockInTableParams.reload();
+                $scope.stockOutTableParams.reload();
             });
         }
 
@@ -61,7 +61,7 @@
                 if(data.value != 'reload'){
                     return;
                 }
-                $scope.stockInTableParams.reload();
+                $scope.stockOutTableParams.reload();
             });
         }
 

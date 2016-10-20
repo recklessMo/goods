@@ -8,13 +8,14 @@
                 <table ng-table="goodsHistoryTableParams"
                        class="table table-bordered table-hover table-condensed editable-table table-input">
                     <tr ng-repeat="row in $data">
-                        <td title="'名称'">{{row.goods.name}}</td>
-                        <td title="'规格'">{{row.goods.gg}}</td>
-                        <td title="'单位'">{{row.goods.dw}}</td>
-                        <td title="'产地'">{{row.goods.cjmc}}</td>
-                        <td title="'进货价格'">{{row.purchasePrice}}</td>
-                        <td title="'入库数量'">{{row.count}}</td>
-                        <td title="'进货金额'">{{row.cost}}</td>
+                        <td title="'名称'">{{row.name}}</td>
+                        <td title="'规格'">{{row.gg}}</td>
+                        <td title="'单位'">{{row.dw}}</td>
+                        <td title="'产地'">{{row.cjmc}}</td>
+                        <td title="'出入库时间'">{{row.created | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td title="'操作人'">{{row.userName}}</td>
+                        <td title="'类型'">{{row.stockType}}</td>
+                        <td title="'出/入库数量'">{{row.stockType == '出库'?'-' : '+'}}{{row.count}}</td>
                     </tr>
                 </table>
             </div>

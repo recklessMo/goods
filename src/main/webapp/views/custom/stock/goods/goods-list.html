@@ -22,7 +22,7 @@
 
     <div class="col-xs-12" style="height: calc(100% - 45px);margin-top:10px;">
         <table ng-table="goodsTableParams" class="table table-condensed table-bordered table-striped" style="border: 1px solid #eeeeee;">
-            <tr ng-repeat="row in $data" ng-dblclick="openStockDetail(row)" style="text-align: center;">
+            <tr ng-repeat="row in $data" ng-dblclick="editNewGoods(row)" style="text-align: center;">
                 <td data-title="'编号'">{{row.id}}</td>
                 <td data-title="'名称'">{{row.name}}</td>
                 <td data-title="'规格'">{{row.gg}}</td>

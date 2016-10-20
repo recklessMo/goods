@@ -47,7 +47,7 @@ public class UserDetailService implements UserDetailsService{
             List<String> roles = new LinkedList<String>();
             roles.add("ROLE_USER");
 
-            return new DefaultUserDetails(userName, user.getPwd(), true, true, true, true, authorities, roles);
+            return new DefaultUserDetails(user.getId(), userName, user.getPwd(), true, true, true, true, authorities, roles);
         }
     });
 

@@ -99,6 +99,9 @@ public class StockController {
     @RequestMapping(value = "/in/add", method = {RequestMethod.GET, RequestMethod.POST})
     public JsonResponse addInStock(@RequestBody Stock stock){
         //TODO do some checking here to keep integrity
+        DefaultUserDetails defaultUserDetails = ContextUtils.getLoginUserDetail();
+        stock.setUserId(defaultUserDetails.getId());
+        stock.setUserName(defaultUserDetails.getUsername());
         stockService.addStock(stock);
         return new JsonResponse(200, null, null);
     }
@@ -128,6 +131,9 @@ public class StockController {
     @RequestMapping(value = "/out/add", method = {RequestMethod.GET, RequestMethod.POST})
     public JsonResponse addOutStock(@RequestBody Stock stock){
         //TODO do some checking here to keep integrity
+        DefaultUserDetails userDetail = ContextUtils.getLoginUserDetail();
+        stock.setUserName(userDetail.getUsername());
+        stock.setUserId(userDetail.getId());
         stockService.addStock(stock);
         return new JsonResponse(200, null, null);
     }

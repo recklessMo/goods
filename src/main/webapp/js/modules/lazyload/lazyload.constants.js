@@ -67,7 +67,12 @@
                                    'vendor/morris.js/morris.js',
                                    'vendor/morris.js/morris.css'],
             'loaders.css':          ['vendor/loaders.css/loaders.css'],
-            'spinkit':              ['vendor/spinkit/css/spinkit.css']
+            'spinkit':              ['vendor/spinkit/css/spinkit.css'],
+            'ngQuickDate':             [
+                "vendor/ngQuickDate/dist/ng-quick-date.min.js",
+                "vendor/ngQuickDate/dist/ng-quick-date.css",
+                "vendor/ngQuickDate/dist/ng-quick-date-default-theme.css"
+            ],
           },
           // Angular based script (use the right module name)
           modules: [

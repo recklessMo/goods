@@ -9,6 +9,7 @@ public class StockPage extends Page{
     private String category;
 
 
+
     public String getStockType() {
         return stockType;
     }

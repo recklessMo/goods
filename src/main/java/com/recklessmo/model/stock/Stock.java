@@ -1,5 +1,6 @@
 package com.recklessmo.model.stock;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -7,31 +8,20 @@ import java.util.List;
  */
 public class Stock {
 
+    public static String IN = "入库";
+    public static String OUT = "出库";
+
     private long id;
     private String stockType;
+    private String category;
     private long userId;
     private String userName;
     private String ghdw;
-    private long cost;
-    private String category;
+    private Date created = new Date();
+    private String billNumber = "";
+    private String comment = "";
+    private String clientName;
     private List<StockItem> items;
-
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public String getGhdw() {
-        return ghdw;
-    }
-
-    public void setGhdw(String ghdw) {
-        this.ghdw = ghdw;
-    }
 
     public long getId() {
         return id;
@@ -49,12 +39,12 @@ public class Stock {
         this.stockType = stockType;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getCategory() {
+        return category;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public long getUserId() {
@@ -65,12 +55,52 @@ public class Stock {
         this.userId = userId;
     }
 
-    public long getCost() {
-        return cost;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setCost(long cost) {
-        this.cost = cost;
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getGhdw() {
+        return ghdw;
+    }
+
+    public void setGhdw(String ghdw) {
+        this.ghdw = ghdw;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public String getBillNumber() {
+        return billNumber;
+    }
+
+    public void setBillNumber(String billNumber) {
+        this.billNumber = billNumber;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public String getClientName() {
+        return clientName;
+    }
+
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
     }
 
     public List<StockItem> getItems() {

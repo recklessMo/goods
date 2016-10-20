@@ -11,6 +11,7 @@ import java.util.List;
  */
 public class DefaultUserDetails implements UserDetails{
 
+    private long id;
     private String userName;
     private String pwd;
     private boolean accountNonExpired;
@@ -21,7 +22,8 @@ public class DefaultUserDetails implements UserDetails{
     private List<String> roles;
 
 
-    public DefaultUserDetails(String userName, String pwd, boolean accountNonExpired, boolean accountNonLocked, boolean credentialNonExpired, boolean enabled, Collection<GrantedAuthority> authorityList, List<String> roles){
+    public DefaultUserDetails(long id, String userName, String pwd, boolean accountNonExpired, boolean accountNonLocked, boolean credentialNonExpired, boolean enabled, Collection<GrantedAuthority> authorityList, List<String> roles){
+        this.id = id;
         this.userName = userName;
         this.pwd = pwd;
         this.accountNonExpired = accountNonExpired;
@@ -30,6 +32,14 @@ public class DefaultUserDetails implements UserDetails{
         this.enabled = enabled;
         this.authorityList = authorityList;
         this.roles = roles;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     @Override

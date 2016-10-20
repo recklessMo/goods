@@ -2,23 +2,25 @@
     'use strict';
     angular
         .module('custom')
-        .directive('datepicker', function () {
+        .directive('sisDatepicker', function () {
+
             var ret = {};
             ret.require = ['ngModel'];
             ret.restrict = 'E';
             ret.replace = true;
-            ret.templateUrl = 'app/views/custom/directives/datetimer.html';
-            ret.controller = DatepickerController;
+            ret.templateUrl = 'app/views/custom/directives/sis-datetimer.html';
+            ret.controller = SisDatepickerController;
             var scope = {};
             ret.scope = scope;
             scope.value = "=ngModel";
             scope.showIcon = "@";
             scope.showTime = "@";
+
             return ret;
         })
-        .controller('DatepickerController', DatepickerController);
-    DatepickerController.$inject = ['$scope', '$timeout'];
-    function DatepickerController($scope, $timeout) {
+        .controller('SisDatepickerController', SisDatepickerController);
+    SisDatepickerController.$inject = ['$scope', '$timeout'];
+    function SisDatepickerController($scope, $timeout) {
         if ($scope.value) {
             $scope.value = new Date($scope.value);
         }

@@ -11,20 +11,9 @@ public class StockItem {
     private String category;
     //不冗余存储别的物资字段,只存储ID
     private long goodsId;
-    private long purchasePrice;
     private int count;
-    private long cost;
 
     private Goods goods;
-
-
-    public Goods getGoods() {
-        return goods;
-    }
-
-    public void setGoods(Goods goods) {
-        this.goods = goods;
-    }
 
     public long getId() {
         return id;
@@ -66,14 +55,6 @@ public class StockItem {
         this.goodsId = goodsId;
     }
 
-    public long getPurchasePrice() {
-        return purchasePrice;
-    }
-
-    public void setPurchasePrice(long purchasePrice) {
-        this.purchasePrice = purchasePrice;
-    }
-
     public int getCount() {
         return count;
     }
@@ -82,11 +63,11 @@ public class StockItem {
         this.count = count;
     }
 
-    public long getCost() {
-        return cost;
+    public Goods getGoods() {
+        return goods;
     }
 
-    public void setCost(long cost) {
-        this.cost = cost;
+    public void setGoods(Goods goods) {
+        this.goods = goods;
     }
 }

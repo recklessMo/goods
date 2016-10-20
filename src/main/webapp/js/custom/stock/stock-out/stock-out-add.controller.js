@@ -9,7 +9,8 @@
         var block = blockUI.instances.get('stock-out-add');
 
         $scope.stock = {
-            stockType: "出库"
+            stockType: "出库",
+            created: new Date()
         };
 
         //暂时先写死,后期改成从后端拉取字典信息
@@ -25,6 +26,12 @@
             $scope.stockItems.splice(index, 1);
         }
 
+        $scope.selectCategory = function(){
+            if($scope.stock.category != "借用出库"){
+                $scope.stock.clientName = "";
+            }
+        }
+
         $scope.stockItemTableParams = new NgTableParams({}, {
             counts: [],
             getData: function($defer, params){
@@ -35,7 +42,7 @@
         //用于搜索物资
         $scope.titles = [];
         $scope.search = function(data){
-            var tableParameters = {searchStr : data, page : 1, count: 40};
+            var tableParameters = {searchStr : data, page : 1, count: 20};
             StockService.listGoods(tableParameters).success(function(data){
                 if(data.status == 200){
                     $scope.titles = data.data;
@@ -51,6 +58,7 @@
         $scope.itemSelected = function(row, $item){
             row.gg = $item.gg;
             row.cjmc = $item.cjmc;
+            row.dw = $item.dw;
         }
 
 
@@ -67,12 +75,12 @@
             StockService.addOutStock($scope.stock).success(function(data){
                 if(data.status == 200) {
                     block.stop();
-                    SweetAlert.success("成功");
+                    SweetAlert.success("添加成功");
                     $scope.closeThisDialog("reload");
                 }
             }).error(function(){
                 block.stop();
-                SweetAlert.error("失败");
+                SweetAlert.error("添加失败");
             });
         }
 

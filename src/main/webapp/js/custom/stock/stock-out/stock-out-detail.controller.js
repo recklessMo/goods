@@ -11,7 +11,8 @@
         $scope.stock = $scope.ngDialogData.data;
 
         //暂时先写死,后期改成从后端拉取字典信息
-        $scope.categoryList = [{value: "借用出库"}, {value: "损坏出库"}, {value: "其它出库"}];
+        $scope.categoryList = [{value: "采购入库"}, {value: "归还入库"}, {value: "退货入库"}, {value: "其它入库"}];
+
         //定义table对象数据
         $scope.stockItems = [];
 

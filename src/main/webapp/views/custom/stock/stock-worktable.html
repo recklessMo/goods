@@ -8,7 +8,7 @@
                         <uib-tab-heading>
                             查看库存
                         </uib-tab-heading>
-                        <div ng-controller="StockListController" ng-include="'app/views/custom/stock/goods/goods-list.html'">
+                        <div ng-include="'app/views/custom/stock/stock-list/stock-list.html'" ng-controller="StockListController" style="height: 100%;">
                         </div>
                     </uib-tab>
                     <uib-tab active="false"
@@ -16,7 +16,7 @@
                         <uib-tab-heading>
                             入库
                         </uib-tab-heading>
-                        <div ng-controller="StockInListController" ng-include="'app/views/custom/stock/stock-in/stock-in-list.html'">
+                        <div ng-include="'app/views/custom/stock/stock-in/stock-in-list.html'" ng-controller="StockInListController" style="height: 100%;">
                         </div>
                     </uib-tab>
                     <uib-tab active="false"
@@ -24,7 +24,7 @@
                         <uib-tab-heading>
                             出库
                         </uib-tab-heading>
-                        <div ng-controller="StockOutListController" ng-include="'app/views/custom/stock/stock-out/stock-out-list.html'">
+                        <div ng-include="'app/views/custom/stock/stock-out/stock-out-list.html'" ng-controller="StockOutListController" style="height: 100%;">
                         </div>
                     </uib-tab>
                 </uib-tabset>

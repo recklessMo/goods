@@ -9,11 +9,14 @@
         var block = blockUI.instances.get('stock-in-add');
 
         $scope.stock = {
-            stockType : "入库"
+            stockType : "入库",
+            created: new Date()
         };
 
+
         //暂时先写死,后期改成从后端拉取字典信息
-        $scope.categoryList = [{value: "采购入库"}, {value: "归还入库"}, {value: "退货入库"}];
+        $scope.categoryList = [{value: "采购入库"}, {value: "归还入库"}, {value: "退货入库"}, {value: "其它入库"}];
+
         //定义table对象数据
         $scope.stockItems = [];
 
@@ -35,7 +38,8 @@
         //用于搜索物资
         $scope.titles = [];
         $scope.search = function(data){
-            var tableParameters = {searchStr : data, page : 1, count: 40};
+            //最多20条
+            var tableParameters = {searchStr : data, page : 1, count: 20};
             StockService.listGoods(tableParameters).success(function(data){
                 if(data.status == 200){
                     $scope.titles = data.data;
@@ -51,11 +55,7 @@
         $scope.itemSelected = function(row, $item){
             row.gg = $item.gg;
             row.cjmc = $item.cjmc;
-        }
-
-
-        $scope.validate = function(data){
-            return true;
+            row.dw = $item.dw;
         }
 
         $scope.addStockIn = function(){
@@ -74,6 +74,11 @@
                 block.stop();
                 SweetAlert.error("失败");
             });
+        }
+
+
+        $scope.validate = function(data){
+            return true;
         }
 
     }
