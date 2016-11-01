@@ -1,0 +1,61 @@
+<div block-ui="edit-role" class="container-fluid">
+
+    <fieldset ng-disabled="type==0">
+        <div class="row">
+            <div class="col-md-12">
+                <h5 style="margin-top: 0;" ng-show="type == 2">
+                    <span class="icon-user"/>
+                    添加角色
+                </h5>
+                <h5 style="margin-top: 0;" ng-show="type == 1">
+                    <span class="icon-user"/>
+                    编辑角色
+                </h5>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <label class="text-info">
+                    <span>I 基本属性  (红色为必填)</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 30px;">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-addon" style="color:red">角色名称</span>
+                    <input ng-class="!user.userName?'field-dirty' : ''" type="text" class="form-control" ng-model="role.name"/>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-addon" style="color:red">角色描述</span>
+                    <input ng-class="!user.pwd?'field-dirty' : ''" type="text" class="form-control" ng-model="role.detail">
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 30px;">
+            <ui-select multiple ng-model="role.permissions" theme="bootstrap" close-on-select="false" title="选择权限" remove-selected="false">
+                <ui-select-match placeholder="选择权限">{{$item.name}};</ui-select-match>
+                <ui-select-choices repeat="permission.id in permissionList">
+                    <div ng-bind-html="permission.name"></div>
+                </ui-select-choices>
+            </ui-select>
+        </div>
+
+    </fieldset>
+
+
+    <div class="row" style="text-align: center;margin-top:50px;">
+        <div class="col-md-12" style="text-align: center;">
+            <button data-style="expand-left" ladda="loading" class="btn btn-primary" ng-click="save(user)" ng-if="type!=0">保存</button>
+            <button class="btn btn-primary" ng-click="closeThisDialog('cancel')">取消</button>
+        </div>
+    </div>
+
+</div>
+

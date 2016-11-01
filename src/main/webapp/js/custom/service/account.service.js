@@ -17,6 +17,14 @@
             });
         }
 
+        this.loadPermissions = function(){
+            return $http({
+                method: "POST",
+                url : "/v1/permission/list",
+                timeout: 5000
+            });
+        }
+
         this.loadUser = function(id){
             return $http({
                 method:"POST",

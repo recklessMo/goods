@@ -8,21 +8,40 @@
     function EditAccountController($scope, AccountService, SweetAlert, blockUI) {
 
         var block = blockUI.instances.get("edit-account");
-
         $scope.userId = $scope.ngDialogData.id;
         $scope.type = $scope.ngDialogData.type;
-
         $scope.user = {};
+        $scope.permissionList = [];
+        $scope.genderList = [{name:"男", value:0}, {name:"女", value:1}];
 
-        activate();
-
+        AccountService.loadPermissions().success(function(data){
+            if(data.status == 200) {
+                $scope.permissionList = data.data;
+                activate();
+            }
+            block.stop();
+        }).error(function(){
+            block.start();
+            SweetAlert.error("网络问题, 请稍后重试!");
+        });
 
         function activate(){
             if($scope.type != 2) {
                 block.start();
                 AccountService.loadUser($scope.userId).success(function(data){
                     if(data.status == 200) {
-                        $scope.user = data.data;
+                        if (data.data.authorities.length > 0) {
+                            var temp = data.data.authorities.split(",");
+                            var res = [];
+                            for (var i = 0; i < temp.length; i++) {
+                                res.push(Number.parseInt(temp[i]));
+                            }
+                            $scope.tempUser = data.data;
+                            $scope.tempUser.authorities = res;
+                            $scope.user = $scope.tempUser;
+                        } else {
+                            $scope.user = data.data;
+                        }
                     }
                     block.stop();
                 }).error(function(){
@@ -31,6 +50,7 @@
                     SweetAlert.error("网络问题, 请稍后重试!");
                 });
             }
+
         }
 
         $scope.loading = false;
@@ -43,6 +63,8 @@
 
             $scope.loading = true;
             block.start();
+            user.authorities.sort();
+            user.authorities = user.authorities.join(",");
             //update
             if($scope.type == 1){
                 AccountService.updateUser(user).success(function(data){

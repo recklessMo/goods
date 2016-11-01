@@ -11,6 +11,8 @@ public class Score {
     //通过sid获取对应的cid,set进去
     private long cid;
 
+    private double total;
+
     private double chinese;
     private double math;
     private double english;
@@ -20,6 +22,97 @@ public class Score {
     private double physics;
     private double chemistry;
     private double biology;
+
+    //用于显示排名
+    private long chineseRank;
+    private long mathRank;
+    private long englishRank;
+    private long poloticsRank;
+    private long historyRank;
+    private long geoRank;
+    private long physicsRank;
+    private long chemistryRank;
+    private long biologyRank;
+
+    public long getChineseRank() {
+        return chineseRank;
+    }
+
+    public void setChineseRank(long chineseRank) {
+        this.chineseRank = chineseRank;
+    }
+
+    public long getMathRank() {
+        return mathRank;
+    }
+
+    public void setMathRank(long mathRank) {
+        this.mathRank = mathRank;
+    }
+
+    public long getEnglishRank() {
+        return englishRank;
+    }
+
+    public void setEnglishRank(long englishRank) {
+        this.englishRank = englishRank;
+    }
+
+    public long getPoloticsRank() {
+        return poloticsRank;
+    }
+
+    public void setPoloticsRank(long poloticsRank) {
+        this.poloticsRank = poloticsRank;
+    }
+
+    public long getHistoryRank() {
+        return historyRank;
+    }
+
+    public void setHistoryRank(long historyRank) {
+        this.historyRank = historyRank;
+    }
+
+    public long getGeoRank() {
+        return geoRank;
+    }
+
+    public void setGeoRank(long geoRank) {
+        this.geoRank = geoRank;
+    }
+
+    public long getPhysicsRank() {
+        return physicsRank;
+    }
+
+    public void setPhysicsRank(long physicsRank) {
+        this.physicsRank = physicsRank;
+    }
+
+    public long getChemistryRank() {
+        return chemistryRank;
+    }
+
+    public void setChemistryRank(long chemistryRank) {
+        this.chemistryRank = chemistryRank;
+    }
+
+    public long getBiologyRank() {
+        return biologyRank;
+    }
+
+    public void setBiologyRank(long biologyRank) {
+        this.biologyRank = biologyRank;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
 
     public long getSid() {
         return sid;

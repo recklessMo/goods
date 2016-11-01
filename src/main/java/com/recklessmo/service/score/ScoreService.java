@@ -9,8 +9,8 @@ import com.recklessmo.service.score.filter.DefaultFilterChain;
 import com.recklessmo.service.score.filter.DefaultFilterChainBuilder;
 import com.recklessmo.service.score.model.total.AllCourseTotal;
 import com.recklessmo.service.score.model.total.SingleCourseTotal;
+import com.recklessmo.web.webmodel.page.ScoreListPage;
 import org.springframework.stereotype.Service;
-
 import javax.annotation.Resource;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,8 +31,11 @@ public class ScoreService {
 
     //传入考试的ID, 以及分析册的ID 然后开始进行分析. 要用事务管理起来
     public void analyze(long examId, long templateId){
-        //获取数据
-        List<Score> scoreList = scoreDAO.getList(examId);
+        //获取全部数据
+        ScoreListPage page = new ScoreListPage();
+        page.setExamId(examId);
+        page.setCid(0);
+        List<Score> scoreList = scoreDAO.getList(page);
         //开始进行分析
         analyzeInner(examId, templateId, scoreList);
     }
@@ -91,8 +94,8 @@ public class ScoreService {
     /**
      * 获取整体分析的结果
      */
-    public List<SingleCourseTotal> loadTotalScore(long examId){
-        List<ScoreTotal> scoreTotalList =  scoreTotalDAO.getByExamAndCID(examId);
+    public List<SingleCourseTotal> loadTotalScore(long examId, long cid){
+        List<ScoreTotal> scoreTotalList =  scoreTotalDAO.getByExamAndCID(examId, cid);
         List<SingleCourseTotal> result = new LinkedList<>();
         for(ScoreTotal scoreTotal : scoreTotalList){
             AllCourseTotal allCourseTotal = JSON.parseObject(scoreTotal.getDetail(), AllCourseTotal.class);
@@ -102,8 +105,8 @@ public class ScoreService {
     }
 
 
-    public List<Score> loadScoreList(long examId){
-        List<Score> scoreList = scoreDAO.getList(examId);
+    public List<Score> loadScoreList(ScoreListPage page){
+        List<Score> scoreList = scoreDAO.getList(page);
         return scoreList;
     }
 

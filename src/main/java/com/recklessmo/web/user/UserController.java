@@ -29,7 +29,6 @@ public class UserController {
      *
      * @return
      */
-    @PreAuthorize("hasAnyAuthority('ROLE_USER')")
     @ResponseBody
     @RequestMapping(value = "/list", method = {RequestMethod.POST, RequestMethod.GET})
     public JsonResponse list(@RequestBody UserPage page){
@@ -38,7 +37,6 @@ public class UserController {
         return new JsonResponse(ResponseType.RESPONSE_OK, users, count);
     }
 
-    @PreAuthorize("hasAnyAuthority('ROLE_USER')")
     @ResponseBody
     @RequestMapping(value = "/get", method = {RequestMethod.POST, RequestMethod.GET})
     public JsonResponse get(@RequestBody long id){
@@ -46,7 +44,6 @@ public class UserController {
         return new JsonResponse(ResponseType.RESPONSE_OK, user, null);
     }
 
-    @PreAuthorize("hasAnyAuthority('ROLE_USER')")
     @ResponseBody
     @RequestMapping(value = "/delete", method = {RequestMethod.POST, RequestMethod.GET})
     public JsonResponse delete(@RequestBody long id){
@@ -54,7 +51,6 @@ public class UserController {
         return new JsonResponse(ResponseType.RESPONSE_OK, null, null);
     }
 
-    @PreAuthorize("hasAnyAuthority('ROLE_USER')")
     @ResponseBody
     @RequestMapping(value = "/add", method = {RequestMethod.GET, RequestMethod.POST})
     public JsonResponse add(@RequestBody User user){
@@ -68,7 +64,6 @@ public class UserController {
         return new JsonResponse(ResponseType.RESPONSE_OK, null, null);
     }
 
-    @PreAuthorize("hasAnyAuthority('ROLE_USER')")
     @ResponseBody
     @RequestMapping(value = "/update", method = {RequestMethod.GET, RequestMethod.POST})
     public JsonResponse update(@RequestBody User user){

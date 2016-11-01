@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class IndexController {
 
-    @PreAuthorize("hasAnyAuthority('ROLE_USER')")
+    @PreAuthorize("hasAnyAuthority('login')")
     @RequestMapping(value = "/")
     public String index(){
         return "index";

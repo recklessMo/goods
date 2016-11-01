@@ -4,7 +4,7 @@
 <mapper namespace="com.recklessmo.dao.score.ScoreDAO">
 
     <sql id = "columns">
-        exam_id, sid, chinese, math, english, polotics, history, geo, physics, chemistry, biology
+        exam_id, sid, cid, total ,chinese, math, english, polotics, history, geo, physics, chemistry, biology
     </sql>
 
 
@@ -20,6 +20,10 @@
         <include refid="columns"/>
         from score
         where exam_id = #{examId}
+        <if test="cid != 0">
+            and cid = #{cid}
+        </if>
+        limit #{startIndex}, #{count}
     </select>
     
 

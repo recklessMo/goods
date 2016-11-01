@@ -35,19 +35,17 @@ public class UserDetailService implements UserDetailsService{
      */
     private LoadingCache<String, Object> userCache = CacheBuilder.newBuilder().build(new CacheLoader<String, Object>() {
         public Object load(String userName) throws Exception{
-
             User user = userDAO.getUserByUserName(userName);
             if(user == null){
                 throw new UsernameNotFoundException("user name not exist");
             }
-
-            List<GrantedAuthority> authorities = new LinkedList<GrantedAuthority>();
-            authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-
-            List<String> roles = new LinkedList<String>();
-            roles.add("ROLE_USER");
-
-            return new DefaultUserDetails(user.getId(), userName, user.getPwd(), true, true, true, true, authorities, roles);
+            List<GrantedAuthority> authorities = new LinkedList<>();
+            String[] authArray = user.getAuthorities().split(",");
+            authorities.add(new SimpleGrantedAuthority("login"));
+            for(String str : authArray) {
+                authorities.add(new SimpleGrantedAuthority(str));
+            }
+            return new DefaultUserDetails(user.getId(), userName, user.getPwd(), true, true, true, true, authorities, null);
         }
     });
 

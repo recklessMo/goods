@@ -4,13 +4,13 @@
     </h4>
 
     <div class="row form-inline inline-flex-form-group">
-        <div class="col-lg-4" style="padding-left: 0;padding-right: 10px;">
+        <div class="col-lg-3" style="padding-left: 0;padding-right: 10px;">
             <div class="form-group">
                 <label style="max-width: 63px;min-width: 63px;">入库类型:</label>
                 <input style="width: 100%;" type="text" ng-model="stock.category" class="form-control" ng-disabled="1">
             </div>
         </div>
-        <div class="col-lg-4" style="padding-left: 0;padding-right: 10px;">
+        <div class="col-lg-3" style="padding-left: 0;padding-right: 10px;">
             <div class="form-group">
                 <label style="max-width: 63px;min-width: 63px;">入库时间:</label>
                 <input style="width: 100%;" type="text" class="form-control"
@@ -23,7 +23,13 @@
                        ng-disabled="1"/>
             </div>
         </div>
-        <div class="col-lg-4" style="padding-left: 0;padding-right: 0;">
+        <div class="col-lg-3" style="padding-left: 0;padding-right: 0;">
+            <div class="form-group">
+                <label style="max-width: 63px;min-width: 63px;">供货单位:</label>
+                <input style="width: 100%;" type="text" ng-model="stock.ghdw" class="form-control" ng-disabled="1">
+            </div>
+        </div>
+        <div class="col-lg-3" style="padding-left: 0;padding-right: 0;">
             <div class="form-group">
                 <label style="max-width: 63px;min-width: 63px;">单据号码:</label>
                 <input style="width: 100%;" type="text" ng-model="stock.billNumber" class="form-control" ng-disabled="1">

@@ -16,7 +16,7 @@
         select
         <include refid="columns"/>
         from score_total
-        where exam_id = #{examId}
+        where exam_id = #{examId} and cid = #{cid}
     </select>
     
 

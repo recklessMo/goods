@@ -19,7 +19,7 @@
         $locationProvider.html5Mode(false);
 
         // defaults to dashboard
-        $urlRouterProvider.otherwise('/app/item');
+        $urlRouterProvider.otherwise('/app');
 
         //
         // Application Routes
@@ -74,6 +74,11 @@
               title: '帐号管理',
               templateUrl: helper.basepath('custom/admin/account/account.html')
           })
+        .state('app.role', {
+            url: '/role',
+            title: '角色管理',
+            templateUrl: helper.basepath('custom/admin/role/role-list.html')
+        })
         .state('app.exam', {
             url: '/exam',
             title: '考试管理',

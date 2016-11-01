@@ -8,7 +8,7 @@ public class ScoreTotal {
     //代表考试id
     private long examId;
     //代表是全部年级,还是分开的班级
-    private int cid;
+    private long cid;
     //代表具体的分析结果, 内存结构的json表示
     private String detail;
 
@@ -20,11 +20,11 @@ public class ScoreTotal {
         this.examId = examId;
     }
 
-    public int getCid() {
+    public long getCid() {
         return cid;
     }
 
-    public void setCid(int cid) {
+    public void setCid(long cid) {
         this.cid = cid;
     }
 

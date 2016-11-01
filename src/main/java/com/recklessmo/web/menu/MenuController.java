@@ -4,7 +4,6 @@ import com.recklessmo.manage.menu.MenuManager;
 import com.recklessmo.model.security.DefaultUserDetails;
 import com.recklessmo.response.JsonResponse;
 import com.recklessmo.util.ContextUtils;
-import org.springframework.dao.DeadlockLoserDataAccessException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,12 +23,12 @@ public class MenuController {
      *
      * @return
      */
-    @PreAuthorize("hasAnyAuthority('ROLE_USER')")
+    @PreAuthorize("hasAnyAuthority('login')")
     @ResponseBody
     @RequestMapping(value = "/v1/system/menu", method = {RequestMethod.POST, RequestMethod.GET})
     public JsonResponse menu(){
         DefaultUserDetails defaultUserDetails = ContextUtils.getLoginUserDetail();
-        return new JsonResponse(200, MenuManager.getInstance().getMenus(defaultUserDetails, true), null);
+        return new JsonResponse(200, MenuManager.getInstance().getMenus(defaultUserDetails), null);
     }
 
 

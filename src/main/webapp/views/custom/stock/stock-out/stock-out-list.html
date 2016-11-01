@@ -23,7 +23,7 @@
     <table ng-table="stockOutTableParams" class="table table-condensed table-bordered table-striped" style="border: 1px solid #eeeeee;">
         <tr ng-repeat="row in $data" ng-dblclick="openStockOutDetail(row)" style="text-align: center;">
             <td data-title="'出库编号'">{{row.id}}</td>
-            <td data-title="'出库类型'">{{row.id}}</td>
+            <td data-title="'出库类型'">{{row.category}}</td>
             <td data-title="'出库人'">{{row.userName}}</td>
             <td data-title="'出库时间'">{{row.created | date:'yyyy-MM-dd HH:mm:ss'}}</td>
             <td data-title="'操作'">

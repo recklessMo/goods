@@ -24,7 +24,6 @@ public class StudentController {
     @Resource
     private StudentService studentService;
 
-    @PreAuthorize("hasAnyAuthority('ROLE_USER')")
     @ResponseBody
     @RequestMapping(value = "/v1/student/add", method = {RequestMethod.POST, RequestMethod.GET})
     public JsonResponse addStudentInfo(@RequestBody StudentAddInfo studentAddInfo){
@@ -33,8 +32,6 @@ public class StudentController {
         return new JsonResponse(200, null, null);
     }
 
-
-    @PreAuthorize("hasAnyAuthority('ROLE_USER')")
     @ResponseBody
     @RequestMapping(value = "/v1/student/list", method = {RequestMethod.POST, RequestMethod.GET})
     public JsonResponse list(@RequestBody StudentPage page){

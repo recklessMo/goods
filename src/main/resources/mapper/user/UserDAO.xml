@@ -3,16 +3,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.recklessmo.dao.user.UserDAO">
     <sql id = "columns">
-        id, user_name, pwd, name, phone
+        id, user_name, pwd, name, phone, gender, email, job, authorities, created, updated
     </sql>
-
-    <resultMap id = "result" type="User">
-        <result property="id" column="id"/>
-        <result property="userName" column="user_name"/>
-        <result property="pwd" column="pwd"/>
-        <result property="phone" column="phone"/>
-        <result property="name" column="name"/>
-    </resultMap>
 
     <sql id="byPageQuery">
         <if test="searchStr != null and '' != searchStr">
@@ -22,7 +14,7 @@
         </if>
     </sql>
 
-    <select id="getUserList" resultMap = "result">
+    <select id="getUserList" resultType="com.recklessmo.model.user.User">
         select
         <include refid="columns"/>
         from user
@@ -37,24 +29,27 @@
         <include refid="byPageQuery"/>
     </select>
 
-    <select id="getUser" resultMap = "result">
+    <select id="getUser" resultType="com.recklessmo.model.user.User">
         select
         <include refid="columns"/>
         from user where id = #{id}
     </select>
 
-    <select id="getUserByUserName" resultMap = "result">
+    <select id="getUserByUserName" resultType="com.recklessmo.model.user.User">
         select
         <include refid="columns"/>
         from user where user_name = #{userName}
     </select>
 
     <insert id="addUser" parameterType = "com.recklessmo.model.user.User">
-        insert into user(user_name, pwd, name, phone) values(#{userName}, #{pwd}, #{name}, #{phone})
+        insert into user(user_name, pwd, name, phone, email, gender, job, authorities, created)
+         values(#{userName}, #{pwd}, #{name}, #{phone}, #{email}, #{gender}, #{job}, #{authorities}, #{created})
     </insert>
 
     <update id="updateUser" parameterType = "com.recklessmo.model.user.User">
-        update user set user_name = #{userName}, pwd = #{pwd}, name = #{name}, phone=#{phone} where id = #{id}
+        update user set user_name = #{userName}, pwd = #{pwd}, name = #{name}, phone=#{phone}
+         , email=#{email}, gender=#{gender}, job=#{job}, authorities=#{authorities}
+         where id = #{id}
     </update>
 
     <delete id = "deleteUser" parameterType = "java.lang.Long">

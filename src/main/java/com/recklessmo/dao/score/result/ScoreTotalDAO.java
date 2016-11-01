@@ -13,6 +13,6 @@ import java.util.List;
 public interface ScoreTotalDAO {
 
     void save(ScoreTotal scoreTotal);
-    List<ScoreTotal> getByExamAndCID(@Param("examId")long examId);
+    List<ScoreTotal> getByExamAndCID(@Param("examId")long examId, @Param("cid")long cid);
 
 }

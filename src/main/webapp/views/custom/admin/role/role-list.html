@@ -1,0 +1,25 @@
+<div ng-controller="RoleListController as role" style="background: #fff;overflow: auto;height:100%;padding: 15px;border: 1px solid #cfdbe2;">
+    <div class="row">
+        <div class="col-md-3 pull-left">
+            <button class="btn btn-info" ng-click="add(-1)">
+                添加新角色
+            </button>
+        </div>
+    </div>
+
+    <div style="margin-top: 10px;">
+        <table ng-table="roleTableParams" class="table table-bordered table-hover table-condensed editable-table table-min">
+            <tr ng-repeat="item in $data" ng-dblclick="show(item.id)">
+                <td data-title="'角色ID'" style="text-align: center">{{item.id}}</td>
+                <td data-title="'角色名'" style="text-align: center">{{item.name}}</td>
+                <td data-title="'创建时间'" style="text-align: center">{{item.created | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                <td data-title="'描述'" style="text-align: center">{{item.detail}}</td>
+                <td data-title="'操作'" style="text-align: center">
+                    <button class="btn btn-info" ng-click="edit(item.id)">编辑</button>
+                    <button class="btn btn-danger" ng-click="delete(item.id)">删除</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</div>

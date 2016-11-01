@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.recklessmo.dao.role.RoleDAO">
+
+    <sql id = "columns">
+        id, name, detail, permissions, created, updated
+    </sql>
+
+    <select id="listRoles" resultType="com.recklessmo.model.role.Role">
+      select
+      <include refid="columns"/>
+      from role
+    </select>
+
+    <select id="getRole" resultType="com.recklessmo.model.role.Role">
+        select
+        <include refid="columns"/>
+        from role
+        where id = #{id}
+    </select>
+
+    <update id="update" parameterType="com.recklessmo.model.role.Role">
+        update role
+        set name = #{name}, detail = #{detail}, permissions=#{permissions}
+    </update>
+
+    <insert id="create" parameterType="com.recklessmo.model.role.Role">
+        insert into role(
+          <include refid="columns"/>
+        )values(
+          #{name}, #{detail}, #{permissions}, #{created}, #{created}
+        )
+    </insert>
+
+    <delete id="delete">
+        delete from role where id = #{id}
+    </delete>
+
+</mapper>

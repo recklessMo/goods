@@ -185,8 +185,8 @@
         <include refid="getStockItemColumns"/>,
         <include refid="getGoodsColumns"/>
         from
-        stock s left join stock_item i on s.id = i.stock_id
-        left join goods g on i.goods_id = g.id
+        stock s inner join stock_item i on s.id = i.stock_id
+        inner join goods g on i.goods_id = g.id
         where s.id = #{id}
     </select>
 
@@ -200,8 +200,8 @@
         select
         <include refid="stockHistoryColumns"/>
         from
-        stock s left join stock_item i on s.id = i.stock_id
-        left join goods g on i.goods_id = g.id
+        stock s inner join stock_item i on s.id = i.stock_id
+        inner join goods g on i.goods_id = g.id
         where i.goods_id = #{goodsId}
         order by s.created asc
     </select>

@@ -24,8 +24,7 @@
         function loadScoreList(data){
             return $http({
                 url: "/v1/score/list",
-                data: $.param({id:data}),
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                data: data,
                 method: "POST",
                 timeout: 5000
             });

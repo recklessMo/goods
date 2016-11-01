@@ -6,10 +6,19 @@ import java.util.List;
  * Created by hpf on 4/13/16.
  */
 public class MenuModel {
+    private long id;
     private String text;
     private String sref;
     private String icon;
     private int weight;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     private List<MenuModel> submenu;
 
