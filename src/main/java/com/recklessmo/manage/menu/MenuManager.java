@@ -89,14 +89,5 @@ public class MenuManager {
         return menuModels;
     }
 
-    public List<Permissions> getPermissions(){
-        List<Permissions> data = new LinkedList<>();
-        for(Menu menu: Menu.menuList){
-            if(menu.getFather() != null){
-                data.add(new Permissions(menu.getId(), menu.getFather() + "->" + menu.getChild()));
-            }
-        }
-        return data;
-    }
 
 }
