@@ -39,16 +39,24 @@ public class UserDetailService implements UserDetailsService{
             if(user == null){
                 throw new UsernameNotFoundException("user name not exist");
             }
-            List<GrantedAuthority> authorities = new LinkedList<>();
-            String[] authArray = user.getAuthorities().split(",");
-            authorities.add(new SimpleGrantedAuthority("login"));
-            for(String str : authArray) {
-                authorities.add(new SimpleGrantedAuthority(str));
-            }
-            return new DefaultUserDetails(user.getId(), userName, user.getPwd(), true, true, true, true, authorities, null);
+            return new DefaultUserDetails(user.getId(), userName, user.getPwd(), true, true, true, true, getGrantedAuthority(user.getAuthorities()), null);
         }
     });
 
+    /**
+     * 返回权限列表
+     * @param authorityStr
+     * @return
+     */
+    private List<GrantedAuthority> getGrantedAuthority(String authorityStr){
+        List<GrantedAuthority> authorities = new LinkedList<>();
+        String[] authArray = authorityStr.split(",");
+        authorities.add(new SimpleGrantedAuthority("login"));
+        for(String str : authArray) {
+            authorities.add(new SimpleGrantedAuthority(str));
+        }
+        return authorities;
+    }
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
         try {

@@ -29,7 +29,10 @@ public class ScoreService {
     @Resource
     private DefaultFilterChainBuilder defaultFilterChainBuilder;
 
-    //传入考试的ID, 以及分析册的ID 然后开始进行分析. 要用事务管理起来
+    /**
+     *
+     * 传入考试的ID, 以及分析册的ID 然后开始进行分析. 要用事务管理起来
+     */
     public void analyze(long examId, long templateId){
         //获取全部数据
         ScoreListPage page = new ScoreListPage();

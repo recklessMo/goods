@@ -6,6 +6,8 @@ import com.recklessmo.response.ResponseType;
 import com.recklessmo.service.user.UserService;
 import com.recklessmo.web.webmodel.page.UserPage;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +24,9 @@ public class UserController {
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private UserDetailsService userDetailsService;
 
     /**
      *
@@ -68,6 +73,7 @@ public class UserController {
     @RequestMapping(value = "/update", method = {RequestMethod.GET, RequestMethod.POST})
     public JsonResponse update(@RequestBody User user){
         try {
+
             userService.update(user);
         }catch(Exception e){
             return new JsonResponse(ResponseType.RESPONSE_UPDATE_USER_REPEAT, null, null);
