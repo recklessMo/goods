@@ -66,8 +66,6 @@
   "bower_components/fullcalendar/dist/fullcalendar.css",
   "bower_components/fullcalendar/dist/gcal.js",
   "bower_components/animate.css/animate.min.css",
-  "bower_components/ng-table/dist/ng-table.min.js",
-  "bower_components/ng-table/dist/ng-table.min.css",
   "bower_components/ng-table-export/ng-table-export.js",
   "bower_components/angular-bootstrap-nav-tree/dist/abn_tree_directive.js",
   "bower_components/angular-bootstrap-nav-tree/dist/abn_tree.css",

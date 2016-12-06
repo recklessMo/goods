@@ -1,5 +1,7 @@
 package com.recklessmo.model.user;
 
+import java.util.Date;
+
 /**
  * Created by hpf on 4/18/16.
  */
@@ -17,6 +19,16 @@ public class User {
     private int gender;
     private String job = "";
     private String authorities = "";
+    private Date created;
+
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
 
     public long getId() {
         return id;

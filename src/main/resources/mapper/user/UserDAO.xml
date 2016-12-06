@@ -43,7 +43,7 @@
 
     <insert id="addUser" parameterType = "com.recklessmo.model.user.User">
         insert into user(user_name, pwd, name, phone, email, gender, job, authorities, created)
-         values(#{userName}, #{pwd}, #{name}, #{phone}, #{email}, #{gender}, #{job}, #{authorities}, #{created})
+         values(#{userName}, #{pwd}, #{name}, #{phone}, #{email}, #{gender}, #{job}, #{authorities}, NOW())
     </insert>
 
     <update id="updateUser" parameterType = "com.recklessmo.model.user.User">

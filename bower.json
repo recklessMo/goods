@@ -74,7 +74,6 @@
     "angular-sanitize": "1.4.7",
     "angular-resource": "1.4.7",
     "angular-chosen-localytics": "1.0.7",
-    "ng-table": "0.8.3",
     "ng-table-export": "*",
     "simple-line-icons": "2.2.3",
     "angular-bootstrap-nav-tree": "*",

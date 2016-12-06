@@ -30,7 +30,7 @@
       .state('app', {
           url: '/app',
           templateUrl: helper.basepath('app.html'),
-          resolve: helper.resolveFor('fastclick', 'modernizr', 'ui.select', 'icons', 'screenfull', 'animo', 'sparklines', 'slimscroll', 'classyloader', 'toaster', 'whirl','ngTable', 'oitozero.ngSweetAlert', 'ngDialog')
+          resolve: helper.resolveFor('fastclick', 'modernizr', 'ui.select', 'icons', 'screenfull', 'animo', 'sparklines', 'slimscroll', 'classyloader', 'toaster', 'whirl', 'oitozero.ngSweetAlert', 'ngDialog')
       })
       .state('app.admission', {
           url: '/admission',
