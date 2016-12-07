@@ -47,10 +47,7 @@
         //后续需要加上排序以及过滤的一系列逻辑.
         $scope.showTables = function(){
             $scope.scoreListTableParams = new NgTableParams({}, {
-                counts: [100],
-                getData: function ($defer, params) {
-                    $defer.resolve($scope.scoreList);
-                }
+                dataset: $scope.scoreList
             });
         }
 

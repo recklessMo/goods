@@ -22,9 +22,7 @@
             $scope.flag.show = 1;
             $scope.scoreTotalTableParams = new NgTableParams({}, {
                 counts: [],
-                getData: function ($defer, params) {
-                    $defer.resolve($scope.scoreList);
-                }
+                dataset:$scope.scoreList
             });
         }
 
