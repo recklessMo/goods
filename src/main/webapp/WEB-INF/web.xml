@@ -24,7 +24,7 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
-	<!-- 加载每个servlet需要的配置文件 -->
+	<!-- 加载servlet需要的配置文件 -->
 	<servlet>
 		<servlet-name>entryServlet</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -53,7 +53,7 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
-	<!-- 配置spring security对应的filter-->
+	 <!--配置spring security对应的filter-->
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>

@@ -84,11 +84,15 @@
             title: '考试管理',
             templateUrl: helper.basepath('custom/performance/exam/exam.html')
         })
-        .state('app.analyze-score', {
-            url: '/analyze-score',
-            title: '成绩分析',
-            templateUrl: helper.basepath('custom/performance/score/analyze-result.html'),
-            resolve: helper.resolveFor('angularFileUpload', 'filestyle')
+        .state('app.result-list', {
+            url: '/result-list',
+            title: '成绩单',
+            templateUrl: helper.basepath('custom/performance/score/result-list.html')
+        })
+        .state('app.result-total', {
+            url: '/result-total',
+            title: '整体分析',
+            templateUrl: helper.basepath('custom/performance/score/result-total.html')
         })
         .state('app.analyze-template', {
             url: '/analyze-template',

@@ -6,7 +6,11 @@
     	http://www.springframework.org/schema/security	http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
 
-    <!--静态资源不做安全验证,因为登录页面是嵌入到这些静态页面里面的-->
+    <!--
+       静态资源不做安全验证
+       因为是单页面应用, 登录页面也需要使用这些js
+       security为none代表不使用spring security的过滤链
+    -->
     <http pattern="/static/**" security="none"/>
     <http pattern="/app/**" security="none"/>
     <http pattern="/vendor/**" security="none"/>
@@ -17,18 +21,66 @@
     <http pattern="/WEB-INF/jsp/**" security="none"/>
     <http pattern="/favicon.ico" security="none"/>
 
-    <http auto-config="true" use-expressions="true">
+    <!--
+    auto-config会自动加入三个配置
+    form-login
+    http-basic
+    logout
+    但是配置了form-login就会让http-basic失效
+    -->
+    <http create-session="stateless" auto-config="true" use-expressions="true" disable-url-rewriting="true">
         <form-login
                 login-page="/login#/page/login"
                 username-parameter="username"
                 password-parameter="password"/>
+
+        <!--配置登出-->
+        <logout delete-cookies="_edu" logout-url="/logout" logout-success-url="/login#/page/login"/>
+        <!--配置remember-->
+        <remember-me services-ref="rememberService"/>
+
     </http>
 
+    <!--
+     用于进行用户名和密码的验证
+     内部可以有多个provider
+    -->
     <authentication-manager alias="authenticationManager">
-        <authentication-provider user-service-ref="userDetailService">
+        <!--提供一个provider-->
+        <authentication-provider user-service-ref="eduUserDetailService">
+            <!--暂时先以明文进行保存-->
+            <password-encoder hash="plaintext"/>
         </authentication-provider>
+        <authentication-provider ref="rememberMeAuthenticationProvider"/>
     </authentication-manager>
 
-    <beans:bean id="userDetailService" class="com.recklessmo.service.security.UserDetailService"></beans:bean>
+    <!-- 用于提供用户加载的类 -->
+    <beans:bean id="eduUserDetailService" class="com.recklessmo.service.security.EduUserDetailService"/>
+
+    <!--用于定义authenticationEntryPoint, 提供给ExceptionTranslationFilter(通过http来加载)来使用-->
+    <beans:bean id="authenticationEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+        <beans:property name="loginFormUrl" value="/login#/page/login"/>
+    </beans:bean>
+
+    <!--用于定义accessDeniedHandler, 当访问了不存在的资源的时候使用, 提供给ExceptionTranslationFilter(通过http来加载)来使用-->
+    <beans:bean id="accessDeniedHandler" class="org.springframework.security.web.access.AccessDeniedHandlerImpl">
+        <beans:property name="errorPage" value="/login#/page/404"/>
+    </beans:bean>
+
+    <!--自定义tokenBasedRemembermeService的参数-->
+    <!--默认是记住密码, 过期时间三个月-->
+    <beans:bean id="rememberService" class="org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices">
+        <beans:property name="key" value="educationKey"/>
+        <beans:property name="cookieName" value="_edu"/>
+        <beans:property name="alwaysRemember" value="true"/>
+        <beans:property name="tokenValiditySeconds" value="7776000"/>
+        <beans:property name="userDetailsService" ref="eduUserDetailService"/>
+    </beans:bean>
+
+    <!-- 由于自定义了rememberservice, 所以还需要定义一个自定义的provider, 并且保持key一致, 否则验证不会通过 -->
+    <beans:bean id="rememberMeAuthenticationProvider" class="org.springframework.security.authentication.RememberMeAuthenticationProvider">
+        <beans:property name="key" value="educationKey"/>
+    </beans:bean>
+
 
 </beans:beans>

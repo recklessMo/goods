@@ -12,7 +12,11 @@
         //当前需要显示的部分
         $scope.scoreList = [];
         //班级的列表
-        $scope.classList = [{classId:0, className:"全年级"}];
+        $scope.classList = [
+            {classId:0, className:"全年级"},
+            {classId:-1, className: "文科"},
+            {classId:-2, className: "理科"}
+        ];
 
         $scope.activate = function() {
             var page = {page : 1, count: 100, gradeId:1};
