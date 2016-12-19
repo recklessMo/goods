@@ -10,7 +10,7 @@
         $scope.tableParams = {searchStr: null};
 
         $scope.activate = function() {
-            $scope.userTableParams = new NgTableParams($scope.tableParams, {
+            $scope.userTableParams = new NgTableParams({}, {
                 getData: function (params) {
                     blockUI.start();
                     return AccountService.loadUsers({page: params.page(), count: params.count(), searchStr: $scope.tableParams.searchStr}).then(function (data) {

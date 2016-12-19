@@ -13,18 +13,21 @@
         };
 
         $scope.activate = function() {
-            $scope.gradeTableParams = new NgTableParams($scope.tableParams, {
-                getData: function($defer, params){
+            $scope.gradeTableParams = new NgTableParams({}, {
+                getData: function(params){
                     blockUI.start();
-                    SettingService.listGrade(params.parameters()).success(function(data){
-                        if(data.status == 200){
-                            $defer.resolve(data.data);
-                            params.total(data.totalCount);
+                    return SettingService.listGrade({page: params.page(), count: params.count()}).then(function(data){
+                        blockUI.stop();
+                        var result = data.data;
+                        if(result.status == 200){
+                            params.total(result.totalCount);
+                            return result.data;
+                        }else{
+                            SweetAlert.error("服务器内部错误, 请联系客服!");
                         }
+                    }, function(){
                         blockUI.stop();
-                    }).error(function(){
-                        SweetAlert.error("网络异常, 请稍后重试!");
-                        blockUI.stop();
+                        SweetAlert.error("网络问题, 请稍后重试!");
                     });
                 }
             })

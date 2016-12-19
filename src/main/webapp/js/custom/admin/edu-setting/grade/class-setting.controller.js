@@ -15,16 +15,19 @@
         $scope.tableParams.gradeId = $scope.ngDialogData.gradeId;
 
         $scope.activate = function() {
-            $scope.classTableParams = new NgTableParams($scope.tableParams, {
-                getData: function($defer, params){
+            $scope.classTableParams = new NgTableParams({}, {
+                getData: function(params){
                     blockUI.start();
-                    SettingService.listClass(params.parameters()).success(function(data){
-                        if(data.status == 200){
-                            $defer.resolve(data.data);
-                            params.total(data.totalCount);
-                        }
+                    SettingService.listClass({page: params.page(), count: params.count(), gradeId:$scope.tableParams.gradeId}).then(function(data){
+                        var result = data.data;
                         blockUI.stop();
-                    }).error(function(){
+                        if(result.status == 200){
+                            params.total(result.totalCount);
+                            return result.data;
+                        }else{
+                            SweetAlert.error("服务器内部错误, 请联系客服!");
+                        }
+                    }, function(){
                         SweetAlert.error("网络异常, 请稍后重试!");
                         blockUI.stop();
                     });
