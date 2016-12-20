@@ -16,7 +16,7 @@
             $scope.yearTableParams = new NgTableParams({}, {
                 getData: function(params){
                     blockUI.start();
-                    SettingService.listYear({page:params.page(), count:params.count()}).then(function(data){
+                    return SettingService.listYear({page:params.page(), count:params.count()}).then(function(data){
                         blockUI.stop();
                         var result = data.data;
                         if(result.status == 200){

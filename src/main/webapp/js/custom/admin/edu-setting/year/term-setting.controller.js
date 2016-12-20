@@ -18,7 +18,7 @@
             $scope.termTableParams = new NgTableParams({}, {
                 getData: function(params){
                     blockUI.start();
-                    SettingService.listTerm({page:params.page(), count:params.count()}).then(function(data){
+                    return SettingService.listTerm({page:params.page(), count:params.count()}).then(function(data){
                         blockUI.stop();
                         var result = data.data;
                         if(result.status == 200){

@@ -42,19 +42,21 @@
 
 
         $scope.search = function() {
-            $scope.studentTableParams = new NgTableParams($scope.tableParams, {
+            $scope.studentTableParams = new NgTableParams({}, {
                 counts: [],
-                getData: function ($defer, params) {
+                getData: function (params) {
                     blockUI.start();
-                    StudentService.searchStudent(params.parameters()).success(function (data) {
+                    return StudentService.searchStudent({page:params.page(), count:12}).then(function (data) {
+                        var result = data.data;
+                        blockUI.stop();
                         if (data.status == 200) {
-                            params.total(data.totalCount);
-                            $scope.obj.totalCount = data.totalCount;
-                            console.log(data);
-                            $defer.resolve(data.data);
-                            blockUI.stop();
+                            params.total(result.totalCount);
+                            $scope.obj.totalCount = result.totalCount;
+                            return result.data;
+                        }else{
+                            SweetAlert.error("服务器内部错误, 请联系客服!");
                         }
-                    }).error(function () {
+                    }, function () {
                         SweetAlert.error("网络问题,请稍后重试!");
                         blockUI.stop();
                     });

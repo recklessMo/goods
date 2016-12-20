@@ -16,7 +16,7 @@
             $scope.courseTableParams = new NgTableParams({}, {
                 getData: function(params){
                     blockUI.start();
-                    SettingService.listCourse({page:params.page(), count:params.count()}).then(function(data){
+                    return SettingService.listCourse({page:params.page(), count:params.count()}).then(function(data){
                         blockUI.stop();
                         var result = data.data;
                         if(result.status == 200){

@@ -18,9 +18,9 @@
             $scope.classTableParams = new NgTableParams({}, {
                 getData: function(params){
                     blockUI.start();
-                    SettingService.listClass({page: params.page(), count: params.count(), gradeId:$scope.tableParams.gradeId}).then(function(data){
-                        var result = data.data;
+                    return SettingService.listClass({page: params.page(), count: params.count(), gradeId:$scope.tableParams.gradeId}).then(function(data){
                         blockUI.stop();
+                        var result = data.data;
                         if(result.status == 200){
                             params.total(result.totalCount);
                             return result.data;
