@@ -12,4 +12,6 @@ public interface ExamDAO {
 
     List<Exam> listExam(Page page);
 
+    int listExamCount(Page page);
+
 }

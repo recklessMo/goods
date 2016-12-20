@@ -5,8 +5,9 @@ package com.recklessmo.web.webmodel.page;
  */
 public class Page {
 
-    private int page;
-    private int count;
+    private int page = 1;
+    //限定一个默认值, 即使没有传,也要限制,不能一次性拉太多.
+    private int count = 10000;
     private long orgId;
     private String searchStr;
 

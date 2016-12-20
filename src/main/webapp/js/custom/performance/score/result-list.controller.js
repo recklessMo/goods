@@ -18,6 +18,8 @@
             {classId:-2, className: "理科"}
         ];
 
+        $scope.cidList = [{id:1, title:'1班'},{id:2, title:'2班'}];
+
         $scope.activate = function() {
             var page = {page : 1, count: 100, gradeId:1};
             DicService.loadClassByGrade(page).success(function(data){

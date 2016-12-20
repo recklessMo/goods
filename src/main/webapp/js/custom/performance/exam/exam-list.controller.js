@@ -2,10 +2,10 @@
     'use strict';
     angular
         .module('custom')
-        .controller('ExamController', ExamController);
-    ExamController.$inject = ['$scope', 'ExamService', 'SweetAlert', 'NgTableParams', 'ngDialog', 'blockUI', 'Notify'];
+        .controller('ExamListController', ExamListController);
+    ExamListController.$inject = ['$scope', 'ExamService', 'SweetAlert', 'NgTableParams', 'ngDialog', 'blockUI', 'Notify'];
 
-    function ExamController($scope, ExamService, SweetAlert, NgTableParams, ngDialog, blockUI, Notify) {
+    function ExamListController($scope, ExamService, SweetAlert, NgTableParams, ngDialog, blockUI, Notify) {
 
         $scope.tableParams = {page : 1, count : 10, searchStr: null};
 

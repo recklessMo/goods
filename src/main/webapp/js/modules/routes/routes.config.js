@@ -82,7 +82,7 @@
         .state('app.exam', {
             url: '/exam',
             title: '考试管理',
-            templateUrl: helper.basepath('custom/performance/exam/exam.html')
+            templateUrl: helper.basepath('custom/performance/exam/exam-list.html')
         })
         .state('app.result-list', {
             url: '/result-list',

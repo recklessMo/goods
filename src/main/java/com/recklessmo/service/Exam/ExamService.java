@@ -1,4 +1,4 @@
-package com.recklessmo.service.Exam;
+package com.recklessmo.service.exam;
 
 import com.recklessmo.dao.exam.ExamDAO;
 import com.recklessmo.model.exam.Exam;
@@ -21,5 +21,8 @@ public class ExamService {
         return examDAO.listExam(page);
     }
 
+    public int listExamCount(Page page){
+        return examDAO.listExamCount(page);
+    }
 
 }

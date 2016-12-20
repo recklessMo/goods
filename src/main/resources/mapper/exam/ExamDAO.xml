@@ -4,14 +4,25 @@
 <mapper namespace="com.recklessmo.dao.exam.ExamDAO">
 
     <sql id = "examColumns">
-        exam_id, exam_name, grade_id, status
+        exam_id, exam_name, grade_id, class_id, type, upload_status
     </sql>
 
     <select id="listExam" resultType="com.recklessmo.model.exam.Exam">
       select
       <include refid="examColumns"/>
       from exam
+      <if test="null != searchStr and '' != searchStr">
+        where exam_name like "%"#{searchStr}"%"
+      </if>
       limit #{startIndex}, #{count}
+    </select>
+
+    <select id="listExamCount" resultType="java.lang.Integer">
+        select count(1)
+        from exam
+        <if test="null != searchStr and '' != searchStr">
+            where exam_name like "%"#{searchStr}"%"
+        </if>
     </select>
 
 

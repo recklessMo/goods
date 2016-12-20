@@ -1,20 +1,24 @@
 package com.recklessmo.model.exam;
 
+import java.util.Date;
+
 /**
  * Created by hpf on 8/29/16.
  */
 public class Exam {
 
-    public static final int EXAM_INIT = 0;
-    public static final int EXAM_ANALYZED = 1;
-    public static final int EXAM_RE_ANALYZED = 2;
-
     private long examId;
+    //考试名称
     private String examName;
+    //所属年级
     private long gradeId;
-    //代表考试的分析状态
-    private int status;
-
+    //所属班级
+    //为0代表所有班级
+    private long classId;
+    //考试类型, 小考,周考,月考,期中考,期末考
+    private int type;
+    //代表考试成绩的上传状态
+    private int uploadStatus;
 
     public long getExamId() {
         return examId;
@@ -40,11 +44,27 @@ public class Exam {
         this.gradeId = gradeId;
     }
 
-    public int getStatus() {
-        return status;
+    public long getClassId() {
+        return classId;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setClassId(long classId) {
+        this.classId = classId;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public int getUploadStatus() {
+        return uploadStatus;
+    }
+
+    public void setUploadStatus(int uploadStatus) {
+        this.uploadStatus = uploadStatus;
     }
 }
