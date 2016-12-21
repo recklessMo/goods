@@ -115,7 +115,8 @@
     "lodash": "^4.13.1",
     "angular-ui-sortable": "0.14.3",
     "ngQuickDate": "^1.3.4",
-    "angular-daterangepicker": "^0.2.2"
+    "angular-daterangepicker": "^0.2.2",
+    "angucomplete-alt": "^2.5.0"
   },
   "resolutions": {
     "angular": "1.4.7",

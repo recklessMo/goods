@@ -34,5 +34,6 @@
   "bower_components/angular-ladda/dist/angular-ladda.js",
   "bower_components/lodash/dist/lodash.min.js",
   "node_modules/echarts/dist/echarts.min.js",
-  "node_modules/ng-table/bundles/ng-table.min.js"
+  "node_modules/ng-table/bundles/ng-table.min.js",
+  "bower_components/angucomplete-alt/dist/angucomplete-alt.min.js"
 ]

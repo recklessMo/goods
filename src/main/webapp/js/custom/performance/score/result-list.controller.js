@@ -18,6 +18,10 @@
             {classId:-2, className: "理科"}
         ];
 
+        $scope.remoteUrlRequestFn = function(str){
+            return {str: str};
+        }
+
         $scope.cidList = [{id:1, title:'1班'},{id:2, title:'2班'}];
 
         $scope.activate = function() {
