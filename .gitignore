@@ -6,4 +6,5 @@
 /src/main/webapp/vendor
 /out
 /.idea
+/.gradle
 /target

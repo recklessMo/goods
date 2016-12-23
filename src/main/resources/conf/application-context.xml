@@ -19,17 +19,15 @@
     </bean>
 
     <!--数据源,目前使用简单配置-->
-    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
-        <property name="driverClass" value="${driver}" />
+    <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource">
         <property name="jdbcUrl" value="${url}"/>
-        <property name="user" value="${user}"/>
+        <property name="username" value="${user}"/>
         <property name="password" value="${password}"/>
         <!--以前没加下面这几个配置的时候会偶尔报错-->
-        <property name="initialPoolSize" value="${initialPoolSize}"/>
-        <property name="minPoolSize" value="${minPoolSize}"/>
-        <property name="maxPoolSize" value="${maxPoolSize}"/>
-        <property name="maxIdleTime" value="${maxIdleTime}"/>
-        <property name="acquireIncrement" value="${acquireIncrement}"/>
+        <property name="autoCommit" value="true"/>
+        <property name="maximumPoolSize" value="10"/>
+        <property name="connectionTimeout" value="30000"/>
+        <property name="idleTimeout" value="600000"/>
     </bean>
 
     <!--  配置mybatis sqlsessionfactory -->
