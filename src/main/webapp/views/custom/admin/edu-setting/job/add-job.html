@@ -1,0 +1,41 @@
+<div block-ui="add-job" class="container-fluid">
+
+    <fieldset>
+        <div class="row">
+            <div class="col-md-12">
+                <h5 style="margin-top: 0;">
+                    <span class="icon-user"/>
+                    添加职位
+                </h5>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <label class="text-info">
+                    <span>I 基本属性  (红色为必填)</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 30px;">
+            <div class="col-md-12">
+                <div class="input-group">
+                    <span class="input-group-addon" style="color:red">年级名称</span>
+                    <input ng-class="!user.userName?'field-dirty' : ''" type="text" class="form-control" ng-model="job.jobName"/>
+                </div>
+            </div>
+
+        </div>
+    </fieldset>
+
+
+    <div class="row" style="text-align: center;margin-top:50px;">
+        <div class="col-md-12" style="text-align: center;">
+            <button data-style="expand-left" ladda="loading" class="btn btn-primary" ng-click="save(job)">保存</button>
+            <button class="btn btn-primary" ng-click="closeThisDialog('cancel')">取消</button>
+        </div>
+    </div>
+
+</div>
+

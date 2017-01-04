@@ -35,6 +35,38 @@
         this.updateCourse = updateCourse;
         this.listCourse = listCourse;
 
+        //职业设置
+        this.listJob = listJob;
+        this.addJob = addJob;
+        this.deleteJob = deleteJob;
+
+        function listJob(data){
+            return $http({
+                method: "POST",
+                url: "/v1/setting/job/list",
+                data: data,
+                timeout: 5000
+            });
+        }
+
+        function addJob(data){
+            return $http({
+                method: "POST",
+                url: "/v1/setting/job/add",
+                data: data,
+                timeout: 5000
+            });
+        }
+
+        function deleteJob(id){
+            return $http({
+                method: "POST",
+                url: "/v1/setting/job/delete",
+                data: id,
+                timeout: 5000
+            });
+        }
+
 
         function addGrade(data){
             return $http({
@@ -44,6 +76,7 @@
                 timeout: 5000
             });
         }
+
 
         function addClass(data){
             return $http({

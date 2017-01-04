@@ -1,0 +1,25 @@
+<div ng-controller="JobSettingController" style="background: #fff;overflow: auto;height:100%;padding: 15px;">
+    <div class="row">
+        <div class="col-md-3 pull-left">
+            <button class="btn btn-info" ng-click="addJob()">
+                添加新的职业
+            </button>
+            <button class="btn btn-info" ng-click="activate()">
+                刷新
+            </button>
+        </div>
+    </div>
+
+    <div style="margin-top: 20px;">
+        <table ng-table="jobTableParams" class="table table-bordered table-hover table-condensed editable-table table-min" style="border:1px solid #eeeeee;">
+            <tr ng-repeat="item in $data" ng-dblclick="showClass(item.gradeId)">
+                <td data-title="'序号'" style="text-align: center;width: 10%;">{{item.jobId}}</td>
+                <td data-title="'职位名称'" style="text-align: center;width:15%;">{{item.jobName}}</td>
+                <td data-title="'操作'" style="text-align: center;width:45%;">
+                    <button class="btn btn-danger" ng-click="deleteJob(item.jobId)">删除</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</div>
