@@ -23,11 +23,10 @@
         <property name="jdbcUrl" value="${url}"/>
         <property name="username" value="${user}"/>
         <property name="password" value="${password}"/>
-        <!--以前没加下面这几个配置的时候会偶尔报错-->
         <property name="autoCommit" value="true"/>
         <property name="maximumPoolSize" value="10"/>
         <property name="connectionTimeout" value="600000"/>
-        <property name="idleTimeout" value="600000"/>
+        <property name="idleTimeout" value="6000000"/>
     </bean>
 
     <!--  配置mybatis sqlsessionfactory -->

@@ -22,8 +22,13 @@
             return {str: str};
         }
 
-        //控制左边栏参数填写
 
+
+
+        //控制左边栏参数填写
+        $scope.openTemplateDialog = function(){
+
+        }
 
 
         //开始分析
@@ -32,7 +37,18 @@
         $scope.classId = 0;
         $scope.tableParams = {examId: 0, page: 1, count : 10000};
         $scope.startAnalyse = function() {
-            //首先获取数据, 只加载一遍.
+            //判断模板是否选择, 以及考试是否选择
+            if(angular.isUndefined($scope.selectedExam)){
+                SweetAlert.error("请选择考试!");
+                return;
+            }
+
+            if(angular.isUndefined($scope.template)){
+                SweetAlert.error("请选择模板!")
+                return;
+            }
+
+            //both are ok , so we proceed .首先获取数据, 只加载一遍.
             $scope.resultList = [];
             if (!$scope.flag.load) {
                 blockUI.start();
