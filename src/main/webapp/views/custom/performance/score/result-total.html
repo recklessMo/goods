@@ -2,22 +2,79 @@
     <div class="row" style="height: 100%;margin-left:0px;">
         <!--用于显示考试列表的panel-->
         <div class="col-xs-3" ng-show="showLeftWindow" style="height: 100%;padding-right:0px;padding-left:0px;">
-            <div class="panel" style="height:100%;box-shadow: 0 0 1px;">
+            <!--选择考试-->
+            <div class="panel" style="height:100%;box-shadow: 0 0 1px;overflow:auto;">
                 <div class="title">
                     <span>考试列表</span>
                 </div>
                 <div style="width: 100%;">
-                   <input class="form-control" placeholder="搜索考试列表"/>
+                    <div angucomplete-alt
+                         style="padding:2px 10px;"
+                         id="searchExam"
+                         placeholder="搜索考试"
+                         pause="300"
+                         selected-object="selectedProject"
+                         remote-url="/v1/exam/search"
+                         remote-url-request-formatter="remoteUrlRequestFn"
+                         remote-url-data-field="data"
+                         title-field="examName"
+                         description-field="examName"
+                         input-class="form-control form-control-small"
+                         text-searching="搜索中"
+                         text-no-results="没有结果"
+                         minlength="1"
+                         match-class="highlight">
+                    </div>
+                </div>
+
+                <!--分析模板-->
+                <div class="title">
+                    <span>分析模板</span>
+                </div>
+
+                <div style="padding:2px 10px;" class="form-inline">
+                    <input class="form-control" placeholder="选择分析模版" style="width: calc(100% - 70px);" ng-disabled="1"/>
+                    <button class="btn btn-info">选择</button>
+                </div>
+
+                <div style="padding:20px 10px;">
+                    <button class="btn btn-info" style="width: 100%;" ng-click="startAnalyse()">
+                        开始分析
+                    </button>
+                </div>
+
+
+                <!--分析历史-->
+                <hr/>
+                <div class="title">
+                    <span>分析历史</span>
+                </div>
+
+                <div>
+                    <table ng-table="historyTableParams" class="table table-condensed table-bordered table-striped" style="border: 1px solid #eeeeee;">
+                        <tr ng-repeat="row in $data" ng-dblclick="" style="text-align: center;">
+                            <td data-title="'模板名称'">{{row.gender}}</td>
+                            <td data-title="'操作'">
+                                <a class="" ng-click="">查看结果</a>
+                            </td>
+                        </tr>
+                        <tfoot ng-if="!$data || $data.length<1">
+                        <tr>
+                            <td colspan="5" style="text-align: center;"> 无历史分析数据 </td>
+                        </tr>
+                        </tfoot>
+                    </table>
                 </div>
 
             </div>
+
         </div>
         <!--显示一个箭头-->
-        <div ng-click="showOrHideLeftWindow()" style="height:100%;width: 15px;z-index:100;" class="arrow-button">
+        <div ng-click="showOrHideLeftWindow()" style="height:94%;width: 16px;z-index:100;" class="arrow-button">
             <i class="fa"  style="font-size: 1.5em" ng-class="showLeftWindow?'fa-angle-double-left':'fa-angle-double-right'"></i>
         </div>
         <!--用于显示右端的分析数据-->
-        <div ng-class="showLeftWindow ? 'col-xs-9' : 'col-xs-12'" style="height: 100%;z-index:50;">
+        <div ng-class="showLeftWindow ? 'col-xs-9' : 'col-xs-12'" style="height:100%;z-index:50;">
             <div class="panel" style="height: 100%;">
 
                 <!--顶层选项-->

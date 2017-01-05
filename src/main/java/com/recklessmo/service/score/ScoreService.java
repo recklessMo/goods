@@ -110,6 +110,7 @@ public class ScoreService {
 
     public List<Score> loadScoreList(ScoreListPage page){
         List<Score> scoreList = scoreDAO.getList(page);
+        //处理一下,处理成标准的可以自定义科目的结果
         return scoreList;
     }
 
