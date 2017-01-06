@@ -4,6 +4,8 @@ import com.recklessmo.manage.menu.MenuManager;
 import com.recklessmo.model.security.DefaultUserDetails;
 import com.recklessmo.response.JsonResponse;
 import com.recklessmo.util.ContextUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class MenuController {
 
+    private static Log logger = LogFactory.getLog(MenuController.class);
 
     /**
      *
