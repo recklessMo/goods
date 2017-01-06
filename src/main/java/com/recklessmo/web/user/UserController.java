@@ -3,6 +3,7 @@ package com.recklessmo.web.user;
 import com.recklessmo.model.user.User;
 import com.recklessmo.response.JsonResponse;
 import com.recklessmo.response.ResponseType;
+import com.recklessmo.service.security.EduUserDetailService;
 import com.recklessmo.service.user.UserService;
 import com.recklessmo.web.webmodel.page.UserPage;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -73,8 +74,9 @@ public class UserController {
     @RequestMapping(value = "/update", method = {RequestMethod.GET, RequestMethod.POST})
     public JsonResponse update(@RequestBody User user){
         try {
-
             userService.update(user);
+            //删除缓存里面的用户信息, 目前这样只适合单机,多机器的时候,用户缓存最好放在redis里面
+            ((EduUserDetailService)userDetailsService).reloadUserByUserName(user.getUserName());
         }catch(Exception e){
             return new JsonResponse(ResponseType.RESPONSE_UPDATE_USER_REPEAT, null, null);
         }
