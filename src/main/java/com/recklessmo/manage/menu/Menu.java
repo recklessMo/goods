@@ -18,16 +18,22 @@ public class Menu{
 
             new Menu(101, "教务站", "学生查询", "icon-people", "app.student-view-worktable"),
             new Menu(102, "教务站", "学生录入", "icon-user-follow", "app.student-add-worktable"),
+
             new Menu(201, "成绩站", "考试设置", "icon-plus", "app.exam"),
 //            new Menu(202, "成绩站", "分析模版", "icon-plus", "app.analyze-template"),
             new Menu(203, "成绩站", "成绩单", "icon-plus", "app.result-list"),
             new Menu(204, "成绩站", "整体分析", "icon-plus", "app.result-total"),
+            new Menu(205, "成绩站", "分数段分析", "icon-plus", "app.result-gap"),
+
             new Menu(301, "统计站", "财务统计", "icon-wallet", "app.payStat"),
             new Menu(302, "统计站", "学生统计", "icon-wallet", "app.payStat"),
+
             new Menu(401, "库存站", "物资", "icon-plus", "app.item"),
             new Menu(402, "库存站", "出入库", "icon-check", "app.stock-worktable"),
+
             new Menu(501, "管理站", "帐号管理", "icon-user-female", "app.account"),
             new Menu(502, "管理站", "教务设置", "icon-wrench", "app.edu-setting"),
+
             new Menu(601, "个人中心", "我的课表", "icon-info", "app.todo"),
             new Menu(602, "个人中心", "日历提醒", "icon-info", "app.account"),
     };

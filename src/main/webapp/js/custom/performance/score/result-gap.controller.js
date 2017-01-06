@@ -2,10 +2,10 @@
     'use strict';
     angular
         .module('custom')
-        .controller('ResultTotalController', ResultTotalController);
-    ResultTotalController.$inject = ['$scope', 'ScoreService', 'SweetAlert', 'NgTableParams', 'ngDialog', 'blockUI', 'Notify'];
+        .controller('ResultGapController', ResultGapController);
+    ResultGapController.$inject = ['$scope', 'ScoreService', 'SweetAlert', 'NgTableParams', 'ngDialog', 'blockUI', 'Notify'];
 
-    function ResultTotalController($scope, ScoreService, SweetAlert, NgTableParams, ngDialog, blockUI, Notify) {
+    function ResultGapController($scope, ScoreService, SweetAlert, NgTableParams, ngDialog, blockUI, Notify) {
 
         $scope.courseList = [];
         $scope.scoreList = [];
@@ -23,12 +23,14 @@
         }
 
         //控制右上角的班级列表, 文科班,理科班,单独班级,全年级等可以一起进行分析
-        //$scope.classList = [];
+        $scope.classList = [];
 
 
 
         //控制左边栏参数填写
+        $scope.templateParmas = {};
         $scope.openTemplateDialog = function(){
+            //打开对话框去选择对应的template,然后返回数据
 
         }
 
@@ -92,7 +94,7 @@
                 single.totalCount = item.totalCount();
                 single.max = item.max();
                 single.min = item.min();
-                var result = item.scoreGap(100,80,70, 60);
+                var result = item.scoreGap(100, 80, 70, 60);
                 single.full = result.full;
                 single.best = result.best;
                 single.good = result.good;

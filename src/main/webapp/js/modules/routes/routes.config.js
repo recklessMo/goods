@@ -94,6 +94,11 @@
             title: '整体分析',
             templateUrl: helper.basepath('custom/performance/score/result-total.html')
         })
+        .state('app.result-gap', {
+            url: '/result-gap',
+            title: '分数段分析',
+            templateUrl: helper.basepath('custom/performance/score/result-gap.html')
+        })
         .state('app.analyze-template', {
             url: '/analyze-template',
             title: '分析模版',
