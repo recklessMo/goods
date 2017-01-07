@@ -7,6 +7,7 @@
 
     function ResultTotalController($scope, ScoreService, SweetAlert, NgTableParams, ngDialog, blockUI, Notify) {
 
+        //data
         $scope.courseList = [];
         $scope.scoreList = [];
 
@@ -28,8 +29,24 @@
 
 
         //控制左边栏参数填写
-        $scope.openTemplateDialog = function(){
 
+        //加载默认模板
+
+
+        $scope.params = {};
+        $scope.openTemplateDialog = function(type){
+            var dialog= ngDialog.open({
+                template: 'app/views/custom/performance/template/template-list.html',
+                controller: 'TemplateListController',
+                className: 'ngdialog-theme-default max-dialog',
+                data : {type:type}
+            });
+            dialog.closePromise.then(function(data){
+                if(!data.value.status){
+                    return;
+                }
+                $scope.params = data.value.value;
+            });
         }
 
 
@@ -45,7 +62,7 @@
                 return;
             }
 
-            if(angular.isUndefined($scope.template)){
+            if(angular.isUndefined($scope.params.name)){
                 SweetAlert.error("请选择模板!")
                 return;
             }
@@ -59,7 +76,6 @@
                     if (data.status == 200) {
                         $scope.scoreResultFromServer = data.data;
                         $scope.flag.load = true;
-
                         //默认为全部. 右上角提供的可以进行筛选
                         $scope.courseList = $scope.scoreResultFromServer.courseList;
                         $scope.scoreList = $scope.scoreResultFromServer.scoreList;

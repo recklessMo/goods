@@ -6,6 +6,8 @@ import com.recklessmo.model.score.inner.CourseTotalSetting;
 import com.recklessmo.model.setting.Course;
 import javafx.beans.binding.ObjectExpression;
 
+import java.util.Date;
+
 /**
  * Created by hpf on 9/30/16.
  */
@@ -16,7 +18,12 @@ public class ScoreTemplate {
      */
     private long id;
     private String name = "default";
+    //代表是哪种分析的模板
+    private int type = 0;
     private String detail;
+
+    private Date created;
+    private Date updated;
 
     /**
      * 转换方法
@@ -72,5 +79,29 @@ public class ScoreTemplate {
 
     public void setCourseTotalSetting(CourseTotalSetting courseTotalSetting) {
         this.courseTotalSetting = courseTotalSetting;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public Date getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(Date updated) {
+        this.updated = updated;
     }
 }

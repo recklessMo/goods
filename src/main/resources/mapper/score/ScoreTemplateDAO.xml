@@ -4,7 +4,7 @@
 <mapper namespace="com.recklessmo.dao.score.ScoreTemplateDAO">
 
     <sql id = "columns">
-        id, name, detail
+        id, name, type, detail, created, updated
     </sql>
 
     <select id="getById" resultType="com.recklessmo.model.score.ScoreTemplate">
@@ -15,8 +15,8 @@
     </select>
 
     <insert id="addTemplate" parameterType="com.recklessmo.model.score.ScoreTemplate">
-        insert into score_template(name, detail)
-        values(#{name}, #{detail})
+        insert into score_template(name, detail, created, type)
+        values(#{name}, #{detail}, now(), #{type})
         <selectKey keyProperty="id" resultType="long">
             <![CDATA[SELECT LAST_INSERT_ID() AS id ]]>
         </selectKey>

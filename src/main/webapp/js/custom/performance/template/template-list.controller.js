@@ -10,17 +10,19 @@
         $scope.tableParams = {page : 1, count : 10, searchStr: null};
 
         $scope.activate = function() {
-            $scope.templateTableParams = new NgTableParams($scope.tableParams, {
-                getData: function ($defer, params) {
+            $scope.templateTableParams = new NgTableParams({}, {
+                getData: function (params) {
                     blockUI.start();
-                    TemplateService.loadTemplates(params.parameters()).success(function (data) {
-                        if (data.status == 200) {
-                            params.total(data.totalCount);
-                            console.log(data);
-                            $defer.resolve(data.data);
-                            blockUI.stop();
+                    return TemplateService.loadTemplates({page:params.page(), count:params.count()}).then(function (data) {
+                        blockUI.stop();
+                        var result = data.data;
+                        if (result.status == 200) {
+                            params.total(result.totalCount);
+                            return result.data;
+                        }else{
+                            SweetAlert.error("服务器内部错误, 请联系客服!");
                         }
-                    }).error(function () {
+                    }, function () {
                         SweetAlert.error("网络问题,请稍后重试!");
                         blockUI.stop();
                     });
@@ -89,6 +91,12 @@
                 }
                 $scope.templateTableParams.reload();
             });
+        }
+
+        //使用模板
+        $scope.use = function(item){
+            var result = {status:1 , value: item};
+            $scope.closeThisDialog(result);
         }
 
 
