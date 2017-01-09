@@ -52,16 +52,17 @@
         $scope.examId = 0;
         $scope.classId = 0;
         $scope.startAnalyse = function() {
+            //todo 测试的时候先不管这些
             //判断模板是否选择, 以及考试是否选择
-            if(angular.isUndefined($scope.selectedExam)){
-                SweetAlert.error("请选择考试!");
-                return;
-            }
-
-            if(angular.isUndefined($scope.template)){
-                SweetAlert.error("请选择模板!")
-                return;
-            }
+            //if(angular.isUndefined($scope.selectedExam)){
+            //    SweetAlert.error("请选择考试!");
+            //    return;
+            //}
+            //
+            //if(angular.isUndefined($scope.template)){
+            //    SweetAlert.error("请选择模板!")
+            //    return;
+            //}
 
             //both are ok , so we proceed .首先获取数据, 只加载一遍.
             blockUI.start();

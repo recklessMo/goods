@@ -3,10 +3,10 @@ package com.recklessmo.web.score;
 import com.recklessmo.model.score.CourseScore;
 import com.recklessmo.model.score.NewScore;
 import com.recklessmo.model.score.Score;
-import com.recklessmo.model.score.result.CourseTotal;
 import com.recklessmo.model.score.result.CourseGap;
 import com.recklessmo.model.score.result.ScoreGap;
 import com.recklessmo.response.JsonResponse;
+import com.recklessmo.service.score.ScoreAnalyseService;
 import com.recklessmo.service.score.ScoreService;
 import com.recklessmo.util.score.ScoreUtils;
 import com.recklessmo.web.webmodel.page.ScoreListPage;
@@ -26,13 +26,25 @@ public class ScoreAnalyseController {
     @Resource
     private ScoreService scoreService;
 
+    @Resource
+    private ScoreAnalyseService scoreAnalyseService;
 
     /**
-     * 整体分析
-     * */
+     *
+     * 整体分析结果
+     *
+     * pre: score进行缓存
+     *
+     * type代表
+     *
+     * @param examId 考试Id
+     * @param type  分析的维度, 班级维度或者学科维度
+     * @param templateId 模板的ID
+     * @return
+     */
     @RequestMapping(value = "/total", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public JsonResponse analyzeTotal(@RequestParam("examId")long examId, @RequestParam("classId")long classId){
+    public JsonResponse analyzeTotal(@RequestParam("examId")long examId, @RequestParam("type")int type, @RequestParam("templateId")long templateId){
         ScoreListPage page = new ScoreListPage();
         page.setExamId(examId);
         page.setPage(1);
@@ -41,40 +53,8 @@ public class ScoreAnalyseController {
         //根据classId获取全部的数据
         List<NewScore> newScores = ScoreUtils.changeScoreToNewScore(scoreList);
         //开始进行整体分析
-        Map<String, CourseTotal> result = new HashMap<>();
-        for(NewScore newScore : newScores) {
-            for (CourseScore courseScore : newScore.getCourseScoreList()) {
-                CourseTotal courseTotal = result.get(courseScore.getName());
-                if (courseTotal == null) {
-                    courseTotal = new CourseTotal();
-                    courseTotal.setName(courseScore.getName());
-                    result.put(courseScore.getName(), courseTotal);
-                }
-                if(courseScore.getScore() >= 60) {
-                    courseTotal.setQualified(courseTotal.getQualified() + 1);
-                }
-                if(courseScore.getScore() >= 80) {
-                    courseTotal.setGood(courseTotal.getGood() + 1);
-                }
-                if(courseScore.getScore() >= 90){
-                    courseTotal.setBest(courseTotal.getBest() + 1);
-                }
-                if(courseScore.getScore() >= 100) {
-                    courseTotal.setFull(courseTotal.getFull() + 1);
-                }
-                //总人数
-                courseTotal.setTotalCount(courseTotal.getTotalCount() + 1);
-                //最高分
-                if(courseScore.getScore() > courseTotal.getMax()){
-                    courseTotal.setMax(courseScore.getScore());
-                }
-                //最低分
-                if(courseScore.getScore() < courseTotal.getMin()){
-                    courseTotal.setMin(courseScore.getScore());
-                }
-            }
-        }
-        return new JsonResponse(200, result.values(), null);
+        Object result = scoreAnalyseService.analyseTotal(newScores, type, templateId);
+        return new JsonResponse(200, result, null);
     }
 
     @RequestMapping(value = "/gap", method = {RequestMethod.GET, RequestMethod.POST})

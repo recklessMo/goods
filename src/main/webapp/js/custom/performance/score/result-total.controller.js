@@ -48,24 +48,24 @@
 
 
         //开始分析
-        $scope.flag = {show : 1};
+        $scope.flag = {show : 1, type:1};
         $scope.examId = 0;
         $scope.classId = 0;
         $scope.startAnalyse = function() {
             //判断模板是否选择, 以及考试是否选择
-            if(angular.isUndefined($scope.selectedExam)){
-                SweetAlert.error("请选择考试!");
-                return;
-            }
-
-            if(angular.isUndefined($scope.template)){
-                SweetAlert.error("请选择模板!")
-                return;
-            }
+            //if(angular.isUndefined($scope.selectedExam)){
+            //    SweetAlert.error("请选择考试!");
+            //    return;
+            //}
+            //
+            //if(angular.isUndefined($scope.template)){
+            //    SweetAlert.error("请选择模板!")
+            //    return;
+            //}
 
             //both are ok , so we proceed .首先获取数据, 只加载一遍.
             blockUI.start();
-            ScoreService.loadScoreTotalResult($scope.examId, $scope.classId).success(function (data) {
+            ScoreService.loadScoreTotalResult($scope.examId, $scope.flag.type, 0).success(function (data) {
                 blockUI.stop();
                 if (data.status == 200) {
                     $scope.resultList = data.data;
@@ -80,11 +80,9 @@
 
 
         $scope.show = function(){
-            if($scope.flag.show == 1){
-                $scope.showTables();
-            }else{
-                $scope.showCharts();
-            }
+            //强制默认显示表格
+            $scope.flag.show = 1;
+            $scope.showTables();
         }
 
         /*******************************上面部分是公用的代码,主要负责考试选择,模板选择,年级选择************************************************************/
@@ -96,77 +94,78 @@
         //显示表格
         $scope.showTables = function(){
             $scope.flag.show = 1;
-            $scope.scoreTotalTableParams = new NgTableParams({}, {
-                counts: [],
-                dataset: $scope.resultList
-            });
         }
 
         //显示图形
         $scope.showCharts = function(){
             $scope.flag.show = 2;
             // 基于准备好的dom，初始化echarts实例
-            var myChart = echarts.init(document.getElementById('main'));
+            $scope.resultList.forEach(function(item, index) {
+                var myChart = echarts.init(document.getElementById('chart' + item.cid));
+                var list = $scope.resultList[index].courseTotalList;
+                var courseList = _.uniq(list.map(function(a){
+                    return a.name;
+                }));
+                var fullList = list.map(function (a) {
+                    return a.full;
+                });
+                var bestList = list.map(function (a) {
+                    return a.best;
+                });
+                var goodList = list.map(function (a) {
+                    return a.good;
+                });
+                var qualifyList = list.map(function (a) {
+                    return a.qualified;
+                });
 
-            $scope.fullList = $scope.resultList.map(function(a){
-                return a.full;
-            });
-            $scope.bestList = $scope.resultList.map(function(a){
-                return a.best;
-            });
-            $scope.goodList = $scope.resultList.map(function(a){
-                return a.good;
-            });
-            $scope.qualifyList = $scope.resultList.map(function(a){
-                return a.qualified;
-            });
-
-            //处理几个list
-            //指定图表的配置项和数据
-            var option = {
-                title: {
-                    text: '整体信息'
-                },
-                toolbox: {
-                    show : true,
-                    feature : {
-                        saveAsImage : {show: true}
-                    }
-                },
-                tooltip: {},
-                legend: {
-                    data:['满分', '优秀', '良好', '及格']
-                },
-                xAxis: {
-                    type: 'category',
-                    data: $scope.courseList
-                },
-                yAxis: {data:'人数'},
-                series: [
-                    {
-                        name: '满分',
-                        type: 'bar',
-                        data: $scope.fullList
+                //处理几个list
+                //指定图表的配置项和数据
+                var option = {
+                    title: {
+                        text: item.cid + '班'
                     },
-                    {
-                        name: '优秀',
-                        type: 'bar',
-                        data: $scope.bestList
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            saveAsImage: {show: true}
+                        }
                     },
-                    {
-                        name: '良好',
-                        type: 'bar',
-                        data: $scope.goodList
+                    tooltip: {},
+                    legend: {
+                        data: ['满分', '优秀', '良好', '及格']
                     },
-                    {
-                        name: '及格',
-                        type: 'bar',
-                        data: $scope.qualifyList
-                    }
-                ]
-            };
-            // 使用刚指定的配置项和数据显示图表。
-            myChart.setOption(option);
+                    xAxis: {
+                        type: 'category',
+                        data: courseList
+                    },
+                    yAxis: {data: '人数'},
+                    series: [
+                        {
+                            name: '满分',
+                            type: 'bar',
+                            data: fullList
+                        },
+                        {
+                            name: '优秀',
+                            type: 'bar',
+                            data: bestList
+                        },
+                        {
+                            name: '良好',
+                            type: 'bar',
+                            data: goodList
+                        },
+                        {
+                            name: '及格',
+                            type: 'bar',
+                            data: qualifyList
+                        }
+                    ]
+                };
+                // 使用刚指定的配置项和数据显示图表。
+                myChart.setOption(option);
+            });
         }
     }
 

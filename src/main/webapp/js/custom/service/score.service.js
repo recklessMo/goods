@@ -13,10 +13,10 @@
         this.loadScoreList = loadScoreList;
 
 
-        function loadScoreTotalResult(examId, classId){
+        function loadScoreTotalResult(examId, type, templateId){
             return $http({
                 url: "/v1/analyse/total",
-                data: $.param({examId: examId, classId: classId}),
+                data: $.param({examId: examId, type: type, templateId:templateId}),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                 method: "POST",
                 timeout: 5000
