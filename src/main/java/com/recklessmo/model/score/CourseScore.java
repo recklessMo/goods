@@ -1,5 +1,7 @@
 package com.recklessmo.model.score;
 
+import com.recklessmo.model.setting.Course;
+
 import java.util.List;
 
 /**
@@ -7,23 +9,31 @@ import java.util.List;
  */
 public class CourseScore {
 
-    private List<String> courseList;
-    private List<List<Double>> scoreList;
+    private String name;
+    private double score;
 
+    public CourseScore(){
 
-    public List<String> getCourseList() {
-        return courseList;
     }
 
-    public void setCourseList(List<String> courseList) {
-        this.courseList = courseList;
+    public CourseScore(String name, double score){
+        this.name = name;
+        this.score = score;
     }
 
-    public List<List<Double>> getScoreList() {
-        return scoreList;
+    public String getName() {
+        return name;
     }
 
-    public void setScoreList(List<List<Double>> scoreList) {
-        this.scoreList = scoreList;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
     }
 }

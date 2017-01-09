@@ -1,6 +1,7 @@
 package com.recklessmo.util.score;
 
 import com.recklessmo.model.score.CourseScore;
+import com.recklessmo.model.score.NewScore;
 import com.recklessmo.model.score.Score;
 
 import java.util.LinkedList;
@@ -18,50 +19,28 @@ public class ScoreUtils {
      *
      * @return
      */
-    public static CourseScore changeScoreToCourseScore(List<Score> scoreList){
+    public static List<NewScore> changeScoreToNewScore(List<Score> scoreList){
 
-        List<String> courseList = new LinkedList<>();
-        courseList.add("语文");
-        courseList.add("数学");
-        courseList.add("英语");
-        courseList.add("政治");
-        courseList.add("历史");
-        courseList.add("地理");
-        courseList.add("物理");
-        courseList.add("化学");
-        courseList.add("生物");
-
-        CourseScore courseScore = new CourseScore();
-        courseScore.setCourseList(courseList);
-
-        List<List<Double>> scores = new LinkedList<>();
-
-        scores.add(new LinkedList<>());
-        scores.add(new LinkedList<>());
-        scores.add(new LinkedList<>());
-        scores.add(new LinkedList<>());
-        scores.add(new LinkedList<>());
-        scores.add(new LinkedList<>());
-        scores.add(new LinkedList<>());
-        scores.add(new LinkedList<>());
-        scores.add(new LinkedList<>());
-
-
-
-        for(Score score : scoreList){
-            scores.get(0).add(score.getChinese());
-            scores.get(1).add(score.getMath());
-            scores.get(2).add(score.getEnglish());
-            scores.get(3).add(score.getPolotics());
-            scores.get(4).add(score.getHistory());
-            scores.get(5).add(score.getGeo());
-            scores.get(6).add(score.getPhysics());
-            scores.get(7).add(score.getChemistry());
-            scores.get(8).add(score.getBiology());
+        List<NewScore> scores = new LinkedList<>();
+        for(int i = 0; i < scoreList.size(); i++){
+            Score score = scoreList.get(i);
+            NewScore temp = new NewScore();
+            temp.setExamId(score.getExamId());
+            temp.setCid(score.getCid());
+            temp.setSid(score.getSid());
+            temp.add(new CourseScore("语文", score.getChinese()));
+            temp.add(new CourseScore("数学", score.getMath()));
+            temp.add(new CourseScore("英语", score.getEnglish()));
+            temp.add(new CourseScore("政治", score.getPolotics()));
+            temp.add(new CourseScore("历史", score.getHistory()));
+            temp.add(new CourseScore("地理", score.getGeo()));
+            temp.add(new CourseScore("物理", score.getPhysics()));
+            temp.add(new CourseScore("化学", score.getChemistry()));
+            temp.add(new CourseScore("生物", score.getBiology()));
+            temp.add(new CourseScore("总分", score.getChinese() + score.getMath() + score.getEnglish() + score.getPolotics() + score.getHistory() + score.getGeo() + score.getPhysics() + score.getChemistry() + score.getBiology()));
+            scores.add(temp);
         }
-
-        courseScore.setScoreList(scores);
-        return courseScore;
+        return scores;
     }
 
 

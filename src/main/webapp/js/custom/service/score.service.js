@@ -8,13 +8,25 @@
     ScoreService.$inject = ['$http'];
     function ScoreService($http) {
 
-        this.loadTotalScore = loadTotalScore;
+        this.loadScoreTotalResult = loadScoreTotalResult;
+        this.loadScoreGapResult = loadScoreGapResult;
         this.loadScoreList = loadScoreList;
 
-        function loadTotalScore(data){
+
+        function loadScoreTotalResult(examId, classId){
             return $http({
-                url: "/v1/score/load",
-                data: $.param({id: data}),
+                url: "/v1/analyse/total",
+                data: $.param({examId: examId, classId: classId}),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                method: "POST",
+                timeout: 5000
+            });
+        }
+
+        function loadScoreGapResult(examId, classId){
+            return $http({
+                url: "/v1/analyse/gap",
+                data: $.param({examId: examId, classId: classId}),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                 method: "POST",
                 timeout: 5000

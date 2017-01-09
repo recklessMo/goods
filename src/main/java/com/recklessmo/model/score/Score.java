@@ -6,13 +6,12 @@ package com.recklessmo.model.score;
 public class Score {
 
     private long sid;
-    private String name;
     private long examId;
     //通过sid获取对应的cid,set进去
+    private String name;
     private long cid;
 
     private double total;
-
     private double chinese;
     private double math;
     private double english;
@@ -33,6 +32,14 @@ public class Score {
     private long physicsRank;
     private long chemistryRank;
     private long biologyRank;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public long getChineseRank() {
         return chineseRank;
@@ -120,14 +127,6 @@ public class Score {
 
     public void setSid(long sid) {
         this.sid = sid;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public long getExamId() {

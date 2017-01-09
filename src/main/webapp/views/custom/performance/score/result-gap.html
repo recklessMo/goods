@@ -33,8 +33,8 @@
                 </div>
 
                 <div style="padding:2px 10px;" class="form-inline">
-                    <input class="form-control" placeholder="选择分析模版" style="width: calc(100% - 70px);" ng-disabled="1"/>
-                    <button class="btn btn-info">选择</button>
+                    <input ng-model="template.name" class="form-control" placeholder="选择分析模版" style="width: calc(100% - 70px);" ng-disabled="1"/>
+                    <button class="btn btn-info" ng-click="openTemplateDialog()">选择</button>
                 </div>
 
                 <div style="padding:20px 10px;">
@@ -78,7 +78,7 @@
             <div class="panel" style="height: 100%;">
 
                 <!--顶层选项-->
-                <div class="row" style="padding-top:5px;margin-left:0px;">
+                <div class="row" style="padding-top:5px;margin-left:0px;height: 50px;">
                     <div class="col-xs-6 btn-group">
                         <button class="btn btn-default" ng-class="{active:flag.show == 1}" ng-click="showTables()">表格</button>
                         <button class="btn btn-default" ng-class="{active:flag.show == 2}" ng-click="showCharts()">图形</button>
@@ -95,32 +95,23 @@
                     </div>
                 </div>
 
-                <!--分数段表格, 根据科目分为多个表格-->
-                <div style="padding-top:50px;" ng-show="flag.show == 1">
-                    <table ng-table="scoreTotalTableParams" class="table table-bordered table-hover table-condensed editable-table table-min">
-                        <tr ng-repeat="item in $data" ng-dblclick="show(item.id)">
-                            <td data-title="'班级'" style="text-align: center;">{{item.cid}}</td>
-                            <td data-title="'学科'" style="text-align: center;">{{item.courseName}}</td>
-                            <td data-title="'参考人数'" style="text-align: center;">{{item.totalCount}}</td>
-                            <td data-title="'最高分'" style="text-align: center;">{{item.max}}</td>
-                            <td data-title="'最低分'" style="text-align: center;">{{item.min}}</td>
-                            <td data-title="'平均分'" style="text-align: center;">{{item.avg}}</td>
-                            <td data-title="'标准差'" style="text-align: center;">{{item.stdAvg}}</td>
-                            <td data-title="'满分(人)'" style="text-align: center">{{item.full}}</td>
-                            <td data-title="'满分率'" style="text-align: center;">{{item.full}}</td>
-                            <td data-title="'优秀(人)'" style="text-align: center">{{item.best}}</td>
-                            <td data-title="'优秀率'" style="text-align: center;">{{item.best}}</td>
-                            <td data-title="'良好(人)'" style="text-align: center">{{item.good}}</td>
-                            <td data-title="'良好率'" style="text-align: center;">{{item.good}}</td>
-                            <td data-title="'及格(人)'" style="text-align: center">{{item.qualified}}</td>
-                            <td data-title="'及格率'" style="text-align: center;">{{item.qualified}}</td>
-                        </tr>
-                    </table>
-                </div>
+                <div style="overflow: auto;height: calc(100% - 50px);">
+                    <!--分数段表格, 根据科目分为多个表格-->
+                    <div style="padding-top:50px;" ng-show="flag.show == 1">
+                        <table ng-repeat="table in resultList" class="table table-bordered table-hover table-condensed editable-table table-min">
+                            <tr>
+                                <th ng-repeat="headItem in table.gapList track by $index"  style="text-align: center;">{{headItem.start}}-{{headItem.end}}</th>
+                            </tr>
+                            <!--<tr ng-repeat="countItem in table.gapCount">-->
+                                <!--<td style="text-align: center">{{countItem}}</td>-->
+                            <!--</tr>-->
+                        </table>
+                    </div>
 
-                <!--图形-->
-                <div style="padding-top:50px;text-align: center;" ng-show="flag.show == 2">
-                    <div id="main" style="height: 400px; width: 800px;margin:auto;"></div>
+                    <!--图形-->
+                    <div style="padding-top:50px;text-align: center;" ng-show="flag.show == 2">
+                        <div id="main" style="height: 400px; width: 800px;margin:auto;"></div>
+                    </div>
                 </div>
 
             </div>

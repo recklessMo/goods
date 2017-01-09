@@ -82,15 +82,15 @@ public class ScoreController {
      * @param
      * @return
      */
-    @RequestMapping(value = "/load", method = {RequestMethod.GET, RequestMethod.POST})
-    @ResponseBody
-    public JsonResponse load(@RequestParam("id")long examId){
-        ScoreListPage scoreListPage = new ScoreListPage();
-        scoreListPage.setExamId(examId);
-        scoreListPage.setPage(1);
-        scoreListPage.setCount(1000000);
-        List<Score> data = scoreService.loadScoreList(scoreListPage);
-        return new JsonResponse(200, ScoreUtils.changeScoreToCourseScore(data), null);
-    }
+//    @RequestMapping(value = "/load", method = {RequestMethod.GET, RequestMethod.POST})
+//    @ResponseBody
+//    public JsonResponse load(@RequestParam("id")long examId){
+//        ScoreListPage scoreListPage = new ScoreListPage();
+//        scoreListPage.setExamId(examId);
+//        scoreListPage.setPage(1);
+//        scoreListPage.setCount(1000000);
+//        List<Score> data = scoreService.loadScoreList(scoreListPage);
+//        return new JsonResponse(200, ScoreUtils.changeScoreToCourseScore(data), null);
+//    }
 
 }

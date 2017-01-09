@@ -7,6 +7,7 @@
 
     function ResultGapController($scope, ScoreService, SweetAlert, NgTableParams, ngDialog, blockUI, Notify) {
 
+        //data
         $scope.courseList = [];
         $scope.scoreList = [];
 
@@ -17,29 +18,39 @@
             $scope.showLeftWindow = !$scope.showLeftWindow;
         }
 
-        //控制左边栏成绩选择
+        //控制左边栏考试选择
         $scope.remoteUrlRequestFn = function(str){
             return {str: str};
         }
 
         //控制右上角的班级列表, 文科班,理科班,单独班级,全年级等可以一起进行分析
-        $scope.classList = [];
+        //$scope.classList = [];
 
 
 
         //控制左边栏参数填写
-        $scope.templateParmas = {};
-        $scope.openTemplateDialog = function(){
-            //打开对话框去选择对应的template,然后返回数据
 
+        //加载默认模板
+        $scope.openTemplateDialog = function(type){
+            var dialog= ngDialog.open({
+                template: 'app/views/custom/performance/template/template-list.html',
+                controller: 'TemplateListController',
+                className: 'ngdialog-theme-default max-dialog',
+                data : {type:type}
+            });
+            dialog.closePromise.then(function(data){
+                if(!data.value.status){
+                    return;
+                }
+                $scope.template = data.value.value;
+            });
         }
 
 
         //开始分析
-        $scope.flag = {show : 1, load : false};
+        $scope.flag = {show : 1};
         $scope.examId = 0;
         $scope.classId = 0;
-        $scope.tableParams = {examId: 0, page: 1, count : 10000};
         $scope.startAnalyse = function() {
             //判断模板是否选择, 以及考试是否选择
             if(angular.isUndefined($scope.selectedExam)){
@@ -53,69 +64,46 @@
             }
 
             //both are ok , so we proceed .首先获取数据, 只加载一遍.
-            $scope.resultList = [];
-            if (!$scope.flag.load) {
-                blockUI.start();
-                ScoreService.loadTotalScore($scope.examId).success(function (data) {
-                    blockUI.stop();
-                    if (data.status == 200) {
-                        $scope.scoreResultFromServer = data.data;
-                        $scope.flag.load = true;
+            blockUI.start();
+            ScoreService.loadScoreGapResult($scope.examId, $scope.classId).success(function (data) {
+                blockUI.stop();
+                if (data.status == 200) {
+                    $scope.resultList = data.data;
+                    $scope.show();
+                } else {
+                    SweetAlert.error("加载成绩列表发生了错误! 请刷新页面!");
+                }
+            }).error(function () {
+                blockUI.stop();
+            });
+        }
 
-                        //默认为全部. 右上角提供的可以进行筛选
-                        $scope.courseList = $scope.scoreResultFromServer.courseList;
-                        $scope.scoreList = $scope.scoreResultFromServer.scoreList;
-                        $scope.analyseInner($scope.courseList, $scope.scoreList, $scope.classId);
-                        $scope.showTables();
 
-                    } else {
-                        SweetAlert.error("加载成绩列表发生了错误! 请刷新页面!");
-                    }
-                }).error(function () {
-                    blockUI.stop();
-                });
-            } else {
-                //默认为全部. 右上角提供的可以进行筛选
-                $scope.courseList = $scope.scoreResultFromServer.courseList;
-                $scope.scoreList = $scope.scoreResultFromServer.scoreList;
-                $scope.analyseInner($scope.courseList, $scope.scoreList, $scope.classId);
+        $scope.show = function(){
+            if($scope.flag.show == 1){
                 $scope.showTables();
+            }else{
+                $scope.showCharts();
             }
         }
 
 
-        //内部分析结果
-        $scope.resultList = [];
-        $scope.analyseInner = function(courseList, scoreList, classId){
-            scoreList.forEach(function(item, index){
-                var single = {};
-                single.cid = classId;
-                single.courseName = courseList[index];
-                single.totalCount = item.totalCount();
-                single.max = item.max();
-                single.min = item.min();
-                var result = item.scoreGap(100, 80, 70, 60);
-                single.full = result.full;
-                single.best = result.best;
-                single.good = result.good;
-                single.qualified = result.qualified;
-                $scope.resultList.push(single);
-            });
-            console.log($scope.resultList);
-        }
-
+        /*******************************上面部分是公用的代码,主要负责考试选择,模板选择,年级选择************************************************************/
         //显示表格
+        $scope.headList = [];
+        $scope.tableList = [];
         $scope.showTables = function(){
+            $scope.resultList.forEach(
+                function(item) {
+                    $scope.headList.push(item.gapList);
+                    $scope.tableList.push(item.gapCount);
+                }
+            );
             $scope.flag.show = 1;
-            $scope.scoreTotalTableParams = new NgTableParams({}, {
-                counts: [],
-                dataset: $scope.resultList
-            });
         }
 
         //显示图形
         $scope.showCharts = function(){
-            $scope.flag.show = 2;
             // 基于准备好的dom，初始化echarts实例
             var myChart = echarts.init(document.getElementById('main'));
 
@@ -178,6 +166,7 @@
             };
             // 使用刚指定的配置项和数据显示图表。
             myChart.setOption(option);
+            $scope.flag.show = 2;
         }
     }
 
