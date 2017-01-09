@@ -9,6 +9,7 @@ import java.util.List;
  */
 public class CourseScore {
 
+    private String cname;
     private String name;
     private double score;
 
@@ -16,9 +17,18 @@ public class CourseScore {
 
     }
 
-    public CourseScore(String name, double score){
+    public CourseScore(String name, double score, String cname){
         this.name = name;
         this.score = score;
+        this.cname = cname;
+    }
+
+    public String getCname() {
+        return cname;
+    }
+
+    public void setCname(String cname) {
+        this.cname = cname;
     }
 
     public String getName() {

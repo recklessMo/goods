@@ -10,6 +10,7 @@ public class Score {
     //通过sid获取对应的cid,set进去
     private String name;
     private long cid;
+    private String cname;
 
     private double total;
     private double chinese;
@@ -32,6 +33,14 @@ public class Score {
     private long physicsRank;
     private long chemistryRank;
     private long biologyRank;
+
+    public String getCname() {
+        return cname;
+    }
+
+    public void setCname(String cname) {
+        this.cname = cname;
+    }
 
     public String getName() {
         return name;

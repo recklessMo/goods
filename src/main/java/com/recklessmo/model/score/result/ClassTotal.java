@@ -9,7 +9,7 @@ import java.util.List;
 public class ClassTotal {
 
     private long cid;
-    private String className;
+    private String cname;
 
     private List<TotalInner> courseTotalList = new LinkedList<>();
 
@@ -22,12 +22,12 @@ public class ClassTotal {
         this.cid = cid;
     }
 
-    public String getClassName() {
-        return className;
+    public String getCname() {
+        return cname;
     }
 
-    public void setClassName(String className) {
-        this.className = className;
+    public void setCname(String cname) {
+        this.cname = cname;
     }
 
     public List<TotalInner> getCourseTotalList() {

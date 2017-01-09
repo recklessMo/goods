@@ -4,7 +4,7 @@
 <mapper namespace="com.recklessmo.dao.score.ScoreDAO">
 
     <sql id = "columns">
-        exam_id, sid, cid, total ,chinese, math, english, polotics, history, geo, physics, chemistry, biology
+        exam_id, sid, cid, cname, total ,chinese, math, english, polotics, history, geo, physics, chemistry, biology
     </sql>
 
 

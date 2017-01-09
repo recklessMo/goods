@@ -14,6 +14,16 @@ public class NewScore {
     private long examId;
     //通过sid获取对应的cid,set进去
     private long cid;
+    private String cname;
+
+
+    public String getCname() {
+        return cname;
+    }
+
+    public void setCname(String cname) {
+        this.cname = cname;
+    }
 
     private List<CourseScore> courseScoreList = new LinkedList<>();
 

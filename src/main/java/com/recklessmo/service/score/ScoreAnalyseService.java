@@ -3,6 +3,7 @@ package com.recklessmo.service.score;
 import com.recklessmo.model.score.CourseScore;
 import com.recklessmo.model.score.NewScore;
 import com.recklessmo.model.score.result.ClassTotal;
+import com.recklessmo.model.score.result.CourseTotal;
 import com.recklessmo.model.score.result.TotalInner;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +30,7 @@ public class ScoreAnalyseService {
     public Object analyseTotal(List<NewScore> scoreList, int type, long templateId) {
         //根据templateId获取模板参数
         //开始分析
+        //班级维度
         if (type == 1) {
             Map<Long, ClassTotal> result = new HashMap<>();
             for (NewScore newScore : scoreList) {
@@ -37,6 +39,7 @@ public class ScoreAnalyseService {
                     if (classTotal == null) {
                         classTotal = new ClassTotal();
                         classTotal.setCid(newScore.getCid());
+                        classTotal.setCname(newScore.getCname());
                         result.put(newScore.getCid(), classTotal);
                     }
                     TotalInner totalInner;
@@ -48,35 +51,62 @@ public class ScoreAnalyseService {
                         totalInner.setName(courseScore.getName());
                         classTotal.getCourseTotalList().add(totalInner);
                     }
-                    if (courseScore.getScore() >= 60) {
-                        totalInner.setQualified(totalInner.getQualified() + 1);
-                    }
-                    if (courseScore.getScore() >= 80) {
-                        totalInner.setGood(totalInner.getGood() + 1);
-                    }
-                    if (courseScore.getScore() >= 90) {
-                        totalInner.setBest(totalInner.getBest() + 1);
-                    }
-                    if (courseScore.getScore() >= 100) {
-                        totalInner.setFull(totalInner.getFull() + 1);
-                    }
-                    //总人数
-                    totalInner.setTotalCount(totalInner.getTotalCount() + 1);
-                    //最高分
-                    if (courseScore.getScore() > totalInner.getMax()) {
-                        totalInner.setMax(courseScore.getScore());
-                    }
-                    //最低分
-                    if (courseScore.getScore() < totalInner.getMin()) {
-                        totalInner.setMin(courseScore.getScore());
-                    }
+                    totalInner(courseScore, totalInner);
                 }
             }
             return result.values();
         } else if (type == 2) {
+            Map<String, CourseTotal> result = new HashMap<>();
+            for (NewScore newScore : scoreList) {
+                List<CourseScore> data = newScore.getCourseScoreList();
+                for(CourseScore courseScore : data){
+                    CourseTotal courseTotal = result.get(courseScore.getName());
+                    if(courseTotal == null){
+                        courseTotal = new CourseTotal();
+                        courseTotal.setCourseName(courseScore.getName());
+                        result.put(courseScore.getName(), courseTotal);
+                    }
 
+                    TotalInner totalInner;
+                    Optional<TotalInner> temp = courseTotal.getClassTotalList().stream().filter(m->m.getName().equals(courseScore.getCname())).findAny();
+                    if(temp.isPresent()){
+                        totalInner = temp.get();
+                    }else{
+                        totalInner = new TotalInner();
+                        totalInner.setName(courseScore.getCname());
+                        courseTotal.getClassTotalList().add(totalInner);
+                    }
+                    totalInner(courseScore, totalInner);
+                }
+            }
+            return result.values();
         }
         return null;
+    }
+
+    private void totalInner(CourseScore courseScore, TotalInner totalInner){
+        if (courseScore.getScore() >= 60) {
+            totalInner.setQualified(totalInner.getQualified() + 1);
+        }
+        if (courseScore.getScore() >= 80) {
+            totalInner.setGood(totalInner.getGood() + 1);
+        }
+        if (courseScore.getScore() >= 90) {
+            totalInner.setBest(totalInner.getBest() + 1);
+        }
+        if (courseScore.getScore() >= 100) {
+            totalInner.setFull(totalInner.getFull() + 1);
+        }
+        //总人数
+        totalInner.setTotalCount(totalInner.getTotalCount() + 1);
+        //最高分
+        if (courseScore.getScore() > totalInner.getMax()) {
+            totalInner.setMax(courseScore.getScore());
+        }
+        //最低分
+        if (courseScore.getScore() < totalInner.getMin()) {
+            totalInner.setMin(courseScore.getScore());
+        }
     }
 
 
