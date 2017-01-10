@@ -99,6 +99,11 @@
             title: '分数段分析',
             templateUrl: helper.basepath('custom/performance/score/result-gap.html')
         })
+        .state('app.result-rank', {
+            url: '/result-rank',
+            title: '分数段分析',
+            templateUrl: helper.basepath('custom/performance/score/result-rank.html')
+        })
         .state('app.analyze-template', {
             url: '/analyze-template',
             title: '分析模版',

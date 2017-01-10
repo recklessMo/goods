@@ -1,23 +1,20 @@
 package com.recklessmo.model.score.result;
 
 
-import javafx.util.Pair;
-
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by hpf on 1/8/17.
  */
-public class CourseGap {
+public class CourseRank {
 
     //名字
     private String name;
 
-    private List<ScoreGap> gapList = new LinkedList<>();
-    private List<GapInner> gapInnerList = new LinkedList<>();
+    private List<RankGap> gapList = new LinkedList<>();
+    private List<RankInner> gapInnerList = new LinkedList<>();
+
 
     public String getName() {
         return name;
@@ -27,19 +24,19 @@ public class CourseGap {
         this.name = name;
     }
 
-    public List<ScoreGap> getGapList() {
+    public List<RankGap> getGapList() {
         return gapList;
     }
 
-    public void setGapList(List<ScoreGap> gapList) {
+    public void setGapList(List<RankGap> gapList) {
         this.gapList = gapList;
     }
 
-    public List<GapInner> getGapInnerList() {
+    public List<RankInner> getGapInnerList() {
         return gapInnerList;
     }
 
-    public void setGapInnerList(List<GapInner> gapInnerList) {
+    public void setGapInnerList(List<RankInner> gapInnerList) {
         this.gapInnerList = gapInnerList;
     }
 }

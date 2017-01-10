@@ -2,10 +2,10 @@
     'use strict';
     angular
         .module('custom')
-        .controller('ResultGapController', ResultGapController);
-    ResultGapController.$inject = ['$scope', 'ScoreService', 'SweetAlert', 'NgTableParams', 'ngDialog', 'blockUI', 'Notify'];
+        .controller('ResultRankController', ResultRankController);
+    ResultRankController.$inject = ['$scope', 'ScoreService', 'SweetAlert', 'NgTableParams', 'ngDialog', 'blockUI', 'Notify'];
 
-    function ResultGapController($scope, ScoreService, SweetAlert, NgTableParams, ngDialog, blockUI, Notify) {
+    function ResultRankController($scope, ScoreService, SweetAlert, NgTableParams, ngDialog, blockUI, Notify) {
 
         //data
         $scope.courseList = [];
@@ -66,7 +66,7 @@
 
             //both are ok , so we proceed .首先获取数据, 只加载一遍.
             blockUI.start();
-            ScoreService.loadScoreGapResult($scope.examId, $scope.classId).success(function (data) {
+            ScoreService.loadScoreGapRank($scope.examId, $scope.classId).success(function (data) {
                 blockUI.stop();
                 if (data.status == 200) {
                     $scope.resultList = data.data;
@@ -81,25 +81,14 @@
 
 
         $scope.show = function(){
-            if($scope.flag.show == 1){
-                $scope.showTables();
-            }else{
-                $scope.showCharts();
-            }
+            $scope.flag.show = 1;
+            $scope.showTables();
         }
 
 
         /*******************************上面部分是公用的代码,主要负责考试选择,模板选择,年级选择************************************************************/
         //显示表格
-        $scope.headList = [];
-        $scope.tableList = [];
         $scope.showTables = function(){
-            $scope.resultList.forEach(
-                function(item) {
-                    $scope.headList.push(item.gapList);
-                    $scope.tableList.push(item.gapCount);
-                }
-            );
             $scope.flag.show = 1;
         }
 

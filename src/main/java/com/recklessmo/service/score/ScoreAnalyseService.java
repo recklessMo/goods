@@ -2,9 +2,8 @@ package com.recklessmo.service.score;
 
 import com.recklessmo.model.score.CourseScore;
 import com.recklessmo.model.score.NewScore;
-import com.recklessmo.model.score.result.ClassTotal;
-import com.recklessmo.model.score.result.CourseTotal;
-import com.recklessmo.model.score.result.TotalInner;
+import com.recklessmo.model.score.result.*;
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -107,6 +106,110 @@ public class ScoreAnalyseService {
         if (courseScore.getScore() < totalInner.getMin()) {
             totalInner.setMin(courseScore.getScore());
         }
+    }
+
+
+    /**
+     *
+     * 分数线分析, 分数线就基于学科来做
+     * 基于班级的话不太好做, 有可能一个班级里面多个学科的分数段设置不同
+     * 这样界面不好看!
+     *
+     * @param newScores
+     * @param templateId
+     * @return
+     */
+    public Object analyseGap(List<NewScore> newScores, long templateId){
+        Map<String, CourseGap> gapMap = new HashedMap();
+        for(NewScore score : newScores){
+            for(CourseScore courseScore : score.getCourseScoreList()) {
+                CourseGap gap = gapMap.get(courseScore.getName());
+                if(gap == null){
+                    gap = new CourseGap();
+                    gap.setName(courseScore.getName());
+                    List<ScoreGap> gapList = new LinkedList<>();
+                    gapList.add(new ScoreGap(1d,20d));
+                    gapList.add(new ScoreGap(21d,60d));
+                    gapList.add(new ScoreGap(61d,70d));
+                    gapList.add(new ScoreGap(71d,80d));
+                    gapList.add(new ScoreGap(81d,90d));
+                    gapList.add(new ScoreGap(91d,100d));
+                    gap.setGapList(gapList);
+                    gapMap.put(courseScore.getName(), gap);
+                }
+
+                GapInner gapInner;
+                Optional<GapInner> temp = gap.getGapInnerList().stream().filter(m->m.getCname().equals(courseScore.getCname())).findAny();
+                if(temp.isPresent()){
+                    gapInner = temp.get();
+                }else{
+                    gapInner = new GapInner(gap.getGapList().size());
+                    gapInner.setCname(courseScore.getCname());
+                    gap.getGapInnerList().add(gapInner);
+                }
+
+                for(int i = 0; i < gap.getGapList().size(); i++){
+                    ScoreGap scoreGap = gap.getGapList().get(i);
+                    if(courseScore.getScore() >= scoreGap.getStart() && courseScore.getScore()<= scoreGap.getEnd()){
+                        gapInner.getCountList().set(i, gapInner.getCountList().get(i) + 1);
+                    }
+                }
+            }
+        }
+        return gapMap.values();
+    }
+
+    /**
+     *
+     * 名次分析
+     *
+     * @param newScores
+     * @param templateId
+     * @return
+     */
+    public Object analyseRank(List<NewScore> newScores, long templateId){
+        Map<String, CourseRank> rankMap = new HashedMap();
+        for(NewScore score : newScores){
+            for(CourseScore courseScore : score.getCourseScoreList()) {
+                CourseRank rank = rankMap.get(courseScore.getName());
+                if(rank == null){
+                    rank = new CourseRank();
+                    rank.setName(courseScore.getName());
+                    List<RankGap> gapList = new LinkedList<>();
+                    gapList.add(new RankGap(1,10));
+                    gapList.add(new RankGap(11,20));
+                    gapList.add(new RankGap(21,30));
+                    gapList.add(new RankGap(31,40));
+                    gapList.add(new RankGap(41,50));
+                    gapList.add(new RankGap(51,60));
+                    gapList.add(new RankGap(61,70));
+                    gapList.add(new RankGap(71,80));
+                    gapList.add(new RankGap(81,90));
+                    gapList.add(new RankGap(91,100));
+                    gapList.add(new RankGap(101,100000));
+                    rank.setGapList(gapList);
+                    rankMap.put(courseScore.getName(), rank);
+                }
+
+                RankInner rankInner;
+                Optional<RankInner> temp = rank.getGapInnerList().stream().filter(m->m.getCname().equals(courseScore.getCname())).findAny();
+                if(temp.isPresent()){
+                    rankInner = temp.get();
+                }else{
+                    rankInner = new RankInner(rank.getGapList().size());
+                    rankInner.setCname(courseScore.getCname());
+                    rank.getGapInnerList().add(rankInner);
+                }
+
+                for(int i = 0; i < rank.getGapList().size(); i++){
+                    RankGap rankGap = rank.getGapList().get(i);
+                    if(courseScore.getScore() >= rankGap.getStart() && courseScore.getScore()<= rankGap.getEnd()){
+                        rankInner.getCountList().set(i, rankInner.getCountList().get(i) + 1);
+                    }
+                }
+            }
+        }
+        return rankMap.values();
     }
 
 

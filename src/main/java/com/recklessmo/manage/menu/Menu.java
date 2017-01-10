@@ -24,6 +24,9 @@ public class Menu{
             new Menu(203, "成绩站", "成绩单", "icon-plus", "app.result-list"),
             new Menu(204, "成绩站", "整体分析", "icon-plus", "app.result-total"),
             new Menu(205, "成绩站", "分数段分析", "icon-plus", "app.result-gap"),
+            new Menu(206, "成绩站", "名次分析", "icon-plus", "app.result-rank"),
+            new Menu(207, "成绩站", "均分分析", "icon-plus", "app.result-avg"),
+
 
             new Menu(301, "统计站", "财务统计", "icon-wallet", "app.payStat"),
             new Menu(302, "统计站", "学生统计", "icon-wallet", "app.payStat"),

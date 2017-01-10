@@ -10,6 +10,7 @@
 
         this.loadScoreTotalResult = loadScoreTotalResult;
         this.loadScoreGapResult = loadScoreGapResult;
+        this.loadScoreGapRank = loadScoreGapRank;
         this.loadScoreList = loadScoreList;
 
 
@@ -23,10 +24,20 @@
             });
         }
 
-        function loadScoreGapResult(examId, classId){
+        function loadScoreGapRank(examId, templateId){
+            return $http({
+                url: "/v1/analyse/rank",
+                data: $.param({examId: examId, templateId: templateId}),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                method: "POST",
+                timeout: 5000
+            });
+        }
+
+        function loadScoreGapResult(examId, templateId){
             return $http({
                 url: "/v1/analyse/gap",
-                data: $.param({examId: examId, classId: classId}),
+                data: $.param({examId: examId, templateId: templateId}),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                 method: "POST",
                 timeout: 5000

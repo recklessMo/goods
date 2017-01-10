@@ -57,9 +57,17 @@ public class ScoreAnalyseController {
         return new JsonResponse(200, result, null);
     }
 
+    /**
+     *
+     * 分数段分析的结果, 可以通过更改不同的分数段进行分析
+     *
+     * @param examId 考试Id
+     * @param templateId
+     * @return
+     */
     @RequestMapping(value = "/gap", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public JsonResponse analyzeGap(@RequestParam("examId")long examId, @RequestParam("classId")long classId){
+    public JsonResponse analyzeGap(@RequestParam("examId")long examId, @RequestParam("templateId")long templateId){
         ScoreListPage page = new ScoreListPage();
         page.setExamId(examId);
         page.setPage(1);
@@ -69,37 +77,31 @@ public class ScoreAnalyseController {
         List<NewScore> newScores = ScoreUtils.changeScoreToNewScore(scoreList);
         //根据模板Id获取模板设置的数据
         Map<String, CourseGap> gapMap = new HashMap<>();
+        Object obj = scoreAnalyseService.analyseGap(newScores, 0);
+        return new JsonResponse(200, obj, null);
+    }
 
-        /**
-         * 模拟一些参数
-         */
 
-
-        for(NewScore score : newScores){
-            for(CourseScore courseScore : score.getCourseScoreList()) {
-                CourseGap gap = gapMap.get(courseScore.getName());
-                if(gap == null){
-                    gap = new CourseGap();
-                    gap.setName(courseScore.getName());
-                    List<ScoreGap> gapList = new LinkedList<>();
-                    gapList.add(new ScoreGap(1d,20d));
-                    gapList.add(new ScoreGap(21d,100d));
-                    gap.setGapList(gapList);
-                    gap.initGapCount();
-                    gapMap.put(courseScore.getName(), gap);
-                }
-                for(int i = 0; i < gap.getGapList().size(); i++){
-                    ScoreGap scoreGap = gap.getGapList().get(i);
-                    if(courseScore.getScore() >= scoreGap.getStart() && courseScore.getScore()<= scoreGap.getEnd()){
-                        gap.getGapCount().set(i, gap.getGapCount().get(i) + 1);
-                    }
-                }
-            }
-        }
-
-        Collection<CourseGap> res = gapMap.values();
-
-        return new JsonResponse(200, res, null);
+    /**
+     *
+     * 分析排名
+     *
+     * @param examId
+     * @param templateId
+     * @return
+     */
+    @RequestMapping(value = "/rank", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public JsonResponse analyzeRank(@RequestParam("examId")long examId, @RequestParam("templateId")long templateId){
+        ScoreListPage page = new ScoreListPage();
+        page.setExamId(examId);
+        page.setPage(1);
+        page.setCount(100000);
+        List<Score> scoreList = scoreService.loadScoreList(page);
+        List<NewScore> newScores = ScoreUtils.changeScoreToNewScore(scoreList);
+        //根据模板Id获取模板设置的数据
+        Object obj = scoreAnalyseService.analyseRank(newScores, 0);
+        return new JsonResponse(200, obj, null);
     }
 
 

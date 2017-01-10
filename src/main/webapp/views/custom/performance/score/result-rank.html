@@ -1,4 +1,4 @@
-<div ng-controller="ResultGapController" style="height: 100%;" class="container-fluid">
+<div ng-controller="ResultRankController" style="height: 100%;" class="container-fluid">
     <div class="row" style="height: 100%;margin-left:0px;">
         <!--用于显示考试列表的panel-->
         <div class="col-xs-2" ng-show="showLeftWindow" style="height: 100%;padding-right:0px;padding-left:0px;">
@@ -87,7 +87,7 @@
 
                 <!--科目维度-->
                 <div style="overflow: auto;height: calc(100% - 50px);padding-left:15px;padding-right: 15px;">
-                    <!--分数段表格, 根据科目分为多个表格-->
+                    <!--排名表格, 根据科目分为多个表格-->
                     <div ng-repeat="table in resultList"  style="padding-top:50px;" ng-show="flag.show == 1">
                         <div class="title">
                             <span>{{table.name}}</span>
@@ -95,7 +95,7 @@
                         <table class="table table-bordered table-hover table-condensed editable-table table-min">
                             <tr>
                                 <th>班级</th>
-                                <th ng-repeat="headItem in table.gapList track by $index"  style="text-align: center;">{{headItem.start}}-{{headItem.end}}(分)</th>
+                                <th ng-repeat="headItem in table.gapList track by $index"  style="text-align: center;">{{headItem.start}}-{{headItem.end}}(名)</th>
                             </tr>
                             <tr ng-repeat="item in table.gapInnerList track by $index">
                                 <td>{{item.cname}}</td>
@@ -104,7 +104,7 @@
                         </table>
                     </div>
 
-                    <!--分数段图形, 根据科目分为多个图形-->
+                    <!--排名图形, 根据科目分为多个图形-->
                     <div ng-repeat="table in resultList" style="padding-top:50px;text-align: center;" ng-show="flag.show == 2">
                         <div id="{{'chart' + table.name}}" style="height: 400px; width: 800px;margin:auto;"></div>
                     </div>

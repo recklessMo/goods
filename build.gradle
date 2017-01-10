@@ -8,7 +8,7 @@ repositories{
 	mavenCentral();
 }
 
-war.baseName = "root"
+war.baseName = "goods"
 war.destinationDir = file("target");
 
 dependencies {
