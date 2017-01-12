@@ -7,27 +7,15 @@ package com.recklessmo.constant;
 public class WechatConstants {
 
     /*for wechat*/
-    public static String APPID_TEST = "wx04cd859f218c9455";
-    public static String APPID = "wx27e4b2480fbfabdd";
-    public static String APPSECRET_TEST = "0c4e3011861c5795ce4c86deb01ace0a";
-    public static String APPSECRET = "5c88244eb81fa730f82569167d702598";
-
-    /*for refreshing token in redis*/
-    public static String TOKEN_TIME_KEY = "token_wechat_update_time_";
-    public static String TOKEN_UPDATE_KEY = "token_wechat_update_";
-    public static String TOKEN_KEY = "token_wechat_";
-    public static String TOKEN_UPDATING = "updating2";
-    public static String TOKEN_NOT_UPDATING = "notupdating2";
-
+    public static String APPID = "wx6c4976042567bf58";
+    public static String APPSECRET = "e1d8589c975c5627e4dc45d9b24b54ce";
+    public static String domainName = "115.28.49.103";
     public static long GAP = 1000 * 3600;
+    public static long lastUpdateTime = 0;
 
-    public static long MSG_TIME_LIMIT = 48 * 60 * 60 * 1000;
 
-    /*短信验证*/
-    public static long SMS_CODE_GAP = 10 * 60 * 1000;
-    public static String TEMPLATE_CODE = "SMS_13696180";
-    public static String CODE_RANDOM_TABLE = "1234567890";
-    public static int COUNT_ONE_HOUR = 3;
+
+
 
     /*message for user*/
     public static String BIND_SUCCESS = "您好，感谢您的关注；您可以发送文字、图片、视频咨询医生，或者点击右下角查看诊疗档案。";

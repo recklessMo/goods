@@ -3,31 +3,23 @@ package com.recklessmo.model.wechat;
 /**
  *
  * 微信回调消息的封装接口, 通过解析xml来获取结果
- *
- * 主要包括两大类, 普通消息(文本图片视频), 事件推送(扫描二维码,菜单点击,关注/取消关注)
- *
- * Created by hpf on 7/14/16.
  */
-public class WechatMsg {
+public class WechatCallbackMsg {
 
     private String ToUserName;
     private String FromUserName;
     private long CreateTime;
     //通过下面两个字段确定唯一的类型
     private String MsgType;
-
     private String Event;
     //这两个字段确定是否是直接关注还是扫码关注
     private String EventKey;
     private String Ticket;
-
     //下面这些属于聊天消息
     private String Content;
     private long MsgId;
-
     private String PicUrl;
     private String MediaId;
-
     private String Format;
     private String ThumbMediaId;
 

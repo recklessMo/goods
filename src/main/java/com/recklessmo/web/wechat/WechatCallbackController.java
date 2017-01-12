@@ -1,22 +1,19 @@
 package com.recklessmo.web.wechat;
 
-import com.alibaba.fastjson.JSON;
-import com.google.common.collect.Lists;
-
 import com.recklessmo.constant.WechatConstants;
-import com.recklessmo.model.wechat.WechatMsg;
+import com.recklessmo.model.wechat.WechatCallbackMsg;
+import com.recklessmo.service.wechat.WechatBizService;
+import com.recklessmo.service.wechat.WechatCallbackService;
+import com.recklessmo.service.wechat.WechatNetworkService;
 import com.recklessmo.util.wechat.WechatUtils;
-import org.apache.ibatis.annotations.Param;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * wechar 回调接口  http & no security policy so far
@@ -26,10 +23,18 @@ import java.util.stream.Collectors;
 @RequestMapping("/public/wechat")
 public class WechatCallbackController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(WechatCallbackController.class);
+    private static final Log LOGGER = LogFactory.getLog(WechatCallbackController.class);
 
     public static String TOKEN = "wechatyunxiaoyuan";
 
+    @Resource
+    private WechatNetworkService wechatNetworkService;
+
+    @Resource
+    private WechatCallbackService wechatCallbackService;
+
+    @Resource
+    private WechatBizService wechatBizService;
 
     /**
      * 微信回调接口
@@ -58,21 +63,23 @@ public class WechatCallbackController {
         }
         //否则就走正常的业务逻辑
         LOGGER.info("content" + content);
-        WechatMsg wechatMsg = WechatUtils.parseWechatMsg(content);
-        LOGGER.info(wechatMsg.toString());
-        if (wechatMsg.getMsgType().equals("event")) {
-            if (wechatMsg.getEvent().equals("subscribe")) {
-                if (wechatMsg.getTicket() != null) {
+        WechatCallbackMsg wechatCallbackMsg = WechatUtils.parseWechatMsg(content);
+        LOGGER.info(wechatCallbackMsg.toString());
+        if (wechatCallbackMsg.getMsgType().equals("event")) {
+            if (wechatCallbackMsg.getEvent().equals("subscribe")) {
+                if (wechatCallbackMsg.getTicket() != null) {
                     //扫码关注通过,调用业务逻辑
+
                 } else {
+                    //忽略
                 }
-            } else if (wechatMsg.getEvent().equals("unsubscribe")) {
+            } else if (wechatCallbackMsg.getEvent().equals("unsubscribe")) {
                 //解绑openId
-            } else if (wechatMsg.getEvent().equals("SCAN")) {
+            } else if (wechatCallbackMsg.getEvent().equals("SCAN")) {
                 //用户关注之后再进行扫码
             }
-        } else if (wechatMsg.getMsgType().equals("text") || wechatMsg.getMsgType().equals("image")
-                || wechatMsg.getMsgType().equals("voice") || wechatMsg.getMsgType().equals("video") || wechatMsg.getMsgType().equals("shortvideo")) {
+        } else if (wechatCallbackMsg.getMsgType().equals("text") || wechatCallbackMsg.getMsgType().equals("image")
+                || wechatCallbackMsg.getMsgType().equals("voice") || wechatCallbackMsg.getMsgType().equals("video") || wechatCallbackMsg.getMsgType().equals("shortvideo")) {
         }
         return "";
     }
@@ -89,15 +96,11 @@ public class WechatCallbackController {
         StringBuilder sb = new StringBuilder();
         sb.append(WechatConstants.GET_CODE_URL);
         sb.append("appid=");
+        sb.append(WechatConstants.APPID);
         sb.append("&redirect_uri=");
-        if (menuid == 1) {
-
-        }else if (menuid == 2) {
-
-        }else if (menuid == 3){
-
-        }else if (menuid == 4){
-        }
+        sb.append(WechatUtils.getEncodedUrl("http://" + WechatConstants.domainName + "/public/wechat/callback?"));
+        sb.append("response_type=code&scope=snsapi_base&state=");
+        sb.append(menuid);
         sb.append("#wechat_redirect");
         LOGGER.info(sb.toString());
         response.setStatus(302);
@@ -113,37 +116,36 @@ public class WechatCallbackController {
      * @param state
      * @return
      */
-    @RequestMapping(value = "/menucallback", method = RequestMethod.GET)
-    public String clickMenuCallback(@RequestParam("code") String code, @RequestParam("state") int state, @RequestParam("orgId") int orgId, Model model) {
+    @RequestMapping(value = "/callback", method = RequestMethod.GET)
+    public void clickMenuCallback(@RequestParam("code") String code, @RequestParam("state") int state, HttpServletResponse response) throws Exception{
+        String openId = wechatNetworkService.getBrowerOpenId(code);
         //根据state来进行回调判断
-        model.addAttribute("orgId", orgId);
-        if (state == 1) {
-            return "about";
-        } else if (state == 2) {
-            return "2";
-        } else if (state == 3){
-            return "3";
-        } else if (state == 4){
-            return "4";
-        }
-        return "";
+        StringBuilder sb = new StringBuilder();
+        sb.append("http://" + WechatConstants.domainName + "/public/wechat/page?type=");
+        sb.append(state);
+        sb.append("&code=");
+        sb.append(openId);
+        response.setStatus(302);
+        response.sendRedirect(sb.toString());
     }
 
     /**
      *
      * 服务号的回调302到这个地址, 目的是方便前端页面的跳转
      *
-     * @param code
-     * @param state
-     * @param orgId
-     * @param model
      * @return
      */
     @RequestMapping(value = "/page", method = RequestMethod.GET)
-    public String page(@RequestParam("code") String code, @RequestParam("state") int state, @RequestParam("orgId") int orgId, Model model) {
-        model.addAttribute("orgId", orgId);
-        String openId = code.substring(1, code.length() - 1);
-        LOGGER.info("openid: " + openId);
+    public String page(@RequestParam("code") String code, @RequestParam("type") int type,  Model model) {
+        String openId = code;
+
+        //通过type和openId来进入不同的页面
+        if(type == 1){
+        }else if(type == 2){
+
+        }else if(type == 3){
+
+        }
         return "";
     }
 

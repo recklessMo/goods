@@ -1,6 +1,6 @@
 package com.recklessmo.util.wechat;
 
-import com.recklessmo.model.wechat.WechatMsg;
+import com.recklessmo.model.wechat.WechatCallbackMsg;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -38,8 +38,8 @@ public class WechatUtils {
      * @param str
      * @return
      */
-    public static WechatMsg parseWechatMsg(String str) {
-        WechatMsg wechatMsg = new WechatMsg();
+    public static WechatCallbackMsg parseWechatMsg(String str) {
+        WechatCallbackMsg wechatCallbackMsg = new WechatCallbackMsg();
         try {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
@@ -61,48 +61,48 @@ public class WechatUtils {
             NodeList msgId = root.getElementsByTagName("MsgId");
             NodeList time = root.getElementsByTagName("CreateTime");
             if (from.getLength() != 0) {
-                wechatMsg.setFromUserName(from.item(0).getTextContent());
+                wechatCallbackMsg.setFromUserName(from.item(0).getTextContent());
             }
             if (to.getLength()!= 0) {
-                wechatMsg.setToUserName(to.item(0).getTextContent());
+                wechatCallbackMsg.setToUserName(to.item(0).getTextContent());
             }
             if (msgType.getLength()!= 0) {
-                wechatMsg.setMsgType(msgType.item(0).getTextContent());
+                wechatCallbackMsg.setMsgType(msgType.item(0).getTextContent());
             }
             if (event.getLength()!= 0) {
-                wechatMsg.setEvent(event.item(0).getTextContent());
+                wechatCallbackMsg.setEvent(event.item(0).getTextContent());
             }
             if (eventKey.getLength()!= 0) {
-                wechatMsg.setEventKey(eventKey.item(0).getTextContent());
+                wechatCallbackMsg.setEventKey(eventKey.item(0).getTextContent());
             }
             if (ticket.getLength()!= 0) {
-                wechatMsg.setTicket(ticket.item(0).getTextContent());
+                wechatCallbackMsg.setTicket(ticket.item(0).getTextContent());
             }
             if (content.getLength()!= 0) {
-                wechatMsg.setContent(content.item(0).getTextContent());
+                wechatCallbackMsg.setContent(content.item(0).getTextContent());
             }
             if (picUrl.getLength()!= 0) {
-                wechatMsg.setPicUrl(picUrl.item(0).getTextContent());
+                wechatCallbackMsg.setPicUrl(picUrl.item(0).getTextContent());
             }
             if (mediaId.getLength()!= 0) {
-                wechatMsg.setMediaId(mediaId.item(0).getTextContent());
+                wechatCallbackMsg.setMediaId(mediaId.item(0).getTextContent());
             }
             if (thumbMediaId.getLength()!= 0) {
-                wechatMsg.setThumbMediaId(thumbMediaId.item(0).getTextContent());
+                wechatCallbackMsg.setThumbMediaId(thumbMediaId.item(0).getTextContent());
             }
             if (msgId.getLength()!= 0) {
-                wechatMsg.setMsgId(Long.parseLong(msgId.item(0).getTextContent()));
+                wechatCallbackMsg.setMsgId(Long.parseLong(msgId.item(0).getTextContent()));
             }
             if (format.getLength()!= 0) {
-                wechatMsg.setFormat(format.item(0).getTextContent());
+                wechatCallbackMsg.setFormat(format.item(0).getTextContent());
             }
             if (time.getLength()!= 0) {
-                wechatMsg.setCreateTime(Long.parseLong(time.item(0).getTextContent()));
+                wechatCallbackMsg.setCreateTime(Long.parseLong(time.item(0).getTextContent()));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return wechatMsg;
+        return wechatCallbackMsg;
     }
 
     public static String getEncodedUrl(String msg) throws Exception{
