@@ -46,8 +46,8 @@ public class Menu{
             new Menu(401, "库存站", "物资", "icon-plus", "app.item"),
             new Menu(402, "库存站", "出入库", "icon-check", "app.stock-worktable"),
 
-            new Menu(501, "微信站", "微信咨询", "icon-wrench", "app.edu-setting"),
-            new Menu(502, "微信站", "微信通知", "icon-wrench", "app.edu-setting"),
+            new Menu(501, "微信站", "微信咨询", "icon-wrench", "app.wechat-talk"),
+            new Menu(502, "微信站", "微信通知", "icon-wrench", "app.wechat-notice"),
 
             new Menu(601, "财务站", "学生财务", "icon-info", "app.todo"),
 

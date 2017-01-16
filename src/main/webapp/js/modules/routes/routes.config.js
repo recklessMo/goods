@@ -114,6 +114,16 @@
             title: '教务设置',
             templateUrl: helper.basepath('custom/admin/edu-setting/edu-setting-worktable.html')
         })
+        .state('app.wechat-talk', {
+            url: '/wechat-talk',
+            title: '微信咨询',
+            templateUrl: helper.basepath('custom/wechat/wechat-talk.html')
+        })
+        .state('app.wechat-notice', {
+            url: '/wechat-notice',
+            title: '微信咨询',
+            templateUrl: helper.basepath('custom/wechat/wechat-notice.html')
+        })
         .state('app.todo', {
             url: '/todo',
             title: '待办事项',

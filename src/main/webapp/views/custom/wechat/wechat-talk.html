@@ -1,0 +1,77 @@
+<div ng-controller="WechatTalkController" class="container-fluid" style="height: 100%;">
+    <div class="row" style="height: 100%;">
+        <div class="col-xs-3" style="height: 100%;">
+            <div class="panel" style="height: 100%;">
+                <uib-tabset class="tab-full-content" style="height: 100%;" justified="true">
+                    <uib-tab select="changeTab('recentUser')" style="text-align: center;">
+                        <uib-tab-heading>
+                            最新咨询
+                        </uib-tab-heading>
+                        <table ng-table="wechatRecentUserTableParams" width="100%" style="table-layout:fixed;"
+                               class="table table-condensed table-bordered table-striped">
+                            <tr ng-repeat="user in $data">
+                                <td ng-click="clickUser(user)">
+                                    <span>
+                                        {{user.openId}}
+                                    </span>
+                                    <div class="msg-last-content">
+                                        <span ng-if="user.lastMessageJson.msgType === 'text'">{{user.lastMessageJson.content}}</span>
+                                        <span ng-if="user.lastMessageJson.msgType === 'image'">[图片]点击查看</span>
+                                        <span ng-if="user.lastMessageJson.msgType === 'shortvideo'">[视频]点击播放</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </uib-tab>
+                    <uib-tab select="changeTab('allUser')" style="text-align: center;height: 100%;">
+                        <uib-tab-heading>
+                            全部用户
+                        </uib-tab-heading>
+                        <div class="suifang-tab-content">
+                            <table ng-table="AllUserTableParams"
+                                   class="table table-bordered table-hover">
+                                <tr ng-repeat="user in $data">
+                                    <td ng-click="choosePatient(user)"
+                                        ng-class="{'user-diagnosis':choosePatientId==user.userId}">
+                                        <div class="all-user-info">
+                                        <span class="user-name">
+                                             {{user.name}}
+                                        </span>
+                                        <span ng-if="user.wechatId" class="bind-status">
+                                            已绑定
+                                        </span>
+                                        <span ng-if="!user.wechatId" class="unbind-status">
+                                            未绑定
+                                        </span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </uib-tab>
+                </uib-tabset>
+            </div>
+        </div>
+        <div class="col-xs-9" style="padding-left:0px;height: 100%;" ng-if="chooseUser">
+            <uib-tabset justified="true" style="height: 100%;border:1px;padding-left: 0;padding-right: 0;"
+                        class="col-xs-12 tab-full-content panel panel-default">
+                <uib-tab select="" style="text-align: center;height: 100%;">
+                    <uib-tab-heading>
+                        咨询对话框
+                    </uib-tab-heading>
+                    <div style="height: 100%;">
+                        <div ng-include="'app/views/custom/wechat/wechat-msg-dialog.html'" style="height: 100%;"></div>
+                    </div>
+                </uib-tab>
+                <uib-tab select="" style="text-align: center;height: 100%;">
+                    <uib-tab-heading>
+                        基本资料
+                    </uib-tab-heading>
+                    <div style="height: 100%;">
+                        <div ng-include="'app/views/custom/student/student-info.html'"></div>
+                    </div>
+                </uib-tab>
+            </uib-tabset>
+        </div>
+    </div>
+</div>
