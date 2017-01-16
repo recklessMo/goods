@@ -1,17 +1,20 @@
 package com.recklessmo.web.wechat;
 
 import com.recklessmo.model.exam.Exam;
+import com.recklessmo.model.security.DefaultUserDetails;
 import com.recklessmo.model.wechat.WechatMessage;
 import com.recklessmo.model.wechat.WechatUser;
 import com.recklessmo.response.JsonResponse;
 import com.recklessmo.service.exam.ExamService;
 import com.recklessmo.service.wechat.WechatBizService;
+import com.recklessmo.util.ContextUtils;
 import com.recklessmo.web.webmodel.page.Page;
 import com.recklessmo.web.webmodel.page.WechatMsgPage;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -56,6 +59,13 @@ public class WechatController {
     @ResponseBody
     @RequestMapping(value = "/message/add", method = RequestMethod.POST)
     public JsonResponse addMessage(@RequestBody WechatMessage wechatMessage){
+        DefaultUserDetails defaultUserDetails = ContextUtils.getLoginUserDetail();
+        wechatMessage.setOrgId(0);
+        wechatMessage.setCreated(new Date());
+        wechatMessage.setMessageType(1);
+        wechatMessage.setUserId(defaultUserDetails.getId());
+        wechatMessage.setUserName("hpf");
+        wechatMessage.setType(1);
         boolean result = wechatBizService.sendMessage(wechatMessage);
         return new JsonResponse(200, result, null);
     }

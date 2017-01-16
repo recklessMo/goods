@@ -16,6 +16,7 @@
         <include refid="columns"/>
         from wechat_message
         where org_id = #{orgId} and open_id = #{openId}
+        order by created desc
         limit #{startIndex}, #{count}
     </select>
 

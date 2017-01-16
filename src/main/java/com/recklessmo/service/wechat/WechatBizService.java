@@ -56,7 +56,7 @@ public class WechatBizService {
      */
     public boolean sendMessage(WechatMessage wechatMessage) {
         //首先发送消息to 微信
-        int status = wechatNetworkService.sendMsgToWechat("xxxx", "");
+        int status = wechatNetworkService.sendMsgToWechat(wechatMessage.getMessage(), wechatMessage.getOpenId());
         //然后插入数据库中进行记录
         if (status == 200) {
             wechatMessageDAO.insertMessage(wechatMessage);

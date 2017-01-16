@@ -48,7 +48,7 @@
         //};
 
         //拉取消息列表
-        $scope.itemsPerPage = 3;
+        $scope.itemsPerPage = 5;
         $scope.fetchMessages = function (currentPage) {
             var params = {
                 page: currentPage || 1,
@@ -58,6 +58,9 @@
             WechatService.loadWechatMsg(params).success(function (data) {
                 if(data.status == 200) {
                     $scope.totalItems = data.totalCount;
+                    data.data.sort(function (a, b) {
+                        return a.created - b.created;
+                    });
                     $scope.message.messageList = data.data;
                     $timeout(function () {
                         $scope.scrollToBottom();
@@ -72,17 +75,17 @@
 
         //发送消息
         $scope.msgTextarea = {};
-        $scope.sendMsg = function () {
+        $scope.sendMessage = function () {
             if ($scope.msgTextarea.content === "") {
                 return;
             }
-            $scope.message.patientId = $scope.patientId;
-            $scope.message.messageJson.content = $scope.msgTextarea.content;
-            $scope.msgTextarea.content = "";
+            $scope.message.openId = $scope.openId;
+            $scope.message.message = $scope.msgTextarea.content;
+            $scope.msgTextarea = {};
             // 医生发送消息
             WechatService.sendWechatMsg($scope.message).success(function (data) {
                 // 将医生发送的消息显示
-                $scope.fetchMessages();
+                $scope.fetchMessages(1);
                 $timeout(function(){
                     $scope.scrollToBottom();
                 },500)
