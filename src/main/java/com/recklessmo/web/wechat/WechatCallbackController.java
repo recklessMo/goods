@@ -16,8 +16,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 /**
- * wechar 回调接口  http & no security policy so far
+ * wechat
+ * 回调接口  http & no security policy so far
  *
+ * 用于处理微信回调的请求
  */
 @Controller
 @RequestMapping("/public/wechat")

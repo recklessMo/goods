@@ -1,6 +1,7 @@
 package com.recklessmo.dao.wechat;
 
 import com.recklessmo.model.wechat.WechatCallbackMsg;
+import com.recklessmo.model.wechat.WechatMessage;
 import com.recklessmo.web.webmodel.page.WechatMsgPage;
 
 import java.util.List;
@@ -10,7 +11,10 @@ import java.util.List;
  */
 public interface WechatMessageDAO {
 
-    List<WechatCallbackMsg> getListByOrgIdAndOpenId(WechatMsgPage page);
+    List<WechatMessage> getListByOrgIdAndOpenId(WechatMsgPage page);
     int getCountByOrgIdAndOpenId(WechatMsgPage page);
+
+
+    void insertMessage(WechatMessage wechatMessage);
 
 }

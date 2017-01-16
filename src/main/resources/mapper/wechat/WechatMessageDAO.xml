@@ -2,9 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.recklessmo.dao.wechat.WechatMessageDAO">
-    <sql id = "columns">
+    <sql id="columns">
         id,org_id,open_id,user_id,type,message_type,message,created
     </sql>
+
+    <insert id="insertMessage" parameterType="com.recklessmo.model.wechat.WechatMessage">
+        insert into wechat_msg(org_id, open_id, user_id, type, message_type, message, created)
+        values(#{orgId}, #{openId}, #{userId}, #{type}, #{messageType}, #{message}, #{created})
+    </insert>
 
     <select id="getListByOrgIdAndOpenId" resultType="com.recklessmo.model.wechat.WechatMessage">
         select

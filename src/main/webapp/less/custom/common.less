@@ -105,3 +105,64 @@
 .arrow-button:hover{
   background-image: linear-gradient(to top,transparent,transparent,#fff,#d2e9ff,#acd6ff,#4b91ea,#acd6ff,#d2e9ff,#fff,transparent,transparent);
 }
+
+//聊天的气泡效果
+.bubble-left-content {
+  display: inline-block;
+  background-color: #f1f4f6;
+  padding: 7px!important;
+  margin-left: 13px;
+  margin-right: 17px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  position: relative;
+  color: #444;
+  font-size: 14px;
+}
+
+.bubble-right-content {
+  max-width: 97%;
+  display: inline-block;
+  background-color: #d4faae;
+  padding: 7px!important;
+  margin-left: 1px;
+  margin-right: 13px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  position: relative;
+  color: #000;
+  font-size: 14px;
+  border: 1px solid #c2e79d
+}
+
+.bubble-left-content:before {
+  position: absolute;
+  content: "\00a0";
+  width: 0;
+  height: 0;
+  border-width: 2px 12px 13px 0;
+  border-style: solid;
+  border-color: #f1f4f6 #f1f4f6 transparent transparent;
+  top: 12px;
+  left: -12px;
+}
+
+.bubble-right-content:before {
+  position: absolute;
+  content: "\00a0";
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-width: 2px 0 13px 12px;
+  border-style: solid;
+  border-color: #d4faae transparent transparent #d4faae;
+  right: -12px;
+  top: 12px
+}
+
+.wechat-input-area{
+  height: 30%;
+  width: 100%;
+}

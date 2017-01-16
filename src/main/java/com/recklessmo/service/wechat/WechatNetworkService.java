@@ -7,8 +7,11 @@ import com.recklessmo.constant.WechatConstants;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpEntity;
+import org.apache.http.StatusLine;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
@@ -148,6 +151,45 @@ public class WechatNetworkService {
             }
         }
         return null;
+    }
+
+
+    /**
+     *
+     * 发送消息到微信
+     *
+     * 暂时只支持文本消息
+     *
+     */
+    public int sendMsgToWechat(String content, String openId){
+        CloseableHttpResponse response = null;
+        try {
+            String accessToken = getAccessToken();
+            if (accessToken != null) {
+                HttpPost httpPost = new HttpPost(WechatConstants.SEND_MSG_URL + accessToken);
+                JSONObject object = new JSONObject();
+                object.put("touser", openId);
+                object.put("msgtype", "text");
+                JSONObject obj = new JSONObject();
+                obj.put("content", content);
+                object.put("text", obj);
+                StringEntity stringEntity = new StringEntity(object.toJSONString(), "UTF-8");
+                stringEntity.setContentType("application/json");
+                httpPost.setEntity(stringEntity);
+                response = httpclient.execute(httpPost);
+                StatusLine status = response.getStatusLine();
+                return status.getStatusCode();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                response.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return 500;
     }
 
 

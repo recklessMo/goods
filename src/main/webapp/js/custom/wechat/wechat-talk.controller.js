@@ -57,9 +57,7 @@
         //点击某个user
         $scope.clickUser = function(user){
             $scope.chooseUser = true;
-
-
-
+            $scope.$broadcast("chooseStudent", user.openId);
         }
 
     }

@@ -1,8 +1,11 @@
 package com.recklessmo.service.wechat;
 
+import com.recklessmo.dao.wechat.WechatMessageDAO;
 import com.recklessmo.dao.wechat.WechatUserDAO;
+import com.recklessmo.model.wechat.WechatMessage;
 import com.recklessmo.model.wechat.WechatUser;
 import com.recklessmo.web.webmodel.page.Page;
+import com.recklessmo.web.webmodel.page.WechatMsgPage;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -19,8 +22,15 @@ import java.util.List;
 public class WechatBizService {
 
     @Resource
+    private WechatNetworkService wechatNetworkService;
+
+    @Resource
     private WechatUserDAO wechatUserDAO;
 
+    @Resource
+    private WechatMessageDAO wechatMessageDAO;
+
+    /*************************微信用户*****************************/
     public List<WechatUser> getRecentUserList(Page page){
         return wechatUserDAO.getListByOrgId(page);
     }
@@ -28,6 +38,30 @@ public class WechatBizService {
     public int getRecentUserCount(Page page){
         return wechatUserDAO.getCountByOrgId(page);
     }
+
+
+    /*************************微信消息***********************************/
+    public List<WechatMessage> getMessageList(WechatMsgPage page){
+        return wechatMessageDAO.getListByOrgIdAndOpenId(page);
+    }
+
+    /**
+     * 发送消息
+     * @param wechatMessage
+     * @return
+     */
+    public boolean sendMessage(WechatMessage wechatMessage) {
+        //首先发送消息to 微信
+        int status = wechatNetworkService.sendMsgToWechat("xxxx", "");
+        //然后插入数据库中进行记录
+        if (status == 200) {
+            wechatMessageDAO.insertMessage(wechatMessage);
+            return true;
+        }
+        return false;
+    }
+
+
 
     /**
      *
