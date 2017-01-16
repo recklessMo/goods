@@ -45,6 +45,10 @@ public class WechatBizService {
         return wechatMessageDAO.getListByOrgIdAndOpenId(page);
     }
 
+    public int getMessageListCount(WechatMsgPage page){
+        return wechatMessageDAO.getCountByOrgIdAndOpenId(page);
+    }
+
     /**
      * 发送消息
      * @param wechatMessage

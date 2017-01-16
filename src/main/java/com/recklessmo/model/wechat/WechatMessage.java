@@ -10,12 +10,30 @@ public class WechatMessage {
     private long id;
     private long orgId;
     private String openId;
+    private String openName;
     private long userId;
+    private String userName;
 
     private int type;
     private int messageType;
     private String message;
     private Date created;
+
+    public String getOpenName() {
+        return openName;
+    }
+
+    public void setOpenName(String openName) {
+        this.openName = openName;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     public long getId() {
         return id;

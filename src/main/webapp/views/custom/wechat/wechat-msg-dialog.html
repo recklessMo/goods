@@ -9,7 +9,7 @@
 <div style="height: 100%;padding:0;" ng-if="true">
     <div style="height: 69%;text-align:center;">
         <ul style="list-style-type: none;padding: 0;height: 100%;overflow:auto;" id="wechatMessageList">
-            <li ng-repeat="msg in message.messageList">
+            <li ng-repeat="msg in message.messageList" style="width: calc(100% - 10px);">
                 <div ng-if="msg.type === 2" style="text-align: left;">
                     <div style="display: inline-block;">
                         <div style="text-align:left;padding: 10px 0 3px 20px;font-size: 12px;"
@@ -19,13 +19,7 @@
                              ng-if="msg.created >= todayTime">{{msg.openName}}{{msg.created | date:'hh:mm'}}
                         </div>
                         <div class="bubble-left-content">
-                            <span ng-if="msg.messageJson.msgType === 'text'">{{msg.messageJson.content}}</span>
-                            <a ng-if="msg.messageJson.msgType === 'image'" ng-click="showMedia(msg)">
-                                [图片]点击查看
-                            </a>
-                            <a ng-if="msg.messageJson.msgType === 'shortvideo'" ng-click="showMedia(msg)">
-                                [视频]点击播放
-                            </a>
+                            <span>{{msg.message}}</span>
                         </div>
                     </div>
                 </div>
@@ -39,9 +33,7 @@
                              ng-if="msg.created >= todayTime">{{msg.userName}} {{msg.created | date:'hh:mm'}}
                         </div>
                         <div class="bubble-right-content">
-                            <span ng-if="msg.messageJson.type === 'text'">{{msg.messageJson.content}}</span>
-                            <span ng-if="msg.messageJson.type === 'template'" ng-bind-html="msg.messageJson.content"
-                                  style="text-align: left;display: inline-block;"></span>
+                            <span>{{msg.message}}</span>
                         </div>
                     </div>
 
@@ -49,8 +41,8 @@
             </li>
         </ul>
 
-        <ul uib-pagination total-items="bigTotalItems" ng-model="bigCurrentPage" max-size="5"
-            items-per-page="itemsPerPage" ng-change="fetchMessages(bigCurrentPage)" class="pagination-sm"
+        <ul uib-pagination total-items="totalItems" ng-model="currentPage" max-size="5"
+            items-per-page="itemsPerPage" ng-change="fetchMessages(currentPage)" class="pagination-sm"
             boundary-link-numbers="true"></ul>
     </div>
     <div class="wechat-input-area" style="padding-top:65px;">

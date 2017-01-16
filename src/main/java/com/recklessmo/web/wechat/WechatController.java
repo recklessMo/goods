@@ -49,11 +49,12 @@ public class WechatController {
     @RequestMapping(value = "/message/list", method = RequestMethod.POST)
     public JsonResponse listMessage(@RequestBody WechatMsgPage page){
         List<WechatMessage> wechatMessages = wechatBizService.getMessageList(page);
-        return new JsonResponse(200, wechatMessages, null);
+        int totalCount = wechatBizService.getMessageListCount(page);
+        return new JsonResponse(200, wechatMessages, totalCount);
     }
 
     @ResponseBody
-    @RequestMapping(value = "/message/list", method = RequestMethod.POST)
+    @RequestMapping(value = "/message/add", method = RequestMethod.POST)
     public JsonResponse addMessage(@RequestBody WechatMessage wechatMessage){
         boolean result = wechatBizService.sendMessage(wechatMessage);
         return new JsonResponse(200, result, null);
