@@ -65,7 +65,10 @@ public class WechatBizService {
         return false;
     }
 
-
+    public void receiveMessage(WechatMessage wechatMessage) {
+        //插入数据库中进行记录
+        wechatMessageDAO.insertMessage(wechatMessage);
+    }
 
     /**
      *

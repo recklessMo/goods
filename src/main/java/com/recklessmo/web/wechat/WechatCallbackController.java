@@ -2,6 +2,7 @@ package com.recklessmo.web.wechat;
 
 import com.recklessmo.constant.WechatConstants;
 import com.recklessmo.model.wechat.WechatCallbackMsg;
+import com.recklessmo.model.wechat.WechatMessage;
 import com.recklessmo.service.wechat.WechatBizService;
 import com.recklessmo.service.wechat.WechatCallbackService;
 import com.recklessmo.service.wechat.WechatNetworkService;
@@ -70,18 +71,34 @@ public class WechatCallbackController {
         if (wechatCallbackMsg.getMsgType().equals("event")) {
             if (wechatCallbackMsg.getEvent().equals("subscribe")) {
                 if (wechatCallbackMsg.getTicket() != null) {
-                    //扫码关注通过,调用业务逻辑
+                    //扫描指定二维码关注
+                    //进行绑定
 
                 } else {
-                    //忽略
+                    //扫描公众号二维码关注. 暂时无法做任何事
                 }
             } else if (wechatCallbackMsg.getEvent().equals("unsubscribe")) {
                 //解绑openId
             } else if (wechatCallbackMsg.getEvent().equals("SCAN")) {
                 //用户关注之后再进行扫码
+                //直接更换绑定信息
+
+
             }
-        } else if (wechatCallbackMsg.getMsgType().equals("text") || wechatCallbackMsg.getMsgType().equals("image")
+        } else if (wechatCallbackMsg.getMsgType().equals("text")){
+            //文本消息
+            WechatMessage wechatMessage = new WechatMessage();
+            wechatMessage.setOrgId(0);
+            wechatMessage.setType(2);//接收
+            wechatMessage.setMessageType(1);
+            wechatMessage.setMessage(wechatCallbackMsg.getContent());
+            wechatMessage.setCreated(new Date());
+            wechatMessage.setOpenId(wechatCallbackMsg.getFromUserName());
+            wechatMessage.setOpenName("微信用户");
+            wechatBizService.receiveMessage(wechatMessage);
+        } else if (wechatCallbackMsg.getMsgType().equals("image")
                 || wechatCallbackMsg.getMsgType().equals("voice") || wechatCallbackMsg.getMsgType().equals("video") || wechatCallbackMsg.getMsgType().equals("shortvideo")) {
+            //暂时不支持这种类型的消息.
         }
         return "";
     }
@@ -140,9 +157,9 @@ public class WechatCallbackController {
     @RequestMapping(value = "/page", method = RequestMethod.GET)
     public String page(@RequestParam("code") String code, @RequestParam("type") int type,  Model model) {
         String openId = code;
-
         //通过type和openId来进入不同的页面
         if(type == 1){
+
         }else if(type == 2){
 
         }else if(type == 3){
