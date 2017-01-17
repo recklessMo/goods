@@ -38,7 +38,14 @@
                         <div class="form-group from-inline">
                             <label class="col-md-1 control-label">性别</label>
                             <div class="col-md-2" style="padding-left: 0px">
-                                <input type="text" class="form-control" ng-model="student.gender"/>
+                                <ui-select ng-model="student.gender" theme="bootstrap"
+                                           class="text-left" style="width:100%;" on-select="selectGrade($item)">
+                                    <ui-select-match placeholder="选择性别">{{$select.selected.genderName}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="gender.genderId as gender in genderList">
+                                        <span ng-bind-html="gender.genderName"></span>
+                                    </ui-select-choices>
+                                </ui-select>
                             </div>
 
                             <label class="col-md-1 control-label">出生年月</label>

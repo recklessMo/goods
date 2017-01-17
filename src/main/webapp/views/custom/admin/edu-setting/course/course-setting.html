@@ -15,7 +15,7 @@
             <tr ng-repeat="item in $data" ng-dblclick="showClass(item.gradeId)">
                 <td data-title="'序号'" style="text-align: center;width: 10%;">{{item.courseId}}</td>
                 <td data-title="'科目名称'" style="text-align: center;width:15%;">{{item.courseName}}</td>
-                <td data-title="'创建时间'" style="text-align: center;width: 15%;">{{item.createTime}}</td>
+                <td data-title="'创建时间'" style="text-align: center;width: 15%;">{{item.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
                 <td data-title="'详细'" style="text-align: center;width: 15%;">{{item.detail}}</td>
                 <td data-title="'操作'" style="text-align: center;width:45%;">
                     <button class="btn btn-info" ng-click="editCourse(item)">编辑</button>

@@ -19,13 +19,18 @@
         </div>
 
         <div class="row" style="margin-top: 30px;">
-            <div class="col-md-12">
+            <div class="col-md-6">
                 <div class="input-group">
-                    <span class="input-group-addon" style="color:red">年级名称</span>
+                    <span class="input-group-addon" style="color:red">职位名称</span>
                     <input ng-class="!user.userName?'field-dirty' : ''" type="text" class="form-control" ng-model="job.jobName"/>
                 </div>
             </div>
-
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-addon" style="color:red">职位描述</span>
+                    <input ng-class="!user.userName?'field-dirty' : ''" type="text" class="form-control" ng-model="job.jobDetail"/>
+                </div>
+            </div>
         </div>
     </fieldset>
 

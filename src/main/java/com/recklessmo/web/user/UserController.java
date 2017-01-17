@@ -7,11 +7,7 @@ import com.recklessmo.response.ResponseType;
 import com.recklessmo.service.security.EduUserDetailService;
 import com.recklessmo.service.user.UserService;
 import com.recklessmo.web.webmodel.page.UserPage;
-import org.apache.commons.collections.comparators.ComparableComparator;
 import org.apache.commons.lang.StringUtils;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -87,7 +83,7 @@ public class UserController {
     @RequestMapping(value = "/add", method = {RequestMethod.GET, RequestMethod.POST})
     public JsonResponse add(@RequestBody UserVO user){
         try {
-            user.getAuthorities().sort(intCom);
+            user.getAuthorities().sort(intComparator);
             User userModel = new User();
             userModel.setAuthorities(StringUtils.join(user.getAuthorities(), ","));
             userModel.setUserName(user.getUserName());
@@ -113,7 +109,7 @@ public class UserController {
     public JsonResponse update(@RequestBody UserVO user){
         try {
             //将权限进行去重和排序
-            user.getAuthorities().sort(intCom);
+            user.getAuthorities().sort(intComparator);
             User userModel = new User();
             userModel.setAuthorities(StringUtils.join(user.getAuthorities(), ","));
             userModel.setUserName(user.getUserName());
@@ -146,7 +142,7 @@ public class UserController {
         return new JsonResponse(ResponseType.RESPONSE_OK, null, null);
     }
 
-    private Comparator intCom = new Comparator<Integer>() {
+    private Comparator intComparator = new Comparator<Integer>() {
         @Override
         public int compare(Integer o1, Integer o2) {
             return o1.compareTo(o2);

@@ -9,6 +9,15 @@ public class Job {
 
     private long jobId;
     private String jobName;
+    private String jobDetail;
+
+    public String getJobDetail() {
+        return jobDetail;
+    }
+
+    public void setJobDetail(String jobDetail) {
+        this.jobDetail = jobDetail;
+    }
 
     public long getJobId() {
         return jobId;

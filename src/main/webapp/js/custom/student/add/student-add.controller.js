@@ -11,6 +11,7 @@
         $scope.student = {};
         $scope.gradeList = [];
         $scope.classList = [];
+        $scope.genderList = [{genderId:0, genderName:'男'}, {genderId:1, genderName:'女'}];
 
         $scope.init = function() {
             $scope.student = {};
