@@ -11,13 +11,19 @@
                                class="table table-condensed table-bordered table-striped">
                             <tr ng-repeat="user in $data">
                                 <td ng-click="clickUser(user)">
-                                    <span>
-                                        {{user.openId}}
-                                    </span>
-                                    <div class="msg-last-content">
-                                        <span ng-if="user.lastMessageJson.msgType === 'text'">{{user.lastMessageJson.content}}</span>
-                                        <span ng-if="user.lastMessageJson.msgType === 'image'">[图片]点击查看</span>
-                                        <span ng-if="user.lastMessageJson.msgType === 'shortvideo'">[视频]点击播放</span>
+                                    <div class="recent-msg-base-info">
+                                        <span>
+                                            {{user.openName}}
+                                        </span>
+                                        <span ng-if="todayStartTime <= user.updated">
+                                            {{user.updated | date : 'HH:mm'}}
+                                        </span>
+                                        <span ng-if="todayStartTime > user.updated">
+                                            {{user.updated | date : 'M-d'}}
+                                        </span>
+                                    </div>
+                                    <div class="recent-msg-last-content">
+                                        <span>{{user.lastMessage}}</span>
                                     </div>
                                 </td>
                             </tr>

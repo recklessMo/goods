@@ -27,7 +27,7 @@
 
 //tab的样式
 .tab-full-content .tab-content{
-  padding-top:10px;
+  padding:10px 0px 0px 0px;
   height: ~"calc(100% - (45px))";
   border-style: none;
 }
@@ -165,4 +165,48 @@
 .wechat-input-area{
   height: 30%;
   width: 100%;
+}
+
+.recent-msg-base-info{
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
+  width: 100%
+}
+
+.recent-msg-last-content{
+  height: 18px;
+  text-align: left;
+  font-size: 12px;
+  color: gray;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 90%
+}
+
+.tab-full-content table tbody tr td{
+  width: 100%;
+  border: none!important;
+  padding: 8px 15px!important;
+}
+
+.tab-full-content table tbody tr td .recent-msg-base-info span:first-of-type {
+  font-size: 14px;
+  font-weight: 700;
+  display: inline-block;
+  width: 60%;
+  text-align: left
+}
+
+.tab-full-content table tbody tr td .recent-msg-base-info span:last-of-type {
+  font-size: 12px;
+  color: #a9a9a9;
+  display: inline-block;
+  width: 30%;
+  text-align: right
+}
+
+.tab-full-content table tbody tr td:hover {
+  background: #EDF6FF
 }

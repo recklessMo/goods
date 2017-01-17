@@ -11,11 +11,20 @@ public class WechatUser {
     private long orgId;
     private String sid;
     private String openId;
+    private String openName;
 
     private String headUrl;
     private String lastMessage;
     private Date updated;
     private int deleted;
+
+    public String getOpenName() {
+        return openName;
+    }
+
+    public void setOpenName(String openName) {
+        this.openName = openName;
+    }
 
     public long getId() {
         return id;

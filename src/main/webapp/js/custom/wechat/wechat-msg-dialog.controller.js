@@ -48,7 +48,7 @@
         //};
 
         //拉取消息列表
-        $scope.itemsPerPage = 5;
+        $scope.itemsPerPage = 20;
         $scope.fetchMessages = function (currentPage) {
             var params = {
                 page: currentPage || 1,

@@ -1,4 +1,4 @@
-<div ng-if="false" style="text-align: center;padding-top: 25%;">
+<div ng-show="false" style="text-align: center;padding-top: 25%;">
     <div style="margin-bottom: 20px;">
         该用户尚未绑定微信
     </div>
@@ -6,7 +6,7 @@
     <a ng-click="getQrCode()">请点此绑定微信</a>
 </div>
 
-<div style="height: 100%;padding:0;" ng-if="true">
+<div style="height: 100%;padding:0;" ng-show="true">
     <div style="height: 69%;text-align:center;">
         <ul style="list-style-type: none;padding: 0;height: 100%;overflow:auto;" id="wechatMessageList">
             <li ng-repeat="msg in message.messageList" style="width: calc(100% - 10px);">
