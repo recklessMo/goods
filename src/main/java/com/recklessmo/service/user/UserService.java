@@ -40,4 +40,9 @@ public class UserService {
         userDAO.updateUser(user);
     }
 
+
+    public void updatePwd(long id, String pwd){
+        userDAO.updatePwd(id, pwd);
+    }
+
 }

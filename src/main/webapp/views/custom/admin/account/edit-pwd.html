@@ -1,0 +1,29 @@
+<div block-ui="edit-pwd" class="container-fluid">
+
+    <div class="row">
+        <div class="col-md-12">
+            <h5 style="margin-top: 0;">
+                <span class="icon-user"/>
+                修改密码
+            </h5>
+        </div>
+    </div>
+
+
+    <div class="row" style="margin-top: 30px;">
+        <div class="col-md-12">
+            <input  type="password" class="form-control" ng-model="temp.pwd"/>
+        </div>
+    </div>
+
+
+    <div class="row" style="text-align: center;margin-top:50px;">
+        <div class="col-md-12" style="text-align: center;">
+            <button data-style="expand-left" ladda="loading" class="btn btn-primary" ng-click="updatePwd()">保存
+            </button>
+            <button class="btn btn-primary" ng-click="closeThisDialog('cancel')">取消</button>
+        </div>
+    </div>
+
+</div>
+

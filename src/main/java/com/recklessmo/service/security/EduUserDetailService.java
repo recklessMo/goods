@@ -48,8 +48,10 @@ public class EduUserDetailService implements UserDetailsService{
             List<GrantedAuthority> authorities = new LinkedList<>();
             authorities.add(new SimpleGrantedAuthority("login"));
             String[] authorityList = user.getAuthorities().split(",");
-            for(String auth : authorityList){
-                authorities.add(new SimpleGrantedAuthority(auth));
+            for(String auth : authorityList) {
+                if (auth.trim().length() > 0) {
+                    authorities.add(new SimpleGrantedAuthority(auth.trim()));
+                }
             }
             return new DefaultUserDetails(user.getId(), userName, user.getPwd(), true, true, true, true, authorities, null);
         }
@@ -69,7 +71,7 @@ public class EduUserDetailService implements UserDetailsService{
      * 重新加载用户的权限列表
      */
     public void reloadUserByUserName(String userName){
-        userCache.refresh(userName);
+        userCache.invalidate(userName);
     }
 
 }

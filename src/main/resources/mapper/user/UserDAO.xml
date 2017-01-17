@@ -47,7 +47,7 @@
     </insert>
 
     <update id="updateUser" parameterType = "com.recklessmo.model.user.User">
-        update user set user_name = #{userName}, pwd = #{pwd}, name = #{name}, phone=#{phone}
+        update user set user_name = #{userName}, name = #{name}, phone=#{phone}
          , email=#{email}, gender=#{gender}, job=#{job}, authorities=#{authorities}
          where id = #{id}
     </update>
@@ -56,4 +56,7 @@
         delete from user where id = #{id}
     </delete>
 
+    <update id="updatePwd">
+        update user set pwd = #{pwd} where id = #{id}
+    </update>
 </mapper>

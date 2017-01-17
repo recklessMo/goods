@@ -2,9 +2,12 @@ package com.recklessmo.web.setting;
 
 import com.recklessmo.model.setting.Grade;
 import com.recklessmo.model.setting.Group;
+import com.recklessmo.model.setting.Job;
 import com.recklessmo.response.JsonResponse;
 import com.recklessmo.service.setting.GradeSettingService;
+import com.recklessmo.service.setting.JobSettingService;
 import com.recklessmo.web.webmodel.page.GradePage;
+import com.recklessmo.web.webmodel.page.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +27,8 @@ public class DicController {
     @Resource
     private GradeSettingService gradeSettingService;
 
+    @Resource
+    private JobSettingService jobSettingService;
 
 
     @RequestMapping(value = "/grade/list", method = {RequestMethod.POST, RequestMethod.GET})
@@ -48,5 +53,16 @@ public class DicController {
         return new JsonResponse(200, groups, null);
     }
 
+
+    /**
+     * 列出所有的职业
+     * @return
+     */
+    @RequestMapping(value = "/job/list", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public JsonResponse listJob(@RequestBody Page page){
+        List<Job> jobs = jobSettingService.listJob(page);
+        return new JsonResponse(200, jobs, null);
+    }
 
 }

@@ -7,10 +7,6 @@
                     <span class="icon-user"/>
                     添加用户
                 </h5>
-                <h5 style="margin-top: 0;" ng-show="type == 0">
-                    <span class="icon-user"/>
-                    查看用户
-                </h5>
                 <h5 style="margin-top: 0;" ng-show="type == 1">
                     <span class="icon-user"/>
                     编辑用户
@@ -34,30 +30,27 @@
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="input-group">
                     <span class="input-group-addon" style="color:red">密码</span>
-                    <input ng-class="!user.pwd?'field-dirty' : ''" type="password" class="form-control" ng-model="user.pwd">
+                    <input ng-class="!user.pwd?'field-dirty' : ''" type="password" class="form-control" ng-model="user.pwd" ng-if="type==2">
+                    <button class="btn btn-info form-control" ng-click="changePassword(user.id)" ng-if="type==1">修改密码</button>
                 </div>
-            </div>
-
-            <div class="col-md-2">
-                <button class="btn btn-info">修改密码</button>
             </div>
         </div>
 
         <div class="row" style="margin-top: 20px;">
             <div class="col-md-6">
                 <div class="input-group">
-                    <span class="input-group-addon">姓名</span>
+                    <span class="input-group-addon" style="color:red">姓名</span>
                     <input ng-class="!user.name?'field-dirty' : ''" type="text" class="form-control" ng-model="user.name">
                 </div>
             </div>
 
             <div class="col-md-6">
                 <div class="input-group">
-                    <span class="input-group-addon">电话</span>
-                    <input ng-class="!user.name?'field-dirty' : ''" type="text" class="form-control" ng-model="user.phone">
+                    <span class="input-group-addon" style="color:red">电话</span>
+                    <input ng-class="!user.phone?'field-dirty' : ''" type="text" class="form-control" ng-model="user.phone">
                 </div>
             </div>
         </div>
@@ -65,7 +58,7 @@
         <div class="row" style="margin-top: 20px;">
             <div class="col-md-6">
                 <div class="input-group">
-                    <span class="input-group-addon">性别</span>
+                    <span class="input-group-addon" style="color:red">性别</span>
                     <ui-select ng-model="user.gender" theme="bootstrap"
                                class="text-left" style="width:100%;">
                         <ui-select-match placeholder="选择性别">{{$select.selected.name}}
@@ -80,12 +73,33 @@
             <div class="col-md-6">
                 <div class="input-group">
                     <span class="input-group-addon">邮箱</span>
-                    <input ng-class="!user.name?'field-dirty' : ''" type="email" class="form-control" ng-model="user.email">
+                    <input ng-class="!user.email?'field-dirty' : ''" type="email" class="form-control" ng-model="user.email">
                 </div>
             </div>
         </div>
 
         <div class="row" style="margin-top: 20px;">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-addon" style="color:red">职业</span>
+                    <ui-select ng-model="user.job" theme="bootstrap"
+                               class="text-left" style="width:100%;">
+                        <ui-select-match placeholder="选择职业">{{$select.selected.jobName}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="job.jobName as job in jobList">
+                            <span ng-bind-html="job.jobName"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-md-12">
+                <label class="text-info">
+                    <span>II 权限列表</span>
+                </label>
+            </div>
             <div class="col-md-12">
                 <ui-select multiple ng-model="user.authorities" theme="bootstrap" close-on-select="false" title="选择权限" remove-selected="false">
                     <ui-select-match placeholder="选择权限">{{$item.name}};</ui-select-match>

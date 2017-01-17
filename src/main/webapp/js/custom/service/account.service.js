@@ -61,6 +61,16 @@
             });
         }
 
+        this.updatePwd = function(id, pwd){
+            return $http({
+                method: "POST",
+                url: "/v1/user/pwd/update",
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                data: $.param({id:id, pwd:pwd}),
+                timeout:5000
+            });
+        }
+
     }
 })
 ();
