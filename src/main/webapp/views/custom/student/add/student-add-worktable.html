@@ -6,7 +6,7 @@
                     <uib-tab active="true"
                              style="text-align: center;">
                         <uib-tab-heading>
-                            单个导入
+                            单个录入
                         </uib-tab-heading>
                         <div ng-include="'app/views/custom/student/add/student-add.html'" style="height: 100%;">
                         </div>
@@ -17,6 +17,14 @@
                             批量导入
                         </uib-tab-heading>
                         <div ng-include="'app/views/custom/student/add/student-add-batch.html'" style="height: 100%;">
+                        </div>
+                    </uib-tab>
+                    <uib-tab active="false"
+                             style="text-align: center;">
+                        <uib-tab-heading>
+                            批量导出
+                        </uib-tab-heading>
+                        <div ng-include="'app/views/custom/student/add/student-export-batch.html'" style="height: 100%;">
                         </div>
                     </uib-tab>
                 </uib-tabset>

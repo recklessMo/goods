@@ -3,6 +3,7 @@ package com.recklessmo.dao.student;
 import com.recklessmo.model.student.StudentAddInfo;
 import com.recklessmo.model.student.StudentBaseInfo;
 import com.recklessmo.web.webmodel.page.StudentPage;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ public interface StudentDAO {
     List<StudentBaseInfo> getStudentBaseInfoList(StudentPage page);
     int getStudentBaseInfoListTotalCount(StudentPage page);
     void insertStudentAddInfo(StudentAddInfo studentAddInfo);
+    void insertStudentList(@Param("list") List<StudentAddInfo> studentAddInfoList);
 
 }
 

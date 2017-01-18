@@ -20,6 +20,22 @@
         )
     </insert>
 
+    <insert id="insertStudentList" parameterType="com.recklessmo.model.student.StudentAddInfo">
+        insert into student
+        (
+        <include refid="studentAddColumns"/>
+        )
+        VALUES
+        <foreach collection="list" item="student" separator=",">
+            (#{student.sid},#{student.name}, #{student.otherName},
+            #{student.phone}, #{student.scn}, #{student.gender},
+            #{student.birth}, #{student.homeTown}, #{student.people},
+            #{student.birthTown}, #{student.address}, #{student.qq},
+            #{student.wechat}, #{student.gradeId}, #{student.gradeName},
+            #{student.classId}, #{student.className}, #{student.job})
+        </foreach>
+    </insert>
+
     <sql id="byPageQuery">
 
     </sql>

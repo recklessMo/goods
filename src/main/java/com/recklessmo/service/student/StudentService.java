@@ -4,6 +4,7 @@ import com.recklessmo.dao.student.StudentDAO;
 import com.recklessmo.model.student.StudentAddInfo;
 import com.recklessmo.model.student.StudentBaseInfo;
 import com.recklessmo.web.webmodel.page.StudentPage;
+import org.springframework.security.web.authentication.preauth.x509.SubjectDnX509PrincipalExtractor;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -44,5 +45,23 @@ public class StudentService {
         studentDAO.insertStudentAddInfo(studentAddInfo);
     }
 
+
+    /**
+     * 用于批量插入学生信息
+     * 每次插入500个
+     */
+    public void insertStudentList(List<StudentAddInfo> studentList){
+        int gap = 500;
+        int start = 0;
+        while(start < studentList.size()) {
+            int end = start + gap;
+            if(end > studentList.size()){
+                end = studentList.size();
+            }
+            List<StudentAddInfo> sub = studentList.subList(start, end);
+            studentDAO.insertStudentList(sub);
+            start = end;
+        }
+    }
 
 }

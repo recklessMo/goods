@@ -50,7 +50,8 @@
         .state('app.student-add-worktable', {
             url: '/student-add-worktable',
             title: '学生录入',
-            templateUrl: helper.basepath('custom/student/add/student-add-worktable.html')
+            templateUrl: helper.basepath('custom/student/add/student-add-worktable.html'),
+            resolve: helper.resolveFor('angularFileUpload', 'filestyle')
         })
         .state('app.item', {
             url: '/item',
@@ -66,8 +67,7 @@
             url: '/student-add',
             title: '学生导入',
             controller: 'StudentAddController',
-            templateUrl: helper.basepath('custom/student/student-add.html'),
-            resolve: helper.resolveFor('xeditable')
+            templateUrl: helper.basepath('custom/student/student-add.html')
       })
           .state('app.account', {
               url: '/account',

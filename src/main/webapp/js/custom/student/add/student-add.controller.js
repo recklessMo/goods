@@ -47,6 +47,7 @@
 
             //提交
             StudentService.addStudent($scope.student).success(function(data){
+                blockUI.stop();
                 if(data.status == 200){
                     SweetAlert.success("添加成功!");
                     //清空输入部分
@@ -55,10 +56,9 @@
                     SweetAlert.error("服务器异常, 请稍后重试!");
                 }
             }).error(function(){
+                blockUI.stop();
                 SweetAlert.error("网络问题, 请稍后重试!");
             });
-
-            blockUI.stop();
         }
 
         //校验必填信息
