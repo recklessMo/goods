@@ -1,6 +1,7 @@
 package com.recklessmo.web.student;
 
 import com.recklessmo.model.student.StudentAddInfo;
+import com.recklessmo.model.student.StudentAllInfo;
 import com.recklessmo.model.student.StudentBaseInfo;
 import com.recklessmo.response.JsonResponse;
 import com.recklessmo.service.student.StudentService;
@@ -37,6 +38,14 @@ public class StudentController {
     public JsonResponse list(@RequestBody StudentPage page){
         int cnt = studentService.getStudentBaseInfoTotalCount(page);
         List<StudentBaseInfo> infoList = studentService.getStudentBaseInfo(page);
+        return new JsonResponse(200, infoList, cnt);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/v1/student/listall", method = {RequestMethod.POST, RequestMethod.GET})
+    public JsonResponse listall(@RequestBody StudentPage page){
+        int cnt = studentService.getStudentAllInfoTotalCount(page);
+        List<StudentAllInfo> infoList = studentService.getStudentAllInfo(page);
         return new JsonResponse(200, infoList, cnt);
     }
 

@@ -21,10 +21,10 @@ public class Menu{
 
             new Menu(101, "教务站", "学生查询", "icon-people", "app.student-view-worktable"),
             new Menu(102, "教务站", "录入导出", "icon-user-follow", "app.student-add-worktable"),
-            new Menu(103, "教务站", "奖惩录入", "icon-user-follow", "app.student-add-worktable"),
-            new Menu(104, "教务站", "毕业去向", "icon-user-follow", "app.student-add-worktable"),
-            new Menu(105, "教务站", "教师设置", "icon-user-follow", "app.student-add-worktable"),
-            new Menu(106, "教务站", "课表编排", "icon-user-follow", "app.student-add-worktable"),
+            new Menu(103, "教务站", "奖惩录入", "icon-user-follow", "app.student-reward"),
+            new Menu(104, "教务站", "毕业去向", "icon-user-follow", "app.student-graduate"),
+            new Menu(105, "教务站", "教师设置", "icon-user-follow", "app.student-teacher"),
+            new Menu(106, "教务站", "课表编排", "icon-user-follow", "app.student-schedule"),
 
 
             new Menu(201, "成绩站", "考试设置", "icon-plus", "app.exam"),
@@ -56,7 +56,7 @@ public class Menu{
 
             new Menu(801, "管理站", "帐号管理", "icon-user-female", "app.account"),
             new Menu(802, "管理站", "教务设置", "icon-wrench", "app.edu-setting"),
-            new Menu(803, "管理站", "学校设置", "icon-wrench", "app.edu-setting"),
+//            new Menu(803, "管理站", "学校设置", "icon-wrench", "app.edu-setting"),
             new Menu(804, "管理站", "校内广播", "icon-wrench", "app.edu-setting")
 
     };

@@ -10,6 +10,10 @@
         sid, name, other_name,phone, scn, gender, birth, home_town, people, birth_town, address, qq, wechat, grade_id, grade_name, class_id, class_name, job
     </sql>
 
+    <sql id = "studentAllColumns">
+        id, sid, name, other_name,phone, scn, gender, birth, home_town, people, birth_town, address, qq, wechat, grade_id, grade_name, class_id, class_name, job
+    </sql>
+
     <insert id="insertStudentAddInfo" parameterType="com.recklessmo.model.student.StudentAddInfo">
         insert into student
         (
@@ -49,6 +53,21 @@
     </select>
 
     <select id="getStudentBaseInfoListTotalCount" resultType="java.lang.Integer">
+        select
+        count(1)
+        from student
+        <include refid="byPageQuery"/>
+    </select>
+
+    <select id="getStudentAllInfo" resultType="com.recklessmo.model.student.StudentAllInfo">
+        select
+        <include refid="studentAllColumns"/>
+        from student
+        <include refid="byPageQuery"/>
+        limit #{startIndex}, #{count}
+    </select>
+
+    <select id="getStudentAllInfoTotalCount" resultType="java.lang.Integer">
         select
         count(1)
         from student

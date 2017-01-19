@@ -1,1 +1,46 @@
-待实现,excel导出
+<div ng-controller="StudentExportBatchController" style="background: #fff;overflow: auto;height:100%;padding: 15px;">
+    <div class="row">
+        <div class="col-md-12 pull-right">
+            <div class="pull-right" style="margin-left: 10px;">
+                <button class="btn btn-info" ng-click="export()">
+                    导出
+                </button>
+            </div>
+            <div class="pull-right">
+                <button class="btn btn-info" ng-click="activate()">
+                    查询
+                </button>
+            </div>
+            <div class="form-group pull-right" style="width:280px;padding-right: 20px;">
+                <input type="text"
+                       ng-model="tableParams.searchStr"
+                       placeholder="输入考试名称进行查找"
+                       class="form-control"/>
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-top: 10px;">
+        <table ng-table="studentTableParams" class="table table-bordered table-hover table-condensed editable-table table-min">
+            <tr ng-repeat="item in $data">
+                <td data-title="'姓名'" style="text-align: center;">{{item.name}}</td>
+                <td data-title="'曾用名'" style="text-align: center">{{item.otherName}}</td>
+                <td data-title="'监护人手机'" style="text-align: center">{{item.phone}}</td>
+                <td data-title="'身份证号'" style="text-align: center">{{item.scn}}</td>
+                <td data-title="'性别'" style="text-align: center;">{{item.gender | sexFilter}}</td>
+                <td data-title="'出生年月'" style="text-align: center">{{item.birth | date: 'yyyy-MM-dd'}}</td>
+                <td data-title="'户口所在地'" style="text-align: center">{{item.homeTown}}</td>
+                <td data-title="'民族'" style="text-align: center">{{item.people}}</td>
+                <td data-title="'籍贯'" style="text-align: center">{{item.birthTown}}</td>
+                <td data-title="'家庭住址'" style="text-align: center">{{item.address}}</td>
+                <td data-title="'qq号码'" style="text-align: center">{{item.qq}}</td>
+                <td data-title="'微信号码'" style="text-align: center">{{item.wechat}}</td>
+                <td data-title="'学号'" style="text-align: center">{{item.sid}}</td>
+                <td data-title="'年级'" style="text-align: center">{{item.gradeName}}</td>
+                <td data-title="'班级'" style="text-align: center">{{item.className}}</td>
+                <td data-title="'班内职务'" style="text-align: center">{{item.job}}</td>
+            </tr>
+        </table>
+    </div>
+
+</div>
