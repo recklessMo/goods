@@ -135,6 +135,11 @@
                 title: '毕业去向',
                 templateUrl: helper.basepath('custom/student/other/student-graduate.html'),
             })
+            .state('app.student-teacher', {
+                url: '/student-teacher',
+                title: '教师设置',
+                templateUrl: helper.basepath('custom/teacher/class-teacher.html'),
+            })
 
       //
       // Single Page Routes

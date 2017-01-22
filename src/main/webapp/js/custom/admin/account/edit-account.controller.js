@@ -14,6 +14,7 @@
         $scope.permissionList = [];
         $scope.jobList = [];
         $scope.genderList = [{name:"男", value:0}, {name:"女", value:1}];
+        $scope.flag = {};
 
         function init() {
             blockUI.start();

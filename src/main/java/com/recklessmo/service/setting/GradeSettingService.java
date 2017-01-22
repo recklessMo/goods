@@ -61,4 +61,8 @@ public class GradeSettingService {
     public List<Grade> listAllGrade(){
         return gradeSettingDAO.listAllGrade();
     }
+
+    public Group getSingleGroup(long id){
+        return gradeSettingDAO.getSingleGroup(id);
+    }
 }

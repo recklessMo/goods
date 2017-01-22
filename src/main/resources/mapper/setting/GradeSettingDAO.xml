@@ -12,11 +12,11 @@
     </sql>
 
     <sql id = "classColumns">
-        class_id, grade_id, class_name, charger, phone, detail
+        class_id, grade_id, class_name, charger, phone, detail, course_class
     </sql>
 
     <sql id = "classColumnsWithoutId">
-        grade_id, class_name, charger, phone, detail
+        grade_id, class_name, charger, phone, detail, course_class
     </sql>
 
     <insert id="addGrade">
@@ -32,7 +32,7 @@
         (
         <include refid="classColumnsWithoutId"/>
         )
-        values(#{gradeId}, #{className},#{charger},#{phone},#{detail})
+        values(#{gradeId}, #{className},#{charger},#{phone},#{detail}, #{courseClass})
     </insert>
 
     <update id="deleteGrade">
@@ -56,7 +56,7 @@
         (
         <include refid="classColumns"/>
         )
-        values(#{classId}, #{gradeId}, #{className},#{charger},#{phone},#{detail})
+        values(#{classId}, #{gradeId}, #{className}, #{charger}, #{phone}, #{detail}, #{courseClass})
     </update>
 
     <select id="listGrade" resultType="com.recklessmo.model.setting.Grade">
@@ -98,7 +98,8 @@
         c.class_name as c_class_name,
         c.charger as c_charger,
         c.phone as c_phone,
-        c.detail as c_detail
+        c.detail as c_detail,
+        c.course_class as c_course_class
     </sql>
 
     <resultMap id="gradeMap" type="com.recklessmo.model.setting.Grade">
@@ -117,6 +118,7 @@
         <result column="c_charger" property="charger"/>
         <result column="c_phone" property="phone"/>
         <result column="c_detail" property="detail"/>
+        <result column="c_course_class" property="courseClass"/>
     </resultMap>
 
     <select id="listAllGrade" resultMap="gradeMap">
@@ -124,6 +126,13 @@
         <include refid="gradeColumnsWithClass"/>
         from
         grade g  left join class c on c.grade_id = g.grade_id
+    </select>
+    
+    <select id="getSingleGroup" resultType="com.recklessmo.model.setting.Group">
+        select
+        <include refid="classColumns"/>
+        from class
+        where class_id = #{classId}
     </select>
 
 </mapper>

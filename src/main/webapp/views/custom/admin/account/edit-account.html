@@ -92,12 +92,36 @@
                     </ui-select>
                 </div>
             </div>
+
+            <div class="col-md-6">
+                <div class="input-group">
+                    <input type="checkbox" ng-model="flag.isTeacher"/>
+                    <span style="color:red;margin-left: 10px;">是否授课</span>
+                </div>
+            </div>
+
         </div>
 
         <div class="row" style="margin-top: 20px;">
             <div class="col-md-12">
                 <label class="text-info">
                     <span>II 权限列表</span>
+                </label>
+            </div>
+            <div class="col-md-12">
+                <ui-select multiple ng-model="user.authorities" theme="bootstrap" close-on-select="false" title="选择权限" remove-selected="false">
+                    <ui-select-match placeholder="选择权限">{{$item.name}};</ui-select-match>
+                    <ui-select-choices repeat="permission.id as permission in permissionList">
+                        <div ng-bind-html="permission.name"></div>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 20px;" ng-if="flag.isTeacher">
+            <div class="col-md-12">
+                <label class="text-info">
+                    <span>III 任课设置</span>
                 </label>
             </div>
             <div class="col-md-12">

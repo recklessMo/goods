@@ -83,7 +83,7 @@ public class UserController {
     @RequestMapping(value = "/add", method = {RequestMethod.GET, RequestMethod.POST})
     public JsonResponse add(@RequestBody UserVO user){
         try {
-            user.getAuthorities().sort(intComparator);
+            user.getAuthorities().sort((o1,o2)->o1.compareTo(o2));
             User userModel = new User();
             userModel.setAuthorities(StringUtils.join(user.getAuthorities(), ","));
             userModel.setUserName(user.getUserName());
@@ -109,7 +109,7 @@ public class UserController {
     public JsonResponse update(@RequestBody UserVO user){
         try {
             //将权限进行去重和排序
-            user.getAuthorities().sort(intComparator);
+            user.getAuthorities().sort((o1,o2)->o1.compareTo(o2));
             User userModel = new User();
             userModel.setAuthorities(StringUtils.join(user.getAuthorities(), ","));
             userModel.setUserName(user.getUserName());
@@ -141,12 +141,5 @@ public class UserController {
         }
         return new JsonResponse(ResponseType.RESPONSE_OK, null, null);
     }
-
-    private Comparator intComparator = new Comparator<Integer>() {
-        @Override
-        public int compare(Integer o1, Integer o2) {
-            return o1.compareTo(o2);
-        }
-    };
 
 }

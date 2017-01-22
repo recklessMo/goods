@@ -28,4 +28,6 @@ public interface GradeSettingDAO {
 
     List<Grade> listAllGrade();
 
+    Group getSingleGroup(@Param("classId")long id);
+
 }
