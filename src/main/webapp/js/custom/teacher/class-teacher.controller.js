@@ -15,6 +15,8 @@
 
         $scope.userList = [];
 
+        $scope.backupData = {};
+
         $scope.activate = function() {
             blockUI.start();
             TeacherService.loadTeachers({page:1, count:10000}).success(function(firstdata){
@@ -24,6 +26,7 @@
                         blockUI.stop();
                         if (data.status == 200) {
                             $scope.courseList = data.data.courseList;
+                            $scope.backupData = JSON.stringify(data.data.singleClassList);
                             $scope.singleClassList = data.data.singleClassList;
                         }
                     }).error(function () {
@@ -43,6 +46,28 @@
         $scope.activate();
 
 
+        $scope.save = function(){
+            blockUI.start();
+            ClassTeacherService.saveClassTeacher($scope.singleClassList).success(function(data){
+                blockUI.stop();
+                if (data.status == 200) {
+                    SweetAlert.success("保存成功!");
+                    $scope.obj.isEdit = false;
+                }
+            }).error(function () {
+                SweetAlert.error("网络异常, 请稍后重试!");
+                blockUI.stop();
+            });
+        }
+
+        $scope.selectUser = function(courseClass, data){
+            courseClass.userName = data.userName;
+        }
+
+        $scope.cancel = function(){
+            $scope.singleClassList = JSON.parse($scope.backupData);
+            $scope.obj.isEdit = false;
+        }
 
 
     }

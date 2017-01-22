@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -41,10 +42,9 @@ public class ClassTeacherController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/v1/class/teacher/add", method = {RequestMethod.POST, RequestMethod.GET})
-    public JsonResponse addClassTeacherInfo(@RequestBody AllClass allClass){
-        List<SingleClass> singleClassList = allClass.getSingleClassList();
-        List<Course> courseList = allClass.getCourseList();
+    @RequestMapping(value = "/v1/class/teacher/save", method = {RequestMethod.POST, RequestMethod.GET})
+    public JsonResponse addClassTeacherInfo(@RequestBody SingleClass[] singleClasses){
+        List<SingleClass> singleClassList = Arrays.asList(singleClasses);
         singleClassList.forEach(singleClass -> {
             long groupId = singleClass.getGroupId();
             Group group = gradeSettingService.getSingleGroup(groupId);
