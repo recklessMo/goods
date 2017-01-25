@@ -140,6 +140,11 @@
                 title: '教师设置',
                 templateUrl: helper.basepath('custom/teacher/class-teacher.html'),
             })
+            .state('app.class-schedule', {
+                url: '/class-schedule',
+                title: '课表编排',
+                templateUrl: helper.basepath('custom/teacher/class-schedule.html'),
+            })
 
       //
       // Single Page Routes

@@ -21,14 +21,30 @@ public class Group {
     private String detail;
 
     private Map<String, CourseClass> courseClassMap = new LinkedHashMap<>();
-    private String courseClass;
+    private Map<String, ScheduleClass> scheduleClassMap = new LinkedHashMap<>();
 
     public String getCourseClass() {
         return JSON.toJSONString(courseClassMap);
     }
 
-    public void setCourseClass(String courseClass) {
-        this.courseClassMap = JSON.parseObject(courseClass, new TypeReference<Map<String, CourseClass>>(){});
+    public void setCourseClass(String str) {
+        this.courseClassMap = JSON.parseObject(str, new TypeReference<Map<String, CourseClass>>(){});
+    }
+
+    public String getScheduleClass() {
+        return JSON.toJSONString(scheduleClassMap);
+    }
+
+    public void setScheduleClass(String str) {
+        this.scheduleClassMap = JSON.parseObject(str, new TypeReference<Map<String, ScheduleClass>>(){});
+    }
+
+    public Map<String, ScheduleClass> getScheduleClassMap() {
+        return scheduleClassMap;
+    }
+
+    public void setScheduleClassMap(Map<String, ScheduleClass> scheduleClassMap) {
+        this.scheduleClassMap = scheduleClassMap;
     }
 
     public long getClassId() {

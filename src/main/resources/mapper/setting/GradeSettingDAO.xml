@@ -12,11 +12,11 @@
     </sql>
 
     <sql id = "classColumns">
-        class_id, grade_id, class_name, charger, phone, detail, course_class
+        class_id, grade_id, class_name, charger, phone, detail, course_class, schedule_class
     </sql>
 
     <sql id = "classColumnsWithoutId">
-        grade_id, class_name, charger, phone, detail, course_class
+        grade_id, class_name, charger, phone, detail, course_class, schedule_class
     </sql>
 
     <insert id="addGrade">
@@ -32,7 +32,7 @@
         (
         <include refid="classColumnsWithoutId"/>
         )
-        values(#{gradeId}, #{className},#{charger},#{phone},#{detail}, #{courseClass})
+        values(#{gradeId}, #{className},#{charger},#{phone},#{detail}, #{courseClass}, #{scheduleClass})
     </insert>
 
     <update id="deleteGrade">
@@ -56,7 +56,7 @@
         (
         <include refid="classColumns"/>
         )
-        values(#{classId}, #{gradeId}, #{className}, #{charger}, #{phone}, #{detail}, #{courseClass})
+        values(#{classId}, #{gradeId}, #{className}, #{charger}, #{phone}, #{detail}, #{courseClass}, #{scheduleClass})
     </update>
 
     <select id="listGrade" resultType="com.recklessmo.model.setting.Grade">
@@ -99,7 +99,8 @@
         c.charger as c_charger,
         c.phone as c_phone,
         c.detail as c_detail,
-        c.course_class as c_course_class
+        c.course_class as c_course_class,
+        c.schedule_class as c_schedule_class
     </sql>
 
     <resultMap id="gradeMap" type="com.recklessmo.model.setting.Grade">
@@ -119,6 +120,7 @@
         <result column="c_phone" property="phone"/>
         <result column="c_detail" property="detail"/>
         <result column="c_course_class" property="courseClass"/>
+        <result column="c_schedule_class" property="scheduleClass"/>
     </resultMap>
 
     <select id="listAllGrade" resultMap="gradeMap">
