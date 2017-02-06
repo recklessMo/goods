@@ -23,8 +23,12 @@ public class ScheduleSettingService {
         scheduleSettingDAO.addSchedule(schedule);
     }
 
-    public List<Schedule> listSchedule(Page page){
-        return scheduleSettingDAO.listSchedule(page);
+    public void save(Schedule schedule){
+        scheduleSettingDAO.saveSchedule(schedule);
+    }
+
+    public List<Schedule> listSchedule(){
+        return scheduleSettingDAO.listSchedule();
     }
 
     public void deleteSchedule(long id) {scheduleSettingDAO.deleteSchedule(id);}

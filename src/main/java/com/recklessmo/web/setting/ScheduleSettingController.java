@@ -25,19 +25,23 @@ public class ScheduleSettingController {
     @Resource
     private ScheduleSettingService scheduleSettingService;
 
-    @RequestMapping(value = "/schedule/add", method = {RequestMethod.POST})
+    @RequestMapping(value = "/schedule/save", method = {RequestMethod.POST})
     @ResponseBody
     public JsonResponse addSchedule(@RequestBody Schedule schedule){
         //TODO do some check here
-        scheduleSettingService.insert(schedule);
+        if(schedule.getId() == 0) {
+            scheduleSettingService.insert(schedule);
+        }else{
+            scheduleSettingService.save(schedule);
+        }
         return new JsonResponse(200, null, null);
     }
 
     @RequestMapping(value = "/schedule/list", method = {RequestMethod.POST})
     @ResponseBody
-    public JsonResponse listSchedule(@RequestBody Page page){
+    public JsonResponse listSchedule(){
         //TODO do some check here
-        List<Schedule> schedules = scheduleSettingService.listSchedule(page);
+        List<Schedule> schedules = scheduleSettingService.listSchedule();
         return new JsonResponse(200, schedules, null);
     }
 

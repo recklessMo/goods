@@ -1,22 +1,17 @@
 package com.recklessmo.model.course;
 
-import com.recklessmo.model.setting.Course;
-import com.recklessmo.model.setting.CourseClass;
-import com.recklessmo.model.setting.Group;
-
 import java.util.List;
 
 /**
  * Created by hpf on 1/20/17.
  */
-public class SingleClass {
+public class SingleClassScheduleCourseInfo {
 
     private long groupId;
     private long gradeId;
     private String groupName;
     private String gradeName;
-    private List<CourseClass> courseClassList;
-
+    private List<ScheduleCourse> scheduleCourseList;
 
     public long getGroupId() {
         return groupId;
@@ -50,11 +45,11 @@ public class SingleClass {
         this.gradeName = gradeName;
     }
 
-    public List<CourseClass> getCourseClassList() {
-        return courseClassList;
+    public List<ScheduleCourse> getScheduleCourseList() {
+        return scheduleCourseList;
     }
 
-    public void setCourseClassList(List<CourseClass> courseClassList) {
-        this.courseClassList = courseClassList;
+    public void setScheduleCourseList(List<ScheduleCourse> scheduleCourseList) {
+        this.scheduleCourseList = scheduleCourseList;
     }
 }

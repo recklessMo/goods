@@ -1,19 +1,13 @@
 package com.recklessmo.web.teacher;
 
-import com.recklessmo.model.course.AllClass;
-import com.recklessmo.model.course.SingleClass;
-import com.recklessmo.model.setting.*;
+import com.recklessmo.model.course.SingleClassCourseTeacherInfo;
 import com.recklessmo.response.JsonResponse;
 import com.recklessmo.service.setting.CourseSettingService;
 import com.recklessmo.service.setting.GradeSettingService;
-import com.recklessmo.web.webmodel.page.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * 课表设置
@@ -33,7 +27,7 @@ public class ClassScheduleController {
      */
     @ResponseBody
     @RequestMapping(value = "/v1/class/schedule/save", method = {RequestMethod.POST, RequestMethod.GET})
-    public JsonResponse addClassTeacherInfo(@RequestBody SingleClass[] singleClasses){
+    public JsonResponse addClassTeacherInfo(@RequestBody SingleClassCourseTeacherInfo[] singleClassCourseTeacherInfos){
 
         return new JsonResponse(200, null, null);
     }
@@ -46,6 +40,7 @@ public class ClassScheduleController {
     @ResponseBody
     @RequestMapping(value = "/v1/class/schedule/list", method = {RequestMethod.POST, RequestMethod.GET})
     public JsonResponse listClassTeacherInfo(){
+
         return new JsonResponse(200, null, null);
     }
 

@@ -4,6 +4,7 @@ import com.recklessmo.model.setting.Job;
 import com.recklessmo.model.setting.Schedule;
 import com.recklessmo.web.webmodel.page.Page;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.type.ShortTypeHandler;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ import java.util.List;
  */
 public interface ScheduleSettingDAO {
     void addSchedule(Schedule schedule);
-    List<Schedule> listSchedule(Page page);
+    void saveSchedule(Schedule schedule);
+    List<Schedule> listSchedule();
     void deleteSchedule(@Param("id") long id);
 }

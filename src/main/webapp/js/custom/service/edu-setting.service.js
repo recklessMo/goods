@@ -40,6 +40,28 @@
         this.addJob = addJob;
         this.deleteJob = deleteJob;
 
+
+        //schedule设置
+        this.listSchedule = listSchedule;
+        this.saveSchedule = saveSchedule;
+
+        function saveSchedule(data){
+            return $http({
+                method: "POST",
+                url: "/v1/setting/schedule/save",
+                timeout: 5000,
+                data: data
+            });
+        }
+
+        function listSchedule(){
+            return $http({
+                method: "POST",
+                url: "/v1/setting/schedule/list",
+                timeout: 5000
+            });
+        }
+
         function listJob(data){
             return $http({
                 method: "POST",

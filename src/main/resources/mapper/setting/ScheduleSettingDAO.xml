@@ -11,6 +11,10 @@
         insert into schedule(schedule_name, start, end) values(#{scheduleName}, #{start}, #{end})
     </insert>
 
+    <insert id="saveSchedule" parameterType="com.recklessmo.model.setting.Schedule">
+        update schedule set schedule_name = #{scheduleName}, start = #{start}, end = #{end} where id = #{id}
+    </insert>
+
     <select id="listSchedule" resultType="com.recklessmo.model.setting.Schedule">
         select
         <include refid="columns"/>

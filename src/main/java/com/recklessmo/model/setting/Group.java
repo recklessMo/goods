@@ -2,10 +2,10 @@ package com.recklessmo.model.setting;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.recklessmo.model.course.CourseTeacher;
+import com.recklessmo.model.course.ScheduleCourse;
 
-import java.lang.reflect.Type;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,15 +20,15 @@ public class Group {
     private String phone;
     private String detail;
 
-    private Map<String, CourseClass> courseClassMap = new LinkedHashMap<>();
-    private Map<String, ScheduleClass> scheduleClassMap = new LinkedHashMap<>();
+    private Map<String, CourseTeacher> courseClassMap = new LinkedHashMap<>();
+    private Map<String, ScheduleCourse> scheduleClassMap = new LinkedHashMap<>();
 
     public String getCourseClass() {
         return JSON.toJSONString(courseClassMap);
     }
 
     public void setCourseClass(String str) {
-        this.courseClassMap = JSON.parseObject(str, new TypeReference<Map<String, CourseClass>>(){});
+        this.courseClassMap = JSON.parseObject(str, new TypeReference<Map<String, CourseTeacher>>(){});
     }
 
     public String getScheduleClass() {
@@ -36,14 +36,14 @@ public class Group {
     }
 
     public void setScheduleClass(String str) {
-        this.scheduleClassMap = JSON.parseObject(str, new TypeReference<Map<String, ScheduleClass>>(){});
+        this.scheduleClassMap = JSON.parseObject(str, new TypeReference<Map<String, ScheduleCourse>>(){});
     }
 
-    public Map<String, ScheduleClass> getScheduleClassMap() {
+    public Map<String, ScheduleCourse> getScheduleClassMap() {
         return scheduleClassMap;
     }
 
-    public void setScheduleClassMap(Map<String, ScheduleClass> scheduleClassMap) {
+    public void setScheduleClassMap(Map<String, ScheduleCourse> scheduleClassMap) {
         this.scheduleClassMap = scheduleClassMap;
     }
 
@@ -95,11 +95,11 @@ public class Group {
         this.detail = detail;
     }
 
-    public Map<String, CourseClass> getCourseClassMap() {
+    public Map<String, CourseTeacher> getCourseClassMap() {
         return courseClassMap;
     }
 
-    public void setCourseClassMap(Map<String, CourseClass> courseClassMap) {
+    public void setCourseClassMap(Map<String, CourseTeacher> courseClassMap) {
         this.courseClassMap = courseClassMap;
     }
 }

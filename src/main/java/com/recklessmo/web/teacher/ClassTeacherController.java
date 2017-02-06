@@ -1,17 +1,15 @@
 package com.recklessmo.web.teacher;
 
-import com.recklessmo.model.course.AllClass;
-import com.recklessmo.model.course.SingleClass;
+import com.recklessmo.model.course.AllClassCourseTeacherInfo;
+import com.recklessmo.model.course.SingleClassCourseTeacherInfo;
 import com.recklessmo.model.setting.Course;
-import com.recklessmo.model.setting.CourseClass;
+import com.recklessmo.model.course.CourseTeacher;
 import com.recklessmo.model.setting.Grade;
 import com.recklessmo.model.setting.Group;
-import com.recklessmo.model.student.StudentAddInfo;
 import com.recklessmo.response.JsonResponse;
 import com.recklessmo.service.setting.CourseSettingService;
 import com.recklessmo.service.setting.GradeSettingService;
 import com.recklessmo.web.webmodel.page.Page;
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,13 +41,13 @@ public class ClassTeacherController {
      */
     @ResponseBody
     @RequestMapping(value = "/v1/class/teacher/save", method = {RequestMethod.POST, RequestMethod.GET})
-    public JsonResponse addClassTeacherInfo(@RequestBody SingleClass[] singleClasses){
-        List<SingleClass> singleClassList = Arrays.asList(singleClasses);
-        singleClassList.forEach(singleClass -> {
+    public JsonResponse addClassTeacherInfo(@RequestBody SingleClassCourseTeacherInfo[] singleClassCourseTeacherInfos){
+        List<SingleClassCourseTeacherInfo> singleClassCourseTeacherInfoList = Arrays.asList(singleClassCourseTeacherInfos);
+        singleClassCourseTeacherInfoList.forEach(singleClass -> {
             long groupId = singleClass.getGroupId();
             Group group = gradeSettingService.getSingleGroup(groupId);
             group.getCourseClassMap().clear();
-            singleClass.getCourseClassList().forEach(courseClass -> {
+            singleClass.getCourseTeacherList().forEach(courseClass -> {
                 group.getCourseClassMap().put(courseClass.getCourseName(), courseClass);
             });
             gradeSettingService.updateClass(group);
@@ -73,31 +71,31 @@ public class ClassTeacherController {
         page.setCount(10000);
         List<Grade> gradeList = gradeSettingService.listAllGrade();
         List<Course> courseList = courseSettingService.listCourse(page);
-        AllClass allClass = new AllClass();
-        allClass.setCourseList(courseList);
-        List<SingleClass> singleClassList = new LinkedList<>();
+        AllClassCourseTeacherInfo allClassCourseTeacherInfo = new AllClassCourseTeacherInfo();
+        allClassCourseTeacherInfo.setCourseList(courseList);
+        List<SingleClassCourseTeacherInfo> singleClassCourseTeacherInfoList = new LinkedList<>();
         gradeList.forEach(grade->{
             List<Group> groupList = grade.getClassList();
             groupList.forEach(group -> {
-                SingleClass singleClass = new SingleClass();
-                singleClass.setGroupId(group.getClassId());
-                singleClass.setGroupName(group.getClassName());
-                singleClass.setGradeId(grade.getGradeId());
-                singleClass.setGradeName(grade.getGradeName());
-                List<CourseClass> courseClassList = new LinkedList<>();
+                SingleClassCourseTeacherInfo singleClassCourseTeacherInfo = new SingleClassCourseTeacherInfo();
+                singleClassCourseTeacherInfo.setGroupId(group.getClassId());
+                singleClassCourseTeacherInfo.setGroupName(group.getClassName());
+                singleClassCourseTeacherInfo.setGradeId(grade.getGradeId());
+                singleClassCourseTeacherInfo.setGradeName(grade.getGradeName());
+                List<CourseTeacher> courseTeacherList = new LinkedList<>();
                 for(Course course : courseList){
-                    CourseClass courseClass = new CourseClass();
-                    courseClass.setCourseId(course.getCourseId());
-                    courseClass.setCourseName(course.getCourseName());
-                    CourseClass value = group.getCourseClassMap().get(course.getCourseName());
-                    courseClassList.add(value == null ? courseClass : value);
+                    CourseTeacher courseTeacher = new CourseTeacher();
+                    courseTeacher.setCourseId(course.getCourseId());
+                    courseTeacher.setCourseName(course.getCourseName());
+                    CourseTeacher value = group.getCourseClassMap().get(course.getCourseName());
+                    courseTeacherList.add(value == null ? courseTeacher : value);
                 }
-                singleClass.setCourseClassList(courseClassList);
-                singleClassList.add(singleClass);
+                singleClassCourseTeacherInfo.setCourseTeacherList(courseTeacherList);
+                singleClassCourseTeacherInfoList.add(singleClassCourseTeacherInfo);
             });
         });
-        allClass.setSingleClassList(singleClassList);
-        return new JsonResponse(200, allClass, null);
+        allClassCourseTeacherInfo.setSingleClassCourseTeacherInfoList(singleClassCourseTeacherInfoList);
+        return new JsonResponse(200, allClassCourseTeacherInfo, null);
     }
 
 

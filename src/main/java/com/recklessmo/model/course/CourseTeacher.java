@@ -1,11 +1,11 @@
-package com.recklessmo.model.setting;
+package com.recklessmo.model.course;
 
 import java.util.Date;
 
 /**
  * Created by hpf on 8/23/16.
  */
-public class CourseClass {
+public class CourseTeacher {
 
     //常用的学科名字
     public static String CHINESE = "语文";

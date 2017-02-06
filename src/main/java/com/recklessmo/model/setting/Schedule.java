@@ -6,18 +6,17 @@ package com.recklessmo.model.setting;
 public class Schedule {
 
 
-    private long scheduleId;
+    private long id;
     private String scheduleName;
     private int start;
     private int end;
 
-
-    public long getScheduleId() {
-        return scheduleId;
+    public long getId() {
+        return id;
     }
 
-    public void setScheduleId(long scheduleId) {
-        this.scheduleId = scheduleId;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getScheduleName() {

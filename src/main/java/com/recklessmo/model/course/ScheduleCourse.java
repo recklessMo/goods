@@ -1,9 +1,9 @@
-package com.recklessmo.model.setting;
+package com.recklessmo.model.course;
 
 /**
  * 某个课时对应的课程结构
  */
-public class ScheduleClass {
+public class ScheduleCourse {
 
 
     private long scheduleId;
