@@ -1,11 +1,11 @@
-<div ng-controller="StudentScheduleController" style="background: #fff;overflow: auto;height:100%;padding: 15px;border: 1px solid #cfdbe2;">
+<div ng-controller="ClassCourseTeacherController" style="background: #fff;overflow: auto;height:100%;padding: 15px;border: 1px solid #cfdbe2;">
 
 
     <div class="row">
         <div class="col-xs-12" style="margin-top:5px;margin-bottom: 5px;padding-left: 0;">
             <div ng-if="!obj.isEdit" class="col-xs-3 pull-right">
-                <button class="btn btn-info pull-right" ng-click="obj.isEdit=true;">编辑课表</button>
-                <button class="btn btn-info pull-right" style="margin-right:10px;">编辑上课时间</button>
+                <button class="btn btn-info pull-right" ng-click="obj.isEdit=true;">编辑任课教师</button>
+
             </div>
 
             <div ng-if="obj.isEdit" class="col-xs-3 pull-right">
@@ -20,7 +20,7 @@
             <tbody>
             <tr>
                 <th style="width: 100px;min-width: 100px;max-width: 100px;padding:0 !important;overflow: hidden;">
-                    <div style="padding: 3px 10px 0 0; text-align: right; ">课时</div>
+                    <div style="padding: 3px 10px 0 0; text-align: right; ">科目</div>
                     <div style="height:1px; transform: rotate(22deg) scaleX(2); background: #eee;"></div>
                     <div style="padding: 0 0 3px 10px;text-align: left;">班级</div>
                 </th>
@@ -34,14 +34,14 @@
                         {{singleClass.gradeName}} ~ {{singleClass.groupName}}
                     </div>
                 </td>
-                <td ng-repeat="courseClass in singleClass.courseClassList" class="doctor-arrange-item">
+                <td ng-repeat="courseTeacher in singleClass.courseTeacherList" class="doctor-arrange-item">
                     <div class="">
-                        <span class="" ng-if="courseClass.userId != 0 && !obj.isEdit">
-                            {{courseClass.userName}}
+                        <span class="" ng-if="courseTeacher.userId != 0 && !obj.isEdit">
+                            {{courseTeacher.userName}}
                         </span>
-                        <ui-select disabled ng-model="courseClass.userId" theme="bootstrap"
-                                   class="text-left" style="width:100%;" ng-if="obj.isEdit" on-select="selectUser(courseClass, $item)">
-                            <ui-select-match placeholder="选择科目">{{$select.selected.userName}}
+                        <ui-select disabled ng-model="courseTeacher.userId" theme="bootstrap"
+                                   class="text-left" style="width:100%;" ng-if="obj.isEdit" on-select="selectUser(courseTeacher, $item)">
+                            <ui-select-match placeholder="选择教师">{{$select.selected.userName}}
                             </ui-select-match>
                             <ui-select-choices repeat="user.id as user in userList">
                                 <span ng-bind-html="user.userName"></span>

@@ -3,10 +3,10 @@
 
     angular
         .module('custom')
-        .service('ClassTeacherService', ClassTeacherService);
+        .service('ClassCourseTeacherService', ClassCourseTeacherService);
 
-    ClassTeacherService.$inject = ['$http'];
-    function ClassTeacherService($http) {
+    ClassCourseTeacherService.$inject = ['$http'];
+    function ClassCourseTeacherService($http) {
 
         this.listClassTeacher = listClassTeacher;
         this.saveClassTeacher = saveClassTeacher;

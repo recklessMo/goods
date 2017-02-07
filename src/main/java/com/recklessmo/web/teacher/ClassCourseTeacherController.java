@@ -25,7 +25,7 @@ import java.util.List;
  * Created by hpf on 1/20/17.
  */
 @Controller
-public class ClassTeacherController {
+public class ClassCourseTeacherController {
 
     @Resource
     private GradeSettingService gradeSettingService;
@@ -46,9 +46,9 @@ public class ClassTeacherController {
         singleClassCourseTeacherInfoList.forEach(singleClass -> {
             long groupId = singleClass.getGroupId();
             Group group = gradeSettingService.getSingleGroup(groupId);
-            group.getCourseClassMap().clear();
+            group.getCourseTeacherMap().clear();
             singleClass.getCourseTeacherList().forEach(courseClass -> {
-                group.getCourseClassMap().put(courseClass.getCourseName(), courseClass);
+                group.getCourseTeacherMap().put(courseClass.getCourseName(), courseClass);
             });
             gradeSettingService.updateClass(group);
         });
@@ -87,7 +87,7 @@ public class ClassTeacherController {
                     CourseTeacher courseTeacher = new CourseTeacher();
                     courseTeacher.setCourseId(course.getCourseId());
                     courseTeacher.setCourseName(course.getCourseName());
-                    CourseTeacher value = group.getCourseClassMap().get(course.getCourseName());
+                    CourseTeacher value = group.getCourseTeacherMap().get(course.getCourseName());
                     courseTeacherList.add(value == null ? courseTeacher : value);
                 }
                 singleClassCourseTeacherInfo.setCourseTeacherList(courseTeacherList);

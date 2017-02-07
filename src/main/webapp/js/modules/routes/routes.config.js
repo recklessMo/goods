@@ -138,12 +138,12 @@
             .state('app.student-teacher', {
                 url: '/student-teacher',
                 title: '教师设置',
-                templateUrl: helper.basepath('custom/teacher/class-teacher.html'),
+                templateUrl: helper.basepath('custom/teacher/class-course-teacher.html'),
             })
             .state('app.class-schedule', {
                 url: '/class-schedule',
                 title: '课表编排',
-                templateUrl: helper.basepath('custom/teacher/class-schedule.html'),
+                templateUrl: helper.basepath('custom/teacher/class-schedule-course.html'),
             })
 
       //

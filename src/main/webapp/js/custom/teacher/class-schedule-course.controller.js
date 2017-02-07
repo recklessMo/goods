@@ -2,32 +2,32 @@
     'use strict';
     angular
         .module('custom')
-        .controller('ClassTeacherController', ClassTeacherController);
-    ClassTeacherController.$inject = ['$scope', 'ClassTeacherService', 'TeacherService', 'SweetAlert', 'NgTableParams', 'ngDialog', 'blockUI', 'Notify'];
+        .controller('ClassScheduleCourseController', ClassScheduleCourseController);
+    ClassScheduleCourseController.$inject = ['$scope', 'ClassScheduleCourseService', 'SettingService', 'SweetAlert', 'NgTableParams', 'ngDialog', 'blockUI', 'Notify'];
 
-    function ClassTeacherController($scope, ClassTeacherService, TeacherService, SweetAlert, NgTableParams, ngDialog, blockUI, Notify) {
+    function ClassScheduleCourseController($scope, ClassScheduleCourseService, SettingService, SweetAlert, NgTableParams, ngDialog, blockUI, Notify) {
 
         $scope.obj = {};
         $scope.obj.isEdit = false;
 
-        $scope.courseList = [];
+        $scope.scheduleList = [];
         $scope.singleClassList = [];
 
-        $scope.userList = [];
+        $scope.courseList = [];
 
         $scope.backupData = {};
 
         $scope.activate = function() {
             blockUI.start();
-            TeacherService.loadTeachers({page:1, count:10000}).success(function(firstdata){
+            SettingService.listCourse({page:1, count:10000}).success(function(firstdata){
                 if(firstdata.status == 200) {
-                    $scope.userList = firstdata.data;
-                    ClassTeacherService.listClassTeacher().success(function (data) {
+                    $scope.courseList = firstdata.data;
+                    ClassScheduleCourseService.listScheduleCourse().success(function (data) {
                         blockUI.stop();
                         if (data.status == 200) {
-                            $scope.courseList = data.data.courseList;
-                            $scope.backupData = JSON.stringify(data.data.singleClassList);
-                            $scope.singleClassList = data.data.singleClassList;
+                            $scope.scheduleList = data.data.scheduleList;
+                            $scope.backupData = JSON.stringify(data.data.singleClassScheduleCourseInfoList);
+                            $scope.singleClassList = data.data.singleClassScheduleCourseInfoList;
                         }
                     }).error(function () {
                         SweetAlert.error("网络异常, 请稍后重试!");
@@ -48,7 +48,7 @@
 
         $scope.save = function(){
             blockUI.start();
-            ClassTeacherService.saveClassTeacher($scope.singleClassList).success(function(data){
+            ClassScheduleCourseService.saveScheduleCourse($scope.singleClassList).success(function(data){
                 blockUI.stop();
                 if (data.status == 200) {
                     SweetAlert.success("保存成功!");
@@ -60,8 +60,8 @@
             });
         }
 
-        $scope.selectUser = function(courseClass, data){
-            courseClass.userName = data.userName;
+        $scope.selectCourse = function(scheduleCourse, data){
+            scheduleCourse.courseName = data.courseName;
         }
 
         $scope.cancel = function(){

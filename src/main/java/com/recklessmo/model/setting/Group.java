@@ -20,31 +20,23 @@ public class Group {
     private String phone;
     private String detail;
 
-    private Map<String, CourseTeacher> courseClassMap = new LinkedHashMap<>();
-    private Map<String, ScheduleCourse> scheduleClassMap = new LinkedHashMap<>();
+    private Map<String, CourseTeacher> courseTeacherMap = new LinkedHashMap<>();
+    private Map<String, ScheduleCourse> scheduleCourseMap = new LinkedHashMap<>();
 
-    public String getCourseClass() {
-        return JSON.toJSONString(courseClassMap);
+    public String getCourseTeacher() {
+        return JSON.toJSONString(courseTeacherMap);
     }
 
-    public void setCourseClass(String str) {
-        this.courseClassMap = JSON.parseObject(str, new TypeReference<Map<String, CourseTeacher>>(){});
+    public void setCourseTeacher(String str) {
+        this.courseTeacherMap = JSON.parseObject(str, new TypeReference<Map<String, CourseTeacher>>(){});
     }
 
-    public String getScheduleClass() {
-        return JSON.toJSONString(scheduleClassMap);
+    public String getScheduleCourse() {
+        return JSON.toJSONString(scheduleCourseMap);
     }
 
-    public void setScheduleClass(String str) {
-        this.scheduleClassMap = JSON.parseObject(str, new TypeReference<Map<String, ScheduleCourse>>(){});
-    }
-
-    public Map<String, ScheduleCourse> getScheduleClassMap() {
-        return scheduleClassMap;
-    }
-
-    public void setScheduleClassMap(Map<String, ScheduleCourse> scheduleClassMap) {
-        this.scheduleClassMap = scheduleClassMap;
+    public void setScheduleCourse(String str) {
+        this.scheduleCourseMap = JSON.parseObject(str, new TypeReference<Map<String, ScheduleCourse>>(){});
     }
 
     public long getClassId() {
@@ -95,11 +87,20 @@ public class Group {
         this.detail = detail;
     }
 
-    public Map<String, CourseTeacher> getCourseClassMap() {
-        return courseClassMap;
+
+    public Map<String, CourseTeacher> getCourseTeacherMap() {
+        return courseTeacherMap;
     }
 
-    public void setCourseClassMap(Map<String, CourseTeacher> courseClassMap) {
-        this.courseClassMap = courseClassMap;
+    public void setCourseTeacherMap(Map<String, CourseTeacher> courseTeacherMap) {
+        this.courseTeacherMap = courseTeacherMap;
+    }
+
+    public Map<String, ScheduleCourse> getScheduleCourseMap() {
+        return scheduleCourseMap;
+    }
+
+    public void setScheduleCourseMap(Map<String, ScheduleCourse> scheduleCourseMap) {
+        this.scheduleCourseMap = scheduleCourseMap;
     }
 }
