@@ -1,2 +1,141 @@
-##用于进行用户自主绑定
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>自助绑定</title>
+    <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.0/style/weui.min.css">
+    <link rel="stylesheet" href="https://weui.io/example.css">
+</head>
+<body>
 
+<div id="register">
+
+    <div class="page__hd">
+        <h1 class="page__title">提示</h1>
+        <p class="page__desc">表单输入表单输入表单输入表单输入表单输入表单输入表单输入表单输入表单输入表单输入表单输入表单输入表单输入表单输入表单输入表单输入表单输入表单输入表单输入表单输入表单输入表单输入表单输入表单输入表单输入表单输入表单输入表单输入表单输入表单输入表单输入表单输入表单输入表单输入表单输入表单输入表单输入表单输入表单输入表单输入表单输入表单输入表单输入表单输入表单输入表单输入表单输入表单输入表单输入表单输入表单输入表单输入</p>
+    </div>
+    <form novalidate v-on:submit.prevent="onSubmit">
+        <div class="weui-cells weui-cells_form">
+            <div class="weui-cell">
+                <div class="weui-cell__hd">
+                    <label class="weui-label">姓名</label>
+                </div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="text" placeholder="请输入姓名" v-model="name">
+                </div>
+            </div>
+            <div class="weui-cell weui-cell_vcode">
+                <div class="weui-cell__hd">
+                    <label class="weui-label">手机号</label>
+                </div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="tel" placeholder="请输入手机号" v-model="phone">
+                </div>
+                <div class="weui-cell__ft">
+                    <button class="weui-vcode-btn" @click="getSmsCode">获取验证码</button>
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">验证码</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="number" placeholder="请输入验证码">
+                </div>
+            </div>
+        </div>
+        <div class="weui-btn-area">
+            <a class="weui-btn weui-btn_primary" href="javascript:" id="showTooltips">提交</a>
+        </div>
+    </form>
+</div>
+
+<script src="https://cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/vue/1.0.26/vue.min.js"></script>
+
+<script type="text/javascript">
+    new Vue({
+        el: '#register',
+        data: {
+            patientId: '',
+            name: '',
+            phone: '',
+            smsCode: ''
+        },
+        methods: {
+            //获取验证码
+            getSmsCode: function () {
+                //时间限制
+                var timeNumber = 60;
+                this.buttonText = timeNumber + 's后重发';
+                this.codeButtonDisable = true;
+                var me = this;
+                var intervalEvent = setInterval(function () {
+                    timeNumber--;
+                    if (timeNumber <= 0) {
+                        clearInterval(intervalEvent);
+                        me.buttonText = "获取验证码";
+                        me.codeButtonDisable = false;
+                    } else {
+                        me.buttonText = timeNumber + 's后重发';
+                    }
+                }, 1000);
+                jQuery.ajax({
+                    url: "/public/wechat/sendSmsCode?wechatId=$wechatId&orgId=$orgId&name=" + me.username + "&phone=" + me.phone,
+                    method: "get"
+                }).done(function (data) {
+                    if (data.status != 200) {
+                        me.returnText = data.errorMsg;
+                        setTimeout(function () {
+                            me.returnText = "";
+                        }, 2000);
+                    } else {
+                        me.patientId = data.data;
+                    }
+                }).fail(function (error) {
+                    me.returnText = "网络错误";
+                    setTimeout(function () {
+                        me.returnText = "";
+                    }, 2000);
+                });
+            },
+
+            //提交
+            onSubmit: function () {
+                var me = this;
+                if (!me.patientId) {
+                    me.returnText = "验证码失效,请重新获取";
+                    setTimeout(function () {
+                        me.returnText = "";
+                    }, 2000);
+                    return;
+                }
+                //绑定操作
+                jQuery.ajax({
+                    url: "/public/wechat/selfBind?patientId=" + me.patientId + "&smsCode=" + me.smsCode,
+                    method: "post"
+                }).done(function (data) {
+                    if (data.status != 200) {
+                        me.returnText = data.errorMsg;
+                        setTimeout(function () {
+                            me.returnText = "";
+                        }, 2000);
+                    } else {
+                        //在这里跳转新页面
+                        if(isGeruilai){
+                            window.location.href = "/public/wechat/menu/13700/4";
+                        } else{
+                            window.location.href = "/public/wechat/redirectCourse?patientId=" + data.data;
+                        }
+                    }
+                }).fail(function (error) {
+                    me.returnText = "网络错误";
+                    setTimeout(function () {
+                        me.returnText = "";
+                    }, 2000);
+                });
+            }
+        }
+    })
+</script>
+</body>
+</html>

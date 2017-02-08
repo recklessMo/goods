@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <title>个人信息</title>
-    <link rel="stylesheet" href="https://weui.io/weui.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.0/style/weui.min.css">
     <link rel="stylesheet" href="https://weui.io/example.css">
 </head>
 <body>
