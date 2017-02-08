@@ -14,10 +14,15 @@
     <div class="weui-panel__bd">
         <div class="weui-media-box weui-media-box_text" v-for="message in messageList">
             <h4 class="weui-media-box__title">{{message.title}}</h4>
-            <p class="weui-media-box__desc">2016-09-08</p>
-            <p class="weui-media-box__desc" style="margin-top:10px;">{{message.content}}</p>
+            <p class="weui-media-box__desc">{{message.content}}</p>
+            <ul class="weui-media-box__info">
+                <li class="weui-media-box__info__meta">文字来源</li>
+                <li class="weui-media-box__info__meta">时间</li>
+                <li class="weui-media-box__info__meta weui-media-box__info__meta_extra">其它信息</li>
+            </ul>
         </div>
     </div>
+
 
 </div>
 
