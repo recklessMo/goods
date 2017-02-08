@@ -22,6 +22,12 @@
             </ul>
         </div>
     </div>
+    <div class="weui-footer weui-footer_fixed-bottom">
+        <p class="weui-footer__links">
+            <a href="javascript:home();" class="weui-footer__link">了解我们</a>
+        </p>
+        <p class="weui-footer__text">Copyright © 2016-2017 云校园科技平台</p>
+    </div>
 </div>
 
 <script src="https://cdn.bootcss.com/vue/1.0.26/vue.min.js"></script>
