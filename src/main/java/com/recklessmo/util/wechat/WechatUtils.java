@@ -1,6 +1,9 @@
 package com.recklessmo.util.wechat;
 
 import com.recklessmo.model.wechat.WechatCallbackMsg;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
+import com.thoughtworks.xstream.io.xml.XmlFriendlyNameCoder;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -33,78 +36,38 @@ public class WechatUtils {
 
     /**
      *
-     * 微信回调解析
+     * 将object转换成xml
      *
-     * @param str
-     * @return
      */
-    public static WechatCallbackMsg parseWechatMsg(String str) {
-        WechatCallbackMsg wechatCallbackMsg = new WechatCallbackMsg();
-        try {
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            StringReader sr = new StringReader(str);
-            InputSource is = new InputSource(sr);
-            Document document = db.parse(is);
-            Element root = document.getDocumentElement();
-            NodeList from = root.getElementsByTagName("FromUserName");
-            NodeList to = root.getElementsByTagName("ToUserName");
-            NodeList msgType = root.getElementsByTagName("MsgType");
-            NodeList event = root.getElementsByTagName("Event");
-            NodeList eventKey = root.getElementsByTagName("EventKey");
-            NodeList ticket = root.getElementsByTagName("Ticket");
-            NodeList content = root.getElementsByTagName("Content");
-            NodeList picUrl = root.getElementsByTagName("PicUrl");
-            NodeList format = root.getElementsByTagName("Format");
-            NodeList mediaId = root.getElementsByTagName("MediaId");
-            NodeList thumbMediaId = root.getElementsByTagName("ThumbMediaId");
-            NodeList msgId = root.getElementsByTagName("MsgId");
-            NodeList time = root.getElementsByTagName("CreateTime");
-            if (from.getLength() != 0) {
-                wechatCallbackMsg.setFromUserName(from.item(0).getTextContent());
-            }
-            if (to.getLength()!= 0) {
-                wechatCallbackMsg.setToUserName(to.item(0).getTextContent());
-            }
-            if (msgType.getLength()!= 0) {
-                wechatCallbackMsg.setMsgType(msgType.item(0).getTextContent());
-            }
-            if (event.getLength()!= 0) {
-                wechatCallbackMsg.setEvent(event.item(0).getTextContent());
-            }
-            if (eventKey.getLength()!= 0) {
-                wechatCallbackMsg.setEventKey(eventKey.item(0).getTextContent());
-            }
-            if (ticket.getLength()!= 0) {
-                wechatCallbackMsg.setTicket(ticket.item(0).getTextContent());
-            }
-            if (content.getLength()!= 0) {
-                wechatCallbackMsg.setContent(content.item(0).getTextContent());
-            }
-            if (picUrl.getLength()!= 0) {
-                wechatCallbackMsg.setPicUrl(picUrl.item(0).getTextContent());
-            }
-            if (mediaId.getLength()!= 0) {
-                wechatCallbackMsg.setMediaId(mediaId.item(0).getTextContent());
-            }
-            if (thumbMediaId.getLength()!= 0) {
-                wechatCallbackMsg.setThumbMediaId(thumbMediaId.item(0).getTextContent());
-            }
-            if (msgId.getLength()!= 0) {
-                wechatCallbackMsg.setMsgId(Long.parseLong(msgId.item(0).getTextContent()));
-            }
-            if (format.getLength()!= 0) {
-                wechatCallbackMsg.setFormat(format.item(0).getTextContent());
-            }
-            if (time.getLength()!= 0) {
-                wechatCallbackMsg.setCreateTime(Long.parseLong(time.item(0).getTextContent()));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return wechatCallbackMsg;
+    public static String toXml(Object obj){
+        XStream xStreamForRequestPostData = new XStream(new DomDriver("UTF-8", new XmlFriendlyNameCoder("-_", "_")));
+        String postDataXML = xStreamForRequestPostData.toXML(obj);
+        return postDataXML;
     }
 
+    /**
+     *
+     * 将xml转换成指定的object
+     *
+     * @param data
+     * @param type
+     * @return
+     */
+    public static Object fromXml(String data, Class type){
+        //将从API返回的XML数据映射到Java对象
+        XStream xStreamForResponseData = new XStream();
+        xStreamForResponseData.alias("xml", type);
+        xStreamForResponseData.ignoreUnknownElements();//暂时忽略掉一些新增的字段
+        return xStreamForResponseData.fromXML(data);
+    }
+
+    /**
+     * urlencode
+     *
+     * @param msg
+     * @return
+     * @throws Exception
+     */
     public static String getEncodedUrl(String msg) throws Exception{
         return URLEncoder.encode(msg, "UTF-8");
     }
@@ -128,6 +91,15 @@ public class WechatUtils {
         return sb.toString();
     }
 
+    /**
+     *
+     * 获取微信的签名
+     *
+     * @param o
+     * @param secret
+     * @return
+     * @throws Exception
+     */
     public static String getSign(Object o, String secret) throws Exception{
         ArrayList<String> list = new ArrayList<>();
         Class cls = o.getClass();
@@ -151,14 +123,13 @@ public class WechatUtils {
         return result;
     }
 
-    public static InputStream getStringStream(String sInputString) {
-        ByteArrayInputStream tInputStringStream = null;
-        if (sInputString != null && !sInputString.trim().equals("")) {
-            tInputStringStream = new ByteArrayInputStream(sInputString.getBytes());
-        }
-        return tInputStringStream;
-    }
-
+    /**
+     *
+     * 获取ip地址
+     *
+     * @return
+     * @throws Exception
+     */
     public static String getIp() throws Exception{
         String localIp = null;// 本地IP，如果没有配置外网IP则返回它
         String netIp = null;// 外网IP

@@ -7,11 +7,11 @@
     </sql>
 
     <sql id = "studentAddColumns">
-        sid, name, other_name,phone, scn, gender, birth, home_town, people, birth_town, address, qq, wechat, grade_id, grade_name, class_id, class_name, job
+        sid, name, other_name,phone, scn, gender, birth, home_town, people, birth_town, address, qq, wechat, grade_id, grade_name, class_id, class_name, job, wechat_id
     </sql>
 
     <sql id = "studentAllColumns">
-        id, sid, name, other_name,phone, scn, gender, birth, home_town, people, birth_town, address, qq, wechat, grade_id, grade_name, class_id, class_name, job
+        id, sid, name, other_name,phone, scn, gender, birth, home_town, people, birth_town, address, qq, wechat, grade_id, grade_name, class_id, class_name, job, wechat_id
     </sql>
 
     <insert id="insertStudentAddInfo" parameterType="com.recklessmo.model.student.StudentAddInfo">
@@ -20,7 +20,7 @@
         <include refid="studentAddColumns"/>
         )
         VALUES (
-        #{sid},#{name}, #{otherName}, #{phone}, #{scn}, #{gender}, #{birth}, #{homeTown}, #{people}, #{birthTown}, #{address}, #{qq}, #{wechat}, #{gradeId}, #{gradeName}, #{classId}, #{className}, #{job}
+        #{sid},#{name}, #{otherName}, #{phone}, #{scn}, #{gender}, #{birth}, #{homeTown}, #{people}, #{birthTown}, #{address}, #{qq}, #{wechat}, #{gradeId}, #{gradeName}, #{classId}, #{className}, #{job}, #{wechatId}
         )
     </insert>
 
@@ -36,7 +36,7 @@
             #{student.birth}, #{student.homeTown}, #{student.people},
             #{student.birthTown}, #{student.address}, #{student.qq},
             #{student.wechat}, #{student.gradeId}, #{student.gradeName},
-            #{student.classId}, #{student.className}, #{student.job})
+            #{student.classId}, #{student.className}, #{student.job}, #{student.wechatId})
         </foreach>
     </insert>
 
@@ -72,6 +72,12 @@
         count(1)
         from student
         <include refid="byPageQuery"/>
+    </select>
+    
+    <select id="getStudentAllInfoByWechatId" resultType="com.recklessmo.model.student.StudentAllInfo">
+        select * from student
+        where wechat_id = #{wechatId}
+        limit 1
     </select>
 
 </mapper>

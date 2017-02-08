@@ -22,5 +22,7 @@ public interface StudentDAO {
     List<StudentAllInfo> getStudentAllInfo(StudentPage page);
     int getStudentAllInfoTotalCount(StudentPage page);
 
+    StudentAllInfo getStudentAllInfoByWechatId(@Param("wechatId")String wechatId);
+
 }
 

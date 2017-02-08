@@ -41,6 +41,15 @@ public class StudentAddInfo {
     private long classId;
     private String className = "";
     private String job = "";
+    private String wechatId="";
+
+    public String getWechatId() {
+        return wechatId;
+    }
+
+    public void setWechatId(String wechatId) {
+        this.wechatId = wechatId;
+    }
 
     public long getGradeId() {
         return gradeId;

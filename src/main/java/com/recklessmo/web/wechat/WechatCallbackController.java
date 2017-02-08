@@ -1,6 +1,7 @@
 package com.recklessmo.web.wechat;
 
 import com.recklessmo.constant.WechatConstants;
+import com.recklessmo.model.student.StudentAllInfo;
 import com.recklessmo.model.wechat.WechatCallbackMsg;
 import com.recklessmo.model.wechat.WechatMessage;
 import com.recklessmo.service.wechat.WechatBizService;
@@ -9,17 +10,19 @@ import com.recklessmo.service.wechat.WechatNetworkService;
 import com.recklessmo.util.wechat.WechatUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 /**
  * wechat
  * 回调接口  http & no security policy so far
- *
  * 用于处理微信回调的请求
  */
 @Controller
@@ -66,8 +69,7 @@ public class WechatCallbackController {
         }
         //否则就走正常的业务逻辑
         LOGGER.info("content" + content);
-        WechatCallbackMsg wechatCallbackMsg = WechatUtils.parseWechatMsg(content);
-        LOGGER.info(wechatCallbackMsg.toString());
+        WechatCallbackMsg wechatCallbackMsg = (WechatCallbackMsg) WechatUtils.fromXml(content, WechatCallbackMsg.class);
         if (wechatCallbackMsg.getMsgType().equals("event")) {
             if (wechatCallbackMsg.getEvent().equals("subscribe")) {
                 if (wechatCallbackMsg.getTicket() != null) {
@@ -82,8 +84,6 @@ public class WechatCallbackController {
             } else if (wechatCallbackMsg.getEvent().equals("SCAN")) {
                 //用户关注之后再进行扫码
                 //直接更换绑定信息
-
-
             }
         } else if (wechatCallbackMsg.getMsgType().equals("text")){
             //文本消息
@@ -142,8 +142,11 @@ public class WechatCallbackController {
         StringBuilder sb = new StringBuilder();
         sb.append("http://" + WechatConstants.domainName + "/public/wechat/page?type=");
         sb.append(state);
-        sb.append("&code=");
-        sb.append(openId);
+        Cookie cookie = new Cookie("token", "s" + openId + "e");
+        cookie.setPath("/");
+        cookie.setSecure(false);
+        cookie.setHttpOnly(true);
+        response.addCookie(cookie);
         response.setStatus(302);
         response.sendRedirect(sb.toString());
     }
@@ -155,15 +158,43 @@ public class WechatCallbackController {
      * @return
      */
     @RequestMapping(value = "/page", method = RequestMethod.GET)
-    public String page(@RequestParam("code") String code, @RequestParam("type") int type,  Model model) {
-        String openId = code;
-        //通过type和openId来进入不同的页面
-        if(type == 1){
+    public String page(@RequestParam("type") int type, Model model, HttpServletRequest request, HttpServletResponse response)throws  Exception {
+        Cookie[] cookies = request.getCookies();
+        String openId = null;
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("token")) {
+                    openId = cookie.getValue().substring(1, cookie.getValue().length() - 1);
+                    LOGGER.info("find openid cookie: " + openId);
+                }
+            }
+        }
 
+        if(openId == null){
+            //如果没有cookie的话就去走认证的流程来获取cookie
+            StringBuilder sb = new StringBuilder();
+            sb.append("http://");
+            sb.append(WechatConstants.domainName);
+            sb.append("/public/wechat/menu/");
+            sb.append(type);
+            response.setStatus(HttpStatus.SC_MOVED_TEMPORARILY);
+            response.sendRedirect(sb.toString());
+            return null;
+        }
+
+        //找到了cookie, 就进去主页面
+        //通过type和openId来进入不同的页面
+        //因为一个公众号绑定了老师也绑定了学生. 不确定这样后期好不好.
+        if(type == 1){
+            //基本信息
+            StudentAllInfo studentAllInfo = wechatCallbackService.getStudentInfoByWechatId(openId);
+            model.addAttribute("studentInfo", studentAllInfo);
+            return "info";
         }else if(type == 2){
+            //成绩分析
 
         }else if(type == 3){
-
+            //校内通知
         }
         return "";
     }
