@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="https://weui.io/example.css">
 </head>
 <body>
-<div id="messageList">
 
+<div id="messageList">
     <div class="weui-panel__hd">消息列表</div>
     <div class="weui-panel__bd">
         <div class="weui-media-box weui-media-box_text" v-for="message in messageList">
@@ -22,14 +22,11 @@
             </ul>
         </div>
     </div>
-
-
 </div>
 
 <script src="https://cdn.bootcss.com/vue/1.0.26/vue.min.js"></script>
 <script type="text/javascript">
     var messageList = [{title:"第一次消息", content:"第一次消息正文"},{title:"第二次消息", content:"第二次消息正文"}]
-
     new Vue({
         el: '#messageList',
         data: {
