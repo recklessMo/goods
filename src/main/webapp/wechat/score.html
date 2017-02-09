@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>成绩列表</title>
+    <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.0/style/weui.min.css">
+    <link rel="stylesheet" href="https://weui.io/example.css">
+</head>
+<body>
+
+<div id="score">
+    <div v-if="hash.pageType == 'examList'">
+        <div class="weui-panel__hd">考试列表</div>
+        <div class="weui-panel__bd">
+            <div class="weui-media-box weui-media-box_text" v-for="message in messageList">
+                <h4 class="weui-media-box__title">{{message.title}}</h4>
+                <p class="weui-media-box__desc">{{message.content}}</p>
+                <ul class="weui-media-box__info">
+                    <li class="weui-media-box__info__meta">年级</li>
+                    <li class="weui-media-box__info__meta">时间</li>
+                    <li class="weui-media-box__info__meta weui-media-box__info__meta_extra">其它信息</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="weui-footer weui-footer_fixed-bottom">
+        <p class="weui-footer__links">
+            <a href="javascript:home();" class="weui-footer__link">了解我们</a>
+        </p>
+        <p class="weui-footer__text">Copyright © 2016-2017 云校园科技平台</p>
+    </div>
+</div>
+
+<script src="https://cdn.bootcss.com/vue/1.0.26/vue.min.js"></script>
+<script type="text/javascript">
+
+    var vm = new Vue({
+        el: '#score',
+        data: {
+            hash: {}
+        },
+        method: {
+
+        }
+    });
+
+    //用于进行单页面模拟跳转
+    window.onhashchange = function () {
+        var hash = location.hash.substring(1);
+        var param;
+        try {
+            if (hash) {
+                param = JSON.parse(hash);
+            } else {
+                param = {pageType: 'orderHome'};
+            }
+        } catch (e) {
+            param = {pageType: 'orderHome'};
+        }
+        vm.$set('hash', param);
+    };
+</script>
+</body>
+</html>
