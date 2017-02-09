@@ -145,6 +145,11 @@
                 title: '课表编排',
                 templateUrl: helper.basepath('custom/teacher/class-schedule-course.html'),
             })
+            .state('app.parents-wechat', {
+                url: '/parents-wechat',
+                title: '家长群发',
+                templateUrl: helper.basepath('custom/teacher/class-schedule-course.html'),
+            })
 
       //
       // Single Page Routes

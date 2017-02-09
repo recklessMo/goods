@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.recklessmo.dao.sms.SmsCodeDAO">
+
+    <sql id = "columns">
+          id, code, time, expire
+    </sql>
+
+    <insert id="addSmsCode" parameterType="com.recklessmo.model.sms.SmsCode">
+        insert into sms_code
+        (code, time, expire)
+        values(#{code}, #{time}, #{expire})
+        <selectKey keyProperty="id" resultType="long">
+            <![CDATA[SELECT LAST_INSERT_ID() AS id ]]>
+        </selectKey>
+
+    </insert>
+
+    <select id="getSmsCodeById" resultType="com.recklessmo.model.sms.SmsCode">
+        select
+        <include refid="columns"/>
+        from sms_code
+        where id = #{id}
+    </select>
+
+</mapper>

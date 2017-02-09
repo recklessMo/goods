@@ -1,0 +1,26 @@
+<div ng-controller="InformParentsWorktableController" style="height: 100%;" class="container-fluid">
+    <div class="row" style="height: 100%;">
+        <div class="col-xs-12" style="height: 100%;;">
+            <div class="panel" style="height: 100%;" >
+                <uib-tabset class="tab-full-content" style="height: 100%;" justified="true">
+                    <uib-tab active="true"
+                             style="text-align: center;">
+                        <uib-tab-heading>
+                            发送通知
+                        </uib-tab-heading>
+                        <div ng-include="'app/views/custom/message/inform-parents.html'" style="height: 100%;">
+                        </div>
+                    </uib-tab>
+                    <uib-tab active="false"
+                             style="text-align: center;">
+                        <uib-tab-heading>
+                            通知历史
+                        </uib-tab-heading>
+                        <div ng-include="'app/views/custom/message/inform-parents-history.html'" style="height: 100%;">
+                        </div>
+                    </uib-tab>
+                </uib-tabset>
+            </div>
+        </div>
+    </div>
+</div>
