@@ -6,6 +6,7 @@ import com.recklessmo.model.sms.SmsCode;
 import com.recklessmo.service.http.RemoteHttpService;
 import com.recklessmo.util.EncryptUtils;
 import com.recklessmo.util.TimeUtils;
+import com.recklessmo.util.sms.SmsCodeUtils;
 import com.thoughtworks.xstream.converters.basic.StringBufferConverter;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -21,7 +22,7 @@ import java.util.*;
 /**
  * 发送短信接口
  *
- * 用的是阿里大于, 看起来比较便宜
+ * 用的是阿里大于, 看起来比较便宜, 大概0.045一条
  *
  * Created by hpf on 2/9/17.
  */
@@ -29,8 +30,9 @@ import java.util.*;
 public class SmsService {
 
     @Resource
-    private RemoteHttpService remoteHttpService = new RemoteHttpService();
+    private RemoteHttpService remoteHttpService;
 
+    @Resource
     private SmsCodeService smsCodeService;
 
     //公共参数
@@ -43,6 +45,8 @@ public class SmsService {
     public static String APINAME = "alibaba.aliqin.fc.sms.num.send";
     //短信模板
     public static String CODETEMPLATEID = "SMS_45675130";
+    //返回结果
+    public static String RETURNOK = "alibaba_aliqin_fc_sms_num_send_response";
 
     private CloseableHttpClient httpClient = null;
 
@@ -50,30 +54,44 @@ public class SmsService {
         httpClient = HttpClients.createDefault();
     }
 
-
-    public SmsCode sendSmsCode(String phone, String code) throws Exception{
-        Map<String, String> params = new HashMap<>();
-        //公共参数
-        putPublicParams(params);
-        //业务参数
-        params.put("sms_type", "normal");
-        params.put("sms_free_sign_name", SIGN);
-        //验证码参数
-        StringBuilder sb = new StringBuilder();
-        sb.append("{\"number\":\"");
-        sb.append(code);
-        sb.append("\"}");
-        params.put("sms_param", sb.toString());
-        params.put("rec_num", phone);
-        params.put("sms_template_code",CODETEMPLATEID);
-        putSign(params);
-        //调用http进行发送
-        String result = remoteHttpService.postHttpRequest(HTTPSURL, params);
-        //解析返回结果
-        JSONObject object = JSON.parseObject(result);
-        if(object.containsKey("alibaba_aliqin_fc_sms_num_send_response")){
-            //成功
-//            return smsCodeService.addSmsCode(code);
+    /**
+     * 发送短信接口, 内部产生一个4位验证码
+     *
+     * 异常内部消化, 返回null代表发送失败.
+     *
+     * @param phone 电话号码
+     * @return
+     * @throws Exception
+     */
+    public SmsCode sendSmsCode(String phone){
+        try {
+            String code = SmsCodeUtils.generateCode(4);
+            Map<String, String> params = new HashMap<>();
+            //公共参数
+            putPublicParams(params);
+            //业务参数
+            params.put("sms_type", "normal");
+            params.put("sms_free_sign_name", SIGN);
+            //验证码参数
+            StringBuilder sb = new StringBuilder();
+            sb.append("{\"number\":\"");
+            sb.append(code);
+            sb.append("\"}");
+            params.put("sms_param", sb.toString());
+            params.put("rec_num", phone);
+            params.put("sms_template_code", CODETEMPLATEID);
+            putSign(params);
+            //调用http进行发送
+            String result = remoteHttpService.postHttpRequest(HTTPSURL, params);
+            //解析返回结果
+            JSONObject object = JSON.parseObject(result);
+            if (object.containsKey(RETURNOK)) {
+                //成功
+                return smsCodeService.addSmsCode(code);
+            }
+        }catch(Exception e){
+            //异常处理
+            e.printStackTrace();
         }
         return null;
     }
@@ -104,10 +122,9 @@ public class SmsService {
 
 
     public static void main(String[] args){
-
         SmsService smsService = new SmsService();
         try {
-            smsService.sendSmsCode("13088063013", "1342");
+            smsService.sendSmsCode("13088063013");
         }catch(Exception e){
             e.printStackTrace();
         }
