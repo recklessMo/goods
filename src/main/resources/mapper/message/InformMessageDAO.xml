@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.recklessmo.dao.message.InformMessageDAO">
+
+    <sql id = "columns">
+        id, text, send_type, create_user, created, updated, deleted
+    </sql>
+
+    <select id="getInformMessageList" resultType="com.recklessmo.model.message.InformMessage">
+      select
+      <include refid="columns"/>
+      from inform_message
+      limit #{startIndex}, #{count}
+    </select>
+
+    <select id="getInformMessageCount" resultType="com.recklessmo.model.message.InformMessage">
+        select
+        count(1)
+        from inform_message
+    </select>
+
+    <insert id="addInformMessage" parameterType="com.recklessmo.model.message.InformMessage">
+        insert into inform_message(text, send_type, create_user, created, deleted)
+        values(
+            #{text}, #{sendType}, #{createUser}, #{created}, #{deleted}
+        )
+        <selectKey keyProperty="id" resultType="long">
+            <![CDATA[SELECT LAST_INSERT_ID() AS id ]]>
+        </selectKey>
+    </insert>
+
+</mapper>
