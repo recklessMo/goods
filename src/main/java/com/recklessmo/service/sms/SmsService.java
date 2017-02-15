@@ -40,11 +40,11 @@ public class SmsService {
     public static String APPSECRET = "394939089b0a4db334cf68c1e3ad2681";
     public static String HTTPURL = "http://gw.api.taobao.com/router/rest";
     public static String HTTPSURL = "https://eco.taobao.com/router/rest";
-    public static String SIGN = "云校园科技平台";
+    public static String SIGN = "米粒儿";
     //发送
     public static String APINAME = "alibaba.aliqin.fc.sms.num.send";
     //短信模板
-    public static String CODETEMPLATEID = "SMS_45675130";
+    public static String CODETEMPLATEID = "SMS_46745005";
     //返回结果
     public static String RETURNOK = "alibaba_aliqin_fc_sms_num_send_response";
 
@@ -55,7 +55,7 @@ public class SmsService {
     }
 
     /**
-     * 发送短信接口, 内部产生一个4位验证码
+     * 发送短信接口, 内部产生一个4位验证码, 单个发送
      *
      * 异常内部消化, 返回null代表发送失败.
      *
@@ -94,6 +94,19 @@ public class SmsService {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     *
+     * 给一组电话发送text
+     *
+     * @param phoneList
+     * @param text
+     * @return
+     */
+    public boolean sendSmsMessage(List<String> phoneList, String text){
+
+        return true;
     }
 
     private void putPublicParams(Map<String, String> params){

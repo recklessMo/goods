@@ -1,11 +1,13 @@
 package com.recklessmo.web.message;
 
-import com.recklessmo.model.exam.Exam;
+import com.recklessmo.model.message.InformMessage;
 import com.recklessmo.response.JsonResponse;
+import com.recklessmo.service.message.InformMessageStoreService;
 import com.recklessmo.web.webmodel.page.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -19,34 +21,23 @@ import java.util.List;
 @RequestMapping("/v1/informmessage")
 public class InformParentsController {
 
+    @Resource
+    private InformMessageStoreService informMessageStoreService;
 
     @ResponseBody
     @RequestMapping(value = "/list", method = RequestMethod.POST)
-    public JsonResponse listExam(@RequestBody Page page){
-        List<Exam> examList = examService.listExam(page);
-        int count = examService.listExamCount(page);
-        return new JsonResponse(200, examList, count);
+    public JsonResponse listInformMessage(@RequestBody Page page){
+        List<InformMessage> messageList = informMessageStoreService.listInformMessage(page);
+        int count = informMessageStoreService.listInformMessageCount(page);
+        return new JsonResponse(200, messageList, count);
     }
-
-    @ResponseBody
-    @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public JsonResponse searchExam(@RequestParam("str") String searchStr){
-        Page page = new Page();
-        page.setSearchStr(searchStr);
-        List<Exam> examList = examService.listExam(page);
-        int count = examService.listExamCount(page);
-        return new JsonResponse(200, examList, count);
-    }
-
 
     @ResponseBody
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public JsonResponse addExam(@RequestBody Exam exam){
-
-
+    public JsonResponse addInformMessage(@RequestBody InformMessage informMessage){
+        informMessageStoreService.addInformMessage(informMessage, true);
         return new JsonResponse(200, null, null);
     }
-
 
 
 }

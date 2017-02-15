@@ -10,14 +10,19 @@ import java.util.Date;
  */
 public class InformMessage {
 
-    private long id;
-    //通知内容
-    private String text;
-    //消息发送类型
     // 1. 纯微信
     // 2. 纯短信
     // 3. 微信和短信同时发送
     // 4. 先尝试发微信, 微信发送失败则发送短信
+    public static int SEND_TYPE_WECHAT = 1;
+    public static int SEND_TYPE_SMS = 2;
+    public static int SEND_TYPE_WECHAT_AND_SMS = 3;
+    public static int SEND_TYPE_WECHAT_BEFORE_SMS = 4;
+
+    private long id;
+    //通知内容
+    private String text;
+    //消息发送类型
     private int sendType;
     //创建时间
     private Date created;
@@ -25,6 +30,8 @@ public class InformMessage {
     private long create_user;
     //是否删除
     private int deleted;
+    //发送范围
+
 
 
     public long getId() {
