@@ -61,8 +61,8 @@ public class Menu{
 //            new Menu(804, "管理站", "校内广播", "icon-wrench", "app.edu-setting"),
 //            new Menu(805, "管理站", "家长群发", "icon-wrench", "app.parents-wechat")
 
-            new Menu(10001, "超管站", "帐号管理", "icon-user-female", "app.account"),
-            new Menu(10002, "超管站", "机构管理", "icon-user-female", "app.account")
+            new Menu(10001, "超管站", "帐号管理", "icon-user-female", "app.super-account"),
+            new Menu(10002, "超管站", "机构管理", "icon-user-female", "app.org-list")
 
     };
 

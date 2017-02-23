@@ -32,36 +32,19 @@
 
         $scope.activate();
 
-        //查看下属机构
-        $scope.show = function (userId){
-            var dialog= ngDialog.open({
-                template: 'app/views/custom/admin/account/edit-account.html',
-                controller: 'EditAccountController',
-                className: 'ngdialog-theme-default custom-width-800',
-                data : {id:userId, type:0}
-            });
-            dialog.closePromise.then(function(data){
-                if(data.value != 'reload'){
-                    return;
-                }
-                $scope.userTableParams.reload();
-            });
-        };
-
 
         //添加新机构
         $scope.add = function(userId){
             var dialog= ngDialog.open({
-                template: 'app/views/custom/admin/account/edit-account.html',
-                controller: 'EditAccountController',
-                className: 'ngdialog-theme-default custom-width-800',
-                data : {id:userId, type:2}
+                template: 'app/views/custom/system/add-org.html',
+                controller: 'AddOrgController',
+                className: 'ngdialog-theme-default custom-width-800'
             })
             dialog.closePromise.then(function(data){
                 if(data.value != 'reload'){
                     return;
                 }
-                $scope.userTableParams.reload();
+                $scope.orgTableParams.reload();
             });
         }
 

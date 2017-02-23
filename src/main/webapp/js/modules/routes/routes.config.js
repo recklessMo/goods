@@ -150,6 +150,16 @@
                 title: '家长群发',
                 templateUrl: helper.basepath('custom/teacher/class-schedule-course.html'),
             })
+            .state('app.super-account', {
+                url: '/super-account',
+                title: '管理帐号',
+                templateUrl: helper.basepath('custom/system/super-account-list.html'),
+            })
+            .state('app.super-account', {
+                url: '/super-account',
+                title: '管理机构',
+                templateUrl: helper.basepath('custom/system/org-list.html'),
+            })
 
       //
       // Single Page Routes
