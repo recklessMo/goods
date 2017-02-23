@@ -121,7 +121,8 @@ gulp.task('vendor:base', function() {
     log('Copying base vendor assets..');
     return gulp.src(vendor.base.source)
         .pipe($.expectFile(vendor.base.source))
-        .pipe($.if( isProduction, $.uglify() ))
+        //.pipe($.if( isProduction, $.uglify() ))
+        .pipe($.uglify())
         .pipe($.concat(vendor.base.name))
         .pipe($.if(isProduction,rev()))
         .pipe(gulp.dest(vendor.base.dest))
