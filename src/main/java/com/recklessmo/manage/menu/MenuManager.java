@@ -92,7 +92,7 @@ public class MenuManager {
     public List<Permissions> getPermissions(){
         List<Permissions> data = new LinkedList<>();
         for(Menu menu: Menu.menuList){
-            if(menu.getFather() != null){
+            if(menu.getFather() != null && !menu.getFather().equals("超管站")){
                 data.add(new Permissions(menu.getId(), menu.getFather() + "->" + menu.getChild()));
             }
         }

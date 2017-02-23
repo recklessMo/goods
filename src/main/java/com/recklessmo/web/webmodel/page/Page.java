@@ -7,7 +7,7 @@ public class Page {
 
     private int page = 1;
     //限定一个默认值, 即使没有传,也要限制,不能一次性拉太多.
-    private int count = 10000;
+    private int count = 1000;
     private long orgId;
     private String searchStr;
 
@@ -18,7 +18,6 @@ public class Page {
     public void setSearchStr(String searchStr) {
         this.searchStr = searchStr;
     }
-
 
     public int getStartIndex(){
         return (page - 1) * count;

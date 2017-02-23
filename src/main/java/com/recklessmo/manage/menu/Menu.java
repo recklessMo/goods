@@ -14,16 +14,17 @@ public class Menu{
             new Menu(300, null, "统计站", "icon-book-open", null),
             new Menu(400, null, "库存站", "icon-settings", null),
             new Menu(500, null, "微信站", "icon-settings", null),
-            new Menu(600, null, "财务站", "icon-settings", null),
+//            new Menu(600, null, "财务站", "icon-settings", null),
             new Menu(700, null, "个人中心", "icon-info", null),
             new Menu(800, null, "管理站", "icon-settings", null),
+            new Menu(10000, null, "超管站", "icon-settings", null),
 
 
             new Menu(101, "教务站", "学生查询", "icon-people", "app.student-view-worktable"),
             new Menu(102, "教务站", "录入导出", "icon-user-follow", "app.student-add-worktable"),
 //            new Menu(103, "教务站", "奖惩录入", "icon-user-follow", "app.student-reward"),
 //            new Menu(104, "教务站", "毕业去向", "icon-user-follow", "app.student-graduate"),
-            new Menu(105, "教务站", "教师设置", "icon-user-follow", "app.student-teacher"),
+            new Menu(105, "教务站", "任课设置", "icon-user-follow", "app.student-teacher"),
             new Menu(106, "教务站", "课表编排", "icon-user-follow", "app.class-schedule"),
 
 
@@ -38,7 +39,7 @@ public class Menu{
             new Menu(207, "成绩站", "进退步分析", "icon-plus", "app.result-singlerank"),
             new Menu(208, "成绩站", "缺考统计", "icon-plus", "app.result-absense"),
 
-            new Menu(301, "统计站", "财务统计", "icon-wallet", "app.payStat"),
+//            new Menu(301, "统计站", "财务统计", "icon-wallet", "app.payStat"),
             new Menu(302, "统计站", "学生统计", "icon-wallet", "app.payStat"),
             new Menu(303, "统计站", "微信统计", "icon-wallet", "app.wechatStat"),
             new Menu(304, "统计站", "成本统计", "icon-wallet", "app.wechatStat"),
@@ -49,7 +50,7 @@ public class Menu{
             new Menu(501, "微信站", "微信咨询", "icon-wrench", "app.wechat-talk"),
             new Menu(502, "微信站", "微信通知", "icon-wrench", "app.wechat-notice"),
 
-            new Menu(601, "财务站", "学生财务", "icon-info", "app.todo"),
+//            new Menu(601, "财务站", "学生财务", "icon-info", "app.todo"),
 
             new Menu(701, "个人中心", "我的消息", "icon-info", "app.todo"),
             new Menu(702, "个人中心", "我的课表", "icon-info", "app.account"),
@@ -57,8 +58,11 @@ public class Menu{
             new Menu(801, "管理站", "帐号管理", "icon-user-female", "app.account"),
             new Menu(802, "管理站", "教务设置", "icon-wrench", "app.edu-setting"),
 //            new Menu(803, "管理站", "学校设置", "icon-wrench", "app.edu-setting"),
-            new Menu(804, "管理站", "校内广播", "icon-wrench", "app.edu-setting"),
-            new Menu(805, "管理站", "家长群发", "icon-wrench", "app.parents-wechat")
+//            new Menu(804, "管理站", "校内广播", "icon-wrench", "app.edu-setting"),
+//            new Menu(805, "管理站", "家长群发", "icon-wrench", "app.parents-wechat")
+
+            new Menu(10001, "超管站", "帐号管理", "icon-user-female", "app.account"),
+            new Menu(10002, "超管站", "机构管理", "icon-user-female", "app.account")
 
     };
 

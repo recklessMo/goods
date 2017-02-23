@@ -7,6 +7,10 @@ import java.util.Date;
  */
 public class Course {
 
+    private static int COURSE_TYPE_MAIN = 1;
+    private static int COURSE_TYPE_WEN = 2;
+    private static int COURSE_TYPE_LI = 3;
+
     //常用的学科名字
     public static String CHINESE = "语文";
     public static String MATH = "数学";
@@ -18,11 +22,48 @@ public class Course {
     public static String CHEMISTRY = "化学";
     public static String BIOLOGY = "生物";
 
-
+    private long id;
     private long courseId;
     private String courseName;
     private Date createTime = new Date();
     private String detail;
+    private long orgId;
+    private int type;
+
+    //用于表示学校是否导入
+    private boolean hasImport = false;
+
+    public boolean isHasImport() {
+        return hasImport;
+    }
+
+    public void setHasImport(boolean hasImport) {
+        this.hasImport = hasImport;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public long getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(long orgId) {
+        this.orgId = orgId;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
 
     public long getCourseId() {
         return courseId;

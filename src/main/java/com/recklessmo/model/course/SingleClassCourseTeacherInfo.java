@@ -53,4 +53,8 @@ public class SingleClassCourseTeacherInfo {
     public void setCourseTeacherList(List<CourseTeacher> courseTeacherList) {
         this.courseTeacherList = courseTeacherList;
     }
+
+    public static void main(String[] args){
+
+    }
 }

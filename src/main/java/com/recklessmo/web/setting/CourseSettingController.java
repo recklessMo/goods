@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by hpf on 8/17/16.
@@ -24,18 +25,21 @@ public class CourseSettingController {
     @Resource
     private CourseSettingService courseSettingService;
 
-    @RequestMapping(value = "/course/add", method = {RequestMethod.POST})
-    @ResponseBody
-    public JsonResponse addCourse(@RequestBody Course Course){
-        //TODO do some check here
-        courseSettingService.addCourse(Course);
-        return new JsonResponse(200, null, null);
-    }
+//   不提供自己添加接口, 为了统一数据, 需要对课程进行统一编码!
+
+//    @RequestMapping(value = "/course/add", method = {RequestMethod.POST})
+//    @ResponseBody
+//    public JsonResponse addCourse(@RequestBody Course Course){
+//        //TODO do some check here
+//        courseSettingService.addCourse(Course);
+//        return new JsonResponse(200, null, null);
+//    }
+
+
 
     @RequestMapping(value = "/course/update", method = {RequestMethod.POST})
     @ResponseBody
     public JsonResponse updateCourse(@RequestBody Course Course){
-        //TODO do some check here
         courseSettingService.updateCourse(Course);
         return new JsonResponse(200, null, null);
     }
@@ -43,11 +47,47 @@ public class CourseSettingController {
     @RequestMapping(value = "/course/list", method = {RequestMethod.POST})
     @ResponseBody
     public JsonResponse listCourse(@RequestBody Page page){
-        //TODO do some check here
         int count = courseSettingService.listCourseCount(page);
         List<Course> CourseList = courseSettingService.listCourse(page);
         return new JsonResponse(200, CourseList, count);
     }
 
+    @RequestMapping(value = "/course/listStandard", method = {RequestMethod.POST})
+    @ResponseBody
+    public JsonResponse listStandard(@RequestBody Page page){
+        page.setOrgId(1);
+        List<Course> courseList = courseSettingService.listCourse(page);
+        page.setOrgId(0);
+        List<Course> StandardCourseList = courseSettingService.listCourse(page);
+        StandardCourseList.stream().forEach(item -> {
+            Optional<Course> temp = courseList.stream().filter(t -> t.getCourseId() == item.getCourseId()).findAny();
+            item.setHasImport(temp.isPresent());
+        });
+        return new JsonResponse(200, StandardCourseList, StandardCourseList.size());
+    }
+
+    @RequestMapping(value = "/course/import", method = {RequestMethod.POST})
+    @ResponseBody
+    public JsonResponse importCourse(@RequestBody Course[] courses){
+        for(Course course : courses){
+            try{
+                //直接添加, 通过数据库主键来判断
+                courseSettingService.addCourse(course);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        return new JsonResponse(200, null, null);
+    }
+
+    @RequestMapping(value = "/course/delete", method = {RequestMethod.POST})
+    @ResponseBody
+    public JsonResponse deleteCourse(@RequestBody long id){
+        Course course = courseSettingService.getCourseById(id);
+        if(course != null && course.getOrgId() == 0){
+            courseSettingService.deleteCourse(id);
+        }
+        return new JsonResponse(200, null, null);
+    }
 
 }

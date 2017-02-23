@@ -32,8 +32,10 @@
 
         //学科设置
         this.addCourse = addCourse;
+        this.importCourse = importCourse;
         this.updateCourse = updateCourse;
         this.listCourse = listCourse;
+        this.listStandardCourse = listStandardCourse;
 
         //职业设置
         this.listJob = listJob;
@@ -237,6 +239,15 @@
             });
         }
 
+        function importCourse(data){
+            return $http({
+                method : "POST",
+                url: "/v1/setting/course/import",
+                data: data,
+                timeout: 5000
+            });
+        }
+
         function updateCourse(data){
             return $http({
                 method : "POST",
@@ -250,6 +261,15 @@
             return $http({
                 method : "POST",
                 url: "/v1/setting/course/list",
+                data: data,
+                timeout: 5000
+            });
+        }
+
+        function listStandardCourse(data){
+            return $http({
+                method : "POST",
+                url: "/v1/setting/course/listStandard",
                 data: data,
                 timeout: 5000
             });

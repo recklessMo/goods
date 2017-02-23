@@ -4,11 +4,11 @@
 <mapper namespace="com.recklessmo.dao.setting.CourseSettingDAO">
 
     <sql id = "courseColumns">
-        course_id, course_name, create_time, detail
+        course_id, course_name, create_time, detail, type, org_id
     </sql>
 
     <sql id = "courseColumnsWithoutId">
-        course_name, create_time, detail
+        course_name, create_time, detail, type, org_id
     </sql>
 
     <insert id="addCourse">
@@ -16,7 +16,7 @@
         (
         <include refid="courseColumnsWithoutId"/>
         )
-        values(#{courseName},#{createTime}, #{detail})
+        values(#{courseName},#{createTime}, #{detail}, #{type}, #{orgId})
     </insert>
 
     <update id="updateCourse">
@@ -24,7 +24,7 @@
         (
         <include refid="courseColumns"/>
         )
-        values(#{courseId}, #{courseName},#{createTime}, #{detail})
+        values(#{courseId}, #{courseName},#{createTime}, #{detail}, #{type}, #{orgId})
     </update>
 
 
@@ -32,6 +32,8 @@
         select
         <include refid="courseColumns"/>
         from course
+        where org_id = #{orgId} and deleted = 0
+        order by course_id asc
         limit #{startIndex}, #{count}
     </select>
 
@@ -39,6 +41,17 @@
         select
         count(1)
         from course
+        where org_id = #{orgId} and deleted = 0
     </select>
+
+    <select id="getCourseById" resultType="com.recklessmo.model.setting.Course">
+        select
+        <include refid="courseColumns"/>
+        from course where id = #{id}
+    </select>
+
+    <update id="deleteCourse">
+        update course set deleted = 1 where id = #{id}
+    </update>
 
 </mapper>

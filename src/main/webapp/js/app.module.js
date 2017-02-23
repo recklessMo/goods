@@ -21,7 +21,7 @@
             'app.routes',
             'app.sidebar',
             'app.navsearch',
-            'app.preloader',
+            //'app.preloader',
             'app.loadingbar',
             'app.settings',
             'app.dashboard',

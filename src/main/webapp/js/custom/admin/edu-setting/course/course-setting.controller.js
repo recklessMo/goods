@@ -13,7 +13,7 @@
         };
 
         $scope.activate = function() {
-            $scope.courseTableParams = new NgTableParams({}, {
+            $scope.courseTableParams = new NgTableParams($scope.tableParams, {
                 getData: function(params){
                     blockUI.start();
                     return SettingService.listCourse({page:params.page(), count:params.count()}).then(function(data){
@@ -36,12 +36,11 @@
         $scope.activate();
 
         //年级操作
-        $scope.addCourse = function(){
+        $scope.importCourse = function(){
             var dialog= ngDialog.open({
-                template: 'app/views/custom/admin/edu-setting/course/edit-course.html',
-                controller: 'EditCourseController',
+                template: 'app/views/custom/admin/edu-setting/course/import-course.html',
+                controller: 'ImportCourseController',
                 className: 'ngdialog-theme-default custom-width-800',
-                data : {type: 'add'}
             });
             dialog.closePromise.then(function(data){
                 if(data.value != 'reload'){
@@ -65,6 +64,9 @@
                 $scope.courseTableParams.reload();
             });
         }
+
+
+
 
     }
 })();
