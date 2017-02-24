@@ -1,5 +1,8 @@
 package com.recklessmo.model.score.result;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Created by hpf on 1/8/17.
  */
@@ -11,9 +14,56 @@ public class TotalInner {
     private int good;
     private int qualified;
     private int totalCount;
+    private int absenseCount;
     private double max = -100.0;
     private double min = 200.0;
 
+    private double sum = 0.0;
+    private double avg = 0.0;
+    private double stdDev = 0.0;
+
+    //用于计算标准差
+    private List<Double> scoreList = new LinkedList<>();
+
+    public int getAbsenseCount() {
+        return absenseCount;
+    }
+
+    public void setAbsenseCount(int absenseCount) {
+        this.absenseCount = absenseCount;
+    }
+
+    public List<Double> getScoreList() {
+        return scoreList;
+    }
+
+    public void setScoreList(List<Double> scoreList) {
+        this.scoreList = scoreList;
+    }
+
+    public double getSum() {
+        return sum;
+    }
+
+    public void setSum(double sum) {
+        this.sum = sum;
+    }
+
+    public double getAvg() {
+        return avg;
+    }
+
+    public void setAvg(double avg) {
+        this.avg = avg;
+    }
+
+    public double getStdDev() {
+        return stdDev;
+    }
+
+    public void setStdDev(double stdDev) {
+        this.stdDev = stdDev;
+    }
 
     public int getTotalCount() {
         return totalCount;

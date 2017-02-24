@@ -1,5 +1,6 @@
 package com.recklessmo.web.wechat;
 
+import com.alibaba.fastjson.JSON;
 import com.recklessmo.constant.WechatConstants;
 import com.recklessmo.model.student.StudentAllInfo;
 import com.recklessmo.model.wechat.WechatCallbackMsg;
@@ -117,7 +118,7 @@ public class WechatCallbackController {
         sb.append("appid=");
         sb.append(WechatConstants.APPID);
         sb.append("&redirect_uri=");
-        sb.append(WechatUtils.getEncodedUrl("http://" + WechatConstants.domainName + "/public/wechat/callback?"));
+        sb.append(WechatUtils.getEncodedUrl(WechatConstants.domainName + "/public/wechat/callback?"));
         sb.append("response_type=code&scope=snsapi_base&state=");
         sb.append(menuid);
         sb.append("#wechat_redirect");
@@ -140,7 +141,7 @@ public class WechatCallbackController {
         String openId = wechatNetworkService.getBrowerOpenId(code);
         //根据state来进行回调判断
         StringBuilder sb = new StringBuilder();
-        sb.append("http://" + WechatConstants.domainName + "/public/wechat/page?type=");
+        sb.append(WechatConstants.domainName + "/public/wechat/page?type=");
         sb.append(state);
         Cookie cookie = new Cookie("token", "s" + openId + "e");
         cookie.setPath("/");
@@ -173,7 +174,6 @@ public class WechatCallbackController {
         if(openId == null){
             //如果没有cookie的话就去走认证的流程来获取cookie
             StringBuilder sb = new StringBuilder();
-            sb.append("http://");
             sb.append(WechatConstants.domainName);
             sb.append("/public/wechat/menu/");
             sb.append(type);
@@ -182,19 +182,23 @@ public class WechatCallbackController {
             return null;
         }
 
-        //找到了cookie, 就进去主页面
-        //通过type和openId来进入不同的页面
-        //因为一个公众号绑定了老师也绑定了学生. 不确定这样后期好不好.
+        //如果没有绑定的话就进行绑定
+        StudentAllInfo studentAllInfo = wechatCallbackService.getStudentInfoByWechatId(openId);
+        if(studentAllInfo == null){
+            return "bind";
+        }
+
+        //找到了cookie并且绑定了, 就进去主页面
         if(type == 1){
             //基本信息
-            StudentAllInfo studentAllInfo = wechatCallbackService.getStudentInfoByWechatId(openId);
-            model.addAttribute("studentInfo", studentAllInfo);
+            model.addAttribute("studentInfo", JSON.toJSONString(studentAllInfo));
             return "info";
         }else if(type == 2){
             //成绩分析
-
+            return "score";
         }else if(type == 3){
             //校内通知
+            return "message";
         }
         return "";
     }

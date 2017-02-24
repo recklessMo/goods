@@ -11,7 +11,7 @@ public class Menu{
     public static Menu[] menuList = {
             new Menu(100, null, "教务站", "icon-book-open", null),
             new Menu(200, null, "成绩站", "icon-book-open", null),
-            new Menu(300, null, "统计站", "icon-book-open", null),
+//            new Menu(300, null, "统计站", "icon-book-open", null),
             new Menu(400, null, "库存站", "icon-settings", null),
             new Menu(500, null, "微信站", "icon-settings", null),
 //            new Menu(600, null, "财务站", "icon-settings", null),
@@ -40,9 +40,9 @@ public class Menu{
             new Menu(208, "成绩站", "缺考统计", "icon-plus", "app.result-absense"),
 
 //            new Menu(301, "统计站", "财务统计", "icon-wallet", "app.payStat"),
-            new Menu(302, "统计站", "学生统计", "icon-wallet", "app.payStat"),
-            new Menu(303, "统计站", "微信统计", "icon-wallet", "app.wechatStat"),
-            new Menu(304, "统计站", "成本统计", "icon-wallet", "app.wechatStat"),
+//            new Menu(302, "统计站", "学生统计", "icon-wallet", "app.payStat"),
+//            new Menu(303, "统计站", "微信统计", "icon-wallet", "app.wechatStat"),
+//            new Menu(304, "统计站", "成本统计", "icon-wallet", "app.wechatStat"),
 
             new Menu(401, "库存站", "物资", "icon-plus", "app.item"),
             new Menu(402, "库存站", "出入库", "icon-check", "app.stock-worktable"),
@@ -52,8 +52,8 @@ public class Menu{
 
 //            new Menu(601, "财务站", "学生财务", "icon-info", "app.todo"),
 
-            new Menu(701, "个人中心", "我的消息", "icon-info", "app.todo"),
-            new Menu(702, "个人中心", "我的课表", "icon-info", "app.account"),
+//            new Menu(701, "个人中心", "我的消息", "icon-info", "app.todo"),
+//            new Menu(702, "个人中心", "我的课表", "icon-info", "app.account"),
 
             new Menu(801, "管理站", "帐号管理", "icon-user-female", "app.account"),
             new Menu(802, "管理站", "教务设置", "icon-wrench", "app.edu-setting"),

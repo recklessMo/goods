@@ -155,8 +155,8 @@
                 title: '管理帐号',
                 templateUrl: helper.basepath('custom/system/super-account-list.html'),
             })
-            .state('app.super-account', {
-                url: '/super-account',
+            .state('app.org-list', {
+                url: '/org-list',
                 title: '管理机构',
                 templateUrl: helper.basepath('custom/system/org-list.html'),
             })

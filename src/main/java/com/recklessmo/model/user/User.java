@@ -20,7 +20,15 @@ public class User {
     private String job = "";
     private String authorities = "";
     private Date created;
+    private long orgId;
 
+    public long getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(long orgId) {
+        this.orgId = orgId;
+    }
 
     public Date getCreated() {
         return created;

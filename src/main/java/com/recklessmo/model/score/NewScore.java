@@ -15,6 +15,8 @@ public class NewScore {
     //通过sid获取对应的cid,set进去
     private long cid;
     private String cname;
+    private List<CourseScore> courseScoreList = new LinkedList<>();
+
 
 
     public String getCname() {
@@ -24,8 +26,6 @@ public class NewScore {
     public void setCname(String cname) {
         this.cname = cname;
     }
-
-    private List<CourseScore> courseScoreList = new LinkedList<>();
 
     public void add(CourseScore courseScore){
         courseScoreList.add(courseScore);

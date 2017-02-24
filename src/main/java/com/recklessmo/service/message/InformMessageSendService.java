@@ -5,7 +5,6 @@ import com.recklessmo.model.message.InformMessage;
 import com.recklessmo.model.sms.SmsCode;
 import com.recklessmo.service.sms.SmsService;
 import com.recklessmo.web.webmodel.page.Page;
-import com.sun.tools.classfile.InnerClasses_attribute;
 import org.apache.ibatis.annotations.Case;
 import org.springframework.stereotype.Service;
 

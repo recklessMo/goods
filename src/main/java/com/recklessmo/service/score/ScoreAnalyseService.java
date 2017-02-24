@@ -33,14 +33,14 @@ public class ScoreAnalyseService {
         if (type == 1) {
             Map<Long, ClassTotal> result = new HashMap<>();
             for (NewScore newScore : scoreList) {
+                ClassTotal classTotal = result.get(newScore.getCid());
+                if (classTotal == null) {
+                    classTotal = new ClassTotal();
+                    classTotal.setCid(newScore.getCid());
+                    classTotal.setCname(newScore.getCname());
+                    result.put(newScore.getCid(), classTotal);
+                }
                 for (CourseScore courseScore : newScore.getCourseScoreList()) {
-                    ClassTotal classTotal = result.get(newScore.getCid());
-                    if (classTotal == null) {
-                        classTotal = new ClassTotal();
-                        classTotal.setCid(newScore.getCid());
-                        classTotal.setCname(newScore.getCname());
-                        result.put(newScore.getCid(), classTotal);
-                    }
                     TotalInner totalInner;
                     Optional<TotalInner> data = classTotal.getCourseTotalList().stream().filter(m->m.getName().equals(courseScore.getName())).findAny();
                     if(data.isPresent()){
@@ -84,6 +84,7 @@ public class ScoreAnalyseService {
     }
 
     private void totalInner(CourseScore courseScore, TotalInner totalInner){
+        //及格率,优秀率
         if (courseScore.getScore() >= 60) {
             totalInner.setQualified(totalInner.getQualified() + 1);
         }
@@ -98,6 +99,8 @@ public class ScoreAnalyseService {
         }
         //总人数
         totalInner.setTotalCount(totalInner.getTotalCount() + 1);
+        //总的分数
+        totalInner.setSum(totalInner.getSum() + courseScore.getScore());
         //最高分
         if (courseScore.getScore() > totalInner.getMax()) {
             totalInner.setMax(courseScore.getScore());
@@ -106,6 +109,18 @@ public class ScoreAnalyseService {
         if (courseScore.getScore() < totalInner.getMin()) {
             totalInner.setMin(courseScore.getScore());
         }
+        //添加score
+        totalInner.getScoreList().add(courseScore.getScore());
+    }
+
+
+    private void processAfterTotalInner(TotalInner totalInner){
+        totalInner.setAvg(totalInner.getSum() / totalInner.getTotalCount());
+        double sum = 0;
+        for(Double score : totalInner.getScoreList()){
+            sum += (score - totalInner.getAvg()) * (score - totalInner.getAvg());
+        }
+        totalInner.setStdDev(Math.sqrt(sum / totalInner.getTotalCount()));
     }
 
 
