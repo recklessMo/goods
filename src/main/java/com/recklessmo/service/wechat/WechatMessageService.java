@@ -19,25 +19,13 @@ import java.util.List;
  * Created by hpf on 1/12/17.
  */
 @Service
-public class WechatBizService {
+public class WechatMessageService {
 
     @Resource
     private WechatNetworkService wechatNetworkService;
 
     @Resource
-    private WechatUserDAO wechatUserDAO;
-
-    @Resource
     private WechatMessageDAO wechatMessageDAO;
-
-    /*************************微信用户*****************************/
-    public List<WechatUser> getRecentUserList(Page page){
-        return wechatUserDAO.getListByOrgId(page);
-    }
-
-    public int getRecentUserCount(Page page){
-        return wechatUserDAO.getCountByOrgId(page);
-    }
 
 
     /*************************微信消息***********************************/
@@ -68,18 +56,6 @@ public class WechatBizService {
     public void receiveMessage(WechatMessage wechatMessage) {
         //插入数据库中进行记录
         wechatMessageDAO.insertMessage(wechatMessage);
-    }
-
-    /**
-     *
-     * 主页内容
-     *
-     * @param model
-     * @return
-     */
-    public String getIndexPage(Model model){
-
-        return "";
     }
 
 }

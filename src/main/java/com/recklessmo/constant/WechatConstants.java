@@ -6,15 +6,14 @@ package com.recklessmo.constant;
  */
 public class WechatConstants {
 
+    public static String TOKEN = "wechatyunxiaoyuan";
+
     /*for wechat*/
     public static String APPID = "wx6c4976042567bf58";
     public static String APPSECRET = "e1d8589c975c5627e4dc45d9b24b54ce";
     public static String domainName = "http://www.school-cloud.cn";
     public static long GAP = 1000 * 3600;
     public static long lastUpdateTime = 0;
-
-
-
 
 
     /*message for user*/

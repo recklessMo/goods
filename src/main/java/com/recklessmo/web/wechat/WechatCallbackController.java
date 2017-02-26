@@ -5,7 +5,7 @@ import com.recklessmo.constant.WechatConstants;
 import com.recklessmo.model.student.StudentAllInfo;
 import com.recklessmo.model.wechat.WechatCallbackMsg;
 import com.recklessmo.model.wechat.WechatMessage;
-import com.recklessmo.service.wechat.WechatBizService;
+import com.recklessmo.service.wechat.WechatMessageService;
 import com.recklessmo.service.wechat.WechatCallbackService;
 import com.recklessmo.service.wechat.WechatNetworkService;
 import com.recklessmo.util.wechat.WechatUtils;
@@ -32,8 +32,6 @@ public class WechatCallbackController {
 
     private static final Log LOGGER = LogFactory.getLog(WechatCallbackController.class);
 
-    public static String TOKEN = "wechatyunxiaoyuan";
-
     @Resource
     private WechatNetworkService wechatNetworkService;
 
@@ -41,7 +39,7 @@ public class WechatCallbackController {
     private WechatCallbackService wechatCallbackService;
 
     @Resource
-    private WechatBizService wechatBizService;
+    private WechatMessageService wechatBizService;
 
     /**
      * 微信回调接口
@@ -60,7 +58,7 @@ public class WechatCallbackController {
         if (content == null) {
             LOGGER.info(signature + "," + timestamp + "," + nonce + "," + echostr);
             List<String> data = new LinkedList<>();
-            data.add(TOKEN);
+            data.add(WechatConstants.TOKEN);
             data.add(timestamp);
             data.add(nonce);
             Collections.sort(data);
