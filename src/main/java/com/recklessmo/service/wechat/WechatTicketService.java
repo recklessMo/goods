@@ -22,6 +22,9 @@ public class WechatTicketService {
     @Resource
     private WechatTicketDAO wechatTicketDAO;
 
+    @Resource
+    private WechatNetworkService wechatNetworkService;
+
 
     /**
      *
@@ -31,12 +34,13 @@ public class WechatTicketService {
      * @param sid
      * @param senceId 场景ID, 用于判断是从哪里进行的绑定, 可以方便以后进行界面优化
      */
-    public String createTicket(long orgId, String sid, int senceId){
+    public String createTicket(long orgId, String sid, String name, int sceneId){
         WechatTicket wechatTicket = new WechatTicket();
         wechatTicket.setOrgId(orgId);
         wechatTicket.setCreated(new Date());
         wechatTicket.setSid(sid);
-        String ticket = null;
+        wechatTicket.setName(name);
+        String ticket = wechatNetworkService.getWechatTicket(sceneId);
         wechatTicket.setTicket(ticket);
         wechatTicketDAO.insertTicket(wechatTicket);
         return ticket;

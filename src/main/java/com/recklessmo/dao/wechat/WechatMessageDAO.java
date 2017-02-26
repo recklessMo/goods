@@ -11,8 +11,8 @@ import java.util.List;
  */
 public interface WechatMessageDAO {
 
-    List<WechatMessage> getListByOrgIdAndOpenId(WechatMsgPage page);
-    int getCountByOrgIdAndOpenId(WechatMsgPage page);
+    List<WechatMessage> getListByOpenId(WechatMsgPage page);
+    int getCountByOpenId(WechatMsgPage page);
 
 
     void insertMessage(WechatMessage wechatMessage);

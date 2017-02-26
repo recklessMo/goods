@@ -5,9 +5,9 @@ import com.recklessmo.constant.WechatConstants;
 import com.recklessmo.model.student.StudentAllInfo;
 import com.recklessmo.model.wechat.WechatCallbackMsg;
 import com.recklessmo.model.wechat.WechatMessage;
-import com.recklessmo.service.wechat.WechatMessageService;
-import com.recklessmo.service.wechat.WechatCallbackService;
-import com.recklessmo.service.wechat.WechatNetworkService;
+import com.recklessmo.model.wechat.WechatTicket;
+import com.recklessmo.model.wechat.WechatUser;
+import com.recklessmo.service.wechat.*;
 import com.recklessmo.util.wechat.WechatUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -39,7 +39,13 @@ public class WechatCallbackController {
     private WechatCallbackService wechatCallbackService;
 
     @Resource
-    private WechatMessageService wechatBizService;
+    private WechatMessageService wechatMessageService;
+
+    @Resource
+    private WechatTicketService wechatTicketService;
+
+    @Resource
+    private WechatUserService wechatUserService;
 
     /**
      * 微信回调接口
@@ -74,7 +80,17 @@ public class WechatCallbackController {
                 if (wechatCallbackMsg.getTicket() != null) {
                     //扫描指定二维码关注
                     //进行绑定
-
+                    String ticket = wechatCallbackMsg.getTicket();
+                    WechatTicket wechatTicket = wechatTicketService.getTicketByTicket(ticket);
+                    if(wechatTicket != null){
+                        WechatUser wechatUser = new WechatUser();
+                        wechatUser.setSid(wechatTicket.getSid());
+                        wechatUser.setOrgId(wechatTicket.getOrgId());
+                        wechatUser.setOpenId(wechatCallbackMsg.getFromUserName());
+                        wechatUser.setOpenName(wechatTicket.getName());
+                        wechatUser.setLastMessage("");
+                        wechatUserService.insertUser(wechatUser);
+                    }
                 } else {
                     //扫描公众号二维码关注. 暂时无法做任何事
                 }
@@ -83,18 +99,25 @@ public class WechatCallbackController {
             } else if (wechatCallbackMsg.getEvent().equals("SCAN")) {
                 //用户关注之后再进行扫码
                 //直接更换绑定信息
+                if (wechatCallbackMsg.getTicket() != null){
+                    String ticket = wechatCallbackMsg.getTicket();
+                    WechatTicket wechatTicket = wechatTicketService.getTicketByTicket(ticket);
+                    if(wechatTicket != null){
+                        ;
+                    }
+                }
             }
         } else if (wechatCallbackMsg.getMsgType().equals("text")){
             //文本消息
             WechatMessage wechatMessage = new WechatMessage();
             wechatMessage.setOrgId(0);
             wechatMessage.setType(2);//接收
-            wechatMessage.setMessageType(1);
+            wechatMessage.setMessageType(1);//文本
             wechatMessage.setMessage(wechatCallbackMsg.getContent());
             wechatMessage.setCreated(new Date());
             wechatMessage.setOpenId(wechatCallbackMsg.getFromUserName());
             wechatMessage.setOpenName("微信用户");
-            wechatBizService.receiveMessage(wechatMessage);
+            wechatMessageService.receiveMessage(wechatMessage);
         } else if (wechatCallbackMsg.getMsgType().equals("image")
                 || wechatCallbackMsg.getMsgType().equals("voice") || wechatCallbackMsg.getMsgType().equals("video") || wechatCallbackMsg.getMsgType().equals("shortvideo")) {
             //暂时不支持这种类型的消息.

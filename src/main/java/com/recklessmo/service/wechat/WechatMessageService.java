@@ -30,11 +30,11 @@ public class WechatMessageService {
 
     /*************************微信消息***********************************/
     public List<WechatMessage> getMessageList(WechatMsgPage page){
-        return wechatMessageDAO.getListByOrgIdAndOpenId(page);
+        return wechatMessageDAO.getListByOpenId(page);
     }
 
     public int getMessageListCount(WechatMsgPage page){
-        return wechatMessageDAO.getCountByOrgIdAndOpenId(page);
+        return wechatMessageDAO.getCountByOpenId(page);
     }
 
     /**
@@ -53,6 +53,12 @@ public class WechatMessageService {
         return false;
     }
 
+    /**
+     *
+     * 收到消息
+     *
+     * @param wechatMessage
+     */
     public void receiveMessage(WechatMessage wechatMessage) {
         //插入数据库中进行记录
         wechatMessageDAO.insertMessage(wechatMessage);

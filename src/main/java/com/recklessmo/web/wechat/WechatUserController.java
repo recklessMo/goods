@@ -3,6 +3,7 @@ package com.recklessmo.web.wechat;
 import com.recklessmo.model.wechat.WechatUser;
 import com.recklessmo.response.JsonResponse;
 import com.recklessmo.service.wechat.WechatMessageService;
+import com.recklessmo.service.wechat.WechatTicketService;
 import com.recklessmo.service.wechat.WechatUserService;
 import com.recklessmo.web.webmodel.page.Page;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,9 @@ public class WechatUserController {
     @Resource
     private WechatUserService wechatUserService;
 
+    @Resource
+    private WechatTicketService wechatTicketService;
+
 
     /**
      * 绑定用户
@@ -31,9 +35,11 @@ public class WechatUserController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/bind", method = RequestMethod.POST)
-    public JsonResponse bindUser(@RequestBody WechatUser user){
-        return new JsonResponse(200, null, null);
+    @RequestMapping(value = "/bind", method = {RequestMethod.POST, RequestMethod.GET})
+    public JsonResponse bindUser(@RequestParam("sid") String sid, @RequestParam("name")String name){
+        String ticket = wechatTicketService.createTicket(0, sid, name, 10);
+        String url = String.format("https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=%s", ticket);
+        return new JsonResponse(200, url, null);
     }
 
     /**

@@ -11,19 +11,19 @@
         values(#{orgId}, #{openId}, #{openName}, #{userId}, #{userName}, #{type}, #{messageType}, #{message}, #{created})
     </insert>
 
-    <select id="getListByOrgIdAndOpenId" resultType="com.recklessmo.model.wechat.WechatMessage">
+    <select id="getListByOpenId" resultType="com.recklessmo.model.wechat.WechatMessage">
         select
         <include refid="columns"/>
         from wechat_message
-        where org_id = #{orgId} and open_id = #{openId}
+        where open_id = #{openId}
         order by created desc
         limit #{startIndex}, #{count}
     </select>
 
-    <select id="getCountByOrgIdAndOpenId" resultType="java.lang.Integer">
+    <select id="getCountByOpenId" resultType="java.lang.Integer">
         select count(1)
         from wechat_message
-        where org_id = #{orgId} and open_id = #{openId}
+        where and open_id = #{openId}
     </select>
 
 </mapper>

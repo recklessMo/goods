@@ -46,7 +46,7 @@ public class WechatMessageController {
         wechatMessage.setCreated(new Date());
         wechatMessage.setMessageType(1);
         wechatMessage.setUserId(defaultUserDetails.getId());
-        wechatMessage.setUserName("hpf");
+        wechatMessage.setUserName(defaultUserDetails.getName());
         wechatMessage.setType(1);
         boolean result = wechatMessageService.sendMessage(wechatMessage);
         return new JsonResponse(200, result, null);

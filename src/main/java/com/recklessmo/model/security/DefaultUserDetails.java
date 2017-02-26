@@ -14,6 +14,7 @@ public class DefaultUserDetails implements UserDetails{
     private long id;
     private String userName;
     private String pwd;
+    private String name;
     private boolean accountNonExpired;
     private boolean accountNonLocked;
     private boolean credentialNonExpired;
@@ -22,7 +23,7 @@ public class DefaultUserDetails implements UserDetails{
     private List<String> roles;
 
 
-    public DefaultUserDetails(long id, String userName, String pwd, boolean accountNonExpired, boolean accountNonLocked, boolean credentialNonExpired, boolean enabled, Collection<GrantedAuthority> authorityList, List<String> roles){
+    public DefaultUserDetails(long id, String userName, String name,  String pwd, boolean accountNonExpired, boolean accountNonLocked, boolean credentialNonExpired, boolean enabled, Collection<GrantedAuthority> authorityList, List<String> roles){
         this.id = id;
         this.userName = userName;
         this.pwd = pwd;
@@ -32,6 +33,14 @@ public class DefaultUserDetails implements UserDetails{
         this.enabled = enabled;
         this.authorityList = authorityList;
         this.roles = roles;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public long getId() {

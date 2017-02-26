@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Strings;
 import com.recklessmo.constant.WechatConstants;
+import com.recklessmo.model.setting.Schedule;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpEntity;
@@ -19,6 +20,10 @@ import org.springframework.stereotype.Service;
 
 
 /**
+ *
+ * 用于对微信进行请求对service, 这个service负责api调用
+ *
+ *
  * Created by hpf on 1/12/17.
  *
  *
@@ -192,6 +197,44 @@ public class WechatNetworkService {
         return 500;
     }
 
+
+    /**
+     *
+     * 获取临时二维码
+     *
+     * @return
+     */
+    public String getWechatTicket(int sceneId){
+        CloseableHttpResponse response = null;
+        try {
+            String accessToken = getAccessToken();
+            if (accessToken != null && !accessToken.isEmpty()) {
+                String str = String.format(WechatConstants.GET_QR_CODE_URL, accessToken);
+                logger.info(str);
+                HttpPost httpPost = new HttpPost(str);
+                JSONObject obj = new JSONObject();
+                obj.put("expire_seconds", 2592000);
+                obj.put("action_name", "QR_SCENE");
+                obj.put("", String.format("{\"scene\": {\"scene_id\":%s}}", sceneId));
+                httpPost.setEntity(new StringEntity(obj.toJSONString(), "UTF-8"));
+                response = httpclient.execute(httpPost);
+                HttpEntity entity1 = response.getEntity();
+                String token = EntityUtils.toString(entity1);
+                JSONObject object = JSON.parseObject(token);
+                logger.info("getWechatTicket: " + object.toJSONString());
+                return (String) object.get("ticket");
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            try {
+                response.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
 
     public static void main(String[] args) {
 

@@ -33,7 +33,7 @@ public class WechatConstants {
 
     public static String GET_NET_TOKEN_URL = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=%s&secret=%s&code=%s&grant_type=authorization_code";
 
-    public static String GET_QR_CODE_URL = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=";
+    public static String GET_QR_CODE_URL = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=%s";
 
     public static String GET_HEAD_URL = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=%s&openid=%s&lang=zh_CN";
 
