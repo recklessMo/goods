@@ -147,26 +147,50 @@
                             type: 'category',
                             data: courseList
                         },
-                        yAxis: {data: '人数'},
+                        yAxis: {},
                         series: [
                             {
                                 name: '满分',
                                 type: 'bar',
+                                label: {
+                                    normal: {
+                                        show: true,
+                                        position: 'top'
+                                    }
+                                },
                                 data: fullList
                             },
                             {
                                 name: '优秀',
                                 type: 'bar',
+                                label: {
+                                    normal: {
+                                        show: true,
+                                        position: 'top'
+                                    }
+                                },
                                 data: bestList
                             },
                             {
                                 name: '良好',
                                 type: 'bar',
+                                label: {
+                                    normal: {
+                                        show: true,
+                                        position: 'top'
+                                    }
+                                },
                                 data: goodList
                             },
                             {
                                 name: '及格',
                                 type: 'bar',
+                                label: {
+                                    normal: {
+                                        show: true,
+                                        position: 'top'
+                                    }
+                                },
                                 data: qualifyList
                             }
                         ]
