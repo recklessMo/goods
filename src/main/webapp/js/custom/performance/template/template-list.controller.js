@@ -11,6 +11,7 @@
 
         $scope.activate = function() {
             $scope.templateTableParams = new NgTableParams({}, {
+                counts: [],
                 getData: function (params) {
                     blockUI.start();
                     return TemplateService.loadTemplates({page:params.page(), count:params.count()}).then(function (data) {
@@ -82,7 +83,7 @@
             var dialog= ngDialog.open({
                 template: 'app/views/custom/performance/template/edit/template-edit.html',
                 controller: 'TemplateEditController',
-                className: 'ngdialog-theme-default max-dialog',
+                className: 'ngdialog-theme-default custom-width-1200',
                 data : {type: 'edit', data: item}
             });
             dialog.closePromise.then(function(data){

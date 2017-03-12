@@ -27,9 +27,6 @@ public class ScoreTemplateService {
 
     public List<ScoreTemplate> getList(Page page){
         List<ScoreTemplate> scoreTemplates =  scoreTemplateDAO.getList(page);
-        for(ScoreTemplate scoreTemplate : scoreTemplates){
-            scoreTemplate.parseJsonDetail();
-        }
         return scoreTemplates;
     }
 
@@ -38,9 +35,7 @@ public class ScoreTemplateService {
     }
 
     public ScoreTemplate get(long id){
-        ScoreTemplate scoreTemplate = scoreTemplateDAO.getById(id);
-        scoreTemplate.parseJsonDetail();
-        return scoreTemplate;
+        return scoreTemplateDAO.getById(id);
     }
 
     public void delete(long id){

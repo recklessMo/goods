@@ -2,11 +2,13 @@ package com.recklessmo.model.score;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import com.recklessmo.model.score.inner.CourseTotalSetting;
 import com.recklessmo.model.setting.Course;
 import javafx.beans.binding.ObjectExpression;
 
 import java.util.Date;
+import java.util.Map;
 
 /**
  * Created by hpf on 9/30/16.
@@ -20,34 +22,21 @@ public class ScoreTemplate {
     private String name = "default";
     //代表是哪种分析的模板
     private int type = 0;
-    private String detail;
-
     private Date created;
     private Date updated;
 
     /**
-     * 转换方法
-     * 把多个字段转换成为json
-     */
-    public void toJsonDetail(){
-        JSONObject object = new JSONObject();
-        object.put("courseTotalSetting", courseTotalSetting);
-        detail = object.toJSONString();
-    }
-
-    /**
-     * 将json转换成为对应的内存字段
-     */
-    public void parseJsonDetail(){
-        JSONObject object = JSON.parseObject(detail);
-        courseTotalSetting = JSON.parseObject(object.get("courseTotalSetting").toString(), CourseTotalSetting.class);
-    }
-
-    /**
      * 内存和前端交互字段
      */
-    private CourseTotalSetting courseTotalSetting;
+    private Map<String, CourseTotalSetting> courseTotalSettingMap;
 
+    public String getDetail() {
+        return JSON.toJSONString(courseTotalSettingMap);
+    }
+
+    public void setDetail(String detail) {
+        this.courseTotalSettingMap = JSON.parseObject(detail, new TypeReference<Map<String, CourseTotalSetting>>(){});
+    }
 
     public long getId() {
         return id;
@@ -63,22 +52,6 @@ public class ScoreTemplate {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getDetail() {
-        return detail;
-    }
-
-    public void setDetail(String detail) {
-        this.detail = detail;
-    }
-
-    public CourseTotalSetting getCourseTotalSetting() {
-        return courseTotalSetting;
-    }
-
-    public void setCourseTotalSetting(CourseTotalSetting courseTotalSetting) {
-        this.courseTotalSetting = courseTotalSetting;
     }
 
     public int getType() {
@@ -103,5 +76,13 @@ public class ScoreTemplate {
 
     public void setUpdated(Date updated) {
         this.updated = updated;
+    }
+
+    public Map<String, CourseTotalSetting> getCourseTotalSettingMap() {
+        return courseTotalSettingMap;
+    }
+
+    public void setCourseTotalSettingMap(Map<String, CourseTotalSetting> courseTotalSettingMap) {
+        this.courseTotalSettingMap = courseTotalSettingMap;
     }
 }

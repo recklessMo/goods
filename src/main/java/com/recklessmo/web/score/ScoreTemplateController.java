@@ -1,5 +1,6 @@
 package com.recklessmo.web.score;
 
+import com.alibaba.fastjson.JSON;
 import com.recklessmo.model.score.Score;
 import com.recklessmo.model.score.ScoreTemplate;
 import com.recklessmo.response.JsonResponse;
@@ -9,7 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -27,7 +30,6 @@ public class ScoreTemplateController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
     public JsonResponse add(@RequestBody ScoreTemplate scoreTemplate){
-        scoreTemplate.toJsonDetail();
         scoreTemplateService.save(scoreTemplate);
         return new JsonResponse(200, null, null);
     }
@@ -53,5 +55,15 @@ public class ScoreTemplateController {
         return new JsonResponse(200, null, null);
     }
 
+
+    public static void main(String[] args){
+
+        Map<String, Integer> res = new HashMap<>();
+        res.put("语文", 1);
+        res.put("数学", 2);
+
+        System.out.println(JSON.toJSONString(res));
+
+    }
 
 }

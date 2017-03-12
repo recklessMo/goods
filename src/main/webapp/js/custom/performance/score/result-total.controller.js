@@ -71,23 +71,21 @@
         $scope.flag = {show: 1, type: 1};
 
         //开始分析
-        $scope.examId = 0;
-        $scope.classId = 0;
         $scope.startAnalyse = function () {
             //判断模板是否选择, 以及考试是否选择
-            //if(angular.isUndefined($scope.selectedExam)){
-            //    SweetAlert.error("请选择考试!");
-            //    return;
-            //}
-            //
-            //if(angular.isUndefined($scope.template)){
-            //    SweetAlert.error("请选择模板!")
-            //    return;
-            //}
+            if(angular.isUndefined($scope.selectedExam)){
+                SweetAlert.error("请选择考试!");
+                return;
+            }
+
+            if(angular.isUndefined($scope.template)){
+                SweetAlert.error("请选择模板!")
+                return;
+            }
 
             //both are ok , so we proceed .首先获取数据, 只加载一遍.
             blockUI.start();
-            ScoreService.loadScoreTotalResult($scope.examId, $scope.flag.type, 0).success(function (data) {
+            ScoreService.loadScoreTotalResult($scope.selectedExam.examId, $scope.flag.type, $scope.template.id).success(function (data) {
                 blockUI.stop();
                 if (data.status == 200) {
                     $scope.resultList = data.data;

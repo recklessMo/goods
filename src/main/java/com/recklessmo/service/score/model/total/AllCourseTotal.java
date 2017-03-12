@@ -67,124 +67,124 @@ public class AllCourseTotal {
     }
 
     private void calScoreLevel(String name, double score, SingleCourseTotal singleCourseTotal, ScoreTemplate scoreTemplate){
-        if(Course.CHINESE.equals(name)){
-            if(score >= scoreTemplate.getCourseTotalSetting().getChineseQualified()){
-                singleCourseTotal.setQualified(singleCourseTotal.getQualified() + 1);
-            }
-            if(score >= scoreTemplate.getCourseTotalSetting().getChinesegood()){
-                singleCourseTotal.setGood(singleCourseTotal.getGood() + 1);
-            }
-            if(score >= scoreTemplate.getCourseTotalSetting().getChinesebest()){
-                singleCourseTotal.setBest(singleCourseTotal.getBest() + 1);
-            }
-            if(score >= scoreTemplate.getCourseTotalSetting().getChineseFull()){
-                singleCourseTotal.setFull(singleCourseTotal.getFull() + 1);
-            }
-        }else if(Course.MATH.equals(name)){
-            if(score >= scoreTemplate.getCourseTotalSetting().getMathQualified()){
-                singleCourseTotal.setQualified(singleCourseTotal.getQualified() + 1);
-            }
-            if(score >= scoreTemplate.getCourseTotalSetting().getMathgood()){
-                singleCourseTotal.setGood(singleCourseTotal.getGood() + 1);
-            }
-            if(score >= scoreTemplate.getCourseTotalSetting().getMathbest()){
-                singleCourseTotal.setBest(singleCourseTotal.getBest() + 1);
-            }
-            if(score >= scoreTemplate.getCourseTotalSetting().getMathFull()){
-                singleCourseTotal.setFull(singleCourseTotal.getFull() + 1);
-            }
-        }else if(Course.ENGLISH.equals(name)){
-            if(score >= scoreTemplate.getCourseTotalSetting().getEnglishQualified()){
-                singleCourseTotal.setQualified(singleCourseTotal.getQualified() + 1);
-            }
-            if(score >= scoreTemplate.getCourseTotalSetting().getEnglishgood()){
-                singleCourseTotal.setGood(singleCourseTotal.getGood() + 1);
-            }
-            if(score >= scoreTemplate.getCourseTotalSetting().getEnglishbest()){
-                singleCourseTotal.setBest(singleCourseTotal.getBest() + 1);
-            }
-            if(score >= scoreTemplate.getCourseTotalSetting().getEnglishFull()){
-                singleCourseTotal.setFull(singleCourseTotal.getFull() + 1);
-            }
-        }else if(Course.POLITICS.equals(name)){
-            if(score >= scoreTemplate.getCourseTotalSetting().getPoliticQualified()){
-                singleCourseTotal.setQualified(singleCourseTotal.getQualified() + 1);
-            }
-            if(score >= scoreTemplate.getCourseTotalSetting().getPoliticgood()){
-                singleCourseTotal.setGood(singleCourseTotal.getGood() + 1);
-            }
-            if(score >= scoreTemplate.getCourseTotalSetting().getPoliticbest()){
-                singleCourseTotal.setBest(singleCourseTotal.getBest() + 1);
-            }
-            if(score >= scoreTemplate.getCourseTotalSetting().getPoliticFull()){
-                singleCourseTotal.setFull(singleCourseTotal.getFull() + 1);
-            }
-        }else if(Course.HISTORY.equals(name)){
-            if(score >= scoreTemplate.getCourseTotalSetting().getHistoryQualified()){
-                singleCourseTotal.setQualified(singleCourseTotal.getQualified() + 1);
-            }
-            if(score >= scoreTemplate.getCourseTotalSetting().getHistorygood()){
-                singleCourseTotal.setGood(singleCourseTotal.getGood() + 1);
-            }
-            if(score >= scoreTemplate.getCourseTotalSetting().getHistorybest()){
-                singleCourseTotal.setBest(singleCourseTotal.getBest() + 1);
-            }
-            if(score >= scoreTemplate.getCourseTotalSetting().getHistoryFull()){
-                singleCourseTotal.setFull(singleCourseTotal.getFull() + 1);
-            }
-        }else if(Course.GEO.equals(name)){
-            if(score >= scoreTemplate.getCourseTotalSetting().getGeoQualified()){
-                singleCourseTotal.setQualified(singleCourseTotal.getQualified() + 1);
-            }
-            if(score >= scoreTemplate.getCourseTotalSetting().getGeogood()){
-                singleCourseTotal.setGood(singleCourseTotal.getGood() + 1);
-            }
-            if(score >= scoreTemplate.getCourseTotalSetting().getGeobest()){
-                singleCourseTotal.setBest(singleCourseTotal.getBest() + 1);
-            }
-            if(score >= scoreTemplate.getCourseTotalSetting().getGeoFull()){
-                singleCourseTotal.setFull(singleCourseTotal.getFull() + 1);
-            }
-        }else if(Course.PHYSICS.equals(name)){
-            if(score >= scoreTemplate.getCourseTotalSetting().getPhysicsQualified()){
-                singleCourseTotal.setQualified(singleCourseTotal.getQualified() + 1);
-            }
-            if(score >= scoreTemplate.getCourseTotalSetting().getPhysicsgood()){
-                singleCourseTotal.setGood(singleCourseTotal.getGood() + 1);
-            }
-            if(score >= scoreTemplate.getCourseTotalSetting().getPhysicsbest()){
-                singleCourseTotal.setBest(singleCourseTotal.getBest() + 1);
-            }
-            if(score >= scoreTemplate.getCourseTotalSetting().getPhysicsFull()){
-                singleCourseTotal.setFull(singleCourseTotal.getFull() + 1);
-            }
-        }else if(Course.CHEMISTRY.equals(name)){
-            if(score >= scoreTemplate.getCourseTotalSetting().getChemistryQualified()){
-                singleCourseTotal.setQualified(singleCourseTotal.getQualified() + 1);
-            }
-            if(score >= scoreTemplate.getCourseTotalSetting().getChemistrygood()){
-                singleCourseTotal.setGood(singleCourseTotal.getGood() + 1);
-            }
-            if(score >= scoreTemplate.getCourseTotalSetting().getChemistrybest()){
-                singleCourseTotal.setBest(singleCourseTotal.getBest() + 1);
-            }
-            if(score >= scoreTemplate.getCourseTotalSetting().getChemistryFull()){
-                singleCourseTotal.setFull(singleCourseTotal.getFull() + 1);
-            }
-        }else if(Course.BIOLOGY.equals(name)){
-            if(score >= scoreTemplate.getCourseTotalSetting().getBiologyQualified()){
-                singleCourseTotal.setQualified(singleCourseTotal.getQualified() + 1);
-            }
-            if(score >= scoreTemplate.getCourseTotalSetting().getBiologygood()){
-                singleCourseTotal.setGood(singleCourseTotal.getGood() + 1);
-            }
-            if(score >= scoreTemplate.getCourseTotalSetting().getBiologybest()){
-                singleCourseTotal.setBest(singleCourseTotal.getBest() + 1);
-            }
-            if(score >= scoreTemplate.getCourseTotalSetting().getBiologyFull()){
-                singleCourseTotal.setFull(singleCourseTotal.getFull() + 1);
-            }
-        }
+//        if(Course.CHINESE.equals(name)){
+//            if(score >= scoreTemplate.getCourseTotalSetting().getChineseQualified()){
+//                singleCourseTotal.setQualified(singleCourseTotal.getQualified() + 1);
+//            }
+//            if(score >= scoreTemplate.getCourseTotalSetting().getChinesegood()){
+//                singleCourseTotal.setGood(singleCourseTotal.getGood() + 1);
+//            }
+//            if(score >= scoreTemplate.getCourseTotalSetting().getChinesebest()){
+//                singleCourseTotal.setBest(singleCourseTotal.getBest() + 1);
+//            }
+//            if(score >= scoreTemplate.getCourseTotalSetting().getChineseFull()){
+//                singleCourseTotal.setFull(singleCourseTotal.getFull() + 1);
+//            }
+//        }else if(Course.MATH.equals(name)){
+//            if(score >= scoreTemplate.getCourseTotalSetting().getMathQualified()){
+//                singleCourseTotal.setQualified(singleCourseTotal.getQualified() + 1);
+//            }
+//            if(score >= scoreTemplate.getCourseTotalSetting().getMathgood()){
+//                singleCourseTotal.setGood(singleCourseTotal.getGood() + 1);
+//            }
+//            if(score >= scoreTemplate.getCourseTotalSetting().getMathbest()){
+//                singleCourseTotal.setBest(singleCourseTotal.getBest() + 1);
+//            }
+//            if(score >= scoreTemplate.getCourseTotalSetting().getMathFull()){
+//                singleCourseTotal.setFull(singleCourseTotal.getFull() + 1);
+//            }
+//        }else if(Course.ENGLISH.equals(name)){
+//            if(score >= scoreTemplate.getCourseTotalSetting().getEnglishQualified()){
+//                singleCourseTotal.setQualified(singleCourseTotal.getQualified() + 1);
+//            }
+//            if(score >= scoreTemplate.getCourseTotalSetting().getEnglishgood()){
+//                singleCourseTotal.setGood(singleCourseTotal.getGood() + 1);
+//            }
+//            if(score >= scoreTemplate.getCourseTotalSetting().getEnglishbest()){
+//                singleCourseTotal.setBest(singleCourseTotal.getBest() + 1);
+//            }
+//            if(score >= scoreTemplate.getCourseTotalSetting().getEnglishFull()){
+//                singleCourseTotal.setFull(singleCourseTotal.getFull() + 1);
+//            }
+//        }else if(Course.POLITICS.equals(name)){
+//            if(score >= scoreTemplate.getCourseTotalSetting().getPoliticQualified()){
+//                singleCourseTotal.setQualified(singleCourseTotal.getQualified() + 1);
+//            }
+//            if(score >= scoreTemplate.getCourseTotalSetting().getPoliticgood()){
+//                singleCourseTotal.setGood(singleCourseTotal.getGood() + 1);
+//            }
+//            if(score >= scoreTemplate.getCourseTotalSetting().getPoliticbest()){
+//                singleCourseTotal.setBest(singleCourseTotal.getBest() + 1);
+//            }
+//            if(score >= scoreTemplate.getCourseTotalSetting().getPoliticFull()){
+//                singleCourseTotal.setFull(singleCourseTotal.getFull() + 1);
+//            }
+//        }else if(Course.HISTORY.equals(name)){
+//            if(score >= scoreTemplate.getCourseTotalSetting().getHistoryQualified()){
+//                singleCourseTotal.setQualified(singleCourseTotal.getQualified() + 1);
+//            }
+//            if(score >= scoreTemplate.getCourseTotalSetting().getHistorygood()){
+//                singleCourseTotal.setGood(singleCourseTotal.getGood() + 1);
+//            }
+//            if(score >= scoreTemplate.getCourseTotalSetting().getHistorybest()){
+//                singleCourseTotal.setBest(singleCourseTotal.getBest() + 1);
+//            }
+//            if(score >= scoreTemplate.getCourseTotalSetting().getHistoryFull()){
+//                singleCourseTotal.setFull(singleCourseTotal.getFull() + 1);
+//            }
+//        }else if(Course.GEO.equals(name)){
+//            if(score >= scoreTemplate.getCourseTotalSetting().getGeoQualified()){
+//                singleCourseTotal.setQualified(singleCourseTotal.getQualified() + 1);
+//            }
+//            if(score >= scoreTemplate.getCourseTotalSetting().getGeogood()){
+//                singleCourseTotal.setGood(singleCourseTotal.getGood() + 1);
+//            }
+//            if(score >= scoreTemplate.getCourseTotalSetting().getGeobest()){
+//                singleCourseTotal.setBest(singleCourseTotal.getBest() + 1);
+//            }
+//            if(score >= scoreTemplate.getCourseTotalSetting().getGeoFull()){
+//                singleCourseTotal.setFull(singleCourseTotal.getFull() + 1);
+//            }
+//        }else if(Course.PHYSICS.equals(name)){
+//            if(score >= scoreTemplate.getCourseTotalSetting().getPhysicsQualified()){
+//                singleCourseTotal.setQualified(singleCourseTotal.getQualified() + 1);
+//            }
+//            if(score >= scoreTemplate.getCourseTotalSetting().getPhysicsgood()){
+//                singleCourseTotal.setGood(singleCourseTotal.getGood() + 1);
+//            }
+//            if(score >= scoreTemplate.getCourseTotalSetting().getPhysicsbest()){
+//                singleCourseTotal.setBest(singleCourseTotal.getBest() + 1);
+//            }
+//            if(score >= scoreTemplate.getCourseTotalSetting().getPhysicsFull()){
+//                singleCourseTotal.setFull(singleCourseTotal.getFull() + 1);
+//            }
+//        }else if(Course.CHEMISTRY.equals(name)){
+//            if(score >= scoreTemplate.getCourseTotalSetting().getChemistryQualified()){
+//                singleCourseTotal.setQualified(singleCourseTotal.getQualified() + 1);
+//            }
+//            if(score >= scoreTemplate.getCourseTotalSetting().getChemistrygood()){
+//                singleCourseTotal.setGood(singleCourseTotal.getGood() + 1);
+//            }
+//            if(score >= scoreTemplate.getCourseTotalSetting().getChemistrybest()){
+//                singleCourseTotal.setBest(singleCourseTotal.getBest() + 1);
+//            }
+//            if(score >= scoreTemplate.getCourseTotalSetting().getChemistryFull()){
+//                singleCourseTotal.setFull(singleCourseTotal.getFull() + 1);
+//            }
+//        }else if(Course.BIOLOGY.equals(name)){
+//            if(score >= scoreTemplate.getCourseTotalSetting().getBiologyQualified()){
+//                singleCourseTotal.setQualified(singleCourseTotal.getQualified() + 1);
+//            }
+//            if(score >= scoreTemplate.getCourseTotalSetting().getBiologygood()){
+//                singleCourseTotal.setGood(singleCourseTotal.getGood() + 1);
+//            }
+//            if(score >= scoreTemplate.getCourseTotalSetting().getBiologybest()){
+//                singleCourseTotal.setBest(singleCourseTotal.getBest() + 1);
+//            }
+//            if(score >= scoreTemplate.getCourseTotalSetting().getBiologyFull()){
+//                singleCourseTotal.setFull(singleCourseTotal.getFull() + 1);
+//            }
+//        }
     }
 
     public void afterScore(){

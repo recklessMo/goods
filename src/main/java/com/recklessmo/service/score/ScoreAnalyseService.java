@@ -2,10 +2,13 @@ package com.recklessmo.service.score;
 
 import com.recklessmo.model.score.CourseScore;
 import com.recklessmo.model.score.NewScore;
+import com.recklessmo.model.score.ScoreTemplate;
+import com.recklessmo.model.score.inner.CourseTotalSetting;
 import com.recklessmo.model.score.result.*;
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -15,6 +18,8 @@ import java.util.stream.Collectors;
 @Service
 public class ScoreAnalyseService {
 
+    @Resource
+    private ScoreTemplateService scoreTemplateService;
 
     /**
      * 进行整体分析.
@@ -29,6 +34,10 @@ public class ScoreAnalyseService {
      */
     public Object analyseTotal(List<NewScore> scoreList, int type, long templateId) {
         //根据templateId获取模板参数
+        ScoreTemplate scoreTemplate = scoreTemplateService.get(templateId);
+        if(scoreTemplate == null){
+            return null;
+        }
         //开始分析
         //班级维度
         if (type == 1) {
@@ -45,7 +54,7 @@ public class ScoreAnalyseService {
                         totalInner = new TotalInner(courseScore.getCourseName(), 0);
                         classTotal.getCourseTotalList().add(totalInner);
                     }
-                    totalInner(courseScore, totalInner);
+                    totalInner(courseScore, totalInner, scoreTemplate);
                 });
             });
             result.values().stream().forEach(item -> item.getCourseTotalList().stream().forEach(totalInner -> processAfterTotalInner(totalInner)));
@@ -65,7 +74,7 @@ public class ScoreAnalyseService {
                         courseTotal.getClassTotalList().add(totalInner);
                         Collections.sort(courseTotal.getClassTotalList(), (o1,o2)->o1.getId() > o2.getId() ? 1 : o1.getId() == o2.getId() ? 0 : -1);
                     }
-                    totalInner(courseScore, totalInner);
+                    totalInner(courseScore, totalInner, scoreTemplate);
                 });
             });
             result.values().stream().forEach(item -> item.getClassTotalList().stream().forEach(totalInner -> processAfterTotalInner(totalInner)));
@@ -74,18 +83,19 @@ public class ScoreAnalyseService {
         return null;
     }
 
-    private void totalInner(CourseScore courseScore, TotalInner totalInner) {
+    private void totalInner(CourseScore courseScore, TotalInner totalInner, ScoreTemplate scoreTemplate) {
+        CourseTotalSetting courseTotalSetting = scoreTemplate.getCourseTotalSettingMap().get(courseScore.getCourseName());
         //及格率,优秀率
-        if (courseScore.getScore() >= 60) {
+        if (courseScore.getScore() >= courseTotalSetting.getFull()) {
             totalInner.setQualified(totalInner.getQualified() + 1);
         }
-        if (courseScore.getScore() >= 80) {
+        if (courseScore.getScore() >= courseTotalSetting.getBest()) {
             totalInner.setGood(totalInner.getGood() + 1);
         }
-        if (courseScore.getScore() >= 90) {
+        if (courseScore.getScore() >= courseTotalSetting.getGood()) {
             totalInner.setBest(totalInner.getBest() + 1);
         }
-        if (courseScore.getScore() >= 100) {
+        if (courseScore.getScore() >= courseTotalSetting.getQualified()) {
             totalInner.setFull(totalInner.getFull() + 1);
         }
         //总人数
