@@ -13,23 +13,9 @@ public class NewScore {
     private long sid;
     private long examId;
     //通过sid获取对应的cid,set进去
-    private long cid;
-    private String cname;
+    private long classId;
+    private String className;
     private List<CourseScore> courseScoreList = new LinkedList<>();
-
-
-
-    public String getCname() {
-        return cname;
-    }
-
-    public void setCname(String cname) {
-        this.cname = cname;
-    }
-
-    public void add(CourseScore courseScore){
-        courseScoreList.add(courseScore);
-    }
 
     public long getSid() {
         return sid;
@@ -47,12 +33,20 @@ public class NewScore {
         this.examId = examId;
     }
 
-    public long getCid() {
-        return cid;
+    public long getClassId() {
+        return classId;
     }
 
-    public void setCid(long cid) {
-        this.cid = cid;
+    public void setClassId(long classId) {
+        this.classId = classId;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
     }
 
     public List<CourseScore> getCourseScoreList() {

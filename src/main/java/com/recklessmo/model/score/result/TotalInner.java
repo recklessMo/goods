@@ -8,6 +8,7 @@ import java.util.List;
  */
 public class TotalInner {
 
+    private long id;
     private String name;
     private int full;
     private int best;
@@ -24,6 +25,23 @@ public class TotalInner {
 
     //用于计算标准差
     private List<Double> scoreList = new LinkedList<>();
+
+    public TotalInner(){
+
+    }
+
+    public TotalInner(String name, long id) {
+        this.name = name;
+        this.id = id;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public int getAbsenseCount() {
         return absenseCount;

@@ -1,0 +1,215 @@
+<div ng-controller="ResultTotalController" style="height: 100%;" class="container-fluid">
+    <div class="row" style="height: 100%;margin-left:0px;">
+        <!--用于显示考试列表的panel-->
+        <div class="col-xs-4" ng-show="showLeftWindow" style="height: 100%;padding-right:0px;padding-left:0px;">
+            <!--选择考试-->
+            <div class="panel" style="height:100%;box-shadow: 0 0 1px;overflow:auto;">
+                <div class="title">
+                    <span>考试列表</span>
+                </div>
+                <div style="width: 100%;">
+                    <div angucomplete-alt
+                         style="padding:2px 10px;"
+                         id="searchExam"
+                         placeholder="搜索考试"
+                         pause="300"
+                         selected-object="selectedExam"
+                         remote-url="/v1/exam/search"
+                         remote-url-request-formatter="remoteUrlRequestFn"
+                         remote-url-data-field="data"
+                         title-field="examName"
+                         description-field="examName"
+                         input-class="form-control form-control-small"
+                         text-searching="搜索中"
+                         text-no-results="没有结果"
+                         minlength="1"
+                         match-class="highlight">
+                    </div>
+                </div>
+
+                <!--分析模板-->
+                <div class="title">
+                    <span>分析模板</span>
+                </div>
+
+                <div style="padding:2px 10px;" class="form-inline">
+                    <input ng-model="template.name" class="form-control" placeholder="选择分析模版" style="width: calc(100% - 70px);" ng-disabled="1"/>
+                    <button class="btn btn-info" ng-click="openTemplateDialog(0)">选择</button>
+                </div>
+
+                <div style="padding:20px 10px;">
+                    <button class="btn btn-info" style="width: 100%;" ng-click="startAnalyse()">
+                        开始分析
+                    </button>
+                </div>
+
+
+                <!--分析历史-->
+                <hr/>
+                <div class="title">
+                    <span>分析历史</span>
+                </div>
+
+                <div>
+                    <table ng-table="historyTableParams" class="table table-condensed table-bordered table-striped" style="border: 1px solid #eeeeee;">
+                        <tr ng-repeat="row in $data" ng-dblclick="" style="text-align: center;">
+                            <td data-title="'模板名称'">{{row.gender}}</td>
+                            <td data-title="'操作'">
+                                <a class="" ng-click="">查看结果</a>
+                            </td>
+                        </tr>
+                        <tfoot ng-if="!$data || $data.length<1">
+                        <tr>
+                            <td colspan="5" style="text-align: center;"> 无历史分析数据 </td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+        <!--显示一个箭头-->
+        <div ng-click="showOrHideLeftWindow()" style="height:94%;width: 16px;z-index:100;" class="arrow-button">
+            <i class="fa"  style="font-size: 1.5em" ng-class="showLeftWindow?'fa-angle-double-left':'fa-angle-double-right'"></i>
+        </div>
+        <!--用于显示右端的分析数据-->
+        <div ng-class="showLeftWindow ? 'col-xs-8' : 'col-xs-12'" style="height:100%;z-index:50;">
+
+            <div class="row" style="height: 100%;">
+                <div class="col-xs-12" style="height: 100%;;">
+                    <div class="panel" style="height: 100%;" >
+                        <uib-tabset class="tab-full-content" style="height: 100%;" justified="true">
+                            <uib-tab ng-repeat="i in [1,2,3]" active="true"
+                                     style="text-align: center;">
+                                <uib-tab-heading>
+                                    班级维度
+                                </uib-tab-heading>
+                                <div ng-include="'app/views/custom/student/add/student-add.html'" style="height: 100%;">
+                                </div>
+                            </uib-tab>
+                            <uib-tab active="false"
+                                     style="text-align: center;">
+                                <uib-tab-heading>
+                                    学科维度
+                                </uib-tab-heading>
+                                <div ng-include="'app/views/custom/student/add/student-add-batch.html'" style="height: 100%;">
+                                </div>
+                            </uib-tab>
+                        </uib-tabset>
+                    </div>
+                </div>
+            </div>
+
+            <!--<div class="panel" style="height: 100%;">-->
+                <!--&lt;!&ndash;顶层选项&ndash;&gt;-->
+                <!--<div class="row" style="padding-top:5px;margin-left:0px;height: 50px;">-->
+                    <!--<div class="col-xs-6 btn-group">-->
+                        <!--<button class="btn btn-default" ng-class="{active:flag.show == 1}" ng-click="showTables()">表格</button>-->
+                        <!--<button class="btn btn-default" ng-class="{active:flag.show == 2}" ng-click="showCharts()">图形</button>-->
+                    <!--</div>-->
+                    <!--<div class="col-xs-3 btn-group pull-right">-->
+                        <!--<button class="btn btn-default" ng-class="{active:flag.type == 1}" ng-click="showClass()">班级维度</button>-->
+                        <!--<button class="btn btn-default" ng-class="{active:flag.type == 2}" ng-click="showCourse()">学科维度</button>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+
+                <!--<div style="overflow: auto;height: calc(100% - 50px);padding:0 15px 0 15px;">-->
+                    <!--&lt;!&ndash;班级维度表格&ndash;&gt;-->
+                    <!--<div ng-repeat="table in resultList" style="padding-top:50px;" ng-show="flag.show == 1 && flag.type == 1">-->
+                        <!--<div class="title">-->
+                            <!--<span>{{table.cname}}</span>-->
+                        <!--</div>-->
+                        <!--<table class="table table-bordered table-hover table-condensed editable-table table-min">-->
+                            <!--<tr>-->
+                                <!--<th>学科</th>-->
+                                <!--<th>参考人数</th>-->
+                                <!--<th>最高分</th>-->
+                                <!--<th>最低分</th>-->
+                                <!--<th>平均分</th>-->
+                                <!--<th>标准差</th>-->
+                                <!--<th>满分(人)</th>-->
+                                <!--<th>满分率</th>-->
+                                <!--<th>优秀(人)</th>-->
+                                <!--<th>优秀率</th>-->
+                                <!--<th>良好(人)</th>-->
+                                <!--<th>良好率</th>-->
+                                <!--<th>及格(人)</th>-->
+                                <!--<th>及格率</th>-->
+                            <!--</tr>-->
+                            <!--<tr ng-repeat="item in table.courseTotalList track by $index">-->
+                                <!--<td data-title="'学科'" style="text-align: center;">{{item.name}}</td>-->
+                                <!--<td data-title="'参考人数'" style="text-align: center;">{{item.totalCount}}</td>-->
+                                <!--<td data-title="'最高分'" style="text-align: center;">{{item.max}}</td>-->
+                                <!--<td data-title="'最低分'" style="text-align: center;">{{item.min}}</td>-->
+                                <!--<td data-title="'平均分'" style="text-align: center;">{{item.avg}}</td>-->
+                                <!--<td data-title="'标准差'" style="text-align: center;">{{item.stdAvg}}</td>-->
+                                <!--<td data-title="'满分(人)'" style="text-align: center">{{item.full}}</td>-->
+                                <!--<td data-title="'满分率'" style="text-align: center;"></td>-->
+                                <!--<td data-title="'优秀(人)'" style="text-align: center">{{item.best}}</td>-->
+                                <!--<td data-title="'优秀率'" style="text-align: center;"></td>-->
+                                <!--<td data-title="'良好(人)'" style="text-align: center">{{item.good}}</td>-->
+                                <!--<td data-title="'良好率'" style="text-align: center;"></td>-->
+                                <!--<td data-title="'及格(人)'" style="text-align: center">{{item.qualified}}</td>-->
+                                <!--<td data-title="'及格率'" style="text-align: center;"></td>-->
+                            <!--</tr>-->
+                        <!--</table>-->
+                    <!--</div>-->
+
+                    <!--&lt;!&ndash;班级维度图形&ndash;&gt;-->
+                    <!--<div ng-repeat="chart in resultList" style="padding-top:50px;text-align: center;" ng-show="flag.show == 2 && flag.type == 1">-->
+                        <!--<div id="{{'chart' + chart.cid}}" style="height: 400px; width: 800px;margin:auto;"></div>-->
+                    <!--</div>-->
+
+
+                    <!--&lt;!&ndash;学科维度表格&ndash;&gt;-->
+                    <!--<div ng-repeat="table in resultList" style="padding-top:50px;" ng-show="flag.show == 1 && flag.type == 2">-->
+                        <!--<div class="title">-->
+                            <!--<span>{{table.courseName}}</span>-->
+                        <!--</div>-->
+                        <!--<table class="table table-bordered table-hover table-condensed editable-table table-min">-->
+                            <!--<tr>-->
+                                <!--<th>班级</th>-->
+                                <!--<th>参考人数</th>-->
+                                <!--<th>最高分</th>-->
+                                <!--<th>最低分</th>-->
+                                <!--<th>平均分</th>-->
+                                <!--<th>标准差</th>-->
+                                <!--<th>满分(人)</th>-->
+                                <!--<th>满分率</th>-->
+                                <!--<th>优秀(人)</th>-->
+                                <!--<th>优秀率</th>-->
+                                <!--<th>良好(人)</th>-->
+                                <!--<th>良好率</th>-->
+                                <!--<th>及格(人)</th>-->
+                                <!--<th>及格率</th>-->
+                            <!--</tr>-->
+                            <!--<tr ng-repeat="item in table.classTotalList track by $index">-->
+                                <!--<td data-title="'班级'" style="text-align: center;">{{item.name}}</td>-->
+                                <!--<td data-title="'参考人数'" style="text-align: center;">{{item.totalCount}}</td>-->
+                                <!--<td data-title="'最高分'" style="text-align: center;">{{item.max}}</td>-->
+                                <!--<td data-title="'最低分'" style="text-align: center;">{{item.min}}</td>-->
+                                <!--<td data-title="'平均分'" style="text-align: center;">{{item.avg}}</td>-->
+                                <!--<td data-title="'标准差'" style="text-align: center;">{{item.stdAvg}}</td>-->
+                                <!--<td data-title="'满分(人)'" style="text-align: center">{{item.full}}</td>-->
+                                <!--<td data-title="'满分率'" style="text-align: center;"></td>-->
+                                <!--<td data-title="'优秀(人)'" style="text-align: center">{{item.best}}</td>-->
+                                <!--<td data-title="'优秀率'" style="text-align: center;"></td>-->
+                                <!--<td data-title="'良好(人)'" style="text-align: center">{{item.good}}</td>-->
+                                <!--<td data-title="'良好率'" style="text-align: center;"></td>-->
+                                <!--<td data-title="'及格(人)'" style="text-align: center">{{item.qualified}}</td>-->
+                                <!--<td data-title="'及格率'" style="text-align: center;"></td>-->
+                            <!--</tr>-->
+                        <!--</table>-->
+                    <!--</div>-->
+
+                    <!--&lt;!&ndash;学科维度图形&ndash;&gt;-->
+                    <!--<div ng-repeat="chart in resultList" style="padding-top:50px;text-align: center;" ng-show="flag.show == 2 && flag.type == 2">-->
+                        <!--<div id="{{'chart' + chart.courseName}}" style="height: 400px; width: 1000px;margin:auto;"></div>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+            </div>
+    </div>
+</div>

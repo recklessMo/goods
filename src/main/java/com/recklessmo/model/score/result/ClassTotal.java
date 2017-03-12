@@ -8,26 +8,33 @@ import java.util.List;
  */
 public class ClassTotal {
 
-    private long cid;
-    private String cname;
-
+    private long classId;
+    private String className;
     private List<TotalInner> courseTotalList = new LinkedList<>();
 
+    public ClassTotal(){
 
-    public long getCid() {
-        return cid;
     }
 
-    public void setCid(long cid) {
-        this.cid = cid;
+    public ClassTotal(long cid, String cname){
+        this.classId = cid;
+        this.className = cname;
     }
 
-    public String getCname() {
-        return cname;
+    public long getClassId() {
+        return classId;
     }
 
-    public void setCname(String cname) {
-        this.cname = cname;
+    public void setClassId(long classId) {
+        this.classId = classId;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
     }
 
     public List<TotalInner> getCourseTotalList() {

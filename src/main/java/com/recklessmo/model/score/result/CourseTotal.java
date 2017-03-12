@@ -11,6 +11,14 @@ public class CourseTotal {
     private String courseName;
     private List<TotalInner> classTotalList = new LinkedList<>();
 
+    public CourseTotal(){
+
+    }
+
+    public CourseTotal(String courseName){
+        this.courseName = courseName;
+    }
+
     public String getCourseName() {
         return courseName;
     }

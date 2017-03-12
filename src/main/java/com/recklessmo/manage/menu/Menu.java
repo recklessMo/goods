@@ -12,7 +12,7 @@ public class Menu{
             new Menu(100, null, "教务站", "icon-book-open", null),
             new Menu(200, null, "成绩站", "icon-book-open", null),
 //            new Menu(300, null, "统计站", "icon-book-open", null),
-            new Menu(400, null, "库存站", "icon-settings", null),
+//            new Menu(400, null, "库存站", "icon-settings", null),
             new Menu(500, null, "微信站", "icon-settings", null),
 //            new Menu(600, null, "财务站", "icon-settings", null),
             new Menu(700, null, "个人中心", "icon-info", null),
@@ -44,8 +44,8 @@ public class Menu{
 //            new Menu(303, "统计站", "微信统计", "icon-wallet", "app.wechatStat"),
 //            new Menu(304, "统计站", "成本统计", "icon-wallet", "app.wechatStat"),
 
-            new Menu(401, "库存站", "物资", "icon-plus", "app.item"),
-            new Menu(402, "库存站", "出入库", "icon-check", "app.stock-worktable"),
+//            new Menu(401, "库存站", "物资", "icon-plus", "app.item"),
+//            new Menu(402, "库存站", "出入库", "icon-check", "app.stock-worktable"),
 
             new Menu(501, "微信站", "微信咨询", "icon-wrench", "app.wechat-talk"),
             new Menu(502, "微信站", "微信通知", "icon-wrench", "app.wechat-notice"),

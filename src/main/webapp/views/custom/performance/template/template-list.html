@@ -11,7 +11,6 @@
         <table ng-table="templateTableParams" class="table table-bordered table-hover table-condensed editable-table table-min">
             <tr ng-repeat="item in $data">
                 <td data-title="'模板ID'" style="text-align: center">{{item.id}}</td>
-                <td data-title="'模板类型'" style="text-align: center">{{item.type}}</td>
                 <td data-title="'模板名称'" style="text-align: center">{{item.name}}</td>
                 <td data-title="'创建时间'" style="text-align: center">{{item.created | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                 <td data-title="'更新时间'" style="text-align: center">{{item.updated | date:'yyyy-MM-dd HH:mm:ss'}}</td>

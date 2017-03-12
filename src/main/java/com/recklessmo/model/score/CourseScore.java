@@ -9,8 +9,7 @@ import java.util.List;
  */
 public class CourseScore {
 
-    private String cname;
-    private String name;
+    private String courseName;
     private double score;
     private int rank;
 
@@ -18,35 +17,18 @@ public class CourseScore {
 
     }
 
-    public CourseScore(String name, double score, String cname, int rank){
-        this.name = name;
+    public CourseScore(String courseName, double score, int rank){
+        this.courseName = courseName;
         this.score = score;
-        this.cname = cname;
         this.rank = rank;
     }
 
-    public int getRank() {
-        return rank;
+    public String getCourseName() {
+        return courseName;
     }
 
-    public void setRank(int rank) {
-        this.rank = rank;
-    }
-
-    public String getCname() {
-        return cname;
-    }
-
-    public void setCname(String cname) {
-        this.cname = cname;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
     }
 
     public double getScore() {
@@ -55,5 +37,13 @@ public class CourseScore {
 
     public void setScore(double score) {
         this.score = score;
+    }
+
+    public int getRank() {
+        return rank;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
     }
 }
