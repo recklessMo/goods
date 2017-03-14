@@ -157,7 +157,8 @@
                         toolbox: {
                             show: true,
                             feature: {
-                                saveAsImage: {show: true}
+                                saveAsImage: {show: true},
+                                magicType : {show: true, type: ['line', 'bar']}
                             }
                         },
                         tooltip: {},
@@ -245,7 +246,8 @@
                         toolbox: {
                             show: true,
                             feature: {
-                                saveAsImage: {show: true}
+                                saveAsImage: {show: true},
+                                magicType : {show: true, type: ['line', 'bar']}
                             }
                         },
                         tooltip: {},

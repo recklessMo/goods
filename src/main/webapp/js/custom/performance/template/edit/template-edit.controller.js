@@ -7,53 +7,11 @@
 
     TemplateEditController.$inject = ['$scope', 'TemplateService', '$timeout', '$resource', 'blockUI', 'SweetAlert'];
     function TemplateEditController($scope,TemplateService, $timeout, $resource, blockUI, SweetAlert) {
-        var vm = this;
-
-        activate();
-
-        vm.label = -1;
-
+        //type
         $scope.type = $scope.ngDialogData.type;
         //分数模板
         $scope.scoreTemplate = ($scope.type == 'edit' ? $scope.ngDialogData.data : {});
-
         $scope.courseList = ["语文", "数学", "外语", "政治", "历史", "地理", "物理", "化学", "生物"];
-
-        function activate() {
-            vm.my_tree_handler = function(branch) {
-                vm.label = branch.label;
-            };
-
-            var settings = [
-                {
-                    label: '分数线设置',
-                    children: [
-                        {
-                            label: '语文'
-                        },{
-                            label: '数学'
-                        },{
-                            label: '英语'
-                        },{
-                            label: '政治'
-                        },{
-                            label: '历史'
-                        },{
-                            label: '地理'
-                        },{
-                            label: '物理'
-                        },{
-                            label: '化学'
-                        },{
-                            label: '生物'
-                        }
-                    ]
-                }
-            ];
-            vm.my_data = settings;
-            vm.my_tree = {};
-        }
-
 
         $scope.save = function(){
             blockUI.start();

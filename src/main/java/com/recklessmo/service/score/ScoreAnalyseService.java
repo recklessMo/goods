@@ -85,6 +85,11 @@ public class ScoreAnalyseService {
 
     private void totalInner(CourseScore courseScore, TotalInner totalInner, ScoreTemplate scoreTemplate) {
         CourseTotalSetting courseTotalSetting = scoreTemplate.getCourseTotalSettingMap().get(courseScore.getCourseName());
+        courseTotalSetting = new CourseTotalSetting();
+        courseTotalSetting.setFull(100);
+        courseTotalSetting.setBest(90);
+        courseTotalSetting.setGood(80);
+        courseTotalSetting.setQualified(60);
         //及格率,优秀率
         if (courseScore.getScore() >= courseTotalSetting.getFull()) {
             totalInner.setQualified(totalInner.getQualified() + 1);
