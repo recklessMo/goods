@@ -15,6 +15,7 @@
 
         $scope.save = function(){
             blockUI.start();
+            $scope.scoreTemplate.detail = JSON.stringify($scope.scoreTemplate.courseTotalSettingMap);
             TemplateService.addTemplate($scope.scoreTemplate).success(function(data){
                 if(data.status == 200){
                     SweetAlert.success("成功!");
