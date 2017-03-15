@@ -7,8 +7,8 @@
 
     function ScoreListController($scope, ScoreService, DicService, SweetAlert, NgTableParams, blockUI, Notify) {
 
-        $scope.tableParams = {examId: 0, page: 1, count : 100};
-        $scope.examId = 0;
+        $scope.tableParams = {examId: 1, page: 1, count : 100};
+        $scope.examId = 1;
         //当前需要显示的部分
         $scope.scoreList = [];
         //班级的列表
