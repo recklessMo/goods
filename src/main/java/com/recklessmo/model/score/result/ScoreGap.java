@@ -8,6 +8,10 @@ public class ScoreGap {
     private Double start;
     private Double end;
 
+    public ScoreGap(){
+
+    }
+
     public ScoreGap(Double start, Double end){
         this.start = start;
         this.end = end;

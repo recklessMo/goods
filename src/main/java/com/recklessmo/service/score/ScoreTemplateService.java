@@ -2,10 +2,12 @@ package com.recklessmo.service.score;
 
 import com.recklessmo.dao.score.ScoreTemplateDAO;
 import com.recklessmo.model.score.ScoreTemplate;
+import com.recklessmo.model.score.inner.CourseGapSetting;
 import com.recklessmo.web.webmodel.page.Page;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -41,5 +43,7 @@ public class ScoreTemplateService {
     public void delete(long id){
         scoreTemplateDAO.deleteTemplate(id);
     }
+
+
 
 }

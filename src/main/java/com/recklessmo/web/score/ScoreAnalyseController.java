@@ -76,8 +76,7 @@ public class ScoreAnalyseController {
     public JsonResponse analyzeGap(@RequestParam("examId")long examId, @RequestParam("templateId")long templateId){
         List<NewScore> newScores = getScoreList(examId);
         //根据模板Id获取模板设置的数据
-        Map<String, CourseGap> gapMap = new HashMap<>();
-        Object obj = scoreAnalyseService.analyseGap(newScores, 0);
+        Collection<CourseGap> obj = scoreAnalyseService.analyseGap(newScores, templateId);
         return new JsonResponse(200, obj, null);
     }
 

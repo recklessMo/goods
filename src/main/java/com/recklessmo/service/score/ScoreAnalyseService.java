@@ -3,6 +3,7 @@ package com.recklessmo.service.score;
 import com.recklessmo.model.score.CourseScore;
 import com.recklessmo.model.score.NewScore;
 import com.recklessmo.model.score.ScoreTemplate;
+import com.recklessmo.model.score.inner.CourseGapSetting;
 import com.recklessmo.model.score.inner.CourseTotalSetting;
 import com.recklessmo.model.score.result.*;
 import org.apache.commons.collections.map.HashedMap;
@@ -35,7 +36,7 @@ public class ScoreAnalyseService {
     public Object analyseTotal(List<NewScore> scoreList, int type, long templateId) {
         //根据templateId获取模板参数
         ScoreTemplate scoreTemplate = scoreTemplateService.get(templateId);
-        if(scoreTemplate == null){
+        if (scoreTemplate == null) {
             return null;
         }
         //开始分析
@@ -72,7 +73,7 @@ public class ScoreAnalyseService {
                     } else {
                         totalInner = new TotalInner(newScore.getClassName(), newScore.getClassId());
                         courseTotal.getClassTotalList().add(totalInner);
-                        Collections.sort(courseTotal.getClassTotalList(), (o1,o2)->o1.getId() > o2.getId() ? 1 : o1.getId() == o2.getId() ? 0 : -1);
+                        Collections.sort(courseTotal.getClassTotalList(), (o1, o2) -> o1.getId() > o2.getId() ? 1 : o1.getId() == o2.getId() ? 0 : -1);
                     }
                     totalInner(courseScore, totalInner, scoreTemplate);
                 });
@@ -83,13 +84,10 @@ public class ScoreAnalyseService {
         return null;
     }
 
+    //内部数据
     private void totalInner(CourseScore courseScore, TotalInner totalInner, ScoreTemplate scoreTemplate) {
+        //获取对应的分析设置
         CourseTotalSetting courseTotalSetting = scoreTemplate.getCourseTotalSettingMap().get(courseScore.getCourseName());
-        courseTotalSetting = new CourseTotalSetting();
-        courseTotalSetting.setFull(100);
-        courseTotalSetting.setBest(90);
-        courseTotalSetting.setGood(80);
-        courseTotalSetting.setQualified(60);
         //及格率,优秀率
         if (courseScore.getScore() >= courseTotalSetting.getFull()) {
             totalInner.setQualified(totalInner.getQualified() + 1);
@@ -119,7 +117,7 @@ public class ScoreAnalyseService {
         totalInner.getScoreList().add(courseScore.getScore());
     }
 
-
+    //标准差
     private void processAfterTotalInner(TotalInner totalInner) {
         totalInner.setAvg(totalInner.getSum() / totalInner.getTotalCount());
         double sum = 0;
@@ -131,52 +129,60 @@ public class ScoreAnalyseService {
 
 
     /**
+     *
      * 分数线分析, 分数线就基于学科来做
      * 基于班级的话不太好做, 有可能一个班级里面多个学科的分数段设置不同
+     *
      * 这样界面不好看!
+     *
+     * 基于学科来做, 然后学科的每个班级下面会包括各个班级, 以及整个文科班理科班和全年级
+     *
+     * 以及重点班, 普通班等不同的班级类型
      *
      * @param newScores
      * @param templateId
      * @return
      */
-    public Object analyseGap(List<NewScore> newScores, long templateId) {
+    public Collection<CourseGap> analyseGap(List<NewScore> newScores, long templateId) {
+        //根据templateId获取模板参数
+        ScoreTemplate scoreTemplate = scoreTemplateService.get(templateId);
+        if (scoreTemplate == null) {
+//            return null;
+        }
         Map<String, CourseGap> gapMap = new HashedMap();
-        for (NewScore score : newScores) {
-            for (CourseScore courseScore : score.getCourseScoreList()) {
-                CourseGap gap = gapMap.get(courseScore.getCourseName());
-                if (gap == null) {
-                    gap = new CourseGap();
-                    gap.setName(courseScore.getCourseName());
-                    List<ScoreGap> gapList = new LinkedList<>();
-                    gapList.add(new ScoreGap(1d, 20d));
-                    gapList.add(new ScoreGap(21d, 60d));
-                    gapList.add(new ScoreGap(61d, 70d));
-                    gapList.add(new ScoreGap(71d, 80d));
-                    gapList.add(new ScoreGap(81d, 90d));
-                    gapList.add(new ScoreGap(91d, 100d));
-                    gap.setGapList(gapList);
-                    gapMap.put(courseScore.getCourseName(), gap);
-                }
-
+        newScores.stream().forEach(score -> {
+            score.getCourseScoreList().stream().forEach(courseScore -> {
+                CourseGap gap = gapMap.getOrDefault(courseScore.getCourseName(), new CourseGap(courseScore.getCourseName(), getGapList(scoreTemplate, courseScore.getCourseName())));
+                gapMap.put(courseScore.getCourseName(), gap);
                 GapInner gapInner;
-                Optional<GapInner> temp = gap.getGapInnerList().stream().filter(m -> m.getCname().equals(score.getClassName())).findAny();
+                Optional<GapInner> temp = gap.getGapInnerList().stream().filter(m -> m.getClassName().equals(score.getClassName())).findAny();
                 if (temp.isPresent()) {
                     gapInner = temp.get();
                 } else {
                     gapInner = new GapInner(gap.getGapList().size());
-                    gapInner.setCname(score.getClassName());
+                    gapInner.setClassName(score.getClassName());
                     gap.getGapInnerList().add(gapInner);
+                    Collections.sort(gap.getGapInnerList(), (o1,o2) -> o1.getClassName().compareTo(o2.getClassName()));
                 }
-
                 for (int i = 0; i < gap.getGapList().size(); i++) {
                     ScoreGap scoreGap = gap.getGapList().get(i);
                     if (courseScore.getScore() >= scoreGap.getStart() && courseScore.getScore() <= scoreGap.getEnd()) {
                         gapInner.getCountList().set(i, gapInner.getCountList().get(i) + 1);
                     }
                 }
-            }
-        }
+            });
+        });
         return gapMap.values();
+    }
+
+    private List<ScoreGap> getGapList(ScoreTemplate scoreTemplate, String courseName) {
+        List<ScoreGap> scoreGaps = new LinkedList<>();
+        scoreGaps.add(new ScoreGap(1d,20d));
+        scoreGaps.add(new ScoreGap(21d, 40d));
+        scoreGaps.add(new ScoreGap(41d, 50d));
+        scoreGaps.add(new ScoreGap(51d, 70d));
+        scoreGaps.add(new ScoreGap(71d, 100d));
+        return scoreGaps;
     }
 
     /**

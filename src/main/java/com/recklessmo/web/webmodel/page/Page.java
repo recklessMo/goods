@@ -10,6 +10,15 @@ public class Page {
     private int count = 1000;
     private long orgId;
     private String searchStr;
+    private int type = 1;
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
 
     public String getSearchStr() {
         return searchStr;

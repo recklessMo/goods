@@ -9,8 +9,8 @@
     <title data-ng-bind="::pageTitle()"></title>
     <link rel="stylesheet" href="http://localhost:9090/src/main/webapp/app/css/bootstrap.css" data-ng-if="!app.layout.isRTL">
     <link rel="stylesheet" href="http://localhost:9090/src/main/webapp/app/css/app.css" data-ng-if="!app.layout.isRTL">
-    <link rel="stylesheet" href="/app/css/bootstrap.css" data-ng-if="!app.layout.isRTL">
-    <link rel="stylesheet" href="/app/css/app.css" data-ng-if="!app.layout.isRTL">
+##    <link rel="stylesheet" href="/app/css/bootstrap.css" data-ng-if="!app.layout.isRTL">
+##    <link rel="stylesheet" href="/app/css/app.css" data-ng-if="!app.layout.isRTL">
     <link rel="stylesheet" ng-href="{{app.layout.theme}}" data-ng-if="app.layout.theme">
 </head>
 

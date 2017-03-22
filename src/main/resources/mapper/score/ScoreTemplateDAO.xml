@@ -23,13 +23,14 @@
     </insert>
 
     <update id="updateTemplate" parameterType="com.recklessmo.model.score.ScoreTemplate">
-        update score_template set name = #{name}, detail = #{detail} where id = #{id}
+        update score_template set name = #{name}, detail = #{detail}, type=#{type} where id = #{id}
     </update>
 
     <select id="getList" resultType="com.recklessmo.model.score.ScoreTemplate">
         select
         <include refid="columns"/>
         from score_template
+        where type = #{type}
         limit #{startIndex},#{count}
     </select>
 

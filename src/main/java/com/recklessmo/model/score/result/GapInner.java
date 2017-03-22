@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class GapInner {
 
-    private String cname;
+    private String className;
     private List<Integer> countList=new LinkedList<>();
 
     public GapInner(){
@@ -22,12 +22,12 @@ public class GapInner {
         }
     }
 
-    public String getCname() {
-        return cname;
+    public String getClassName() {
+        return className;
     }
 
-    public void setCname(String cname) {
-        this.cname = cname;
+    public void setClassName(String className) {
+        this.className = className;
     }
 
     public List<Integer> getCountList() {

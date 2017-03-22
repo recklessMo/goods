@@ -16,8 +16,18 @@ public class CourseGap {
     //名字
     private String name;
 
-    private List<ScoreGap> gapList = new LinkedList<>();
-    private List<GapInner> gapInnerList = new LinkedList<>();
+    private List<ScoreGap> gapList;
+    private List<GapInner> gapInnerList;
+
+    public CourseGap(){
+
+    }
+
+    public CourseGap(String name, List<ScoreGap> gapList){
+        this.name = name;
+        this.gapList = gapList;
+        this.gapInnerList = new LinkedList<>();
+    }
 
     public String getName() {
         return name;
