@@ -20,15 +20,15 @@
         </div>
         <div class="weui-cell">
             <div class="weui-cell__bd">
-                <p>标题文字</p>
+                <p>性别</p>
             </div>
-            <div class="weui-cell__ft">说明文字</div>
+            <div class="weui-cell__ft">{{studentInfo.sex}}</div>
         </div>
         <div class="weui-cell">
             <div class="weui-cell__bd">
-                <p>标题文字</p>
+                <p>出生年月</p>
             </div>
-            <div class="weui-cell__ft">说明文字</div>
+            <div class="weui-cell__ft">{{studentInfo.birth}}</div>
         </div>
         <div class="weui-cell">
             <div class="weui-cell__bd">

@@ -250,4 +250,13 @@ public class ScoreAnalyseService {
     }
 
 
+    public static void main(String[] args){
+        Integer a = new Integer(1000);
+        int b = 1000;
+        Integer c = new Integer(10);
+        Integer d = new Integer(10);
+        System.out.println(a == b);
+        System.out.println(c == d);
+    }
+
 }
