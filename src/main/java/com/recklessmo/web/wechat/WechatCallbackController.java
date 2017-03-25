@@ -8,6 +8,7 @@ import com.recklessmo.model.wechat.WechatMessage;
 import com.recklessmo.model.wechat.WechatTicket;
 import com.recklessmo.model.wechat.WechatUser;
 import com.recklessmo.service.wechat.*;
+import com.recklessmo.util.wechat.WechatCookieUtils;
 import com.recklessmo.util.wechat.WechatUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -181,17 +182,7 @@ public class WechatCallbackController {
      */
     @RequestMapping(value = "/page", method = RequestMethod.GET)
     public String page(@RequestParam("type") int type, Model model, HttpServletRequest request, HttpServletResponse response)throws  Exception {
-        Cookie[] cookies = request.getCookies();
-        String openId = null;
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("token")) {
-                    openId = cookie.getValue().substring(1, cookie.getValue().length() - 1);
-                    LOGGER.info("find openid cookie: " + openId);
-                }
-            }
-        }
-
+        String openId = WechatCookieUtils.getOpenIdByCookie(request.getCookies());
         if(openId == null){
             //如果没有cookie的话就去走认证的流程来获取cookie
             StringBuilder sb = new StringBuilder();

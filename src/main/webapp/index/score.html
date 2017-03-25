@@ -8,23 +8,60 @@
 </head>
 <body>
     <div id="score">
-        <exam-list></exam-list>
-        <x-footer></x-footer>
+        <router-view></router-view>
     </div>
 
-
-    <template id="examList">
+    <template id="exam-list">
         <div>
-        n你好
+            <div class="weui-panel__hd">信息列表</div>
+            <div class="weui-panel__bd">
+                <div class="weui-media-box weui-media-box_text" v-for="exam in store.state.exams">
+                    <router-link to="/total/1">
+                        <h4 class="weui-media-box__title">{{exam.title}}</h4>
+                        <p class="weui-media-box__desc">{{exam.content}}</p>
+                        <ul class="weui-media-box__info">
+                            <li class="weui-media-box__info__meta">文字来源</li>
+                            <li class="weui-media-box__info__meta">时间</li>
+                            <li class="weui-media-box__info__meta weui-media-box__info__meta_extra">其它信息</li>
+                        </ul>
+                    </router-link>
+                </div>
+            </div>
         </div>
     </template>
 
-    <template id="xfooter">
-        <div class="weui-footer weui-footer_fixed-bottom">
-            <p class="weui-footer__links">
-                <a href="javascript:home();" class="weui-footer__link">了解我们</a>
-            </p>
-            <p class="weui-footer__text">Copyright © 2016-2017 云校园科技平台</p>
+    <template id="exam-total">
+        <div>
+            <div class="weui-navbar">
+                <div class="weui-navbar__item weui-bar__item_on">
+                    <router-link to="/total/1/my">我的</router-link>
+                </div>
+                <div class="weui-navbar__item">
+                    <router-link to="/total/1/class">他的</router-link>
+                </div>
+                <div class="weui-navbar__item">
+                    <router-link to="/total/1/grade">大家的</router-link>
+                </div>
+            </div>
+            <router-view style="margin-top:60px;"></router-view>
+        </div>
+    </template>
+
+    <template id="exam-total-my">
+        <div>
+            休息下1
+        </div>
+    </template>
+
+    <template id="exam-total-class">
+        <div>
+            休息下2
+        </div>
+    </template>
+
+    <template id="exam-total-grade">
+        <div>
+            休息下3
         </div>
     </template>
 
@@ -32,19 +69,58 @@
 
 
 <script src="//cdn.bootcss.com/vue/2.2.4/vue.min.js"></script>
+<script src="//cdn.bootcss.com/vue-router/2.3.0/vue-router.min.js"></script>
+<script src="//cdn.bootcss.com/vuex/2.2.1/vuex.min.js"></script>
 
 <script type="text/javascript">
 
+    var exams = [{id:1, title:"第一次消息", content:"第一次消息正文"},{id: 2, title:"第二次消息", content:"第二次消息正文"}];
+
     //构造组件
-    Vue.component('exam-list', {
-        template: '#examList'
+    var examList = Vue.extend({
+        template: '#exam-list'
     });
-    Vue.component('x-footer', {
-        template: '#xfooter'
+    var examTotal = Vue.extend({
+        template: '#exam-total'
+    });
+    var examTotalMy = Vue.extend({
+        template: '#exam-total-my'
+    });
+    var examTotalClass = Vue.extend({
+        template: '#exam-total-class'
+    });
+    var examTotalGrade = Vue.extend({
+        template: '#exam-total-grade'
+    });
+
+    const routes = [
+        {
+            path: '/', name:"examList", component: examList
+        },
+        {
+            path: '/total/1', name: "examTotal", component: examTotal,
+            children: [
+                {path: '/total/1/my', name:"examTotalMy", component: examTotalMy},
+                {path: '/total/1/class', name:"examTotalClass", component: examTotalClass},
+                {path: '/total/1/grade', name:"examTotalGrade", component: examTotalGrade}
+            ]
+        }
+    ]
+    const router = new VueRouter({routes: routes});
+    const store = new Vuex.Store({
+        state: {
+            exams: exams
+        }
+    })
+
+    Vue.component("x-footer",{
+        template: '#x-footer'
     });
 
     new Vue({
-        el: '#score'
+        el: '#score',
+        router: router,
+        store : store
     });
 
 </script>

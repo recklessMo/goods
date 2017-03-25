@@ -21,6 +21,7 @@ public class WechatCallbackService {
     @Resource
     private StudentDAO studentDAO;
 
+
     /**
      * 根据微信id获取学生信息
      * @param wechatId
@@ -29,7 +30,6 @@ public class WechatCallbackService {
     public StudentAllInfo getStudentInfoByWechatId(String wechatId){
         return studentDAO.getStudentAllInfoByWechatId(wechatId);
     }
-
 
 
 }

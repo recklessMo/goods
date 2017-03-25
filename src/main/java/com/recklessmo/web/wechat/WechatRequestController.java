@@ -1,0 +1,129 @@
+package com.recklessmo.web.wechat;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.recklessmo.constant.WechatConstants;
+import com.recklessmo.model.setting.Grade;
+import com.recklessmo.model.setting.Group;
+import com.recklessmo.model.student.StudentAllInfo;
+import com.recklessmo.model.system.Org;
+import com.recklessmo.model.wechat.WechatCallbackMsg;
+import com.recklessmo.model.wechat.WechatMessage;
+import com.recklessmo.model.wechat.WechatTicket;
+import com.recklessmo.model.wechat.WechatUser;
+import com.recklessmo.model.wechat.page.WechatIndexModel;
+import com.recklessmo.response.JsonResponse;
+import com.recklessmo.service.setting.GradeSettingService;
+import com.recklessmo.service.student.StudentService;
+import com.recklessmo.service.system.OrgService;
+import com.recklessmo.service.wechat.*;
+import com.recklessmo.util.wechat.WechatCookieUtils;
+import com.recklessmo.util.wechat.WechatUtils;
+import com.recklessmo.web.webmodel.page.Page;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.http.HttpStatus;
+import org.springframework.expression.spel.ast.OpNE;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.*;
+
+/**
+ *
+ * 用于处理微信的请求
+ *
+ */
+@Controller
+@RequestMapping("/public/wechat")
+public class WechatRequestController {
+
+    private static final Log LOGGER = LogFactory.getLog(WechatRequestController.class);
+
+    @Resource
+    private StudentService studentService;
+
+    @Resource
+    private GradeSettingService gradeSettingService;
+
+    @Resource
+    private OrgService orgService;
+
+    /**
+     *
+     * 获取绑定的学生信息
+     *
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @ResponseBody
+    @RequestMapping(value = "/index", method = RequestMethod.GET)
+    public JsonResponse bindInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        delay(5000);
+
+        String openId = WechatCookieUtils.getOpenIdByCookie(request.getCookies());
+        if(openId == null){
+            openId = "o2mBHwqHpFzTcZXVvAmmBTjazR_k";
+        }
+        StudentAllInfo studentAllInfo = studentService.getStudentInfoByWechatId(openId);
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        Page page = new Page();
+        page.setPage(1);
+        page.setCount(100);
+        int gradeCount = gradeSettingService.listGradeCount(page);
+        Grade grade = gradeSettingService.getSingleGrade(studentAllInfo.getGradeId());
+        Optional<Group> groupOptional = grade.getClassList().stream().filter(o->o.getClassId() == studentAllInfo.getClassId()).findAny();
+        Group group = null;
+        if(groupOptional.isPresent()) {
+            group = groupOptional.get();
+        }
+//        Org org = orgService.getOrg();
+        WechatIndexModel wechatIndexModel = new WechatIndexModel();
+        wechatIndexModel.setOrgName("湖北省公安县第一中学");
+        wechatIndexModel.setOrgAge(3);
+        wechatIndexModel.setOrgCount(4);
+        wechatIndexModel.setTotalGradeCount(gradeCount);
+        wechatIndexModel.setTotalClassCount(gradeCount);
+        wechatIndexModel.setGradeClassCount(grade.getClassList().size());
+        wechatIndexModel.setGradeName(grade.getGradeName());
+        wechatIndexModel.setGradeCharger(grade.getCharger());
+        wechatIndexModel.setGradePhone(grade.getPhone());
+        wechatIndexModel.setClassName(group.getClassName());
+        wechatIndexModel.setClassCharger(group.getCharger());
+        wechatIndexModel.setClassPhone(group.getPhone());
+        return new JsonResponse(200, wechatIndexModel, null);
+    }
+
+    /**
+     *
+     * 获取基本info
+     *
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @ResponseBody
+    @RequestMapping(value = "/info", method = RequestMethod.GET)
+    public JsonResponse baseInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String openId = WechatCookieUtils.getOpenIdByCookie(request.getCookies());
+        if(openId == null){
+            openId = "o2mBHwqHpFzTcZXVvAmmBTjazR_k";
+        }
+        StudentAllInfo studentAllInfo = studentService.getStudentInfoByWechatId(openId);
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        return new JsonResponse(200, studentAllInfo, null);
+    }
+
+
+    private void delay(long time) throws  Exception{
+        Thread.sleep(time);
+    }
+
+}

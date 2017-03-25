@@ -2,6 +2,7 @@ package com.recklessmo.dao.system;
 
 import com.recklessmo.model.system.Org;
 import com.recklessmo.web.webmodel.page.Page;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -15,5 +16,7 @@ public interface OrgDAO {
     int listOrgCount(Page page);
 
     void addOrg(Org org);
+    Org getOrg(@Param("orgId") long orgId);
+
 
 }

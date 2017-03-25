@@ -137,4 +137,11 @@
         where class_id = #{classId}
     </select>
 
+    <select id="getSingleGrade" resultMap="gradeMap">
+        select
+        <include refid="gradeColumnsWithClass"/>
+        from grade g left join class c on c.grade_id = g.grade_id
+        where g.grade_id = #{gradeId}
+    </select>
+
 </mapper>

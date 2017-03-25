@@ -25,5 +25,12 @@
         </if>
     </select>
 
+    <select id="getOrg" resultType="com.recklessmo.model.system.Org">
+        SELECT
+        <include refid="columns"/>
+        from org
+        where org_id = #{orgId}
+    </select>
+
 
 </mapper>

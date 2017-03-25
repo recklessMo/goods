@@ -29,5 +29,6 @@ public interface GradeSettingDAO {
     List<Grade> listAllGrade();
 
     Group getSingleGroup(@Param("classId")long id);
+    Grade getSingleGrade(@Param("gradeId")long id);
 
 }

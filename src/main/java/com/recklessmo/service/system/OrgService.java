@@ -25,5 +25,8 @@ public class OrgService {
         return orgDAO.listOrgCount(page);
     }
 
+    public Org getOrg(long orgId){
+        return orgDAO.getOrg(orgId);
+    }
 
 }

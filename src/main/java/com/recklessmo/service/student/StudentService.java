@@ -83,4 +83,14 @@ public class StudentService {
         return studentDAO.getStudentAllInfoTotalCount(page);
     }
 
+
+    /**
+     * 根据微信id获取学生信息
+     * @param wechatId
+     * @return
+     */
+    public StudentAllInfo getStudentInfoByWechatId(String wechatId){
+        return studentDAO.getStudentAllInfoByWechatId(wechatId);
+    }
+
 }
