@@ -2,6 +2,7 @@ package com.recklessmo.service.exam;
 
 import com.recklessmo.dao.exam.ExamDAO;
 import com.recklessmo.model.exam.Exam;
+import com.recklessmo.web.webmodel.page.ExamListPage;
 import com.recklessmo.web.webmodel.page.Page;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,7 @@ public class ExamService {
     @Resource
     private ExamDAO examDAO;
 
-    public List<Exam> listExam(Page page){
+    public List<Exam> listExam(ExamListPage page){
         return examDAO.listExam(page);
     }
 

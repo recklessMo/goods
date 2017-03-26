@@ -1,5 +1,7 @@
 package com.recklessmo.model.score.result;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,6 +26,7 @@ public class TotalInner {
     private double stdDev = 0.0;
 
     //用于计算标准差
+    @JSONField(serialize = false)
     private List<Double> scoreList = new LinkedList<>();
 
     public TotalInner(){

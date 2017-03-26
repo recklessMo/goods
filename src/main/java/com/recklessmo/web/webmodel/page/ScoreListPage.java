@@ -5,10 +5,21 @@ package com.recklessmo.web.webmodel.page;
  */
 public class ScoreListPage extends Page{
     private long examId;
-    //查询那个sid
-    private long sid;
+    //查询哪个年级
+    private long gradeId;
     //查询哪个班级
     private long classId;
+    //查询那个sid
+    private long sid;
+
+
+    public long getGradeId() {
+        return gradeId;
+    }
+
+    public void setGradeId(long gradeId) {
+        this.gradeId = gradeId;
+    }
 
     public long getClassId() {
         return classId;

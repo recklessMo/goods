@@ -6,6 +6,7 @@ import com.recklessmo.constant.WechatConstants;
 import com.recklessmo.model.exam.Exam;
 import com.recklessmo.model.score.NewScore;
 import com.recklessmo.model.score.Score;
+import com.recklessmo.model.score.result.ClassTotal;
 import com.recklessmo.model.setting.Grade;
 import com.recklessmo.model.setting.Group;
 import com.recklessmo.model.student.StudentAllInfo;
@@ -201,15 +202,15 @@ public class WechatRequestController {
 
     /**
      *
-     * 获取整体分析结果
+     * 获取整体班级分析结果
      *
      * @param response
      * @return
      * @throws Exception
      */
     @ResponseBody
-    @RequestMapping(value = "/score/total", method = RequestMethod.GET)
-    public JsonResponse scoreTotal(@Param("eid") long eid,  HttpServletRequest request, HttpServletResponse response) throws Exception {
+    @RequestMapping(value = "/score/totalClass", method = RequestMethod.GET)
+    public JsonResponse scoreTotalClass(@Param("eid") long eid,  HttpServletRequest request, HttpServletResponse response) throws Exception {
         String openId = WechatCookieUtils.getOpenIdByCookie(request.getCookies());
         if(openId == null){
             openId = "o2mBHwqHpFzTcZXVvAmmBTjazR_k";
@@ -226,7 +227,41 @@ public class WechatRequestController {
         Object result = scoreAnalyseService.analyseTotal(newScores, 1, 7);
         return new JsonResponse(200, result, null);
     }
-    
+
+
+    /**
+     *
+     * 获取整体年级分析结果
+     *
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @ResponseBody
+    @RequestMapping(value = "/score/totalGrade", method = RequestMethod.GET)
+    public JsonResponse scoreTotalGrade(@Param("eid") long eid,  HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String openId = WechatCookieUtils.getOpenIdByCookie(request.getCookies());
+        if(openId == null){
+            openId = "o2mBHwqHpFzTcZXVvAmmBTjazR_k";
+        }
+        StudentAllInfo studentAllInfo = studentService.getStudentInfoByWechatId(openId);
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        ScoreListPage scoreListPage = new ScoreListPage();
+        scoreListPage.setExamId(eid);
+//        scoreListPage.setGradeId(studentAllInfo.getGradeId());
+        scoreListPage.setPage(1);
+        scoreListPage.setCount(10000);
+        List<Score> scores = scoreService.loadScoreList(scoreListPage);
+        List<NewScore> newScores = ScoreUtils.changeScoreToNewScore(scores);
+        Object result = scoreAnalyseService.analyseTotal(newScores, 1, 7);
+        Collection<ClassTotal> classTotalList = (Collection<ClassTotal>)result;
+        Optional<ClassTotal> classTotal = classTotalList.stream().filter(o->o.getClassId() == -3).findAny();
+        if(classTotal.isPresent()){
+            return new JsonResponse(200, classTotal.get(), null);
+        }
+        return new JsonResponse(200, null, null);
+    }
+
 
     private void delay(long time) throws  Exception{
         Thread.sleep(time);

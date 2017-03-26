@@ -3,6 +3,7 @@ package com.recklessmo.web.exam;
 import com.recklessmo.model.exam.Exam;
 import com.recklessmo.response.JsonResponse;
 import com.recklessmo.service.exam.ExamService;
+import com.recklessmo.web.webmodel.page.ExamListPage;
 import com.recklessmo.web.webmodel.page.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class ExamController {
 
     @ResponseBody
     @RequestMapping(value = "/list", method = RequestMethod.POST)
-    public JsonResponse listExam(@RequestBody Page page){
+    public JsonResponse listExam(@RequestBody ExamListPage page){
         List<Exam> examList = examService.listExam(page);
         int count = examService.listExamCount(page);
         return new JsonResponse(200, examList, count);
@@ -31,7 +32,7 @@ public class ExamController {
     @ResponseBody
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public JsonResponse searchExam(@RequestParam("str") String searchStr){
-        Page page = new Page();
+        ExamListPage page = new ExamListPage();
         page.setSearchStr(searchStr);
         List<Exam> examList = examService.listExam(page);
         int count = examService.listExamCount(page);

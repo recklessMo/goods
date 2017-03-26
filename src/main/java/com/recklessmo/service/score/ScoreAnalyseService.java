@@ -6,6 +6,7 @@ import com.recklessmo.model.score.ScoreTemplate;
 import com.recklessmo.model.score.inner.CourseGapSetting;
 import com.recklessmo.model.score.inner.CourseTotalSetting;
 import com.recklessmo.model.score.result.*;
+import com.recklessmo.model.setting.Group;
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,11 @@ public class ScoreAnalyseService {
 
     @Resource
     private ScoreTemplateService scoreTemplateService;
+
+
+    private Map<Long, Group> getClassMap(List<NewScore> scoreList){
+        return null;
+    }
 
     /**
      * 进行整体分析.
@@ -39,24 +45,21 @@ public class ScoreAnalyseService {
         if (scoreTemplate == null) {
             return null;
         }
-        //开始分析
+        //根据成绩列表获取班级列表
+        Map<Long, Group> map = getClassMap(scoreList);
         //班级维度
         if (type == 1) {
             Map<Long, ClassTotal> result = new HashMap<>();
             scoreList.stream().forEach(newScore -> {
+                //加入对应的分开班级
                 ClassTotal classTotal = result.getOrDefault(newScore.getClassId(), new ClassTotal(newScore.getClassId(), newScore.getClassName()));
                 result.put(newScore.getClassId(), classTotal);
-                newScore.getCourseScoreList().stream().forEach(courseScore -> {
-                    TotalInner totalInner;
-                    Optional<TotalInner> data = classTotal.getCourseTotalList().stream().filter(m -> m.getName().equals(courseScore.getCourseName())).findAny();
-                    if (data.isPresent()) {
-                        totalInner = data.get();
-                    } else {
-                        totalInner = new TotalInner(courseScore.getCourseName(), 0);
-                        classTotal.getCourseTotalList().add(totalInner);
-                    }
-                    totalInner(courseScore, totalInner, scoreTemplate);
-                });
+                singleClass(newScore, classTotal, scoreTemplate);
+                //todo 加入文理科, 文科-1, 理科-2
+                // 整体分析, 全体-3
+                ClassTotal all = result.getOrDefault(-3L, new ClassTotal(-3L, "全年级"));
+                result.put(-3L, all);
+                singleClass(newScore, all, scoreTemplate);
             });
             result.values().stream().forEach(item -> item.getCourseTotalList().stream().forEach(totalInner -> processAfterTotalInner(totalInner)));
             return result.values();
@@ -84,21 +87,35 @@ public class ScoreAnalyseService {
         return null;
     }
 
+    private void singleClass(NewScore newScore, ClassTotal classTotal, ScoreTemplate scoreTemplate){
+        newScore.getCourseScoreList().stream().forEach(courseScore -> {
+            TotalInner totalInner;
+            Optional<TotalInner> data = classTotal.getCourseTotalList().stream().filter(m -> m.getName().equals(courseScore.getCourseName())).findAny();
+            if (data.isPresent()) {
+                totalInner = data.get();
+            } else {
+                totalInner = new TotalInner(courseScore.getCourseName(), 0);
+                classTotal.getCourseTotalList().add(totalInner);
+            }
+            totalInner(courseScore, totalInner, scoreTemplate);
+        });
+    }
+
     //内部数据
     private void totalInner(CourseScore courseScore, TotalInner totalInner, ScoreTemplate scoreTemplate) {
         //获取对应的分析设置
         CourseTotalSetting courseTotalSetting = scoreTemplate.getCourseTotalSettingMap().get(courseScore.getCourseName());
         //及格率,优秀率
-        if (courseScore.getScore() >= courseTotalSetting.getFull()) {
+        if (courseScore.getScore() >= courseTotalSetting.getQualified()) {
             totalInner.setQualified(totalInner.getQualified() + 1);
         }
-        if (courseScore.getScore() >= courseTotalSetting.getBest()) {
+        if (courseScore.getScore() >= courseTotalSetting.getGood()) {
             totalInner.setGood(totalInner.getGood() + 1);
         }
-        if (courseScore.getScore() >= courseTotalSetting.getGood()) {
+        if (courseScore.getScore() >= courseTotalSetting.getBest()) {
             totalInner.setBest(totalInner.getBest() + 1);
         }
-        if (courseScore.getScore() >= courseTotalSetting.getQualified()) {
+        if (courseScore.getScore() >= courseTotalSetting.getFull()) {
             totalInner.setFull(totalInner.getFull() + 1);
         }
         //总人数
