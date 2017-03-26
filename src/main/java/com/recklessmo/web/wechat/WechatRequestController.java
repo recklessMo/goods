@@ -3,6 +3,9 @@ package com.recklessmo.web.wechat;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.recklessmo.constant.WechatConstants;
+import com.recklessmo.model.exam.Exam;
+import com.recklessmo.model.score.NewScore;
+import com.recklessmo.model.score.Score;
 import com.recklessmo.model.setting.Grade;
 import com.recklessmo.model.setting.Group;
 import com.recklessmo.model.student.StudentAllInfo;
@@ -13,16 +16,23 @@ import com.recklessmo.model.wechat.WechatTicket;
 import com.recklessmo.model.wechat.WechatUser;
 import com.recklessmo.model.wechat.page.WechatIndexModel;
 import com.recklessmo.response.JsonResponse;
+import com.recklessmo.service.exam.ExamService;
+import com.recklessmo.service.score.ScoreAnalyseService;
+import com.recklessmo.service.score.ScoreService;
 import com.recklessmo.service.setting.GradeSettingService;
 import com.recklessmo.service.student.StudentService;
 import com.recklessmo.service.system.OrgService;
 import com.recklessmo.service.wechat.*;
+import com.recklessmo.util.score.ScoreUtils;
 import com.recklessmo.util.wechat.WechatCookieUtils;
 import com.recklessmo.util.wechat.WechatUtils;
+import com.recklessmo.web.webmodel.page.ExamListPage;
 import com.recklessmo.web.webmodel.page.Page;
+import com.recklessmo.web.webmodel.page.ScoreListPage;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpStatus;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.expression.spel.ast.OpNE;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -53,6 +63,15 @@ public class WechatRequestController {
 
     @Resource
     private OrgService orgService;
+
+    @Resource
+    private ScoreService scoreService;
+
+    @Resource
+    private ExamService examService;
+
+    @Resource
+    private ScoreAnalyseService scoreAnalyseService;
 
     /**
      *
@@ -123,8 +142,91 @@ public class WechatRequestController {
     }
 
 
-    
+    /**
+     *
+     * 获取基本info
+     *
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @ResponseBody
+    @RequestMapping(value = "/examList", method = RequestMethod.GET)
+    public JsonResponse examList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String openId = WechatCookieUtils.getOpenIdByCookie(request.getCookies());
+        if(openId == null){
+            openId = "o2mBHwqHpFzTcZXVvAmmBTjazR_k";
+        }
+        StudentAllInfo studentAllInfo = studentService.getStudentInfoByWechatId(openId);
+        response.addHeader("Access-Control-Allow-Origin", "*");
 
+        ExamListPage examListPage = new ExamListPage();
+        examListPage.setClassId(studentAllInfo.getClassId());
+        List<Exam> examList = examService.listExam(examListPage);
+        return new JsonResponse(200, examList, null);
+    }
+
+
+    /**
+     *
+     * 获取基本info
+     *
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @ResponseBody
+    @RequestMapping(value = "/score/my", method = RequestMethod.GET)
+    public JsonResponse score(@Param("eid") long eid,  HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String openId = WechatCookieUtils.getOpenIdByCookie(request.getCookies());
+        if(openId == null){
+            openId = "o2mBHwqHpFzTcZXVvAmmBTjazR_k";
+        }
+        StudentAllInfo studentAllInfo = studentService.getStudentInfoByWechatId(openId);
+        response.addHeader("Access-Control-Allow-Origin", "*");
+
+        ScoreListPage scoreListPage = new ScoreListPage();
+        scoreListPage.setExamId(eid);
+        scoreListPage.setSid(studentAllInfo.getSid());
+        scoreListPage.setPage(1);
+        scoreListPage.setCount(1);
+        List<Score> scores = scoreService.loadScoreList(scoreListPage);
+        List<NewScore> newScores = ScoreUtils.changeScoreToNewScore(scores);
+
+
+
+
+        return new JsonResponse(200, newScores.get(0), null);
+    }
+
+    /**
+     *
+     * 获取整体分析结果
+     *
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @ResponseBody
+    @RequestMapping(value = "/score/total", method = RequestMethod.GET)
+    public JsonResponse scoreTotal(@Param("eid") long eid,  HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String openId = WechatCookieUtils.getOpenIdByCookie(request.getCookies());
+        if(openId == null){
+            openId = "o2mBHwqHpFzTcZXVvAmmBTjazR_k";
+        }
+        StudentAllInfo studentAllInfo = studentService.getStudentInfoByWechatId(openId);
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        ScoreListPage scoreListPage = new ScoreListPage();
+        scoreListPage.setExamId(eid);
+        scoreListPage.setClassId(studentAllInfo.getClassId());
+        scoreListPage.setPage(1);
+        scoreListPage.setCount(1000);
+        List<Score> scores = scoreService.loadScoreList(scoreListPage);
+        List<NewScore> newScores = ScoreUtils.changeScoreToNewScore(scores);
+        Object result = scoreAnalyseService.analyseTotal(newScores, 1, 7);
+        return new JsonResponse(200, result, null);
+    }
+    
 
     private void delay(long time) throws  Exception{
         Thread.sleep(time);

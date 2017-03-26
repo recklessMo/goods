@@ -11,9 +11,14 @@
       select
       <include refid="examColumns"/>
       from exam
-      <if test="null != searchStr and '' != searchStr">
-        where exam_name like "%"#{searchStr}"%"
-      </if>
+      <where>
+        <if test="0 != classId">
+          class_id = #{classId}
+        </if>
+        <if test="null != searchStr and '' != searchStr">
+          where exam_name like "%"#{searchStr}"%"
+        </if>
+      </where>
       limit #{startIndex}, #{count}
     </select>
 

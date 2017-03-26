@@ -19,10 +19,15 @@
         select
         <include refid="columns"/>
         from score
-        where exam_id = #{examId}
-        <if test="cid != 0">
-            and cid = #{cid}
-        </if>
+        <where>
+            exam_id = #{examId}
+            <if test="sid != 0">
+              and sid = #{sid}
+            </if>
+            <if test="classId != 0">
+              and cid = #{classId}
+            </if>
+        </where>
         limit #{startIndex}, #{count}
     </select>
     

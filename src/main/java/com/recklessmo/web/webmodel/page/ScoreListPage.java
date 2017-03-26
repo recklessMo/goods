@@ -5,17 +5,17 @@ package com.recklessmo.web.webmodel.page;
  */
 public class ScoreListPage extends Page{
     private long examId;
-    //排序类型, 取值为1,2,3,4,5,6,7, 分别对英语总分和单科
-    private int sort;
-    //查询的是哪个班级的数据
-    private long cid;
+    //查询那个sid
+    private long sid;
+    //查询哪个班级
+    private long classId;
 
-    public long getCid() {
-        return cid;
+    public long getClassId() {
+        return classId;
     }
 
-    public void setCid(long cid) {
-        this.cid = cid;
+    public void setClassId(long classId) {
+        this.classId = classId;
     }
 
     public long getExamId() {
@@ -26,11 +26,11 @@ public class ScoreListPage extends Page{
         this.examId = examId;
     }
 
-    public int getSort() {
-        return sort;
+    public long getSid() {
+        return sid;
     }
 
-    public void setSort(int sort) {
-        this.sort = sort;
+    public void setSid(long sid) {
+        this.sid = sid;
     }
 }

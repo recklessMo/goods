@@ -24,42 +24,7 @@ public class ScoreController {
     private ScoreService scoreService;
 
     /**
-     *
-     * 分析结果
-     *
-     * @param examId
-     * @param templateId
-     * @return
-     */
-    @RequestMapping(value = "/analyze", method = {RequestMethod.GET, RequestMethod.POST})
-    @ResponseBody
-    public JsonResponse analyze(@RequestParam("examId")long examId, @RequestParam("tid")long templateId){
-        scoreService.analyze(examId, templateId);
-        return new JsonResponse(200, "ok", null);
-    }
-
-
-    /**
-     *
-     * 装载结果
-     *
-     * @param examId
-     * @return
-     */
-    @RequestMapping(value = "/loadtest", method = {RequestMethod.GET, RequestMethod.POST})
-    @ResponseBody
-    public JsonResponse loadtest(@RequestParam("id")long examId){
-        long cid = 0;
-        List<SingleCourseTotal> data = scoreService.loadTotalScore(examId, cid);
-        return new JsonResponse(200, data, null);
-    }
-
-    /**
      * 查询成绩单
-     *
-     * 1. 根据exam找到对应的年级
-     * 2. 根据对应的年级找到对应的班级
-     * 3. 选择班级,然后返回成绩
      *
      * @param
      * @return
@@ -72,25 +37,5 @@ public class ScoreController {
     }
 
 
-    /**
-     * 查询成绩单
-     *
-     * 1. 根据exam找到对应的年级
-     * 2. 根据对应的年级找到对应的班级
-     * 3. 选择班级,然后返回成绩
-     *
-     * @param
-     * @return
-     */
-//    @RequestMapping(value = "/load", method = {RequestMethod.GET, RequestMethod.POST})
-//    @ResponseBody
-//    public JsonResponse load(@RequestParam("id")long examId){
-//        ScoreListPage scoreListPage = new ScoreListPage();
-//        scoreListPage.setExamId(examId);
-//        scoreListPage.setPage(1);
-//        scoreListPage.setCount(1000000);
-//        List<Score> data = scoreService.loadScoreList(scoreListPage);
-//        return new JsonResponse(200, ScoreUtils.changeScoreToCourseScore(data), null);
-//    }
 
 }
