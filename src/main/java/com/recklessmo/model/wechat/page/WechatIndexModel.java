@@ -18,8 +18,17 @@ public class WechatIndexModel {
     private String gradePhone;
 
     private String className;
+    private int classTotalCount;
     private String classCharger;
     private String classPhone;
+
+    public int getClassTotalCount() {
+        return classTotalCount;
+    }
+
+    public void setClassTotalCount(int classTotalCount) {
+        this.classTotalCount = classTotalCount;
+    }
 
     public String getOrgName() {
         return orgName;

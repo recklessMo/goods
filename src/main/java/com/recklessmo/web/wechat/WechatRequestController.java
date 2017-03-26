@@ -66,7 +66,7 @@ public class WechatRequestController {
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public JsonResponse bindInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        delay(5000);
+//        delay(5000);
 
         String openId = WechatCookieUtils.getOpenIdByCookie(request.getCookies());
         if(openId == null){
@@ -95,6 +95,7 @@ public class WechatRequestController {
         wechatIndexModel.setGradeName(grade.getGradeName());
         wechatIndexModel.setGradeCharger(grade.getCharger());
         wechatIndexModel.setGradePhone(grade.getPhone());
+        wechatIndexModel.setClassTotalCount(45);
         wechatIndexModel.setClassName(group.getClassName());
         wechatIndexModel.setClassCharger(group.getCharger());
         wechatIndexModel.setClassPhone(group.getPhone());
@@ -120,6 +121,9 @@ public class WechatRequestController {
         response.addHeader("Access-Control-Allow-Origin", "*");
         return new JsonResponse(200, studentAllInfo, null);
     }
+
+
+    
 
 
     private void delay(long time) throws  Exception{
