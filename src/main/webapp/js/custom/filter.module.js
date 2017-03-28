@@ -34,4 +34,19 @@
                 }
             }
         })
+        .filter('scheduleFilter', function(){
+            return function(time){
+                var hour = Math.floor(time / 60);
+                var minute = time % 60;
+                var hourStr = "" + hour;
+                var minuteStr = "" + minute;
+                if(hour < 10){
+                    hourStr = "0" + hour;
+                }
+                if(minute < 10){
+                    minuteStr = "0" + minute;
+                }
+                return hourStr + ":" + minuteStr;
+            }
+        })
 })();

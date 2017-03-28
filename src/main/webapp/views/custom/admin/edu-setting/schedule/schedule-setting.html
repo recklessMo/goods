@@ -14,8 +14,9 @@
         <table ng-table="scheduleTableParams" class="table table-bordered table-hover table-condensed editable-table table-min" style="border:1px solid #eeeeee;">
             <tr ng-repeat="item in $data" ng-dblclick="showClass(item.gradeId)">
                 <td data-title="'名称'" style="text-align: center;">{{item.scheduleName}}</td>
-                <td data-title="'开始时间'" style="text-align: center;">{{item.start}}</td>
-                <td data-title="'结束时间'" style="text-align: center;">{{item.end}}</td>
+                <td data-title="'开始时间'" style="text-align: center;">{{item.start | scheduleFilter}}</td>
+                <td data-title="'结束时间'" style="text-align: center;">{{item.end | scheduleFilter}}</td>
+                <td data-title="'持续时长'" style="text-align: center;">{{item.end - item.start | scheduleFilter}}</td>
                 <td data-title="'操作'" style="text-align: center;width:45%;">
                     <button class="btn btn-info" ng-click="editSchedule(item, 'edit')">编辑</button>
                     <button class="btn btn-danger" ng-click="deleteSchedule(item.scheduleId)">删除</button>
