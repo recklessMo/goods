@@ -68,7 +68,7 @@ public class EduUserDetailService implements UserDetailsService{
 
 
     /**
-     * 重新加载用户的权限列表
+     * 重新加载用户的权限列表, 在更新之后进行调用
      */
     public void reloadUserByUserName(String userName){
         userCache.invalidate(userName);

@@ -3,15 +3,16 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.recklessmo.dao.user.UserDAO">
     <sql id = "columns">
-        id, user_name, pwd, name, phone, gender, email, job, authorities, created, updated, org_id
+        id, org_id, user_name, pwd, name, phone, gender, email, job, authorities, created, updated
     </sql>
 
     <sql id="byPageQuery">
-        <if test="searchStr != null and '' != searchStr">
-            <where>
-            (user_name like "%"#{searchStr}"%" or name like "%"#{searchStr}"%" or phone like "%"#{searchStr}"%")
-            </where>
-        </if>
+        <where>
+            org_id = #{orgId} and deleted = 0
+            <if test="searchStr != null and '' != searchStr">
+              and (user_name like "%"#{searchStr}"%" or name like "%"#{searchStr}"%" or phone like "%"#{searchStr}"%")
+            </if>
+        </where>
     </sql>
 
     <select id="getUserList" resultType="com.recklessmo.model.user.User">
@@ -52,9 +53,9 @@
          where id = #{id}
     </update>
 
-    <delete id = "deleteUser" parameterType = "java.lang.Long">
-        delete from user where id = #{id}
-    </delete>
+    <update id = "deleteUser" parameterType = "java.lang.Long">
+        update user set deleted = 1 where id = #{id}
+    </update>
 
     <update id="updatePwd">
         update user set pwd = #{pwd} where id = #{id}

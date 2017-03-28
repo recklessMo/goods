@@ -11,6 +11,7 @@ public class User {
     public static int FEMALE = 1;
 
     private long id;
+    private long orgId;
     private String userName;
     private String pwd;
     private String name;
@@ -20,7 +21,6 @@ public class User {
     private String job = "";
     private String authorities = "";
     private Date created;
-    private long orgId;
 
     public long getOrgId() {
         return orgId;

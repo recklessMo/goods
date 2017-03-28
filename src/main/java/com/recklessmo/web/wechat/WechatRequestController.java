@@ -170,7 +170,7 @@ public class WechatRequestController {
 
     /**
      *
-     * 获取基本info
+     * 获取成绩单
      *
      * @param response
      * @return
@@ -193,10 +193,6 @@ public class WechatRequestController {
         scoreListPage.setCount(1);
         List<Score> scores = scoreService.loadScoreList(scoreListPage);
         List<NewScore> newScores = ScoreUtils.changeScoreToNewScore(scores);
-
-
-
-
         return new JsonResponse(200, newScores.get(0), null);
     }
 
@@ -248,7 +244,6 @@ public class WechatRequestController {
         response.addHeader("Access-Control-Allow-Origin", "*");
         ScoreListPage scoreListPage = new ScoreListPage();
         scoreListPage.setExamId(eid);
-//        scoreListPage.setGradeId(studentAllInfo.getGradeId());
         scoreListPage.setPage(1);
         scoreListPage.setCount(10000);
         List<Score> scores = scoreService.loadScoreList(scoreListPage);
@@ -266,5 +261,8 @@ public class WechatRequestController {
     private void delay(long time) throws  Exception{
         Thread.sleep(time);
     }
+
+
+
 
 }
