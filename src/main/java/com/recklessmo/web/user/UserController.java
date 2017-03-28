@@ -1,12 +1,15 @@
 package com.recklessmo.web.user;
 
+import com.recklessmo.model.security.DefaultUserDetails;
 import com.recklessmo.model.user.User;
 import com.recklessmo.model.user.UserVO;
 import com.recklessmo.response.JsonResponse;
 import com.recklessmo.response.ResponseType;
 import com.recklessmo.service.security.EduUserDetailService;
 import com.recklessmo.service.user.UserService;
+import com.recklessmo.util.ContextUtils;
 import com.recklessmo.web.webmodel.page.UserPage;
+import com.sun.xml.internal.ws.api.streaming.XMLStreamReaderFactory;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
@@ -38,6 +41,8 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value = "/list", method = {RequestMethod.POST, RequestMethod.GET})
     public JsonResponse list(@RequestBody UserPage page){
+        DefaultUserDetails defaultUserDetails = ContextUtils.getLoginUserDetail();
+        page.setOrgId(defaultUserDetails.getOrgId());
         List<User>  users = userService.getUserList(page);
         List<UserVO> userVOs = new LinkedList<>();
         users.stream().forEach(user -> {
@@ -73,8 +78,13 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value = "/delete", method = {RequestMethod.POST, RequestMethod.GET})
     public JsonResponse delete(@RequestBody long id){
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
         User user = userService.getUser(id);
-        userService.delete(id);
+        //只允许删除本诊所的数据
+        if(user.getOrgId() == userDetails.getOrgId()) {
+            userService.delete(id);
+        }
+        //清楚cache
         ((EduUserDetailService)userDetailsService).reloadUserByUserName(user.getUserName());
         return new JsonResponse(ResponseType.RESPONSE_OK, null, null);
     }

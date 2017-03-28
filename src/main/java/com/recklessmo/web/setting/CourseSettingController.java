@@ -1,10 +1,13 @@
 package com.recklessmo.web.setting;
 
+import com.recklessmo.model.security.DefaultUserDetails;
 import com.recklessmo.model.setting.Term;
 import com.recklessmo.model.setting.Course;
 import com.recklessmo.response.JsonResponse;
 import com.recklessmo.service.setting.CourseSettingService;
+import com.recklessmo.util.ContextUtils;
 import com.recklessmo.web.webmodel.page.Page;
+import org.springframework.security.authentication.jaas.DefaultJaasAuthenticationProvider;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,6 +50,8 @@ public class CourseSettingController {
     @RequestMapping(value = "/course/list", method = {RequestMethod.POST})
     @ResponseBody
     public JsonResponse listCourse(@RequestBody Page page){
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
+        page.setOrgId(userDetails.getOrgId());
         int count = courseSettingService.listCourseCount(page);
         List<Course> CourseList = courseSettingService.listCourse(page);
         return new JsonResponse(200, CourseList, count);
@@ -55,7 +60,8 @@ public class CourseSettingController {
     @RequestMapping(value = "/course/listStandard", method = {RequestMethod.POST})
     @ResponseBody
     public JsonResponse listStandard(@RequestBody Page page){
-        page.setOrgId(1);
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
+        page.setOrgId(userDetails.getOrgId());
         List<Course> courseList = courseSettingService.listCourse(page);
         page.setOrgId(0);
         List<Course> StandardCourseList = courseSettingService.listCourse(page);
@@ -69,9 +75,11 @@ public class CourseSettingController {
     @RequestMapping(value = "/course/import", method = {RequestMethod.POST})
     @ResponseBody
     public JsonResponse importCourse(@RequestBody Course[] courses){
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
         for(Course course : courses){
             try{
                 //直接添加, 通过数据库主键来判断
+                course.setOrgId(userDetails.getOrgId());
                 courseSettingService.addCourse(course);
             }catch(Exception e){
                 e.printStackTrace();

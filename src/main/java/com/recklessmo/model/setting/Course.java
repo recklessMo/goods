@@ -23,13 +23,12 @@ public class Course {
     public static String BIOLOGY = "生物";
 
     private long id;
+    private long orgId;
     private long courseId;
     private String courseName;
-    private Date createTime = new Date();
     private String detail;
-    private long orgId;
     private int type;
-
+    private Date createTime = new Date();
     //用于表示学校是否导入
     private boolean hasImport = false;
 

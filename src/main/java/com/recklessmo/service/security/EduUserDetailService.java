@@ -53,7 +53,7 @@ public class EduUserDetailService implements UserDetailsService{
                     authorities.add(new SimpleGrantedAuthority(auth.trim()));
                 }
             }
-            return new DefaultUserDetails(user.getId(), userName,"",  user.getPwd(), true, true, true, true, authorities, null);
+            return new DefaultUserDetails(user.getId(), user.getOrgId(), userName,"",  user.getPwd(), true, true, true, true, authorities, null);
         }
     });
 

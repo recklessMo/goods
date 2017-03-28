@@ -12,6 +12,7 @@ import java.util.List;
 public class DefaultUserDetails implements UserDetails{
 
     private long id;
+    private long orgId;
     private String userName;
     private String pwd;
     private String name;
@@ -23,8 +24,9 @@ public class DefaultUserDetails implements UserDetails{
     private List<String> roles;
 
 
-    public DefaultUserDetails(long id, String userName, String name,  String pwd, boolean accountNonExpired, boolean accountNonLocked, boolean credentialNonExpired, boolean enabled, Collection<GrantedAuthority> authorityList, List<String> roles){
+    public DefaultUserDetails(long id, long orgId, String userName, String name,  String pwd, boolean accountNonExpired, boolean accountNonLocked, boolean credentialNonExpired, boolean enabled, Collection<GrantedAuthority> authorityList, List<String> roles){
         this.id = id;
+        this.orgId = orgId;
         this.userName = userName;
         this.pwd = pwd;
         this.accountNonExpired = accountNonExpired;
@@ -33,6 +35,14 @@ public class DefaultUserDetails implements UserDetails{
         this.enabled = enabled;
         this.authorityList = authorityList;
         this.roles = roles;
+    }
+
+    public long getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(long orgId) {
+        this.orgId = orgId;
     }
 
     public String getName() {

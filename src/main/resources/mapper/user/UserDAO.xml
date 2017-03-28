@@ -39,7 +39,7 @@
     <select id="getUserByUserName" resultType="com.recklessmo.model.user.User">
         select
         <include refid="columns"/>
-        from user where user_name = #{userName}
+        from user where user_name = #{userName} and deleted = 0
     </select>
 
     <insert id="addUser" parameterType = "com.recklessmo.model.user.User">
