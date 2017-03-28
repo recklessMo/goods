@@ -8,25 +8,16 @@
     </sql>
 
     <sql id = "courseColumnsWithoutId">
-        course_name, create_time, detail, type, org_id, deleted
+        course_id, course_name, create_time, detail, type, org_id, deleted
     </sql>
 
     <insert id="addCourse">
-        insert into course
+        replace into course
         (
           <include refid="courseColumnsWithoutId"/>
         )
-        values(#{courseName},#{createTime}, #{detail}, #{type}, #{orgId}, #{deleted})
-    </insert>
-
-    <update id="updateCourse">
-        replace into course
-        (
-        <include refid="courseColumns"/>
-        )
         values(#{courseId}, #{courseName},#{createTime}, #{detail}, #{type}, #{orgId}, #{deleted})
-    </update>
-
+    </insert>
 
     <select id="listCourse" resultType="com.recklessmo.model.setting.Course">
         select
@@ -44,10 +35,10 @@
         where org_id = #{orgId} and deleted = 0
     </select>
 
-    <select id="getCourseById" resultType="com.recklessmo.model.setting.Course">
+    <select id="getCourseByCourseIdAndOrgId" resultType="com.recklessmo.model.setting.Course">
         select
         <include refid="courseColumns"/>
-        from course where id = #{id}
+        from course where course_id = #{courseId} and org_id = #{orgId}
     </select>
 
     <update id="deleteCourse">

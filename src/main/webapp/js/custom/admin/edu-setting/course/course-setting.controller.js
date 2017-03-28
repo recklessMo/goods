@@ -65,6 +65,30 @@
             });
         }
 
+        $scope.deleteCourse = function(id){
+            SweetAlert.swal({
+                title: '确认删除?',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#DD6B55',
+                confirmButtonText: '是',
+                cancelButtonText: '否',
+                closeOnConfirm: true,
+                closeOnCancel: true
+            }, function(isConfirm){
+                if (isConfirm) {
+                    blockUI.start();
+                    SettingService.deleteCourse(id).success(function () {
+                        Notify.alert("删除成功!", {status:"success", timeout: 3000});
+                        $scope.courseTableParams.reload();
+                        blockUI.stop();
+                    }).error(function(){
+                        blockUI.stop();
+                        SweetAlert.error("网络问题, 请稍后重试!");
+                    });
+                }
+            });
+        }
 
 
 

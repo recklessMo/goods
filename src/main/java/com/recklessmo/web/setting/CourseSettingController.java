@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -80,6 +81,7 @@ public class CourseSettingController {
             try{
                 //直接添加, 通过数据库主键来判断
                 course.setOrgId(userDetails.getOrgId());
+                course.setCreateTime(new Date());
                 courseSettingService.addCourse(course);
             }catch(Exception e){
                 e.printStackTrace();
@@ -90,10 +92,11 @@ public class CourseSettingController {
 
     @RequestMapping(value = "/course/delete", method = {RequestMethod.POST})
     @ResponseBody
-    public JsonResponse deleteCourse(@RequestBody long id){
-        Course course = courseSettingService.getCourseById(id);
-        if(course != null && course.getOrgId() == 0){
-            courseSettingService.deleteCourse(id);
+    public JsonResponse deleteCourse(@RequestBody long courseId){
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
+        Course course = courseSettingService.getCourseByCourseIdAndOrgId(courseId, userDetails.getOrgId());
+        if(course != null){
+            courseSettingService.deleteCourse(course.getId());
         }
         return new JsonResponse(200, null, null);
     }

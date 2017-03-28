@@ -14,7 +14,6 @@
             count: 500
         }
 
-
         $scope.courseList = [];
 
         activate();
@@ -58,6 +57,10 @@
                     temp.push(item);
                 }
             });
+            if(temp.length == 0){
+                SweetAlert.error("未选择科目!");
+                return;
+            }
             SettingService.importCourse(temp).success(function (data) {
                 $scope.loading = false;
                 block.stop();
@@ -72,31 +75,6 @@
                 SweetAlert.error("网络问题,稍后重试!");
                 $scope.loading = false;
                 block.stop();
-            });
-        }
-
-        $scope.delete = function(id){
-            SweetAlert.swal({
-                title: '确认删除?',
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#DD6B55',
-                confirmButtonText: '是',
-                cancelButtonText: '否',
-                closeOnConfirm: true,
-                closeOnCancel: true
-            }, function(isConfirm){
-                if (isConfirm) {
-                    blockUI.start();
-                    SettingService.deleteCourse(id).success(function () {
-                        Notify.alert("删除成功!", {status:"success", timeout: 3000});
-                        $scope.courseTableParams.reload();
-                        blockUI.stop();
-                    }).error(function(){
-                        blockUI.stop();
-                        SweetAlert.error("网络问题, 请稍后重试!");
-                    });
-                }
             });
         }
 

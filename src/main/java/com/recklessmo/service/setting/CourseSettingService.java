@@ -31,8 +31,8 @@ public class CourseSettingService {
         courseSettingDAO.deleteCourse(id);
     }
 
-    public Course getCourseById(long id){
-        return courseSettingDAO.getCourseById(id);
+    public Course getCourseByCourseIdAndOrgId(long courseId, long orgId){
+        return courseSettingDAO.getCourseByCourseIdAndOrgId(courseId, orgId);
     }
 
     public List<Course> listCourse(Page page){
@@ -42,5 +42,6 @@ public class CourseSettingService {
     public int listCourseCount(Page page){
         return courseSettingDAO.listCourseCount(page);
     }
+
 
 }

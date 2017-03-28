@@ -36,6 +36,7 @@
         this.updateCourse = updateCourse;
         this.listCourse = listCourse;
         this.listStandardCourse = listStandardCourse;
+        this.deleteCourse = deleteCourse;
 
         //职业设置
         this.listJob = listJob;
@@ -270,6 +271,15 @@
             return $http({
                 method : "POST",
                 url: "/v1/setting/course/listStandard",
+                data: data,
+                timeout: 5000
+            });
+        }
+
+        function deleteCourse(data){
+            return $http({
+                method : "POST",
+                url: "/v1/setting/course/delete",
                 data: data,
                 timeout: 5000
             });

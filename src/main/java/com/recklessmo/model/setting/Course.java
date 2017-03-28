@@ -31,6 +31,15 @@ public class Course {
     private Date createTime = new Date();
     //用于表示学校是否导入
     private boolean hasImport = false;
+    private int deleted = 0;
+
+    public int getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(int deleted) {
+        this.deleted = deleted;
+    }
 
     public boolean isHasImport() {
         return hasImport;

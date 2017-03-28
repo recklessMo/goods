@@ -21,6 +21,6 @@ public interface CourseSettingDAO {
 
     void deleteCourse(@Param("id")long id);
 
-    Course getCourseById(@Param("id")long id);
+    Course getCourseByCourseIdAndOrgId(@Param("courseId")long courseId, @Param("orgId")long orgId);
 
 }
