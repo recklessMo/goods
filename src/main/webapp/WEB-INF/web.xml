@@ -48,8 +48,24 @@
 			<param-value>text/html,text/plain,text/xml,application/xhtml+xml,text/css,application/javascript,image/svg+xml,application/json</param-value>
 		</init-param>
 	</filter>
+
+	<filter>
+		<filter-name>CoreFilter</filter-name>
+		<filter-class>com.recklessmo.filter.CoreFilter</filter-class>
+		<async-supported>true</async-supported>
+		<init-param>
+			<param-name>mimeTypes</param-name>
+			<param-value>text/html,text/plain,text/xml,application/xhtml+xml,text/css,application/javascript,image/svg+xml,application/json</param-value>
+		</init-param>
+	</filter>
+
 	<filter-mapping>
 		<filter-name>GzipFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>CoreFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
