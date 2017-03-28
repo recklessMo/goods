@@ -26,10 +26,13 @@ public class CoreFilter implements Filter{
         chain.doFilter(request, response);
         long gap = System.currentTimeMillis() - start;
         StringBuilder sb = new StringBuilder();
-        sb.append("url: ");
-        sb.append(((HttpServletRequest)request).getRequestURI());
-        sb.append(", ");
-        sb.append("totaltime=");
+        HttpServletRequest httpServletRequest = (HttpServletRequest)request;
+        sb.append("client: ");
+        sb.append(httpServletRequest.getRemoteAddr());
+        sb.append(" url: ");
+        sb.append(httpServletRequest.getRequestURI());
+        sb.append(" ");
+        sb.append("totaltime: ");
         sb.append(gap);
         logger.info(sb.toString());
     }
