@@ -7,14 +7,6 @@
 
     function StudentViewWorktableController($scope, StudentService,DicService, SweetAlert, NgTableParams, blockUI, Notify) {
 
-        $scope.obj = {};
-
-        //左边侧边栏的查询条件
-        $scope.tableParams = {
-            page : 1,
-            count : 12
-        };
-
         $scope.gradeList = [];
         $scope.classList = [];
 
@@ -39,6 +31,13 @@
         initSelector();
 
 
+        $scope.obj = {};
+
+        //左边侧边栏的查询条件
+        $scope.tableParams = {
+            page : 1,
+            count : 12
+        };
 
 
         $scope.search = function() {

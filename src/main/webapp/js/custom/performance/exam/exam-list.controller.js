@@ -3,17 +3,45 @@
     angular
         .module('custom')
         .controller('ExamListController', ExamListController);
-    ExamListController.$inject = ['$scope', 'ExamService', 'SweetAlert', 'NgTableParams', 'ngDialog', 'blockUI', 'Notify'];
+    ExamListController.$inject = ['$scope', 'ExamService', 'DicService', 'SweetAlert', 'NgTableParams', 'ngDialog', 'blockUI', 'Notify'];
 
-    function ExamListController($scope, ExamService, SweetAlert, NgTableParams, ngDialog, blockUI, Notify) {
+    function ExamListController($scope, ExamService, DicService, SweetAlert, NgTableParams, ngDialog, blockUI, Notify) {
 
-        $scope.tableParams = {page : 1, count : 10, searchStr: null};
+        $scope.examTypeList = ['小测', '周考', '月考', '期中', '期末'];
+
+        $scope.gradeList = [];
+        $scope.classList = [];
+
+        //初始化选择器列表
+        function initSelector(){
+            blockUI.start();
+            DicService.loadAllGrade().success(function(data){
+                if(data.status == 200){
+                    $scope.gradeList = data.data;
+                }
+                blockUI.stop();
+            }).error(function(){
+                SweetAlert.error("网络异常, 请稍后重试!");
+                blockUI.stop();
+            });
+
+            $scope.selectGrade = function(data){
+                $scope.classList = data.classList;
+            }
+        }
+
+        initSelector();
+
+
+        $scope.tableParams = {page : 1, count : 10, gradeId : 0 , classId: 0 , examType: null,searchStr: null};
 
         $scope.activate = function() {
             $scope.examTableParams = new NgTableParams({}, {
                 getData: function (params) {
                     blockUI.start();
-                    return ExamService.loadExams({page: params.page(), count: params.count()}).then(function (data) {
+                    $scope.tableParams.page = params.page();
+                    $scope.tableParams.count = params.count();
+                    return ExamService.loadExams($scope.tableParams).then(function (data) {
                         blockUI.stop();
                         var result = data.data;
                         if (result.status == 200) {
@@ -61,7 +89,6 @@
             });
         }
 
-        //查看用户
         $scope.show = function (userId){
             var dialog= ngDialog.open({
                 template: 'app/views/custom/admin/account/edit-account.html',
@@ -77,7 +104,6 @@
             });
         };
 
-        //编辑用户
         $scope.edit = function(userId) {
             var dialog= ngDialog.open({
                 template: 'app/views/custom/admin/account/edit-account.html',
@@ -93,7 +119,6 @@
             });
         }
 
-        //添加用户
         $scope.add = function(userId){
             var dialog= ngDialog.open({
                 template: 'app/views/custom/admin/account/edit-account.html',
