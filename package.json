@@ -44,7 +44,9 @@
     "jshint-stylish": "^2.0.0",
     "marked": "^0.3.2",
     "through2": "^0.6.3",
-    "yargs": "^3.7.2"
+    "yargs": "^3.7.2",
+    "font-awesome": "4.7.0",
+    "simple-line-icons": "2.2.3"
   },
   "scripts": {
     "prestart": "bower install",

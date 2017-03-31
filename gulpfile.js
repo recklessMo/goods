@@ -40,6 +40,11 @@ var vendor = {
     dest: basePath+'/app/js',
     name: 'base.js'
   },
+  // 字体
+  fonts: {
+    source: require('./vendor.fonts.json'),
+    dest: basePath + '/app/fonts/'
+  },
   // 还有一些库在用到的时候在加载，通过懒加载机制进行加载
   app: {
     source: require('./vendor.json'),
@@ -114,7 +119,7 @@ gulp.task('scripts:app', function() {
 
 
 //复制和连接依赖
-gulp.task('vendor', gulpsync.sync(['vendor:base', 'vendor:app']) );
+gulp.task('vendor', gulpsync.sync(['vendor:base', 'vendor:app', 'vendor:fonts']) );
 
 //将程序启动需要用到的一些依赖拷贝到base.js
 gulp.task('vendor:base', function() {
@@ -146,6 +151,15 @@ gulp.task('vendor:app', function() {
       .pipe($.if( isProduction, $.minifyCss() ))
       .pipe(cssFilter.restore())
       .pipe( gulp.dest(vendor.app.dest) );
+});
+
+//处理字体
+// copy font from bower folder into the app folder
+gulp.task('vendor:fonts', function () {
+    log('Copying vendor fonts..');
+    return gulp.src(vendor.fonts.source)
+        .pipe(gulp.dest(vendor.fonts.dest));
+
 });
 
 //处理less，生成css
