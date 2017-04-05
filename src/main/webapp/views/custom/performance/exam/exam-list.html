@@ -60,11 +60,9 @@
                 <td data-title="'考试名称'" style="text-align: center">{{item.examName}}</td>
                 <td data-title="'所属年级'" style="text-align: center">{{item.gradeId}}</td>
                 <td data-title="'所属班级'" style="text-align: center">{{item.className}}</td>
-                <td data-title="'上传成绩'" style="text-align: center;">
-                    <button class="btn btn-info">下载成绩模板</button>
-                </td>
+                <td data-title="'上传成绩'" style="text-align: center;">{{item.uploadStatus == 0 ? '未上传' : '已上传'}}</td>
                 <td data-title="'操作'" style="text-align: center">
-                    <button class="btn btn-info" ng-click="analyze(item.id)" ng-if="item.status == 0">发布成绩结果</button>
+                    <button class="btn btn-info" ng-click="uploadScore(item)">上传成绩</button>
                     <button class="btn btn-danger" ng-click="delete(item.id)">删除</button>
                 </td>
             </tr>

@@ -19,4 +19,8 @@ public interface ExamDAO {
 
     void updateExam(@Param("id") long id, @Param("status")int status);
 
+    Exam getExamById(@Param("id")long id);
+
+
+
 }

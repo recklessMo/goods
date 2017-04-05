@@ -34,4 +34,8 @@ public class ExamService {
 
     }
 
+    public Exam getExamById(long id){
+        return examDAO.getExamById(id);
+    }
+
 }

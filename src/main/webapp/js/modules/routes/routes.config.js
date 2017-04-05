@@ -30,7 +30,7 @@
           .state('app', {
               url: '/app',
               templateUrl: helper.basepath('app.html'),
-              resolve: helper.resolveFor('fastclick', 'modernizr', 'ui.select', 'icons', 'screenfull', 'animo', 'sparklines', 'slimscroll', 'classyloader', 'toaster', 'whirl', 'oitozero.ngSweetAlert', 'ngDialog')
+              resolve: helper.resolveFor('angularFileUpload', 'filestyle', 'fastclick', 'modernizr', 'ui.select', 'icons', 'screenfull', 'animo', 'sparklines', 'slimscroll', 'classyloader', 'toaster', 'whirl', 'oitozero.ngSweetAlert', 'ngDialog')
           })
           .state('app.admission', {
               url: '/admission',
@@ -51,7 +51,6 @@
                 url: '/student-add-worktable',
                 title: '学生录入',
                 templateUrl: helper.basepath('custom/student/add/student-add-worktable.html'),
-                resolve: helper.resolveFor('angularFileUpload', 'filestyle')
             })
             .state('app.item', {
                 url: '/item',

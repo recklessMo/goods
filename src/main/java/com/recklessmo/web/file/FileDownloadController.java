@@ -1,6 +1,16 @@
 package com.recklessmo.web.file;
 
+import com.google.common.collect.Maps;
+import com.recklessmo.model.exam.Exam;
+import com.recklessmo.model.security.DefaultUserDetails;
+import com.recklessmo.model.setting.Course;
+import com.recklessmo.model.system.Org;
+import com.recklessmo.service.exam.ExamService;
+import com.recklessmo.service.setting.CourseSettingService;
+import com.recklessmo.util.ContextUtils;
 import com.recklessmo.util.excel.ExcelUtils;
+import com.recklessmo.web.webmodel.page.Page;
+import net.sf.jett.transform.ExcelTransformer;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -9,10 +19,20 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.annotation.Resource;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+import java.io.InputStream;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 
 /**
@@ -24,18 +44,26 @@ import java.util.List;
 @RequestMapping("common/file")
 public class FileDownloadController {
 
-    public static String SCORE_FILE = "成绩录入";
-    public static String SCORE_FILE_EXT = "xlsx";
+    @Resource
+    private ExamService examService;
 
-    public static String STUDENT_FILE = "学生录入";
-    public static String STUDENT_FILE_EXT = "xlsx";
+    @Resource
+    private CourseSettingService courseSettingService;
 
 
-    private void returnFile(Workbook workbook, HttpServletResponse response, String fileName, String fileExt) throws Exception{
+    private void returnFile(Map<String, Object> beans, HttpServletResponse response, String fileName, String templateName, String fileExt) throws Exception{
+        if(beans == null){
+            beans = new HashMap<>();
+        }
         response.setStatus(200);
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/octet-stream;charset=UTF-8");
-        response.setHeader("Content-Disposition", "attachment;fileName=" + URLEncoder.encode(fileName + "." + fileExt, "UTF-8"));
+        response.setHeader("Content-Disposition", "attachment;fileName=" + URLEncoder.encode(fileName + fileExt, "UTF-8"));
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("excel/" + templateName + fileExt);
+        ExcelTransformer transformer = new ExcelTransformer();
+        transformer.registerFuncs("dateFormat", new SimpleDateFormat("yyyy-MM-dd"));
+        Workbook workbook = transformer.transform(inputStream, beans);
+        Sheet sheet = workbook.getSheetAt(0);
         workbook.write(response.getOutputStream());
         response.getOutputStream().close();
     }
@@ -48,34 +76,24 @@ public class FileDownloadController {
      * @throws Exception
      */
     @RequestMapping(value = "/score/downloadExcel", method = {RequestMethod.POST, RequestMethod.GET})
-    public void scoreFileDownload(HttpServletResponse response) throws Exception{
-        List<String> rowNames = new LinkedList<>();
-        setScoreColumns(rowNames);
-        Workbook workbook = ExcelUtils.createWorkbook(SCORE_FILE_EXT);
-        Sheet sheet = workbook.createSheet(SCORE_FILE);
-        Row row = sheet.createRow(0);
-        for (int i = 0; i < rowNames.size(); i++) {
-            Cell cell = row.createCell(i);
-            cell.setCellValue(rowNames.get(i));
-        }
-        returnFile(workbook, response, SCORE_FILE, SCORE_FILE_EXT);
+    public void scoreFileDownload(@RequestParam("examId")long examId,  HttpServletResponse response) throws Exception{
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
+        //根据考试所选定的科目来进行模板表格
+        Exam exam = examService.getExamById(examId);
+        Page page = new Page();
+        page.setOrgId(userDetails.getOrgId());
+        page.setPage(1);
+        page.setCount(1000);
+        List<Course> courseList = courseSettingService.listCourse(page);
+        List<String> columns = new LinkedList<>();
+        Map<Long, Course> courseMap = courseList.stream().collect(Collectors.toMap(Course::getId, Function.identity()));
+        exam.getCourseList().stream().forEach(item -> {
+            columns.add(courseMap.get(item).getCourseName());
+        });
+        Map<String, Object> beans = new HashMap<>();
+        beans.put("columns", columns);
+        returnFile(beans, response, "成绩导入", "score_import",  ".xlsx");
     }
-
-
-    private void setScoreColumns(List<String> colNames){
-        colNames.add("学号");
-        colNames.add("姓名");
-        colNames.add("语文");
-        colNames.add("数学");
-        colNames.add("英语");
-        colNames.add("政治");
-        colNames.add("历史");
-        colNames.add("地理");
-        colNames.add("物理");
-        colNames.add("化学");
-        colNames.add("生物");
-    }
-
 
     /**
      *
@@ -86,37 +104,24 @@ public class FileDownloadController {
      */
     @RequestMapping(value = "/student/downloadExcel", method = {RequestMethod.POST, RequestMethod.GET})
     public void studentFileDownload(HttpServletResponse response) throws Exception {
-        List<String> rowNames = getStudentColumns();
-        Workbook workbook = ExcelUtils.createWorkbook(STUDENT_FILE_EXT);
-        Sheet sheet = workbook.createSheet(STUDENT_FILE);
-        Row row = sheet.createRow(0);
-        for (int i = 0; i < rowNames.size(); i++) {
-            Cell cell = row.createCell(i);
-            cell.setCellValue(rowNames.get(i));
-        }
-        returnFile(workbook, response, STUDENT_FILE, STUDENT_FILE_EXT);
+        returnFile(null, response, "学生导入模板", "student_import", ".xlsx");
     }
 
-    private List<String> getStudentColumns(){
-        LinkedList<String> studentColumns = new LinkedList<>();
-        studentColumns.add("姓名");
-        studentColumns.add("曾用名");
-        studentColumns.add("监护人手机");
-        studentColumns.add("身份证号");
-        studentColumns.add("性别");
-        studentColumns.add("出生年月");
-        studentColumns.add("户口所在地");
-        studentColumns.add("民族");
-        studentColumns.add("籍贯");
-        studentColumns.add("家庭住址");
-        studentColumns.add("qq号码");
-        studentColumns.add("微信号码");
-        studentColumns.add("学号");
-        studentColumns.add("年级");
-        studentColumns.add("班级");
-        studentColumns.add("班内职务");
-        return studentColumns;
+
+    @RequestMapping(value = "/test", method = {RequestMethod.POST, RequestMethod.GET})
+    public void getFileContent(HttpServletResponse response) throws Exception{
+        List<Org> orgList = new LinkedList<>();
+        Org org1 = new Org();
+        org1.setOrgName("xxxx");
+        Org org2 = new Org();
+        org2.setOrgName("yyyy");
+        orgList.add(org1);
+        orgList.add(org2);
+        Map<String, Object> beans = Maps.newHashMap();
+        beans.put("dataList", orgList);
+        returnFile(beans, response, "test", "test", ".xlsx");
     }
+
 
 
     public static void main(String[] args){

@@ -103,6 +103,21 @@
             });
         }
 
+        $scope.uploadScore = function(exam){
+            var dialog= ngDialog.open({
+                template: 'app/views/custom/performance/exam/edit-exam-score.html',
+                controller: 'EditExamScoreController',
+                className: 'ngdialog-theme-default custom-width-800',
+                data : exam
+            });
+            dialog.closePromise.then(function(data){
+                if(data.value != 'reload'){
+                    return;
+                }
+                $scope.examTableParams.reload();
+            });
+        }
+
 
 
     }

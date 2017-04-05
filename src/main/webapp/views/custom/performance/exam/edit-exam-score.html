@@ -1,0 +1,88 @@
+<div block-ui="edit-exam" class="container-fluid">
+
+    <div class="row">
+        <div class="col-md-12">
+            <h5 style="margin-top: 10px;">
+                <span class="icon-user"/>
+                上传成绩
+            </h5>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-md-12">
+            <label class="text-info">
+                <span>I 下载模板</span>
+                <button class="btn btn-info" ng-click="downloadExcel(item.examId)">下载成绩模板</button>
+            </label>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 30px;">
+        <div class="col-md-12">
+            <label class="text-info">
+                <span>II 上传成绩导入文件</span>
+            </label>
+
+            <div ng-controller="UploadScoreFileController as form" style="padding-top:10px;">
+                <input filestyle="" type="file" data-button-text="选择学生导入文件" data-class-button="btn btn-default"
+                       data-classinput="form-control inline" nv-file-select uploader="form.uploader"
+                       class="form-control" ng-disabled="form.uploader.queue.length >= 1"/>
+                <div ng-if="form.uploader.queue.length">
+                    <table ng-if="form.uploader.queue.length" class="table">
+                        <thead>
+                        <tr>
+                            <th width="30%">名称</th>
+                            <th ng-show="form.uploader.isHTML5">大小</th>
+                            <th ng-show="form.uploader.isHTML5">进度</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="item in form.uploader.queue">
+                            <td>
+                                <strong>{{ item.file.name }}</strong>
+                            </td>
+                            <td ng-show="form.uploader.isHTML5" nowrap="">{{ item.file.size/1024/1024|number:2 }}
+                                MB
+                            </td>
+                            <td ng-show="form.uploader.isHTML5">
+                                <div style="margin-bottom: 0;" class="progress progress-xs">
+                                    <div role="progressbar" ng-style="{ 'width': item.progress + '%' }"
+                                         class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                 <span ng-show="item.isSuccess">
+                                    <em class="fa fa-check fa-fw"></em>
+                                 </span>
+                                 <span ng-show="item.isCancel">
+                                    <em class="fa fa-ban-circle fa-fw"></em>
+                                 </span>
+                                 <span ng-show="item.isError">
+                                    <em class="fa fa-times fa-fw"></em>
+                                 </span>
+                            </td>
+                            <td nowrap="">
+                                <button type="button" ng-click="item.upload()"
+                                        ng-disabled="item.isReady || item.isUploading || item.isSuccess"
+                                        class="btn btn-info btn-xs">
+                                    <span class="icon-cloud-upload mr"></span>上传
+                                </button>
+                                <button type="button" ng-click="item.cancel()" ng-disabled="!item.isUploading"
+                                        class="btn btn-warning btn-xs">
+                                    <span class="icon-close mr"></span>取消
+                                </button>
+                                <button type="button" ng-click="item.remove()" class="btn btn-danger btn-xs">
+                                    <span class="icon-trash mr"></span>移除
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

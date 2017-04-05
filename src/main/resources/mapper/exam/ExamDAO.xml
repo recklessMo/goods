@@ -44,5 +44,11 @@
         update exam set uploadStatus = #{status} where exam_id = #{id}
     </update>
 
+    <select id="getExamById" resultType="com.recklessmo.model.exam.Exam">
+        select
+        <include refid="examColumns"/>
+        from exam
+        where exam_id = #{id}
+    </select>
 
 </mapper>

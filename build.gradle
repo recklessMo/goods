@@ -47,10 +47,10 @@ dependencies {
 	compile 'org.apache.logging.log4j:log4j-jcl:2.7'
 	//适配器, 下面的包是培育采用slf4j记录日志的库
 	compile 'org.apache.logging.log4j:log4j-slf4j-impl:2.7'
-
 	//xml
 	compile 'com.thoughtworks.xstream:xstream:1.4.9'
-
+	//for excel
+	compile 'net.sf.jett:jett-core:0.10.0'
 
 }
 
