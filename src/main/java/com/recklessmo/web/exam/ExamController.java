@@ -1,8 +1,10 @@
 package com.recklessmo.web.exam;
 
 import com.recklessmo.model.exam.Exam;
+import com.recklessmo.model.security.DefaultUserDetails;
 import com.recklessmo.response.JsonResponse;
 import com.recklessmo.service.exam.ExamService;
+import com.recklessmo.util.ContextUtils;
 import com.recklessmo.web.webmodel.page.ExamListPage;
 import com.recklessmo.web.webmodel.page.Page;
 import org.springframework.stereotype.Controller;
@@ -41,10 +43,15 @@ public class ExamController {
 
 
     @ResponseBody
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
     public JsonResponse addExam(@RequestBody Exam exam){
-
-
+        DefaultUserDetails defaultUserDetails = ContextUtils.getLoginUserDetail();
+        if(exam.getExamId() == 0) {
+            //新加
+            exam.setOrgId(defaultUserDetails.getOrgId());
+            exam.setUploadStatus(Exam.EXAM_UN_UPLOADED);
+            examService.addExam(exam);
+        }
         return new JsonResponse(200, null, null);
     }
 

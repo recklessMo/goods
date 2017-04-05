@@ -1,5 +1,4 @@
 [
   "node_modules/font-awesome/fonts/**",
-  "node_modules/simple-line-icons/fonts/**",
-  "src/main/webapp/fonts/**"
+  "node_modules/simple-line-icons/fonts/**"
 ]

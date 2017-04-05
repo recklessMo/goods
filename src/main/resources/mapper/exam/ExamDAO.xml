@@ -4,7 +4,7 @@
 <mapper namespace="com.recklessmo.dao.exam.ExamDAO">
 
     <sql id = "examColumns">
-        exam_id, exam_name, grade_id, class_id, type, upload_status
+        exam_id, exam_name, grade_id, class_id, type, upload_status, course_str
     </sql>
 
     <select id="listExam" resultType="com.recklessmo.model.exam.Exam">
@@ -29,6 +29,20 @@
             where exam_name like "%"#{searchStr}"%"
         </if>
     </select>
+
+    <insert id="addExam" parameterType="com.recklessmo.model.exam.Exam">
+        insert into exam
+        (
+          exam_name, grade_id, class_id, type, upload_status, course_str
+        )
+        values(
+          #{examName}, #{gradeId}, #{classId}, #{type}, #{uploadStatus}, #{courseStr}
+        )
+    </insert>
+
+    <update id="updateExam">
+        update exam set uploadStatus = #{status} where exam_id = #{id}
+    </update>
 
 
 </mapper>

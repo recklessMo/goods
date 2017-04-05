@@ -2,6 +2,7 @@ package com.recklessmo.dao.exam;
 
 import com.recklessmo.model.exam.Exam;
 import com.recklessmo.web.webmodel.page.Page;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -13,5 +14,9 @@ public interface ExamDAO {
     List<Exam> listExam(Page page);
 
     int listExamCount(Page page);
+
+    void addExam(Exam exam);
+
+    void updateExam(@Param("id") long id, @Param("status")int status);
 
 }

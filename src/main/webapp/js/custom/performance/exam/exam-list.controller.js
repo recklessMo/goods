@@ -89,48 +89,17 @@
             });
         }
 
-        $scope.show = function (userId){
+        $scope.add = function(userId) {
             var dialog= ngDialog.open({
-                template: 'app/views/custom/admin/account/edit-account.html',
-                controller: 'EditAccountController',
+                template: 'app/views/custom/performance/exam/edit-exam.html',
+                controller: 'EditExamController',
                 className: 'ngdialog-theme-default custom-width-800',
-                data : {id:userId, type:0}
             });
             dialog.closePromise.then(function(data){
                 if(data.value != 'reload'){
                     return;
                 }
-                $scope.userTableParams.reload();
-            });
-        };
-
-        $scope.edit = function(userId) {
-            var dialog= ngDialog.open({
-                template: 'app/views/custom/admin/account/edit-account.html',
-                controller: 'EditAccountController',
-                className: 'ngdialog-theme-default custom-width-800',
-                data : {id:userId, type:1}
-            });
-            dialog.closePromise.then(function(data){
-                if(data.value != 'reload'){
-                    return;
-                }
-                $scope.userTableParams.reload();
-            });
-        }
-
-        $scope.add = function(userId){
-            var dialog= ngDialog.open({
-                template: 'app/views/custom/admin/account/edit-account.html',
-                controller: 'EditAccountController',
-                className: 'ngdialog-theme-default custom-width-800',
-                data : {id:userId, type:2}
-            })
-            dialog.closePromise.then(function(data){
-                if(data.value != 'reload'){
-                    return;
-                }
-                $scope.userTableParams.reload();
+                $scope.examTableParams.reload();
             });
         }
 

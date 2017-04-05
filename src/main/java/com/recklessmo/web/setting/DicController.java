@@ -1,11 +1,16 @@
 package com.recklessmo.web.setting;
 
+import com.recklessmo.model.score.inner.CourseGapSetting;
+import com.recklessmo.model.security.DefaultUserDetails;
+import com.recklessmo.model.setting.Course;
 import com.recklessmo.model.setting.Grade;
 import com.recklessmo.model.setting.Group;
 import com.recklessmo.model.setting.Job;
 import com.recklessmo.response.JsonResponse;
+import com.recklessmo.service.setting.CourseSettingService;
 import com.recklessmo.service.setting.GradeSettingService;
 import com.recklessmo.service.setting.JobSettingService;
+import com.recklessmo.util.ContextUtils;
 import com.recklessmo.web.webmodel.page.GradePage;
 import com.recklessmo.web.webmodel.page.Page;
 import org.springframework.stereotype.Controller;
@@ -29,6 +34,9 @@ public class DicController {
 
     @Resource
     private JobSettingService jobSettingService;
+
+    @Resource
+    private CourseSettingService courseSettingService;
 
 
     @RequestMapping(value = "/grade/list", method = {RequestMethod.POST, RequestMethod.GET})
@@ -64,5 +72,21 @@ public class DicController {
         List<Job> jobs = jobSettingService.listJob(page);
         return new JsonResponse(200, jobs, null);
     }
+
+
+    @RequestMapping(value = "/course/list", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public JsonResponse courseList(){
+        DefaultUserDetails defaultUserDetails = ContextUtils.getLoginUserDetail();
+        Page page = new Page();
+        page.setOrgId(defaultUserDetails.getOrgId());
+        page.setPage(1);
+        page.setCount(100);
+        List<Course> courseList = courseSettingService.listCourse(page);
+        return new JsonResponse(200, courseList, null);
+    }
+
+
+
 
 }

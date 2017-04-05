@@ -11,6 +11,15 @@
         this.loadAllGrade = loadAllGrade;
         this.loadClassByGrade = loadClassByGrade;
         this.loadJobList = loadJobList;
+        this.loadCourseList = loadCourseList;
+
+        function loadCourseList(){
+            return $http({
+                method : "POST",
+                url: "/v1/dic/course/list",
+                timeout: 5000
+            });
+        }
 
         function loadAllGrade(){
             return $http({

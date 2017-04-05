@@ -1,0 +1,91 @@
+<div block-ui="edit-exam" class="container-fluid">
+
+    <div class="row">
+        <div class="col-md-12">
+            <h5 style="margin-top: 0;">
+                <span class="icon-user"/>
+                添加考试
+            </h5>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <label class="text-info">
+                <span>I 基本属性</span>
+            </label>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 30px;">
+        <div class="col-md-6">
+            <div class="input-group">
+                <span class="input-group-addon" style="color:red">所属年级</span>
+                <ui-select ng-model="exam.gradeId" theme="bootstrap"
+                           class="text-left" style="width:100%;" on-select="selectGrade($item)">
+                    <ui-select-match placeholder="选择年级">{{$select.selected.gradeName}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="grade.gradeId as grade in gradeList">
+                        <span ng-bind-html="grade.gradeName"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="input-group">
+                <span class="input-group-addon" style="color:red">所属班级</span>
+                <ui-select ng-model="exam.classId" theme="bootstrap"
+                           class="text-left" style="width:100%;">
+                    <ui-select-match placeholder="选择班级">{{$select.selected.className}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="class.classId as class in classList">
+                        <span ng-bind-html="class.className"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-md-6">
+            <div class="input-group">
+                <span class="input-group-addon" style="color:red">考试名称</span>
+                <input type="text" class="form-control"
+                       ng-model="exam.examName">
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="input-group">
+                <span class="input-group-addon" style="color:red">考试时间</span>
+                <input type="text" class="form-control" placeholder="yyyy-MM-dd" ng-model="exam.examTime"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-md-12">
+            <label class="text-info">
+                <span>II 考试科目</span>
+            </label>
+        </div>
+        <div class="col-md-12">
+            <ui-select multiple ng-model="exam.courseList" theme="bootstrap" close-on-select="false" title="选择科目"
+                       remove-selected="false">
+                <ui-select-match placeholder="选择科目">{{$item.courseName}};</ui-select-match>
+                <ui-select-choices repeat="course.id as course in courseList">
+                    <div ng-bind-html="course.courseName"></div>
+                </ui-select-choices>
+            </ui-select>
+        </div>
+    </div>
+
+    <div class="row" style="text-align: center;margin-top:50px;">
+        <div class="col-md-12" style="text-align: center;">
+            <button data-style="expand-left" ladda="loading" class="btn btn-primary" ng-click="save(exam)">保存</button>
+            <button class="btn btn-primary" ng-click="closeThisDialog('reload')">取消</button>
+        </div>
+    </div>
+
+</div>

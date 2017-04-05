@@ -9,6 +9,7 @@
     function ExamService($http) {
 
         this.loadExams = loadExams;
+        this.saveExam = saveExam;
 
         function loadExams(data){
             return $http({
@@ -16,6 +17,15 @@
                 data: data,
                 timeout: 5000,
                 url: "/v1/exam/list"
+            });
+        }
+
+        function saveExam(data){
+            return $http({
+                method : "POST",
+                data: data,
+                timeout: 5000,
+                url: "/v1/exam/save"
             });
         }
 

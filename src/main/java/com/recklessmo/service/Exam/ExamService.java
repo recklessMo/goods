@@ -26,4 +26,12 @@ public class ExamService {
         return examDAO.listExamCount(page);
     }
 
+    public void addExam(Exam exam){
+        examDAO.addExam(exam);
+    }
+
+    public void updateExam(Exam exam){
+
+    }
+
 }

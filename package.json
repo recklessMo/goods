@@ -5,6 +5,7 @@
   "author": "@themicon_co",
   "dependencies": {
     "angular": "^1.5.9",
+    "angular-datepicker": "^1.0.5",
     "echarts": "^3.2.3",
     "gulp-connect": "^2.3.1",
     "gulp-rev": "^7.0.0",
