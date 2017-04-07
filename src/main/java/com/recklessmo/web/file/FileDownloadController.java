@@ -63,24 +63,6 @@ public class FileDownloadController {
     @Resource
     private GradeSettingService gradeSettingService;
 
-
-    private void returnFile(Map<String, Object> beans, HttpServletResponse response, String fileName, String templateName, String fileExt) throws Exception{
-        if(beans == null){
-            beans = new HashMap<>();
-        }
-        response.setStatus(200);
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType("application/octet-stream;charset=UTF-8");
-        response.setHeader("Content-Disposition", "attachment;fileName=" + URLEncoder.encode(fileName + fileExt, "UTF-8"));
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("excel/" + templateName + fileExt);
-        ExcelTransformer transformer = new ExcelTransformer();
-        transformer.registerFuncs("dateFormat", new SimpleDateFormat("yyyy-MM-dd"));
-        Workbook workbook = transformer.transform(inputStream, beans);
-        Sheet sheet = workbook.getSheetAt(0);
-        workbook.write(response.getOutputStream());
-        response.getOutputStream().close();
-    }
-
     /**
      *
      * 下载成绩录入模板
@@ -135,6 +117,13 @@ public class FileDownloadController {
     }
 
 
+    /**
+     *
+     * 测试
+     *
+     * @param response
+     * @throws Exception
+     */
     @RequestMapping(value = "/test", method = {RequestMethod.POST, RequestMethod.GET})
     public void getFileContent(HttpServletResponse response) throws Exception{
         List<Org> orgList = new LinkedList<>();
@@ -149,6 +138,23 @@ public class FileDownloadController {
         returnFile(beans, response, "test", "test", ".xlsx");
     }
 
+
+    private void returnFile(Map<String, Object> beans, HttpServletResponse response, String fileName, String templateName, String fileExt) throws Exception{
+        if(beans == null){
+            beans = new HashMap<>();
+        }
+        response.setStatus(200);
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/octet-stream;charset=UTF-8");
+        response.setHeader("Content-Disposition", "attachment;fileName=" + URLEncoder.encode(fileName + fileExt, "UTF-8"));
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("excel/" + templateName + fileExt);
+        ExcelTransformer transformer = new ExcelTransformer();
+        transformer.registerFuncs("dateFormat", new SimpleDateFormat("yyyy-MM-dd"));
+        Workbook workbook = transformer.transform(inputStream, beans);
+        Sheet sheet = workbook.getSheetAt(0);
+        workbook.write(response.getOutputStream());
+        response.getOutputStream().close();
+    }
 
 
     public static void main(String[] args){

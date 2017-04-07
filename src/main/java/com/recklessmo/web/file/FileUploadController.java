@@ -180,7 +180,7 @@ public class FileUploadController {
                                 break;
                             case 11: studentAddInfo.setWechat(value);
                                 break;
-                            case 12: studentAddInfo.setSid(0);
+                            case 12: studentAddInfo.setSid("0");
                                 break;
                             case 13:
                                 studentAddInfo.setGradeName(value);
