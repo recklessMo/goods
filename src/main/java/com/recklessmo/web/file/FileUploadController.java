@@ -1,5 +1,6 @@
 package com.recklessmo.web.file;
 
+import com.recklessmo.model.exam.Exam;
 import com.recklessmo.model.score.CourseScore;
 import com.recklessmo.model.score.Score;
 import com.recklessmo.model.security.DefaultUserDetails;
@@ -7,6 +8,7 @@ import com.recklessmo.model.setting.Grade;
 import com.recklessmo.model.setting.Group;
 import com.recklessmo.model.student.StudentAddInfo;
 import com.recklessmo.response.JsonResponse;
+import com.recklessmo.service.exam.ExamService;
 import com.recklessmo.service.score.ScoreService;
 import com.recklessmo.service.setting.CourseSettingService;
 import com.recklessmo.service.setting.GradeSettingService;
@@ -48,6 +50,8 @@ public class FileUploadController {
     @Resource
     private CourseSettingService courseSettingService;
 
+    @Resource
+    private ExamService examService;
 
     /**
      * 上传成绩
@@ -74,6 +78,8 @@ public class FileUploadController {
                     //校验表头是否符合要求
                     if (checkHead(labelList, examId)) {
                         continue;
+                    }else{
+                        throw new Exception("表头不正确");
                     }
                 }
                 Score score = processRow(labelList, row, errMsg);
@@ -110,7 +116,9 @@ public class FileUploadController {
 
     private boolean checkHead(List<String> labelList, long examId) throws Exception {
         //check 是否表头有修改
-
+        if(!labelList.contains("学号")){
+            return false;
+        }
         return true;
     }
 
