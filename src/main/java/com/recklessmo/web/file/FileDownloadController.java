@@ -2,14 +2,21 @@ package com.recklessmo.web.file;
 
 import com.google.common.collect.Maps;
 import com.recklessmo.model.exam.Exam;
+import com.recklessmo.model.excel.StudentExcelModel;
 import com.recklessmo.model.security.DefaultUserDetails;
 import com.recklessmo.model.setting.Course;
+import com.recklessmo.model.setting.Grade;
+import com.recklessmo.model.setting.Group;
+import com.recklessmo.model.student.StudentAllInfo;
 import com.recklessmo.model.system.Org;
 import com.recklessmo.service.exam.ExamService;
 import com.recklessmo.service.setting.CourseSettingService;
+import com.recklessmo.service.setting.GradeSettingService;
+import com.recklessmo.service.student.StudentService;
 import com.recklessmo.util.ContextUtils;
 import com.recklessmo.util.excel.ExcelUtils;
 import com.recklessmo.web.webmodel.page.Page;
+import com.recklessmo.web.webmodel.page.StudentPage;
 import net.sf.jett.transform.ExcelTransformer;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.ss.usermodel.Cell;
@@ -49,6 +56,12 @@ public class FileDownloadController {
 
     @Resource
     private CourseSettingService courseSettingService;
+
+    @Resource
+    private StudentService studentService;
+
+    @Resource
+    private GradeSettingService gradeSettingService;
 
 
     private void returnFile(Map<String, Object> beans, HttpServletResponse response, String fileName, String templateName, String fileExt) throws Exception{
@@ -92,6 +105,20 @@ public class FileDownloadController {
         });
         Map<String, Object> beans = new HashMap<>();
         beans.put("columns", columns);
+        //根据考试选定的年级范围, 来将学生的学号姓名等自动导出
+        List<StudentExcelModel> dataList = new LinkedList<>();
+        List<StudentAllInfo> studentAllInfoList = studentService.getStudentListByGradeIdAndClassId(exam.getGradeId(), exam.getClassId());
+        Grade grade = gradeSettingService.getSingleGrade(exam.getGradeId());
+        Map<Long, String> classNameMap = grade.getClassList().stream().collect(Collectors.toMap(Group::getClassId, group -> group.getClassName()));
+        studentAllInfoList.stream().forEach(student -> {
+            StudentExcelModel studentExcelModel = new StudentExcelModel();
+            studentExcelModel.setGradeName(grade.getGradeName());
+            studentExcelModel.setClassName(classNameMap.get(student.getClassId()));
+            studentExcelModel.setName(student.getName());
+            studentExcelModel.setSid(student.getSid());
+            dataList.add(studentExcelModel);
+        });
+        beans.put("dataList", dataList);
         returnFile(beans, response, "成绩导入", "score_import",  ".xlsx");
     }
 

@@ -80,4 +80,12 @@
         limit 1
     </select>
 
+    <select id="getStudentListByGradeIdAndClassId" resultType="com.recklessmo.model.student.StudentAllInfo">
+        select * from student
+        where gradeId = #{gradeId}
+        <if test="classId != 0">
+            and class_id = #{classId}
+        </if>
+    </select>
+
 </mapper>

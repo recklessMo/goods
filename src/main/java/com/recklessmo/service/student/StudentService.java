@@ -93,4 +93,17 @@ public class StudentService {
         return studentDAO.getStudentAllInfoByWechatId(wechatId);
     }
 
+
+    /**
+     *
+     * 根据gradeid和classid来获取对应的学生信息
+     *
+     * @param gradeId
+     * @param classId
+     * @return
+     */
+    public List<StudentAllInfo> getStudentListByGradeIdAndClassId(long gradeId, long classId){
+        return studentDAO.getStudentListByGradeIdAndClassId(gradeId, classId);
+    }
+
 }

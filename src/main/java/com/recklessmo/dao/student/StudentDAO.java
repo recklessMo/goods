@@ -23,6 +23,7 @@ public interface StudentDAO {
     int getStudentAllInfoTotalCount(StudentPage page);
 
     StudentAllInfo getStudentAllInfoByWechatId(@Param("wechatId")String wechatId);
+    List<StudentAllInfo> getStudentListByGradeIdAndClassId(@Param("gradeId")long gradeId, @Param("classId")long classId);
 
 }
 

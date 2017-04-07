@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class StudentAddInfo {
 
-    private long sid;
+    private String sid;
 
     private String name="";
     private String otherName="";
@@ -91,11 +91,11 @@ public class StudentAddInfo {
         this.job = job;
     }
 
-    public long getSid() {
+    public String getSid() {
         return sid;
     }
 
-    public void setSid(long sid) {
+    public void setSid(String sid) {
         this.sid = sid;
     }
 

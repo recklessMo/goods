@@ -5,37 +5,26 @@ package com.recklessmo.web.webmodel.page;
  */
 public class StudentPage extends Page{
 
-    private String orgName;
-    private String gradeId;
-    private String classId;
+    private long gradeId;
+    private long classId;
     private int gender;
     private String searchStr;
 
-
-    public String getClassId() {
-        return classId;
-    }
-
-    public void setClassId(String classId) {
-        this.classId = classId;
-    }
-
-    public String getGradeId() {
+    public long getGradeId() {
         return gradeId;
     }
 
-    public void setGradeId(String gradeId) {
+    public void setGradeId(long gradeId) {
         this.gradeId = gradeId;
     }
 
-    public String getOrgName() {
-        return orgName;
+    public long getClassId() {
+        return classId;
     }
 
-    public void setOrgName(String orgName) {
-        this.orgName = orgName;
+    public void setClassId(long classId) {
+        this.classId = classId;
     }
-
 
     public int getGender() {
         return gender;
