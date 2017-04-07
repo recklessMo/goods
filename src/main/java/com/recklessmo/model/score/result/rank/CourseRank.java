@@ -1,4 +1,4 @@
-package com.recklessmo.model.score.result;
+package com.recklessmo.model.score.result.rank;
 
 
 import java.util.LinkedList;

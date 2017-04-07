@@ -3,16 +3,22 @@ package com.recklessmo.service.score;
 import com.recklessmo.model.score.CourseScore;
 import com.recklessmo.model.score.Score;
 import com.recklessmo.model.score.ScoreTemplate;
-import com.recklessmo.model.score.inner.CourseGapSetting;
 import com.recklessmo.model.score.inner.CourseTotalSetting;
-import com.recklessmo.model.score.result.*;
+import com.recklessmo.model.score.result.gap.CourseGap;
+import com.recklessmo.model.score.result.gap.GapInner;
+import com.recklessmo.model.score.result.gap.ScoreGap;
+import com.recklessmo.model.score.result.rank.CourseRank;
+import com.recklessmo.model.score.result.rank.RankGap;
+import com.recklessmo.model.score.result.rank.RankInner;
+import com.recklessmo.model.score.result.total.ClassTotal;
+import com.recklessmo.model.score.result.total.CourseTotal;
+import com.recklessmo.model.score.result.total.TotalInner;
 import com.recklessmo.model.setting.Group;
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  *
@@ -24,7 +30,7 @@ public class ScoreAnalyseService {
     private ScoreTemplateService scoreTemplateService;
 
 
-    private Map<Long, Group> getClassMap(List<Score> scoreList){
+    private Map<Long, Group> getClassMap(List<Score> scoreList) {
         return null;
     }
 
@@ -87,7 +93,7 @@ public class ScoreAnalyseService {
         return null;
     }
 
-    private void singleClass(Score score, ClassTotal classTotal, ScoreTemplate scoreTemplate){
+    private void singleClass(Score score, ClassTotal classTotal, ScoreTemplate scoreTemplate) {
         score.getCourseScoreList().stream().forEach(courseScore -> {
             TotalInner totalInner;
             Optional<TotalInner> data = classTotal.getCourseTotalList().stream().filter(m -> m.getName().equals(courseScore.getCourseName())).findAny();
@@ -146,14 +152,13 @@ public class ScoreAnalyseService {
 
 
     /**
-     *
      * 分数线分析, 分数线就基于学科来做
      * 基于班级的话不太好做, 有可能一个班级里面多个学科的分数段设置不同
-     *
+     * <p>
      * 这样界面不好看!
-     *
+     * <p>
      * 基于学科来做, 然后学科的每个班级下面会包括各个班级, 以及整个文科班理科班和全年级
-     *
+     * <p>
      * 以及重点班, 普通班等不同的班级类型
      *
      * @param newScores
@@ -179,7 +184,7 @@ public class ScoreAnalyseService {
                     gapInner = new GapInner(gap.getGapList().size());
                     gapInner.setClassName(score.getClassName());
                     gap.getGapInnerList().add(gapInner);
-                    Collections.sort(gap.getGapInnerList(), (o1,o2) -> o1.getClassName().compareTo(o2.getClassName()));
+                    Collections.sort(gap.getGapInnerList(), (o1, o2) -> o1.getClassName().compareTo(o2.getClassName()));
                 }
                 for (int i = 0; i < gap.getGapList().size(); i++) {
                     ScoreGap scoreGap = gap.getGapList().get(i);
@@ -194,7 +199,7 @@ public class ScoreAnalyseService {
 
     private List<ScoreGap> getGapList(ScoreTemplate scoreTemplate, String courseName) {
         List<ScoreGap> scoreGaps = new LinkedList<>();
-        scoreGaps.add(new ScoreGap(1d,20d));
+        scoreGaps.add(new ScoreGap(1d, 20d));
         scoreGaps.add(new ScoreGap(21d, 40d));
         scoreGaps.add(new ScoreGap(41d, 50d));
         scoreGaps.add(new ScoreGap(51d, 70d));
@@ -210,8 +215,13 @@ public class ScoreAnalyseService {
      * @return
      */
     public Object analyseRank(List<Score> scoreList, long templateId) {
+        //根据templateId获取模板参数
+        ScoreTemplate scoreTemplate = scoreTemplateService.get(templateId);
+        if (scoreTemplate == null) {
+//            return null;
+        }
         Map<String, CourseRank> rankMap = new HashedMap();
-        for (Score score : scoreList) {
+        scoreList.stream().forEach(score -> {
             for (CourseScore courseScore : score.getCourseScoreList()) {
                 CourseRank rank = rankMap.get(courseScore.getCourseName());
                 if (rank == null) {
@@ -250,7 +260,7 @@ public class ScoreAnalyseService {
                     }
                 }
             }
-        }
+        });
         return rankMap.values();
     }
 
@@ -267,7 +277,7 @@ public class ScoreAnalyseService {
     }
 
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         Integer a = new Integer(1000);
         int b = 1000;
         Integer c = new Integer(10);

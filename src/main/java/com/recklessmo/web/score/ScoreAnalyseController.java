@@ -1,14 +1,10 @@
 package com.recklessmo.web.score;
 
-import com.recklessmo.model.score.CourseScore;
 import com.recklessmo.model.score.Score;
-import com.recklessmo.model.score.result.CourseGap;
-import com.recklessmo.model.score.result.ScoreGap;
+import com.recklessmo.model.score.result.gap.CourseGap;
 import com.recklessmo.response.JsonResponse;
 import com.recklessmo.service.score.ScoreAnalyseService;
 import com.recklessmo.service.score.ScoreService;
-import com.recklessmo.util.score.ScoreUtils;
-import com.recklessmo.web.webmodel.page.ScoreListPage;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 

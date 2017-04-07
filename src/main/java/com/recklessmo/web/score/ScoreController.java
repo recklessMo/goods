@@ -2,7 +2,6 @@ package com.recklessmo.web.score;
 
 import com.recklessmo.model.score.Score;
 import com.recklessmo.service.score.ScoreService;
-import com.recklessmo.service.score.model.total.SingleCourseTotal;
 import com.recklessmo.util.score.ScoreUtils;
 import com.recklessmo.web.webmodel.page.ScoreListPage;
 import org.springframework.stereotype.Controller;

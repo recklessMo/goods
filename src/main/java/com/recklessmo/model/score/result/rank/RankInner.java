@@ -1,4 +1,4 @@
-package com.recklessmo.model.score.result;
+package com.recklessmo.model.score.result.rank;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -6,28 +6,28 @@ import java.util.List;
 /**
  * Created by hpf on 1/8/17.
  */
-public class GapInner {
+public class RankInner {
 
-    private String className;
+    private String cname;
     private List<Integer> countList=new LinkedList<>();
 
-    public GapInner(){
+    public RankInner(){
 
     }
 
-    public GapInner(int count){
+    public RankInner(int count){
         countList.clear();
         for(int i = 0 ; i < count; i++){
             countList.add(0);
         }
     }
 
-    public String getClassName() {
-        return className;
+    public String getCname() {
+        return cname;
     }
 
-    public void setClassName(String className) {
-        this.className = className;
+    public void setCname(String cname) {
+        this.cname = cname;
     }
 
     public List<Integer> getCountList() {

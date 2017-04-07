@@ -1,4 +1,4 @@
-package com.recklessmo.model.score.result;
+package com.recklessmo.model.score.result.rank;
 
 /**
  * Created by hpf on 1/8/17.

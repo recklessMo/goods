@@ -2,13 +2,9 @@ package com.recklessmo.service.score;
 
 import com.alibaba.fastjson.JSON;
 import com.recklessmo.dao.score.ScoreDAO;
-import com.recklessmo.dao.score.result.ScoreTotalDAO;
 import com.recklessmo.model.score.Score;
-import com.recklessmo.model.score.result.ScoreTotal;
 import com.recklessmo.model.setting.Grade;
 import com.recklessmo.model.setting.Group;
-import com.recklessmo.service.score.model.total.AllCourseTotal;
-import com.recklessmo.service.score.model.total.SingleCourseTotal;
 import com.recklessmo.service.setting.CourseSettingService;
 import com.recklessmo.service.setting.GradeSettingService;
 import com.recklessmo.web.webmodel.page.ScoreListPage;
@@ -29,8 +25,6 @@ public class ScoreService {
 
     @Resource
     private ScoreDAO scoreDAO;
-    @Resource
-    private ScoreTotalDAO scoreTotalDAO;
     @Resource
     private GradeSettingService gradeSettingService;
 

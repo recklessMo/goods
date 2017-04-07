@@ -1,12 +1,8 @@
-package com.recklessmo.model.score.result;
+package com.recklessmo.model.score.result.gap;
 
 
-import javafx.util.Pair;
-
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by hpf on 1/8/17.

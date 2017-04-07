@@ -1,20 +1,11 @@
 package com.recklessmo.web.wechat;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.recklessmo.constant.WechatConstants;
 import com.recklessmo.model.exam.Exam;
-import com.recklessmo.model.score.NewScore;
 import com.recklessmo.model.score.Score;
-import com.recklessmo.model.score.result.ClassTotal;
+import com.recklessmo.model.score.result.total.ClassTotal;
 import com.recklessmo.model.setting.Grade;
 import com.recklessmo.model.setting.Group;
 import com.recklessmo.model.student.StudentAllInfo;
-import com.recklessmo.model.system.Org;
-import com.recklessmo.model.wechat.WechatCallbackMsg;
-import com.recklessmo.model.wechat.WechatMessage;
-import com.recklessmo.model.wechat.WechatTicket;
-import com.recklessmo.model.wechat.WechatUser;
 import com.recklessmo.model.wechat.page.WechatIndexModel;
 import com.recklessmo.response.JsonResponse;
 import com.recklessmo.service.exam.ExamService;
@@ -23,24 +14,18 @@ import com.recklessmo.service.score.ScoreService;
 import com.recklessmo.service.setting.GradeSettingService;
 import com.recklessmo.service.student.StudentService;
 import com.recklessmo.service.system.OrgService;
-import com.recklessmo.service.wechat.*;
 import com.recklessmo.util.score.ScoreUtils;
 import com.recklessmo.util.wechat.WechatCookieUtils;
-import com.recklessmo.util.wechat.WechatUtils;
 import com.recklessmo.web.webmodel.page.ExamListPage;
 import com.recklessmo.web.webmodel.page.Page;
 import com.recklessmo.web.webmodel.page.ScoreListPage;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.http.HttpStatus;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.expression.spel.ast.OpNE;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
@@ -186,14 +171,15 @@ public class WechatRequestController {
         StudentAllInfo studentAllInfo = studentService.getStudentInfoByWechatId(openId);
         response.addHeader("Access-Control-Allow-Origin", "*");
 
-        ScoreListPage scoreListPage = new ScoreListPage();
-        scoreListPage.setExamId(eid);
-        scoreListPage.setSid(studentAllInfo.getSid());
-        scoreListPage.setPage(1);
-        scoreListPage.setCount(1);
-        List<Score> scores = scoreService.loadScoreList(scoreListPage);
-        List<NewScore> newScores = ScoreUtils.changeScoreToNewScore(scores);
-        return new JsonResponse(200, newScores.get(0), null);
+//        ScoreListPage scoreListPage = new ScoreListPage();
+//        scoreListPage.setExamId(eid);
+//        scoreListPage.setSid(studentAllInfo.getSid());
+//        scoreListPage.setPage(1);
+//        scoreListPage.setCount(1);
+//        List<Score> scores = scoreService.loadScoreList(scoreListPage);
+//        List<NewScore> newScores = ScoreUtils.changeScoreToNewScore(scores);
+//        return new JsonResponse(200, newScores.get(0), null);
+        return null;
     }
 
     /**
@@ -218,10 +204,11 @@ public class WechatRequestController {
         scoreListPage.setClassId(studentAllInfo.getClassId());
         scoreListPage.setPage(1);
         scoreListPage.setCount(1000);
-        List<Score> scores = scoreService.loadScoreList(scoreListPage);
-        List<NewScore> newScores = ScoreUtils.changeScoreToNewScore(scores);
-        Object result = scoreAnalyseService.analyseTotal(newScores, 1, 7);
-        return new JsonResponse(200, result, null);
+//        List<Score> scores = scoreService.loadScoreList(scoreListPage);
+//        List<NewScore> newScores = ScoreUtils.changeScoreToNewScore(scores);
+//        Object result = scoreAnalyseService.analyseTotal(newScores, 1, 7);
+//        return new JsonResponse(200, result, null);
+        return null;
     }
 
 
@@ -242,19 +229,20 @@ public class WechatRequestController {
         }
         StudentAllInfo studentAllInfo = studentService.getStudentInfoByWechatId(openId);
         response.addHeader("Access-Control-Allow-Origin", "*");
-        ScoreListPage scoreListPage = new ScoreListPage();
-        scoreListPage.setExamId(eid);
-        scoreListPage.setPage(1);
-        scoreListPage.setCount(10000);
-        List<Score> scores = scoreService.loadScoreList(scoreListPage);
-        List<NewScore> newScores = ScoreUtils.changeScoreToNewScore(scores);
-        Object result = scoreAnalyseService.analyseTotal(newScores, 1, 7);
-        Collection<ClassTotal> classTotalList = (Collection<ClassTotal>)result;
-        Optional<ClassTotal> classTotal = classTotalList.stream().filter(o->o.getClassId() == -3).findAny();
-        if(classTotal.isPresent()){
-            return new JsonResponse(200, classTotal.get(), null);
-        }
-        return new JsonResponse(200, null, null);
+//        ScoreListPage scoreListPage = new ScoreListPage();
+//        scoreListPage.setExamId(eid);
+//        scoreListPage.setPage(1);
+//        scoreListPage.setCount(10000);
+//        List<Score> scores = scoreService.loadScoreList(scoreListPage);
+//        List<NewScore> newScores = ScoreUtils.changeScoreToNewScore(scores);
+//        Object result = scoreAnalyseService.analyseTotal(newScores, 1, 7);
+//        Collection<ClassTotal> classTotalList = (Collection<ClassTotal>)result;
+//        Optional<ClassTotal> classTotal = classTotalList.stream().filter(o->o.getClassId() == -3).findAny();
+//        if(classTotal.isPresent()){
+//            return new JsonResponse(200, classTotal.get(), null);
+//        }
+//        return new JsonResponse(200, null, null);
+        return null;
     }
 
 
