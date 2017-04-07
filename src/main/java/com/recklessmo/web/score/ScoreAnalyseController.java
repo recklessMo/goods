@@ -1,7 +1,6 @@
 package com.recklessmo.web.score;
 
 import com.recklessmo.model.score.CourseScore;
-import com.recklessmo.model.score.NewScore;
 import com.recklessmo.model.score.Score;
 import com.recklessmo.model.score.result.CourseGap;
 import com.recklessmo.model.score.result.ScoreGap;
@@ -30,17 +29,6 @@ public class ScoreAnalyseController {
     private ScoreAnalyseService scoreAnalyseService;
 
 
-    private List<NewScore> getScoreList(long examId){
-        ScoreListPage page = new ScoreListPage();
-        page.setExamId(examId);
-        page.setPage(1);
-        page.setCount(100000);
-        List<Score> scoreList = scoreService.loadScoreList(page);
-        //根据classId获取全部的数据
-        List<NewScore> newScores = ScoreUtils.changeScoreToNewScore(scoreList);
-        return newScores;
-    }
-
     /**
      *
      * 整体分析结果
@@ -57,9 +45,9 @@ public class ScoreAnalyseController {
     @RequestMapping(value = "/total", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public JsonResponse analyzeTotal(@RequestParam("examId")long examId, @RequestParam("type")int type, @RequestParam("templateId")long templateId){
-        List<NewScore> newScores = getScoreList(examId);
+        List<Score> scoreList = scoreService.loadScoreByExamId(examId);
         //开始进行整体分析
-        Object result = scoreAnalyseService.analyseTotal(newScores, type, templateId);
+        Object result = scoreAnalyseService.analyseTotal(scoreList, type, templateId);
         return new JsonResponse(200, result, null);
     }
 
@@ -74,9 +62,9 @@ public class ScoreAnalyseController {
     @RequestMapping(value = "/gap", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public JsonResponse analyzeGap(@RequestParam("examId")long examId, @RequestParam("templateId")long templateId){
-        List<NewScore> newScores = getScoreList(examId);
+        List<Score> scoreList = scoreService.loadScoreByExamId(examId);
         //根据模板Id获取模板设置的数据
-        Collection<CourseGap> obj = scoreAnalyseService.analyseGap(newScores, templateId);
+        Collection<CourseGap> obj = scoreAnalyseService.analyseGap(scoreList, templateId);
         return new JsonResponse(200, obj, null);
     }
 
@@ -92,8 +80,8 @@ public class ScoreAnalyseController {
     @RequestMapping(value = "/rank", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public JsonResponse analyzeRank(@RequestParam("examId")long examId, @RequestParam("templateId")long templateId){
-        List<NewScore> newScores = getScoreList(examId);
-        Object obj = scoreAnalyseService.analyseRank(newScores, 0);
+        List<Score> scoreList = scoreService.loadScoreByExamId(examId);
+        Object obj = scoreAnalyseService.analyseRank(scoreList, 0);
         return new JsonResponse(200, obj, null);
     }
 
@@ -108,8 +96,8 @@ public class ScoreAnalyseController {
     @RequestMapping(value = "/avg", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public JsonResponse analyzeAvg(@RequestParam("examId")long examId, @RequestParam("templateId")long templateId){
-        List<NewScore> newScores = getScoreList(examId);
-        Object obj = scoreAnalyseService.analyseAvg(newScores, 0);
+        List<Score> scoreList = scoreService.loadScoreByExamId(examId);
+        Object obj = scoreAnalyseService.analyseAvg(scoreList, 0);
         return new JsonResponse(200, obj, null);
     }
 

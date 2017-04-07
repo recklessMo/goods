@@ -1,7 +1,7 @@
 package com.recklessmo.service.score;
 
 import com.recklessmo.model.score.CourseScore;
-import com.recklessmo.model.score.NewScore;
+import com.recklessmo.model.score.Score;
 import com.recklessmo.model.score.ScoreTemplate;
 import com.recklessmo.model.score.inner.CourseGapSetting;
 import com.recklessmo.model.score.inner.CourseTotalSetting;
@@ -24,7 +24,7 @@ public class ScoreAnalyseService {
     private ScoreTemplateService scoreTemplateService;
 
 
-    private Map<Long, Group> getClassMap(List<NewScore> scoreList){
+    private Map<Long, Group> getClassMap(List<Score> scoreList){
         return null;
     }
 
@@ -39,7 +39,7 @@ public class ScoreAnalyseService {
      * type为1代表班级维度
      * type为2代表学科维度
      */
-    public Object analyseTotal(List<NewScore> scoreList, int type, long templateId) {
+    public Object analyseTotal(List<Score> scoreList, int type, long templateId) {
         //根据templateId获取模板参数
         ScoreTemplate scoreTemplate = scoreTemplateService.get(templateId);
         if (scoreTemplate == null) {
@@ -50,16 +50,16 @@ public class ScoreAnalyseService {
         //班级维度
         if (type == 1) {
             Map<Long, ClassTotal> result = new HashMap<>();
-            scoreList.stream().forEach(newScore -> {
+            scoreList.stream().forEach(score -> {
                 //加入对应的分开班级
-                ClassTotal classTotal = result.getOrDefault(newScore.getClassId(), new ClassTotal(newScore.getClassId(), newScore.getClassName()));
-                result.put(newScore.getClassId(), classTotal);
-                singleClass(newScore, classTotal, scoreTemplate);
+                ClassTotal classTotal = result.getOrDefault(score.getClassId(), new ClassTotal(score.getClassId(), score.getClassName()));
+                result.put(score.getClassId(), classTotal);
+                singleClass(score, classTotal, scoreTemplate);
                 //todo 加入文理科, 文科-1, 理科-2
                 // 整体分析, 全体-3
                 ClassTotal all = result.getOrDefault(-3L, new ClassTotal(-3L, "全年级"));
                 result.put(-3L, all);
-                singleClass(newScore, all, scoreTemplate);
+                singleClass(score, all, scoreTemplate);
             });
             result.values().stream().forEach(item -> item.getCourseTotalList().stream().forEach(totalInner -> processAfterTotalInner(totalInner)));
             return result.values();
@@ -87,8 +87,8 @@ public class ScoreAnalyseService {
         return null;
     }
 
-    private void singleClass(NewScore newScore, ClassTotal classTotal, ScoreTemplate scoreTemplate){
-        newScore.getCourseScoreList().stream().forEach(courseScore -> {
+    private void singleClass(Score score, ClassTotal classTotal, ScoreTemplate scoreTemplate){
+        score.getCourseScoreList().stream().forEach(courseScore -> {
             TotalInner totalInner;
             Optional<TotalInner> data = classTotal.getCourseTotalList().stream().filter(m -> m.getName().equals(courseScore.getCourseName())).findAny();
             if (data.isPresent()) {
@@ -160,14 +160,14 @@ public class ScoreAnalyseService {
      * @param templateId
      * @return
      */
-    public Collection<CourseGap> analyseGap(List<NewScore> newScores, long templateId) {
+    public Collection<CourseGap> analyseGap(List<Score> scoreList, long templateId) {
         //根据templateId获取模板参数
         ScoreTemplate scoreTemplate = scoreTemplateService.get(templateId);
         if (scoreTemplate == null) {
 //            return null;
         }
         Map<String, CourseGap> gapMap = new HashedMap();
-        newScores.stream().forEach(score -> {
+        scoreList.stream().forEach(score -> {
             score.getCourseScoreList().stream().forEach(courseScore -> {
                 CourseGap gap = gapMap.getOrDefault(courseScore.getCourseName(), new CourseGap(courseScore.getCourseName(), getGapList(scoreTemplate, courseScore.getCourseName())));
                 gapMap.put(courseScore.getCourseName(), gap);
@@ -209,9 +209,9 @@ public class ScoreAnalyseService {
      * @param templateId
      * @return
      */
-    public Object analyseRank(List<NewScore> newScores, long templateId) {
+    public Object analyseRank(List<Score> scoreList, long templateId) {
         Map<String, CourseRank> rankMap = new HashedMap();
-        for (NewScore score : newScores) {
+        for (Score score : scoreList) {
             for (CourseScore courseScore : score.getCourseScoreList()) {
                 CourseRank rank = rankMap.get(courseScore.getCourseName());
                 if (rank == null) {
@@ -261,7 +261,7 @@ public class ScoreAnalyseService {
      * @param templateId
      * @return
      */
-    public Object analyseAvg(List<NewScore> newScores, long templateId) {
+    public Object analyseAvg(List<Score> scoreList, long templateId) {
         Map<String, CourseRank> rankMap = new HashedMap();
         return rankMap.values();
     }

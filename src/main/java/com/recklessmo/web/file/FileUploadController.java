@@ -1,6 +1,5 @@
 package com.recklessmo.web.file;
 
-import com.recklessmo.model.exam.Exam;
 import com.recklessmo.model.score.CourseScore;
 import com.recklessmo.model.score.Score;
 import com.recklessmo.model.security.DefaultUserDetails;
@@ -78,7 +77,7 @@ public class FileUploadController {
                     //校验表头是否符合要求
                     if (checkHead(labelList, examId)) {
                         continue;
-                    }else{
+                    } else {
                         throw new Exception("表头不正确");
                     }
                 }
@@ -92,10 +91,11 @@ public class FileUploadController {
         //处理score list
         if (errMsg.length() > 0) {
             //返回错误信息
+            return new JsonResponse(300, "数据错误!", null);
         } else {
             scoreService.insertScoreList(data);
+            return new JsonResponse(200, null, null);
         }
-        return new JsonResponse(200, null, null);
     }
 
 
@@ -116,7 +116,7 @@ public class FileUploadController {
 
     private boolean checkHead(List<String> labelList, long examId) throws Exception {
         //check 是否表头有修改
-        if(!labelList.contains("学号")){
+        if (!labelList.contains("学号")) {
             return false;
         }
         return true;
@@ -126,27 +126,40 @@ public class FileUploadController {
         Score score = new Score();
         DataFormatter dataFormatter = new DataFormatter();
         for (int j = row.getFirstCellNum(); j < row.getLastCellNum(); j++) {
+            String label = labelList.get(j);
             Cell cell = row.getCell(j, Row.RETURN_BLANK_AS_NULL);
-            if (cell != null) {
-                //处理值;都转换成string之后进行具体解析
-                String value = dataFormatter.formatCellValue(cell);
-                String label = labelList.get(j);
-                if("学号".equals(label)){
-                    score.setSid(value);
-                }else if("年级".equals(label) || "班级".equals(label) || "姓名".equals(label)){
-                }else{
-                    CourseScore courseScore = new CourseScore();
-                    courseScore.setCourseName(label);
-                    courseScore.setScore(Double.parseDouble(value));
-                    score.getCourseScoreList().add(courseScore);
+            if ("年级".equals(label) || "班级".equals(label) || "姓名".equals(label)) {
+            } else if("年级ID".equals(label) || "班级ID".equals(label) || "学号".equals(label)){
+                if (cell != null) {
+                    String value = dataFormatter.formatCellValue(cell);
+                    if("年级ID".equals(label)){
+                        score.setGradeId(Long.parseLong(value));
+                    }else if("班级ID".equals(label)){
+                        score.setClassId(Long.parseLong(value));
+                    }else {
+                        score.setSid(value);
+                    }
+                } else {
+                    int rowNumber = row.getRowNum();
+                    sb.append("第");
+                    sb.append(rowNumber);
+                    sb.append("行, 第");
+                    sb.append(j);
+                    sb.append("列, 为空");
                 }
             } else {
-                int rowNumber = row.getRowNum();
-                sb.append("第");
-                sb.append(rowNumber);
-                sb.append("行, 第");
-                sb.append(j);
-                sb.append("列, 为空");
+                CourseScore courseScore = new CourseScore();
+                courseScore.setCourseName(label);
+                if (cell != null) {
+                    String value = dataFormatter.formatCellValue(cell);
+                    //处理值;都转换成string之后进行具体解析
+                    courseScore.setScore(Double.parseDouble(value));
+                } else {
+                    //增加缺考标记
+                    courseScore.setFlag(1);
+                    courseScore.setScore(0.0);
+                }
+                score.getCourseScoreList().add(courseScore);
             }
         }
         return score;

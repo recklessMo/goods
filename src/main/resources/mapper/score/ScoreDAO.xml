@@ -4,14 +4,14 @@
 <mapper namespace="com.recklessmo.dao.score.ScoreDAO">
 
     <sql id = "columns">
-        exam_id, sid, cid, cname, total ,chinese, math, english, polotics, history, geo, physics, chemistry, biology
+        exam_id, sid, gid, cid, detail
     </sql>
 
 
     <insert id="insertList" parameterType="com.recklessmo.model.score.Score">
-        insert into score(exam_id, sid, chinese, math, english, polotics, history, geo, physics, chemistry, biology) values
+        insert into score(exam_id, sid, gid, cid, detail) values
         <foreach collection="scoreList" item="item" separator=",">
-            (#{item.examId}, #{item.sid}, #{item.chinese}, #{item.math}, #{item.english}, #{item.polotics}, #{item.history}, #{item.geo}, #{item.physics}, #{item.chemistry}, #{item.biology})
+            (#{item.examId}, #{item.sid}, #{item.gradeId}, #{classId}, #{detail})
         </foreach>
     </insert>
 
@@ -30,6 +30,12 @@
         </where>
         limit #{startIndex}, #{count}
     </select>
-    
+
+    <select id="getScoreListByExamId" resultType="com.recklessmo.model.score.Score">
+        select
+        <include refid="columns"/>
+        from scroe
+        where exam_id = #{examId}
+    </select>
 
 </mapper>

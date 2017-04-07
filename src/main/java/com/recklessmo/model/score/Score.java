@@ -19,6 +19,10 @@ public class Score {
     //json存储每次考试对应的成绩详情
     private String detail;
     //对应的内部数据结构
+    private long gradeId;
+    private String gradeName;
+    private long classId;
+    private String className;
     private List<CourseScore> courseScoreList = new LinkedList<>();
 
     public String getDetail() {
@@ -30,6 +34,38 @@ public class Score {
         if(StringUtils.isNotEmpty(detail)) {
             courseScoreList = JSON.parseObject(detail, new TypeReference<List<CourseScore>>(){});
         }
+    }
+
+    public String getGradeName() {
+        return gradeName;
+    }
+
+    public void setGradeName(String gradeName) {
+        this.gradeName = gradeName;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
+    }
+
+    public long getGradeId() {
+        return gradeId;
+    }
+
+    public void setGradeId(long gradeId) {
+        this.gradeId = gradeId;
+    }
+
+    public long getClassId() {
+        return classId;
+    }
+
+    public void setClassId(long classId) {
+        this.classId = classId;
     }
 
     public List<CourseScore> getCourseScoreList() {

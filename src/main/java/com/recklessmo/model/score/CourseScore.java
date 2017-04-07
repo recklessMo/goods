@@ -12,6 +12,8 @@ public class CourseScore {
     private String courseName;
     private double score;
     private int rank;
+    //标记是否缺考
+    private int flag;
 
     public CourseScore(){
 
@@ -21,6 +23,15 @@ public class CourseScore {
         this.courseName = courseName;
         this.score = score;
         this.rank = rank;
+    }
+
+
+    public int getFlag() {
+        return flag;
+    }
+
+    public void setFlag(int flag) {
+        this.flag = flag;
     }
 
     public String getCourseName() {

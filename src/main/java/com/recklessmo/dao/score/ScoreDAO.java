@@ -14,5 +14,6 @@ public interface ScoreDAO {
     void insertList(@Param("scoreList") List<Score> scoreList);
     List<Score> getList(ScoreListPage page);
 
+    List<Score> getScoreListByExamId(@Param("examId")long examId);
 
 }
