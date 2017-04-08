@@ -8,10 +8,10 @@
     </sql>
 
 
-    <insert id="insertList" parameterType="com.recklessmo.model.score.Score">
-        insert into score(exam_id, sid, gid, cid, detail) values
+    <insert id="insertList">
+        replace into score(exam_id, sid, gid, cid, detail) values
         <foreach collection="scoreList" item="item" separator=",">
-            (#{item.examId}, #{item.sid}, #{item.gradeId}, #{classId}, #{detail})
+            (#{item.examId}, #{item.sid}, #{item.gradeId}, #{item.classId}, #{item.detail})
         </foreach>
     </insert>
 

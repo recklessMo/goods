@@ -88,4 +88,13 @@
         </if>
     </select>
 
+    <select id="getStudentGradeInfoBySidList" resultType="com.recklessmo.model.student.StudentGradeInfo">
+        select id, sid, grade_id, class_id
+        from student
+        where sid in
+        <foreach collection="sidList" item="sid" open="(" close=")" separator=",">
+            #{sid}
+        </foreach>
+    </select>
+
 </mapper>

@@ -215,8 +215,6 @@
                 myChart.setOption(option);
             });
         }
-
-
     }
 
 })();

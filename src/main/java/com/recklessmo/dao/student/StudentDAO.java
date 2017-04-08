@@ -3,6 +3,7 @@ package com.recklessmo.dao.student;
 import com.recklessmo.model.student.StudentAddInfo;
 import com.recklessmo.model.student.StudentAllInfo;
 import com.recklessmo.model.student.StudentBaseInfo;
+import com.recklessmo.model.student.StudentGradeInfo;
 import com.recklessmo.web.webmodel.page.StudentPage;
 import org.apache.ibatis.annotations.Param;
 
@@ -24,6 +25,8 @@ public interface StudentDAO {
 
     StudentAllInfo getStudentAllInfoByWechatId(@Param("wechatId")String wechatId);
     List<StudentAllInfo> getStudentListByGradeIdAndClassId(@Param("gradeId")long gradeId, @Param("classId")long classId);
+
+    List<StudentGradeInfo> getStudentGradeInfoBySidList(@Param("sidList")List<String> sidList);
 
 }
 

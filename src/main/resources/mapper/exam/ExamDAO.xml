@@ -3,31 +3,36 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.recklessmo.dao.exam.ExamDAO">
 
-    <sql id = "examColumns">
+    <sql id="examColumns">
         exam_id, exam_name, grade_id, class_id, type, upload_status, course_str
     </sql>
 
     <select id="listExam" resultType="com.recklessmo.model.exam.Exam">
-      select
-      <include refid="examColumns"/>
-      from exam
-      <where>
-        <if test="0 != classId">
-          class_id = #{classId}
-        </if>
-        <if test="null != searchStr and '' != searchStr">
-          where exam_name like "%"#{searchStr}"%"
-        </if>
-      </where>
-      limit #{startIndex}, #{count}
+        select
+        <include refid="examColumns"/>
+        from exam
+        <where>
+            <if test="0 != classId">
+                class_id = #{classId}
+            </if>
+            <if test="null != searchStr and '' != searchStr">
+                and exam_name like "%"#{searchStr}"%"
+            </if>
+        </where>
+        limit #{startIndex}, #{count}
     </select>
 
     <select id="listExamCount" resultType="java.lang.Integer">
         select count(1)
         from exam
-        <if test="null != searchStr and '' != searchStr">
-            where exam_name like "%"#{searchStr}"%"
-        </if>
+        <where>
+            <if test="0 != classId">
+                class_id = #{classId}
+            </if>
+            <if test="null != searchStr and '' != searchStr">
+                and exam_name like "%"#{searchStr}"%"
+            </if>
+        </where>
     </select>
 
     <insert id="addExam" parameterType="com.recklessmo.model.exam.Exam">

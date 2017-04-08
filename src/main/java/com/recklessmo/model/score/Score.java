@@ -36,6 +36,8 @@ public class Score {
         }
     }
 
+
+
     public String getGradeName() {
         return gradeName;
     }

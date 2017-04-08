@@ -4,6 +4,7 @@ import com.recklessmo.dao.student.StudentDAO;
 import com.recklessmo.model.student.StudentAddInfo;
 import com.recklessmo.model.student.StudentAllInfo;
 import com.recklessmo.model.student.StudentBaseInfo;
+import com.recklessmo.model.student.StudentGradeInfo;
 import com.recklessmo.web.webmodel.page.StudentPage;
 import org.springframework.security.web.authentication.preauth.x509.SubjectDnX509PrincipalExtractor;
 import org.springframework.stereotype.Service;
@@ -104,6 +105,11 @@ public class StudentService {
      */
     public List<StudentAllInfo> getStudentListByGradeIdAndClassId(long gradeId, long classId){
         return studentDAO.getStudentListByGradeIdAndClassId(gradeId, classId);
+    }
+
+
+    public List<StudentGradeInfo> getStudentGradeInfoBySidList(List<String> sidList){
+        return studentDAO.getStudentGradeInfoBySidList(sidList);
     }
 
 }

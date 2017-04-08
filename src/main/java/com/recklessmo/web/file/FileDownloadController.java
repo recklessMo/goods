@@ -88,19 +88,19 @@ public class FileDownloadController {
         Map<String, Object> beans = new HashMap<>();
         beans.put("columns", columns);
         //根据考试选定的年级范围, 来将学生的学号姓名等自动导出
-        List<StudentExcelModel> dataList = new LinkedList<>();
-        List<StudentAllInfo> studentAllInfoList = studentService.getStudentListByGradeIdAndClassId(exam.getGradeId(), exam.getClassId());
-        Grade grade = gradeSettingService.getSingleGrade(exam.getGradeId());
-        Map<Long, String> classNameMap = grade.getClassList().stream().collect(Collectors.toMap(Group::getClassId, group -> group.getClassName()));
-        studentAllInfoList.stream().forEach(student -> {
-            StudentExcelModel studentExcelModel = new StudentExcelModel();
-            studentExcelModel.setGradeName(grade.getGradeName());
-            studentExcelModel.setClassName(classNameMap.get(student.getClassId()));
-            studentExcelModel.setName(student.getName());
-            studentExcelModel.setSid(student.getSid());
-            dataList.add(studentExcelModel);
-        });
-        beans.put("dataList", dataList);
+//        List<StudentExcelModel> dataList = new LinkedList<>();
+//        List<StudentAllInfo> studentAllInfoList = studentService.getStudentListByGradeIdAndClassId(exam.getGradeId(), exam.getClassId());
+//        Grade grade = gradeSettingService.getSingleGrade(exam.getGradeId());
+//        Map<Long, String> classNameMap = grade.getClassList().stream().collect(Collectors.toMap(Group::getClassId, group -> group.getClassName()));
+//        studentAllInfoList.stream().forEach(student -> {
+//            StudentExcelModel studentExcelModel = new StudentExcelModel();
+//            studentExcelModel.setGradeName(grade.getGradeName());
+//            studentExcelModel.setClassName(classNameMap.get(student.getClassId()));
+//            studentExcelModel.setName(student.getName());
+//            studentExcelModel.setSid(student.getSid());
+//            dataList.add(studentExcelModel);
+//        });
+//        beans.put("dataList", dataList);
         returnFile(beans, response, "成绩导入", "score_import",  ".xlsx");
     }
 

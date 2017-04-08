@@ -1,11 +1,13 @@
 package com.recklessmo.web.file;
 
+import com.recklessmo.model.exam.Exam;
 import com.recklessmo.model.score.CourseScore;
 import com.recklessmo.model.score.Score;
 import com.recklessmo.model.security.DefaultUserDetails;
 import com.recklessmo.model.setting.Grade;
 import com.recklessmo.model.setting.Group;
 import com.recklessmo.model.student.StudentAddInfo;
+import com.recklessmo.model.student.StudentGradeInfo;
 import com.recklessmo.response.JsonResponse;
 import com.recklessmo.service.exam.ExamService;
 import com.recklessmo.service.score.ScoreService;
@@ -24,10 +26,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * 用于文件上传
@@ -81,7 +82,7 @@ public class FileUploadController {
                         throw new Exception("表头不正确");
                     }
                 }
-                Score score = processRow(labelList, row, errMsg);
+                Score score = processRow(examId, labelList, row, errMsg);
                 data.add(score);
             }
         } else {
@@ -93,11 +94,30 @@ public class FileUploadController {
             //返回错误信息
             return new JsonResponse(300, "数据错误!", null);
         } else {
+            preProcessData(data);
             scoreService.insertScoreList(data);
             return new JsonResponse(200, null, null);
         }
     }
 
+    private void preProcessData(List<Score> scoreList){
+        List<Grade> gradeList = gradeSettingService.listAllGrade();
+        Map<Long, Grade> gradeMap = gradeList.stream().collect(Collectors.toMap(Grade::getGradeId, Function.identity()));
+        List<String> sidList = scoreList.stream().map(o->o.getSid()).collect(Collectors.toList());
+        List<StudentGradeInfo> studentGradeInfoList = studentService.getStudentGradeInfoBySidList(sidList);
+        Map<String, StudentGradeInfo> studentGradeInfoMap = studentGradeInfoList.stream().collect(Collectors.toMap(StudentGradeInfo::getSid, Function.identity()));
+        scoreList.stream().forEach(item -> {
+            StudentGradeInfo studentGradeInfo = studentGradeInfoMap.get(item.getSid());
+            Grade grade = gradeMap.get(studentGradeInfo.getGradeId());
+            item.setGradeId(studentGradeInfo.getGradeId());
+            item.setClassId(studentGradeInfo.getClassId());
+            item.setGradeName(gradeMap.get(studentGradeInfo.getGradeId()).getGradeName());
+            Optional<Group> groupOptional = grade.getClassList().stream().filter(o -> o.getClassId() == studentGradeInfo.getClassId()).findAny();
+            if(groupOptional.isPresent()){
+                item.setClassName(groupOptional.get().getClassName());
+            }
+        });
+    }
 
     private List<String> processHeadLabel(Row row) throws Exception {
         List<String> labelList = new LinkedList<>();
@@ -108,7 +128,7 @@ public class FileUploadController {
             if (cell == null) {
                 throw new Exception("表头不能为空");
             } else {
-                labelList.add(cell.getStringCellValue());
+                labelList.add(cell.getStringCellValue().trim());
             }
         }
         return labelList;
@@ -122,8 +142,9 @@ public class FileUploadController {
         return true;
     }
 
-    private Score processRow(List<String> labelList, Row row, StringBuilder sb) throws Exception {
+    private Score processRow(long examId, List<String> labelList, Row row, StringBuilder sb) throws Exception {
         Score score = new Score();
+        score.setExamId(examId);
         DataFormatter dataFormatter = new DataFormatter();
         for (int j = row.getFirstCellNum(); j < row.getLastCellNum(); j++) {
             String label = labelList.get(j);
