@@ -109,12 +109,10 @@
         /*******************************上面部分是公用的代码,主要负责考试选择,模板选择,年级选择************************************************************/
         //显示表格
         $scope.headList = [];
-        $scope.tableList = [];
         $scope.showTables = function(){
             $scope.resultList.forEach(
                 function(item) {
                     $scope.headList.push(item.gapList);
-                    $scope.tableList.push(item.gapCount);
                 }
             );
             $scope.flag.show = 1;

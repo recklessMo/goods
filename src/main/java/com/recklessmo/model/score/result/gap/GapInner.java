@@ -8,6 +8,7 @@ import java.util.List;
  */
 public class GapInner {
 
+    private long cid;
     private String className;
     private List<Integer> countList=new LinkedList<>();
 
@@ -20,6 +21,14 @@ public class GapInner {
         for(int i = 0 ; i < count; i++){
             countList.add(0);
         }
+    }
+
+    public long getCid() {
+        return cid;
+    }
+
+    public void setCid(long cid) {
+        this.cid = cid;
     }
 
     public String getClassName() {

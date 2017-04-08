@@ -174,14 +174,15 @@ public class ScoreAnalyseService {
         Map<String, CourseGap> gapMap = new HashedMap();
         scoreList.stream().forEach(score -> {
             score.getCourseScoreList().stream().forEach(courseScore -> {
-                CourseGap gap = gapMap.getOrDefault(courseScore.getCourseName(), new CourseGap(courseScore.getCourseName(), getGapList(scoreTemplate, courseScore.getCourseName())));
+                CourseGap gap = gapMap.getOrDefault(courseScore.getCourseName(), new CourseGap(courseScore.getCourseName(), getScoreGapList(scoreTemplate, courseScore.getCourseName())));
                 gapMap.put(courseScore.getCourseName(), gap);
                 GapInner gapInner;
-                Optional<GapInner> temp = gap.getGapInnerList().stream().filter(m -> m.getClassName().equals(score.getClassName())).findAny();
+                Optional<GapInner> temp = gap.getGapInnerList().stream().filter(m -> m.getCid() == score.getClassId()).findAny();
                 if (temp.isPresent()) {
                     gapInner = temp.get();
                 } else {
                     gapInner = new GapInner(gap.getGapList().size());
+                    gapInner.setCid(score.getClassId());
                     gapInner.setClassName(score.getClassName());
                     gap.getGapInnerList().add(gapInner);
                     Collections.sort(gap.getGapInnerList(), (o1, o2) -> o1.getClassName().compareTo(o2.getClassName()));
@@ -197,7 +198,7 @@ public class ScoreAnalyseService {
         return gapMap.values();
     }
 
-    private List<ScoreGap> getGapList(ScoreTemplate scoreTemplate, String courseName) {
+    private List<ScoreGap> getScoreGapList(ScoreTemplate scoreTemplate, String courseName) {
         List<ScoreGap> scoreGaps = new LinkedList<>();
         scoreGaps.add(new ScoreGap(1d, 20d));
         scoreGaps.add(new ScoreGap(21d, 40d));
@@ -227,28 +228,16 @@ public class ScoreAnalyseService {
                 if (rank == null) {
                     rank = new CourseRank();
                     rank.setName(courseScore.getCourseName());
-                    List<RankGap> gapList = new LinkedList<>();
-                    gapList.add(new RankGap(1, 10));
-                    gapList.add(new RankGap(11, 20));
-                    gapList.add(new RankGap(21, 30));
-                    gapList.add(new RankGap(31, 40));
-                    gapList.add(new RankGap(41, 50));
-                    gapList.add(new RankGap(51, 60));
-                    gapList.add(new RankGap(61, 70));
-                    gapList.add(new RankGap(71, 80));
-                    gapList.add(new RankGap(81, 90));
-                    gapList.add(new RankGap(91, 100));
-                    gapList.add(new RankGap(101, 100000));
-                    rank.setGapList(gapList);
+                    rank.setGapList(getRankGapList());
                     rankMap.put(courseScore.getCourseName(), rank);
                 }
-
                 RankInner rankInner;
-                Optional<RankInner> temp = rank.getGapInnerList().stream().filter(m -> m.getCname().equals(score.getClassName())).findAny();
+                Optional<RankInner> temp = rank.getGapInnerList().stream().filter(m -> m.getCid() == score.getClassId()).findAny();
                 if (temp.isPresent()) {
                     rankInner = temp.get();
                 } else {
                     rankInner = new RankInner(rank.getGapList().size());
+                    rankInner.setCid(score.getClassId());
                     rankInner.setCname(score.getClassName());
                     rank.getGapInnerList().add(rankInner);
                 }
@@ -262,6 +251,22 @@ public class ScoreAnalyseService {
             }
         });
         return rankMap.values();
+    }
+
+    private List<RankGap> getRankGapList(){
+        List<RankGap> gapList = new LinkedList<>();
+        gapList.add(new RankGap(1, 10));
+        gapList.add(new RankGap(11, 20));
+        gapList.add(new RankGap(21, 30));
+        gapList.add(new RankGap(31, 40));
+        gapList.add(new RankGap(41, 50));
+        gapList.add(new RankGap(51, 60));
+        gapList.add(new RankGap(61, 70));
+        gapList.add(new RankGap(71, 80));
+        gapList.add(new RankGap(81, 90));
+        gapList.add(new RankGap(91, 100));
+        gapList.add(new RankGap(101, 100000));
+        return gapList;
     }
 
     /**
