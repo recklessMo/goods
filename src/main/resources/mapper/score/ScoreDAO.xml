@@ -34,7 +34,7 @@
     <select id="getScoreListByExamId" resultType="com.recklessmo.model.score.Score">
         select
         <include refid="columns"/>
-        from scroe
+        from score
         where exam_id = #{examId}
     </select>
 

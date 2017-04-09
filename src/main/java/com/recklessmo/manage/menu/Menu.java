@@ -21,7 +21,9 @@ public class Menu{
 
 
             new Menu(101, "教务站", "学生查询", "icon-people", "app.student-view-worktable"),
-            new Menu(102, "教务站", "录入导出", "icon-user-follow", "app.student-add-worktable"),
+            //选择考试, 然后进行成绩趋势分析
+            new Menu(102, "教务站", "成绩趋势", "icon-user-follow", "app.student-score-trend"),
+            new Menu(103, "教务站", "录入导出", "icon-user-follow", "app.student-add-worktable"),
 //            new Menu(103, "教务站", "奖惩录入", "icon-user-follow", "app.student-reward"),
 //            new Menu(104, "教务站", "毕业去向", "icon-user-follow", "app.student-graduate"),
 //            new Menu(105, "教务站", "任课设置", "icon-user-follow", "app.student-teacher"),
@@ -32,12 +34,15 @@ public class Menu{
 //            new Menu(202, "成绩站", "分析模版", "icon-plus", "app.analyze-template"),
             //成绩单点击可以写评语. 评语跟随成绩
             new Menu(203, "成绩站", "成绩单", "icon-plus", "app.result-list"),
-            new Menu(204, "成绩站", "整体分析", "icon-plus", "app.result-total"),
-            new Menu(205, "成绩站", "分数段分析", "icon-plus", "app.result-gap"),
-            new Menu(206, "成绩站", "名次分析", "icon-plus", "app.result-rank"),
+            new Menu(204, "成绩站", "撰写评语", "icon-plus", "app.result-comment"),
+            new Menu(205, "成绩站", "整体分析", "icon-plus", "app.result-total"),
+            new Menu(206, "成绩站", "分数段分析", "icon-plus", "app.result-gap"),
+            new Menu(207, "成绩站", "名次分析", "icon-plus", "app.result-rank"),
+            new Menu(208, "成绩站", "均分分析", "icon-plus", "app.result-avg"),
+            new Menu(209, "成绩站", "进退步分析", "icon-plus", "app.result-singlerank"),
+            new Menu(210, "成绩站", "缺考统计", "icon-plus", "app.result-absense"),
+            new Menu(211, "成绩站", "不合格名单", "icon-plus", "app.result-unqualified"),
             //选择两次考试进行对比,选出进退步的前几名, 可以搜索, 点击某个学生名字进去,可以弹出他的成绩趋势
-            new Menu(207, "成绩站", "进退步分析", "icon-plus", "app.result-singlerank"),
-            new Menu(208, "成绩站", "缺考统计", "icon-plus", "app.result-absense"),
 
 //            new Menu(301, "统计站", "财务统计", "icon-wallet", "app.payStat"),
 //            new Menu(302, "统计站", "学生统计", "icon-wallet", "app.payStat"),

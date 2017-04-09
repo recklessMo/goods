@@ -31,23 +31,24 @@
     </div>
 
     <div class="col-xs-12" style="height:calc(100% - 45px);margin-top:10px;">
-        <table ng-table="scoreListTableParams" class="table table-bordered table-hover table-condensed editable-table table-min" style="border:1px solid #eeeeee;table-layout: fixed;">
+        <table ng-table-dynamic="scoreListTableParams with labelList" show-filter="true" class="table table-bordered table-hover table-condensed editable-table table-min" style="border:1px solid #eeeeee;table-layout: fixed;">
             <tr ng-repeat="item in $data" ng-dblclick="show(item.id)">
-                <td data-title="'班级类型'" style="text-align: center;" filter="{cid:'text'}">{{item.cid}}</td>
-                <td data-title="'班级类别'" style="text-align: center;" filter="{cid:'text'}">{{item.cid}}</td>
-                <td data-title="'班级名称'" style="text-align: center;" filter="{cid:'text'}">{{item.cid}}</td>
-                <td data-title="'学号'" style="text-align: center;" filter="{sid:'text'}">{{item.sid}}</td>
-                <td data-title="'姓名'" style="text-align: center;" filter="{name:'text'}">{{item.name}}</td>
-                <td data-title="'总分'" style="text-align: center;" sortable="'total'">{{item.total}}</td>
-                <td data-title="'语文'" style="text-align: center;" sortable="'chinese'">{{item.chinese}}</td>
-                <td data-title="'数学'" style="text-align: center;" sortable="'math'">{{item.math}}</td>
-                <td data-title="'英语'" style="text-align: center;" sortable="'english'">{{item.english}}</td>
-                <td data-title="'政治'" style="text-align: center;" sortable="'polotics'">{{item.polotics}}</td>
-                <td data-title="'历史'" style="text-align: center;" sortable="'history'">{{item.history}}</td>
-                <td data-title="'地理'" style="text-align: center;" sortable="'geo'">{{item.geo}}</td>
-                <td data-title="'物理'" style="text-align: center;" sortable="'physics'">{{item.physics}}</td>
-                <td data-title="'化学'" style="text-align: center;" sortable="'chemistry'">{{item.chemistry}}</td>
-                <td data-title="'生物'" style="text-align: center;" sortable="'biology'">{{item.biology}}</td>
+                <!--<td data-title="'班级类型'" style="text-align: center;" filter="{classId:'text'}">{{item.classId}}</td>-->
+                <!--<td data-title="'班级类别'" style="text-align: center;" filter="{classId:'text'}">{{item.classId}}</td>-->
+                <!--<td data-title="'班级名称'" style="text-align: center;" filter="{classId:'text'}">{{item.classId}}</td>-->
+                <!--<td data-title="'学号'" style="text-align: center;" filter="{sid:'text'}">{{item.sid}}</td>-->
+                <!--<td data-title="'姓名'" style="text-align: center;" filter="{name:'text'}">{{item.name}}</td>-->
+                <!--<td data-title="'总分'" style="text-align: center;" sortable="'total'">{{item.total}}</td>-->
+                <!--<td data-title="'语文'" style="text-align: center;" sortable="'chinese'">{{item.chinese}}</td>-->
+                <!--<td data-title="'数学'" style="text-align: center;" sortable="'math'">{{item.math}}</td>-->
+                <!--<td data-title="'英语'" style="text-align: center;" sortable="'english'">{{item.english}}</td>-->
+                <!--<td data-title="'政治'" style="text-align: center;" sortable="'polotics'">{{item.polotics}}</td>-->
+                <!--<td data-title="'历史'" style="text-align: center;" sortable="'history'">{{item.history}}</td>-->
+                <!--<td data-title="'地理'" style="text-align: center;" sortable="'geo'">{{item.geo}}</td>-->
+                <!--<td data-title="'物理'" style="text-align: center;" sortable="'physics'">{{item.physics}}</td>-->
+                <!--<td data-title="'化学'" style="text-align: center;" sortable="'chemistry'">{{item.chemistry}}</td>-->
+                <!--<td data-title="'生物'" style="text-align: center;" sortable="'biology'">{{item.biology}}</td>-->
+                <td data-ng-repeat="column in $columns track by column.id">{{::item[column.field]}}</td>
             </tr>
         </table>
     </div>
