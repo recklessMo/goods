@@ -8,7 +8,15 @@ public class StudentPage extends Page{
     private long gradeId;
     private long classId;
     private int gender;
-    private String searchStr;
+    private long examId;
+
+    public long getExamId() {
+        return examId;
+    }
+
+    public void setExamId(long examId) {
+        this.examId = examId;
+    }
 
     public long getGradeId() {
         return gradeId;
@@ -34,11 +42,5 @@ public class StudentPage extends Page{
         this.gender = gender;
     }
 
-    public String getSearchStr() {
-        return searchStr;
-    }
 
-    public void setSearchStr(String searchStr) {
-        this.searchStr = searchStr;
-    }
 }

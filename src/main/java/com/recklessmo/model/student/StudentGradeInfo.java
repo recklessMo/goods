@@ -9,8 +9,26 @@ public class StudentGradeInfo {
     private String sid;
     private String name;
     private long gradeId;
+    private String gradeName;
     private long classId;
+    private String className;
 
+
+    public String getGradeName() {
+        return gradeName;
+    }
+
+    public void setGradeName(String gradeName) {
+        this.gradeName = gradeName;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
+    }
 
     public String getName() {
         return name;

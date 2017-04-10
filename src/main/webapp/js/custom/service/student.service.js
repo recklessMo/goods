@@ -11,6 +11,16 @@
         this.searchStudent = searchStudent;
         this.addStudent = addStudent;
         this.loadStudent = loadStudent;
+        this.searchStudentByExam = searchStudentByExam;
+
+        function searchStudentByExam(data){
+            return $http({
+                method: "POST",
+                url : "/v1/student/searchByExam",
+                data:data,
+                timeout: 5000
+            });
+        }
 
         function searchStudent(data) {
             return $http({

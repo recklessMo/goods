@@ -3,6 +3,7 @@ package com.recklessmo.web.student;
 import com.recklessmo.model.student.StudentAddInfo;
 import com.recklessmo.model.student.StudentAllInfo;
 import com.recklessmo.model.student.StudentBaseInfo;
+import com.recklessmo.model.student.StudentGradeInfo;
 import com.recklessmo.response.JsonResponse;
 import com.recklessmo.service.student.StudentService;
 import com.recklessmo.web.webmodel.page.StudentPage;
@@ -49,6 +50,20 @@ public class StudentController {
         return new JsonResponse(200, infoList, cnt);
     }
 
+
+    /**
+     *
+     * 用于通过考试来搜索学生
+     *
+     * @param page
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/v1/student/searchByExam", method = {RequestMethod.POST, RequestMethod.GET})
+    public JsonResponse searchByExam(@RequestBody StudentPage page){
+        List<StudentGradeInfo> studentGradeInfoList = studentService.searchStudentByExam(page);
+        return new JsonResponse(200, studentGradeInfoList, studentGradeInfoList.size());
+    }
 
 
 }

@@ -1,16 +1,20 @@
 package com.recklessmo.service.student;
 
 import com.recklessmo.dao.student.StudentDAO;
+import com.recklessmo.model.setting.Grade;
 import com.recklessmo.model.student.StudentAddInfo;
 import com.recklessmo.model.student.StudentAllInfo;
 import com.recklessmo.model.student.StudentBaseInfo;
 import com.recklessmo.model.student.StudentGradeInfo;
+import com.recklessmo.service.setting.GradeSettingService;
 import com.recklessmo.web.webmodel.page.StudentPage;
 import org.springframework.security.web.authentication.preauth.x509.SubjectDnX509PrincipalExtractor;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by hpf on 7/23/16.
@@ -20,6 +24,9 @@ public class StudentService {
 
     @Resource
     private StudentDAO studentDAO;
+
+    @Resource
+    private GradeSettingService gradeSettingService;
 
     /**
      * 用于搜索显示
@@ -111,5 +118,39 @@ public class StudentService {
     public List<StudentGradeInfo> getStudentGradeInfoBySidList(List<String> sidList){
         return studentDAO.getStudentGradeInfoBySidList(sidList);
     }
+
+
+    /**
+     *
+     * 根据examid和searchstr查询学生信息
+     *
+     * 用于进行个人综合分析页面的实现
+     *
+     * @param page
+     * @return
+     */
+    public List<StudentGradeInfo> searchStudentByExam(StudentPage page){
+        List<StudentGradeInfo> studentGradeInfoList =  studentDAO.searchStudentByExam(page);
+        compose(studentGradeInfoList);
+        return studentGradeInfoList;
+    }
+
+    private void compose(List<StudentGradeInfo> studentGradeInfoList){
+        List<Grade> gradeList = gradeSettingService.listAllGrade();
+        Map<Long, String> gradeMap = new HashMap<>();
+        Map<Long, String> classMap = new HashMap<>();
+        gradeList.stream().forEach(grade-> {
+            gradeMap.put(grade.getGradeId(), grade.getGradeName());
+            grade.getClassList().stream().forEach(group -> {
+                classMap.put(group.getClassId(), group.getClassName());
+            });
+        });
+
+        studentGradeInfoList.stream().forEach(studentGradeInfo -> {
+            studentGradeInfo.setGradeName(gradeMap.get(studentGradeInfo.getGradeId()));
+            studentGradeInfo.setClassName(classMap.get(studentGradeInfo.getClassId()));
+        });
+    }
+
 
 }
