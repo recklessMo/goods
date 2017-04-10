@@ -7,9 +7,18 @@ public class StudentGradeInfo {
 
     private long id;
     private String sid;
+    private String name;
     private long gradeId;
     private long classId;
 
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public long getId() {
         return id;

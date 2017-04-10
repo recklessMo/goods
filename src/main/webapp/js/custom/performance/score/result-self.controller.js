@@ -7,10 +7,9 @@
 
     function ResultSelfController($scope, ScoreService, DicService, StudentService, ExamService, SweetAlert, NgTableParams, ngDialog, blockUI, Notify) {
 
+        //start初始化年级选择器列表
         $scope.gradeList = [];
         $scope.classList = [];
-
-        //初始化选择器列表
         function initSelector(){
             blockUI.start();
             DicService.loadAllGrade().success(function(data){
@@ -27,11 +26,8 @@
                 $scope.classList = data.classList;
             }
         }
-
         initSelector();
-
-
-        $scope.obj = {};
+        //end初始化年级选择器列表
 
         //左边侧边栏的查询条件
         $scope.tableParams = {
@@ -39,13 +35,14 @@
             count : 12
         };
 
-
         $scope.search = function() {
-            $scope.studentTableParams = new NgTableParams({}, {
+            $scope.examTableParams = new NgTableParams({}, {
                 counts: [],
                 getData: function (params) {
                     blockUI.start();
-                    return StudentService.searchStudent({page:params.page(), count:12}).then(function (data) {
+                    $scope.tableParams.page = params.page();
+                    $scope.tableParams.count = 12;
+                    return ExamService.searchExamByStudent($scope.tableParams).then(function (data) {
                         var result = data.data;
                         blockUI.stop();
                         if (data.status == 200) {

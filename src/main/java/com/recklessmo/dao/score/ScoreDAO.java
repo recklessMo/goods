@@ -17,4 +17,7 @@ public interface ScoreDAO {
 
     List<Score> getScoreListByExamId(@Param("examId")long examId);
 
+    Score getScoreByExamIdAndSid(@Param("examId")long examId, @Param("sid")String sid);
+
+    List<Score> getScoreByExamIdAndSidList(@Param("examId")long examId, @Param("sidList")List<String> sidList);
 }

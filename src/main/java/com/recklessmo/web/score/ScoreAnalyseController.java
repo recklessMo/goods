@@ -97,5 +97,21 @@ public class ScoreAnalyseController {
         return new JsonResponse(200, obj, null);
     }
 
+    /**
+     *
+     * 分析个人综合情况
+     *
+     * @param examId
+     * @param templateId
+     * @return
+     */
+    @RequestMapping(value = "/self", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public JsonResponse analyzeSelf(@RequestParam("examId")long examId, @RequestParam("sidList")String[] sid, @RequestParam("templateId")long templateId){
+        List<Score> scoreList = scoreService.getScoreByExamIdAndSidList(examId, Arrays.asList(sid));
+        Object obj = scoreAnalyseService.analyseSelf(scoreList, templateId);
+        return new JsonResponse(200, obj, null);
+    }
+
 
 }

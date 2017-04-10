@@ -10,15 +10,22 @@ import com.recklessmo.model.score.result.gap.ScoreGap;
 import com.recklessmo.model.score.result.rank.CourseRank;
 import com.recklessmo.model.score.result.rank.RankGap;
 import com.recklessmo.model.score.result.rank.RankInner;
+import com.recklessmo.model.score.result.self.CourseSelf;
+import com.recklessmo.model.score.result.self.ScoreSelf;
+import com.recklessmo.model.score.result.self.ScoreSelfInner;
 import com.recklessmo.model.score.result.total.ClassTotal;
 import com.recklessmo.model.score.result.total.CourseTotal;
 import com.recklessmo.model.score.result.total.TotalInner;
 import com.recklessmo.model.setting.Group;
+import com.recklessmo.model.student.StudentGradeInfo;
+import com.recklessmo.service.student.StudentService;
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -28,6 +35,9 @@ public class ScoreAnalyseService {
 
     @Resource
     private ScoreTemplateService scoreTemplateService;
+
+    @Resource
+    private StudentService studentService;
 
 
     private Map<Long, Group> getClassMap(List<Score> scoreList) {
@@ -279,6 +289,52 @@ public class ScoreAnalyseService {
     public Object analyseAvg(List<Score> scoreList, long templateId) {
         Map<String, CourseRank> rankMap = new HashedMap();
         return rankMap.values();
+    }
+
+    /**
+     * 分析个人综合
+     *
+     * @param newScores
+     * @param templateId
+     * @return
+     */
+    public Object analyseSelf(List<Score> scoreList, long templateId) {
+        //根据templateId获取模板参数
+        ScoreTemplate scoreTemplate = scoreTemplateService.get(templateId);
+        if (scoreTemplate == null) {
+            return null;
+        }
+        if(scoreList.size() > 0) {
+            ScoreSelf scoreSelf = new ScoreSelf();
+            Score first = scoreList.get(0);
+            List<CourseSelf> courseSelfList = new LinkedList<>();
+            first.getCourseScoreList().stream().forEach(item -> {
+                CourseSelf courseSelf = new CourseSelf();
+                courseSelf.setName(item.getCourseName());
+                courseSelf.setMax(scoreTemplate.getCourseTotalSettingMap().get(item.getCourseName()).getFull());
+            });
+
+            List<String> sidList = scoreList.stream().map(o -> o.getSid()).collect(Collectors.toList());
+            List<StudentGradeInfo> gradeInfoList = studentService.getStudentGradeInfoBySidList(sidList);
+            Map<String, StudentGradeInfo> gradeInfoMap = gradeInfoList.stream().collect(Collectors.toMap(StudentGradeInfo::getSid, Function.identity()));
+            List<ScoreSelfInner> scoreSelfInnerList = new LinkedList<>();
+            scoreList.stream().forEach(score -> {
+                ScoreSelfInner scoreSelfInner = new ScoreSelfInner();
+                scoreSelfInner.setStudentName(gradeInfoMap.get(score.getSid()).getName());
+                Map<String, Double> courseMap = score.getCourseScoreList().stream().collect(Collectors.toMap(CourseScore::getCourseName, o->o.getScore()));
+                List<Double> resultScoreList = new LinkedList<>();
+                courseSelfList.stream().forEach(courseSelf -> {
+                    resultScoreList.add(courseMap.get(courseSelf.getName()));
+                });
+                scoreSelfInner.setScoreList(resultScoreList);
+                scoreSelfInnerList.add(scoreSelfInner);
+            });
+            scoreSelf.setCourseInfoList(courseSelfList);
+            scoreSelf.setScoreSelfInnerList(scoreSelfInnerList);
+            scoreSelf.setNameList(gradeInfoList.stream().map(o -> o.getName()).collect(Collectors.toList()));
+            return scoreSelf;
+        }
+        return null;
     }
 
 

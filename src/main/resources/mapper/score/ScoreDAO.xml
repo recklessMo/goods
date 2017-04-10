@@ -38,4 +38,22 @@
         where exam_id = #{examId}
     </select>
 
+    <select id="getScoreByExamIdAndSid" resultType="com.recklessmo.model.score.Score">
+        select
+        <include refid="columns"/>
+        from score
+        where exam_id = #{examId} and sid = #{sid}
+    </select>
+
+    <select id="getScoreByExamIdAndSidList" resultType="com.recklessmo.model.score.Score">
+        select
+        <include refid="columns"/>
+        from score
+        where exam_id = #{examId} and sid IN
+        <foreach collection="sidList" open="(" close=")" separator="," item="item">
+            #{item}
+        </foreach>
+        limit 10
+    </select>
+
 </mapper>

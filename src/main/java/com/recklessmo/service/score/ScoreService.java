@@ -56,7 +56,7 @@ public class ScoreService {
 
     /**
      *
-     * 根据examid获取成绩
+     * 根据examid获取成绩列表
      *
      * @param examId
      * @return
@@ -65,6 +65,33 @@ public class ScoreService {
         List<Score> scoreList = scoreDAO.getScoreListByExamId(examId);
         return scoreList;
     }
+
+
+    /**
+     *
+     * 根据examid和sid获取单份成绩
+     *
+     * @param examId
+     * @param sid
+     * @return
+     */
+    public Score getScoreByExamIdAndSid(long examId, String sid){
+        return scoreDAO.getScoreByExamIdAndSid(examId, sid);
+    }
+
+    /**
+     *
+     * 根据examid和sidList获取一系列的成绩
+     *
+     * @param examId
+     * @param sid
+     * @return
+     */
+    public List<Score> getScoreByExamIdAndSidList(long examId, List<String> sidList){
+        return scoreDAO.getScoreByExamIdAndSidList(examId, sidList);
+    }
+
+
 
     private void compose(List<Score> scoreList){
         List<Grade>  gradeList = gradeSettingService.listAllGrade();
