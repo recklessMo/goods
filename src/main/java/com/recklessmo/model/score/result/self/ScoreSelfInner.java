@@ -7,22 +7,22 @@ import java.util.List;
  */
 public class ScoreSelfInner {
 
-    public String studentName;
-    public List<Double> scoreList;
+    public String name;
+    public List<Double> value;
 
-    public String getStudentName() {
-        return studentName;
+    public String getName() {
+        return name;
     }
 
-    public void setStudentName(String studentName) {
-        this.studentName = studentName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public List<Double> getScoreList() {
-        return scoreList;
+    public List<Double> getValue() {
+        return value;
     }
 
-    public void setScoreList(List<Double> scoreList) {
-        this.scoreList = scoreList;
+    public void setValue(List<Double> value) {
+        this.value = value;
     }
 }

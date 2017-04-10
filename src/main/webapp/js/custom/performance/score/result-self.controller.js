@@ -140,7 +140,12 @@
         //开始进行分析
         $scope.beginToAnalyse = function(){
             if($scope.studentChooseList.length == 0){
-                SweetAlert.error("请至少选择一位学生进行分析");
+                SweetAlert.error("请至少选择一位学生进行分析!");
+                return;
+            }
+
+            if($scope.studentChooseList.length > 5){
+                SweetAlert.error("最多只支持五位学生进行对比!");
                 return;
             }
 
@@ -178,33 +183,16 @@
                 },
                 tooltip: {},
                 legend: {
-                    data: ['预算分配（Allocated Budget）', '实际开销（Actual Spending）']
+                    data: $scope.resultObj.nameList
                 },
                 radar: {
                     // shape: 'circle',
-                    indicator: [
-                        { name: '销售（sales）', max: 6500.7},
-                        { name: '管理（Administration）', max: 16000},
-                        { name: '信息技术（Information Techology）', max: 30000},
-                        { name: '客服（Customer Support）', max: 38000},
-                        { name: '研发（Development）', max: 52000},
-                        { name: '市场（Marketing）', max: 25000}
-                    ]
+                    indicator: $scope.resultObj.courseInfoList
                 },
                 series: [{
                     name: '预算 vs 开销（Budget vs spending）',
                     type: 'radar',
-                    // areaStyle: {normal: {}},
-                    data : [
-                        {
-                            value : [4300, 10000, 28000, 35000, 50000, 19000],
-                            name : '预算分配（Allocated Budget）'
-                        },
-                        {
-                            value : [6500.1, 14000, 28000, 31000, 42000, 21000],
-                            name : '实际开销（Actual Spending）'
-                        }
-                    ]
+                    data : $scope.resultObj.scoreSelfInnerList
                 }]
             };
             // 使用刚指定的配置项和数据显示图表。

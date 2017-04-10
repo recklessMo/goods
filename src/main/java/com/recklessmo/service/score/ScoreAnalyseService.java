@@ -321,13 +321,13 @@ public class ScoreAnalyseService {
             List<ScoreSelfInner> scoreSelfInnerList = new LinkedList<>();
             scoreList.stream().forEach(score -> {
                 ScoreSelfInner scoreSelfInner = new ScoreSelfInner();
-                scoreSelfInner.setStudentName(gradeInfoMap.get(score.getSid()).getName());
+                scoreSelfInner.setName(gradeInfoMap.get(score.getSid()).getName());
                 Map<String, Double> courseMap = score.getCourseScoreList().stream().collect(Collectors.toMap(CourseScore::getCourseName, o->o.getScore()));
                 List<Double> resultScoreList = new LinkedList<>();
                 courseSelfList.stream().forEach(courseSelf -> {
                     resultScoreList.add(courseMap.get(courseSelf.getName()));
                 });
-                scoreSelfInner.setScoreList(resultScoreList);
+                scoreSelfInner.setValue(resultScoreList);
                 scoreSelfInnerList.add(scoreSelfInner);
             });
             scoreSelf.setCourseInfoList(courseSelfList);
