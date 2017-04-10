@@ -92,45 +92,81 @@
             $scope.show()
         }
 
-        $scope.show = function () {
-            $scope.flag.show = 1;
-            $scope.studentTableParamsSetting.examId = $scope.selectedExam.examId;
-            $scope.studentTableParamsSetting.searchStr = '';
-            $scope.searchStudent();
-        }
-
 
         /*******************************上面部分是公用的代码,主要负责考试选择,模板选择,年级选择************************************************************/
+        $scope.obj = {};
 
         $scope.studentTableParamsSetting = {
-            page : 1,
-            count : 12,
+            page: 1,
+            count: 12,
             examId: 0,
             searchStr: ''
         };
 
-        $scope.searchStudent = function() {
-            $scope.studentTableParams = new NgTableParams({}, {
-                counts: [],
-                getData: function (params) {
-                    blockUI.start();
-                    $scope.studentTableParamsSetting.page = params.page();
-                    return StudentService.searchStudentByExam($scope.studentTableParamsSetting).then(function (data) {
-                        var result = data.data;
-                        blockUI.stop();
-                        if (data.status == 200) {
-                            params.total(result.totalCount);
-                            $scope.obj.totalCount = result.totalCount;
-                            return result.data;
-                        }else{
-                            SweetAlert.error("服务器内部错误, 请联系客服!");
-                        }
-                    }, function () {
-                        SweetAlert.error("网络问题,请稍后重试!");
-                        blockUI.stop();
-                    });
+        $scope.show = function () {
+            blockUI.start();
+            $scope.flag.show = 1;
+            $scope.studentTableParamsSetting.examId = $scope.selectedExam.examId;
+            $scope.studentTableParamsSetting.searchStr = '';
+            StudentService.searchStudentByExam($scope.studentTableParamsSetting).success(function (data) {
+                var result = data;
+                blockUI.stop();
+                if (data.status == 200) {
+                    $scope.studentList = result.data;
+                    $scope.obj.totalCount = result.totalCount;
+                    $scope.studentTableParams = new NgTableParams({}, {dataset: $scope.studentList});
+                } else {
+                    SweetAlert.error("服务器内部错误, 请联系客服!");
                 }
+            }).error(function () {
+                SweetAlert.error("网络问题,请稍后重试!");
+                blockUI.stop();
             });
+        }
+
+
+        $scope.studentChooseList = [];
+
+        $scope.addStudent = function (data) {
+            if (!_.find($scope.studentChooseList, data)) {
+                $scope.studentChooseList.push(data);
+            }
+        }
+
+        $scope.deleteStudent = function (row) {
+            $scope.studentChooseList = _.without($scope.studentChooseList, row);
+        }
+
+        //开始进行分析
+        $scope.beginToAnalyse = function(){
+            if($scope.studentChooseList.length == 0){
+                SweetAlert.error("请至少选择一位学生进行分析");
+                return;
+            }
+
+            blockUI.start();
+            var sidList = _.map($scope.studentChooseList, function(item){
+                return item.sid;
+            });
+            var params = {examId: $scope.selectedExam.examId, templateId:7, sidList: sidList};
+            ScoreService.loadScoreSelf(params).success(function(data){
+                blockUI.stop();
+                if(data.status == 200){
+                    $scope.resultObj = data.data;
+                    showChart();
+                }else{
+                    SweetAlert.error("服务器内部错误, 请联系客服!");
+                }
+            }).error(function(){
+                SweetAlert.error("网络问题,请稍后重试!");
+                blockUI.stop();
+            });
+        }
+
+        $scope.showChart = function(){
+
+
+
         }
 
 

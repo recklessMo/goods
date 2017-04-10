@@ -12,6 +12,8 @@
         this.loadScoreGapResult = loadScoreGapResult;
         this.loadScoreGapRank = loadScoreGapRank;
         this.loadScoreList = loadScoreList;
+        this.loadScoreSelf = loadScoreSelf;
+
 
 
         //type代表分析的维度, 学科维度或者班级维度
@@ -53,6 +55,16 @@
                 timeout: 5000
             });
         }
+
+        function loadScoreSelf(data){
+            return $http({
+                url: "/v1/analyse/self",
+                data: data,
+                method: "POST",
+                timeout: 5000
+            });
+        }
+
 
 
     }

@@ -5,6 +5,7 @@ import com.recklessmo.model.score.result.gap.CourseGap;
 import com.recklessmo.response.JsonResponse;
 import com.recklessmo.service.score.ScoreAnalyseService;
 import com.recklessmo.service.score.ScoreService;
+import com.recklessmo.web.webmodel.model.SelfModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -107,9 +108,9 @@ public class ScoreAnalyseController {
      */
     @RequestMapping(value = "/self", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public JsonResponse analyzeSelf(@RequestParam("examId")long examId, @RequestParam("sidList")String[] sid, @RequestParam("templateId")long templateId){
-        List<Score> scoreList = scoreService.getScoreByExamIdAndSidList(examId, Arrays.asList(sid));
-        Object obj = scoreAnalyseService.analyseSelf(scoreList, templateId);
+    public JsonResponse analyzeSelf(@RequestBody SelfModel selfModel){
+        List<Score> scoreList = scoreService.getScoreByExamIdAndSidList(selfModel.getExamId(), selfModel.getSidList());
+        Object obj = scoreAnalyseService.analyseSelf(scoreList, selfModel.getTemplateId());
         return new JsonResponse(200, obj, null);
     }
 

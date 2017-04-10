@@ -100,7 +100,7 @@
     <select id="searchStudentByExam" resultType="com.recklessmo.model.student.StudentGradeInfo">
         select st.id, st.sid, st.name, st.grade_id, st.class_id
         from student st left join score sc on st.sid = sc.sid
-        where sc.exam_id == #{examId}
+        where sc.exam_id = #{examId}
     </select>
 
 </mapper>
