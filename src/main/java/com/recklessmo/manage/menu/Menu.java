@@ -22,7 +22,7 @@ public class Menu{
 
             new Menu(101, "教务站", "学生查询", "icon-people", "app.student-view-worktable"),
             //选择考试, 然后进行成绩趋势分析
-            new Menu(102, "教务站", "成绩趋势", "icon-user-follow", "app.student-score-trend"),
+            new Menu(102, "教务站", "个人成绩趋势", "icon-user-follow", "app.student-score-trend"),
             new Menu(103, "教务站", "录入导出", "icon-user-follow", "app.student-add-worktable"),
 //            new Menu(103, "教务站", "奖惩录入", "icon-user-follow", "app.student-reward"),
 //            new Menu(104, "教务站", "毕业去向", "icon-user-follow", "app.student-graduate"),
@@ -30,14 +30,15 @@ public class Menu{
 //            new Menu(106, "教务站", "课表编排", "icon-user-follow", "app.class-schedule"),
 
 
-            new Menu(201, "成绩站", "考试设置", "icon-plus", "app.exam"),
+            new Menu(201, "成绩站", "考试设置", "icon-plus", "app.exam"),//done
 //            new Menu(202, "成绩站", "分析模版", "icon-plus", "app.analyze-template"),
             //成绩单点击可以写评语. 评语跟随成绩
-            new Menu(203, "成绩站", "成绩单", "icon-plus", "app.result-list"),
-            new Menu(204, "成绩站", "撰写评语", "icon-plus", "app.result-comment"),
-            new Menu(205, "成绩站", "整体分析", "icon-plus", "app.result-total"),
-            new Menu(206, "成绩站", "分数段分析", "icon-plus", "app.result-gap"),
-            new Menu(207, "成绩站", "名次分析", "icon-plus", "app.result-rank"),
+            new Menu(203, "成绩站", "成绩单", "icon-plus", "app.result-list"),//half-done
+            //雷达图
+            new Menu(204, "成绩站", "个人综合", "icon-plus", "app.result-self"),
+            new Menu(205, "成绩站", "整体分析", "icon-plus", "app.result-total"),//done
+            new Menu(206, "成绩站", "分数段分析", "icon-plus", "app.result-gap"),//done
+            new Menu(207, "成绩站", "名次分析", "icon-plus", "app.result-rank"),//done
             new Menu(208, "成绩站", "均分分析", "icon-plus", "app.result-avg"),
             new Menu(209, "成绩站", "进退步分析", "icon-plus", "app.result-singlerank"),
             new Menu(210, "成绩站", "缺考统计", "icon-plus", "app.result-absense"),
