@@ -312,6 +312,7 @@ public class ScoreAnalyseService {
                 CourseSelf courseSelf = new CourseSelf();
                 courseSelf.setName(item.getCourseName());
                 courseSelf.setMax(scoreTemplate.getCourseTotalSettingMap().get(item.getCourseName()).getFull());
+                courseSelfList.add(courseSelf);
             });
 
             List<String> sidList = scoreList.stream().map(o -> o.getSid()).collect(Collectors.toList());

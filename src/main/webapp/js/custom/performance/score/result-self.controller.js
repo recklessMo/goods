@@ -114,7 +114,7 @@
                 if (data.status == 200) {
                     $scope.studentList = result.data;
                     $scope.obj.totalCount = result.totalCount;
-                    $scope.studentTableParams = new NgTableParams({}, {dataset: $scope.studentList});
+                    $scope.studentTableParams = new NgTableParams({}, {counts:[], dataset: $scope.studentList});
                 } else {
                     SweetAlert.error("服务器内部错误, 请联系客服!");
                 }
@@ -153,7 +153,7 @@
                 blockUI.stop();
                 if(data.status == 200){
                     $scope.resultObj = data.data;
-                    showChart();
+                    $scope.showChart();
                 }else{
                     SweetAlert.error("服务器内部错误, 请联系客服!");
                 }
@@ -164,9 +164,51 @@
         }
 
         $scope.showChart = function(){
-
-
-
+            var myChart = echarts.init(document.getElementById('chart'));
+            var option = {
+                title: {
+                    text: '个人综合情况',
+                    x: 'left'
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        saveAsImage: {show: true}
+                    }
+                },
+                tooltip: {},
+                legend: {
+                    data: ['预算分配（Allocated Budget）', '实际开销（Actual Spending）']
+                },
+                radar: {
+                    // shape: 'circle',
+                    indicator: [
+                        { name: '销售（sales）', max: 6500.7},
+                        { name: '管理（Administration）', max: 16000},
+                        { name: '信息技术（Information Techology）', max: 30000},
+                        { name: '客服（Customer Support）', max: 38000},
+                        { name: '研发（Development）', max: 52000},
+                        { name: '市场（Marketing）', max: 25000}
+                    ]
+                },
+                series: [{
+                    name: '预算 vs 开销（Budget vs spending）',
+                    type: 'radar',
+                    // areaStyle: {normal: {}},
+                    data : [
+                        {
+                            value : [4300, 10000, 28000, 35000, 50000, 19000],
+                            name : '预算分配（Allocated Budget）'
+                        },
+                        {
+                            value : [6500.1, 14000, 28000, 31000, 42000, 21000],
+                            name : '实际开销（Actual Spending）'
+                        }
+                    ]
+                }]
+            };
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
         }
 
 
