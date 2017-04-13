@@ -12,11 +12,11 @@
     </sql>
 
     <sql id = "classColumns">
-        class_id, grade_id, class_name, charger, phone, detail, course_teacher, schedule_course
+        class_id, grade_id, class_name, charger, phone, detail, class_type, class_level, course_teacher, schedule_course
     </sql>
 
     <sql id = "classColumnsWithoutId">
-        grade_id, class_name, charger, phone, detail, course_teacher, schedule_course
+        grade_id, class_name, charger, phone, detail, class_type, class_level, course_teacher, schedule_course
     </sql>
 
     <insert id="addGrade">
@@ -32,7 +32,7 @@
         (
         <include refid="classColumnsWithoutId"/>
         )
-        values(#{gradeId}, #{className},#{charger},#{phone},#{detail}, #{courseTeacher}, #{scheduleCourse})
+        values(#{gradeId}, #{className},#{charger},#{phone},#{detail}, #{classType}, #{classLevel}, #{courseTeacher}, #{scheduleCourse})
     </insert>
 
     <update id="deleteGrade">
@@ -56,7 +56,7 @@
         (
         <include refid="classColumns"/>
         )
-        values(#{classId}, #{gradeId}, #{className}, #{charger}, #{phone}, #{detail}, #{courseTeacher}, #{scheduleCourse})
+        values(#{classId}, #{gradeId}, #{className}, #{charger}, #{phone}, #{detail}, #{classType}, #{classLevel}, #{courseTeacher}, #{scheduleCourse})
     </update>
 
     <select id="listGrade" resultType="com.recklessmo.model.setting.Grade">
@@ -99,6 +99,8 @@
         c.charger as c_charger,
         c.phone as c_phone,
         c.detail as c_detail,
+        c.class_type as c_class_type,
+        c.class_level as c_class_level,
         c.course_teacher as c_course_teacher,
         c.schedule_course as c_schedule_course
     </sql>
@@ -119,6 +121,8 @@
         <result column="c_charger" property="charger"/>
         <result column="c_phone" property="phone"/>
         <result column="c_detail" property="detail"/>
+        <result column="c_class_type" property="classType"/>
+        <result column="c_class_level" property="classLevel"/>
         <result column="c_course_teacher" property="courseTeacher"/>
         <result column="c_schedule_course" property="scheduleCourse"/>
     </resultMap>

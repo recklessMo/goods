@@ -57,15 +57,29 @@
         <div class="row" style="margin-top: 20px;">
             <div class="col-md-6">
                 <div class="input-group">
-                    <span class="input-group-addon">班级类别</span>
-                    <input ng-class="!user.name?'field-dirty' : ''" type="text" class="form-control" ng-model="group.phone">
+                    <span class="input-group-addon">班级类型</span>
+                    <ui-select ng-model="group.classType" theme="bootstrap"
+                               class="text-left" style="width:100%;">
+                        <ui-select-match placeholder="选择班级类型">{{$select.selected}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="classType in classTypeList">
+                            <span ng-bind-html="classType"></span>
+                        </ui-select-choices>
+                    </ui-select>
                 </div>
             </div>
 
             <div class="col-md-6">
                 <div class="input-group">
-                    <span class="input-group-addon">班级类型</span>
-                    <input ng-class="!user.name?'field-dirty' : ''" type="text" class="form-control" ng-model="group.detail">
+                    <span class="input-group-addon">班级类别</span>
+                    <ui-select ng-model="group.classLevel" theme="bootstrap"
+                               class="text-left" style="width:100%;">
+                        <ui-select-match placeholder="选择班级类别">{{$select.selected}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="classLevel in classLevelList">
+                            <span ng-bind-html="classLevel"></span>
+                        </ui-select-choices>
+                    </ui-select>
                 </div>
             </div>
         </div>

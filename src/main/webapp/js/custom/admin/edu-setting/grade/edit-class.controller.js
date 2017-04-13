@@ -13,6 +13,9 @@
         $scope.type = $scope.ngDialogData.type;
         $scope.gradeId = $scope.ngDialogData.gradeId;
 
+        $scope.classTypeList = ['全科班', '文科班', '理科班'];
+        $scope.classLevelList = ['重点班', '普通班'];
+
         activate();
 
 
