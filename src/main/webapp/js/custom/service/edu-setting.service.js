@@ -48,6 +48,12 @@
         this.listSchedule = listSchedule;
         this.saveSchedule = saveSchedule;
 
+
+        //class level设置
+        this.listClassLevel = listClassLevel;
+        this.addClassLevel = addClassLevel;
+        this.deleteClassLevel = deleteClassLevel;
+
         function saveSchedule(data){
             return $http({
                 method: "POST",
@@ -285,7 +291,35 @@
             });
         }
 
+        function listClassLevel(data){
+            return $http({
+                method: "POST",
+                url: "/v1/setting/classlevel/list",
+                data: data,
+                timeout: 5000
+            });
+        }
 
+        function addClassLevel(data){
+            return $http({
+                method: "POST",
+                url: "/v1/setting/classlevel/add",
+                data: data,
+                timeout: 5000
+            });
+        }
+
+        //两种选择
+        //一种是以 text/plain 头来传输数据
+        //一种是以 application/json  但是需要把data转换成为json, 如果data是复杂对象不需要, 如果只是简单对象string的话需要
+        function deleteClassLevel(data){
+            return $http({
+                method: "POST",
+                url: "/v1/setting/classlevel/delete",
+                data: JSON.stringify(data),
+                timeout: 5000
+            });
+        }
 
     }
 })

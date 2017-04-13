@@ -13,8 +13,7 @@
     <context:component-scan base-package="com.recklessmo.web"/>
     <mvc:annotation-driven>
         <mvc:message-converters>
-            <bean
-                    class="org.springframework.http.converter.StringHttpMessageConverter">
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
                 <constructor-arg index="0" name="defaultCharset" value="UTF-8"/>
                 <property name="supportedMediaTypes">
                     <list>
@@ -27,8 +26,6 @@
             <bean class="org.springframework.http.converter.FormHttpMessageConverter">
             </bean>
             <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
-                <!--<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">-->
-                <!--<property name="objectMapper" ref="bethuneJacksonObjectMapper"/>-->
             </bean>
         </mvc:message-converters>
     </mvc:annotation-driven>

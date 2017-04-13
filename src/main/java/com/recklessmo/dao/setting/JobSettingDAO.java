@@ -12,7 +12,7 @@ import java.util.List;
  * Created by hpf on 8/17/16.
  */
 public interface JobSettingDAO {
-    void addJob(Job year);
+    void addJob(Job job);
     List<Job> listJob(Page page);
     int listJobCount(Page page);
     void deleteJob(@Param("id") long id);

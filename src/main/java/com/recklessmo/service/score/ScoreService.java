@@ -2,7 +2,9 @@ package com.recklessmo.service.score;
 
 import com.alibaba.fastjson.JSON;
 import com.recklessmo.dao.score.ScoreDAO;
+import com.recklessmo.model.score.CourseScore;
 import com.recklessmo.model.score.Score;
+import com.recklessmo.model.setting.Course;
 import com.recklessmo.model.setting.Grade;
 import com.recklessmo.model.setting.Group;
 import com.recklessmo.model.student.StudentBaseInfo;
@@ -11,6 +13,8 @@ import com.recklessmo.service.setting.GradeSettingService;
 import com.recklessmo.service.student.StudentService;
 import com.recklessmo.web.webmodel.page.ScoreListPage;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedCaseInsensitiveMap;
+
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -40,6 +44,7 @@ public class ScoreService {
      * @param scoreList
      */
     public void insertScoreList(List<Score> scoreList){
+        computeRank(scoreList);
         if(scoreList != null && scoreList.size() != 0) {
             scoreDAO.insertList(scoreList);
         }
@@ -55,6 +60,7 @@ public class ScoreService {
     public List<Score> loadScoreList(ScoreListPage page){
         List<Score> scoreList = scoreDAO.getList(page);
         compose(scoreList);
+        computeRank(scoreList);
         return scoreList;
     }
 
@@ -134,7 +140,22 @@ public class ScoreService {
      * @param scoreList
      */
     private void computeRank(List<Score> scoreList){
+        Map<String, List<CourseScore>> resultMap = new HashMap<>();
+        scoreList.stream().forEach(score -> {
+            List<CourseScore> courseScoreList = score.getCourseScoreList();
+            courseScoreList.stream().forEach(courseScore -> {
+                List<CourseScore> valueList = resultMap.getOrDefault(courseScore.getCourseName(), new LinkedList<>());
+                valueList.add(courseScore);
+                resultMap.put(courseScore.getCourseName(), valueList);
+            });
+        });
 
+        resultMap.values().stream().forEach(courseScores -> {
+            courseScores.sort((o1, o2) -> {return o1.getScore() >= o2.getScore() ? (o1.getScore() == o2.getScore() ? 0 : -1) : 1;});
+            for(int i = 0; i < courseScores.size(); i++){
+                courseScores.get(i).setRank(i + 1);
+            }
+        });
     }
 
 

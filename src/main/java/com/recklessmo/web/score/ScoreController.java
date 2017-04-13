@@ -42,9 +42,6 @@ public class ScoreController {
     public JsonResponse list(@RequestBody ScoreListPage scoreListPage) {
         DynamicTable result = new DynamicTable();
         List<Score> data = scoreService.loadScoreList(scoreListPage);
-        //进行各个科目的rank
-
-        //
         Map<String, String> nameMap = new HashMap<>();
 
         //data
@@ -58,9 +55,9 @@ public class ScoreController {
             dataMap.put("classname", item.getClassName());
             dataMap.put("name", item.getName());
             if(pos == 0) {
-                nameMap.put("type", "班级类型");
-                nameMap.put("level", "班级类别");
-                nameMap.put("classname", "班级名称");
+                nameMap.put("type", "类型");//文科理科全科
+                nameMap.put("level", "类别");//重点 普通 平行
+                nameMap.put("classname", "名称");
                 nameMap.put("name", "姓名");
                 labelList.add("type");
                 labelList.add("level");
