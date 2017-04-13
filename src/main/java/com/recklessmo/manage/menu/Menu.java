@@ -40,7 +40,7 @@ public class Menu{
             new Menu(206, "成绩站", "分数段分析", "icon-plus", "app.result-gap"),//done
             new Menu(207, "成绩站", "名次分析", "icon-plus", "app.result-rank"),//done
             new Menu(208, "成绩站", "均分分析", "icon-plus", "app.result-avg"),
-            new Menu(209, "成绩站", "进退步分析", "icon-plus", "app.result-singlerank"),
+            new Menu(209, "成绩站", "进退步分析", "icon-plus", "app.result-rankchange"),
             new Menu(210, "成绩站", "缺考统计", "icon-plus", "app.result-absense"),
             new Menu(211, "成绩站", "不合格名单", "icon-plus", "app.result-unqualified"),
             //选择两次考试进行对比,选出进退步的前几名, 可以搜索, 点击某个学生名字进去,可以弹出他的成绩趋势

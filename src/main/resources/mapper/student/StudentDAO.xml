@@ -103,4 +103,14 @@
         where sc.exam_id = #{examId}
     </select>
 
+    <select id="getStudentBaseInfoByIdList" resultType="com.recklessmo.model.student.StudentBaseInfo">
+        select
+        <include refid="baseInfoColumns"/>
+        from student
+        where sid in
+        <foreach collection="sidList" item="sid" open="(" close=")" separator=",">
+            #{sid}
+        </foreach>
+    </select>
+
 </mapper>

@@ -1,0 +1,22 @@
+<div class="row" style="height: 100%;">
+    <div ng-class="col-xs-12" style="height: 100%;">
+        <div class="panel" style="height: 100%;box-shadow: 0 0 1px;padding:10px;">
+            <div style="float:left;height: 50px;width: calc(100% - 100px);border:1px solid rgba(211,211,211,.58);border-radius: 5px;padding:5px;">
+                <span data-ng-repeat="exam in examChooseList"
+                      style="padding: 4px;border-radius: 5px;box-shadow: inset 0 0 1px;margin-right: 5px;display: inline-flex;margin-bottom: 5px;align-items: center;font-size: 14px;color: #111b34;">
+                    {{exam.examName}}
+                   <i class="fa fa-times" aria-hidden="true"
+                      ng-click="deleteExam(exam)"></i>
+                </span>
+            </div>
+            <button class="btn btn-info" style="display: inline-block;margin:5px;" ng-click="startAnalyse()">开始分析</button>
+            <div style="overflow:auto;height: calc(100% - 50px);width: 100%;margin-top:20px;">
+                <table ng-table-dynamic="rankListTableParams with labelList" show-filter="true" class="table table-bordered table-hover table-condensed editable-table table-min" style="border:1px solid #eeeeee;table-layout: fixed;">
+                    <tr ng-repeat="item in $data">
+                        <td data-ng-repeat="column in $columns track by column.id">{{::item[column.field]}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -29,5 +29,7 @@ public interface StudentDAO {
     List<StudentGradeInfo> getStudentGradeInfoBySidList(@Param("sidList")List<String> sidList);
 
     List<StudentGradeInfo> searchStudentByExam(StudentPage page);
+
+    List<StudentBaseInfo> getStudentBaseInfoByIdList(@Param("sidList")List<String> sidList);
 }
 

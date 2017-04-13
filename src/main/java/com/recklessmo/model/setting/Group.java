@@ -16,12 +16,30 @@ public class Group {
     private long classId;
     private long gradeId;
     private String className;
+    private String classType;
+    private String classLevel;
     private String charger;
     private String phone;
     private String detail;
 
     private Map<String, CourseTeacher> courseTeacherMap = new LinkedHashMap<>();
     private Map<String, ScheduleCourse> scheduleCourseMap = new LinkedHashMap<>();
+
+    public String getClassType() {
+        return classType;
+    }
+
+    public void setClassType(String classType) {
+        this.classType = classType;
+    }
+
+    public String getClassLevel() {
+        return classLevel;
+    }
+
+    public void setClassLevel(String classLevel) {
+        this.classLevel = classLevel;
+    }
 
     public String getCourseTeacher() {
         return JSON.toJSONString(courseTeacherMap);

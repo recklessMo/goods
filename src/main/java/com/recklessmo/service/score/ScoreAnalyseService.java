@@ -339,6 +339,24 @@ public class ScoreAnalyseService {
     }
 
 
+    /**
+     *
+     * 分析两场考试的进退步
+     *
+     * @param examIdList
+     * @return
+     */
+    public Object analyseRankChange(List<Long> examIdList){
+        //显示问题, 暂时不支持大于2个的进行分析
+        if(examIdList.size() != 2){
+            return null;
+        }
+
+
+        return null;
+    }
+
+
     public static void main(String[] args) {
         Integer a = new Integer(1000);
         int b = 1000;

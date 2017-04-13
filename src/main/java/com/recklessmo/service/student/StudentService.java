@@ -135,6 +135,18 @@ public class StudentService {
         return studentGradeInfoList;
     }
 
+
+    /**
+     * 根据学号idList获取学生的信息
+     * @param sidList
+     * @return
+     */
+    public List<StudentBaseInfo> getStudentBaseInfoByIdList(List<String> sidList){
+        return studentDAO.getStudentBaseInfoByIdList(sidList);
+    }
+
+
+
     private void compose(List<StudentGradeInfo> studentGradeInfoList){
         List<Grade> gradeList = gradeSettingService.listAllGrade();
         Map<Long, String> gradeMap = new HashMap<>();

@@ -5,8 +5,10 @@ import com.recklessmo.dao.score.ScoreDAO;
 import com.recklessmo.model.score.Score;
 import com.recklessmo.model.setting.Grade;
 import com.recklessmo.model.setting.Group;
+import com.recklessmo.model.student.StudentBaseInfo;
 import com.recklessmo.service.setting.CourseSettingService;
 import com.recklessmo.service.setting.GradeSettingService;
+import com.recklessmo.service.student.StudentService;
 import com.recklessmo.web.webmodel.page.ScoreListPage;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
@@ -27,6 +29,8 @@ public class ScoreService {
     private ScoreDAO scoreDAO;
     @Resource
     private GradeSettingService gradeSettingService;
+    @Resource
+    private StudentService studentService;
 
 
     /**
@@ -50,6 +54,7 @@ public class ScoreService {
      */
     public List<Score> loadScoreList(ScoreListPage page){
         List<Score> scoreList = scoreDAO.getList(page);
+        compose(scoreList);
         return scoreList;
     }
 
@@ -92,21 +97,44 @@ public class ScoreService {
     }
 
 
-
+    /**
+     *
+     * 计算年级信息
+     *
+     * @param scoreList
+     */
     private void compose(List<Score> scoreList){
         List<Grade>  gradeList = gradeSettingService.listAllGrade();
-        Map<Long, String> gradeMap = new HashMap<>();
-        Map<Long, String> groupMap = new HashMap<>();
+        Map<Long, Grade> gradeMap = new HashMap<>();
+        Map<Long, Group> groupMap = new HashMap<>();
         gradeList.stream().forEach(grade -> {
-            gradeMap.put(grade.getGradeId(), grade.getGradeName());
+            gradeMap.put(grade.getGradeId(), grade);
             grade.getClassList().stream().forEach(group -> {
-                groupMap.put(group.getClassId(), group.getClassName());
+                groupMap.put(group.getClassId(), group);
             });
         });
+
+        List<String> sidList = scoreList.stream().map(o -> o.getSid()).collect(Collectors.toList());
+        List<StudentBaseInfo> studentBaseInfoList = studentService.getStudentBaseInfoByIdList(sidList);
+        Map<String, StudentBaseInfo> stuMap = studentBaseInfoList.stream().collect(Collectors.toMap(StudentBaseInfo::getSid, Function.identity()));
         scoreList.stream().forEach(score -> {
-            score.setGradeName(gradeMap.getOrDefault(score.getGradeId(), ""));
-            score.setClassName(gradeMap.getOrDefault(score.getClassId(), ""));
+            score.setGradeName(gradeMap.get(score.getGradeId()).getGradeName());
+            Group group = groupMap.get(score.getClassId());
+            score.setClassName(group.getClassName());
+            score.setClassLevel(group.getClassLevel());
+            score.setClassType(group.getClassType());
+            score.setName(stuMap.get(score.getSid()).getName());
         });
+    }
+
+
+    /**
+     * 计算排名
+     *
+     * @param scoreList
+     */
+    private void computeRank(List<Score> scoreList){
+
     }
 
 

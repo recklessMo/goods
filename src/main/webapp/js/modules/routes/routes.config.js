@@ -105,8 +105,13 @@
             })
             .state('app.result-rank', {
                 url: '/result-rank',
-                title: '分数段分析',
+                title: '名次分析',
                 templateUrl: helper.basepath('custom/performance/score/result-rank.html')
+            })
+            .state('app.result-rankchange', {
+                url: '/result-rankchange',
+                title: '进退步分析',
+                templateUrl: helper.basepath('custom/performance/score/result-rankchange.html')
             })
             .state('app.analyze-template', {
                 url: '/analyze-template',

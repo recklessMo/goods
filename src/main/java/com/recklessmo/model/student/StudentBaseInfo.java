@@ -6,7 +6,7 @@ package com.recklessmo.model.student;
 public class StudentBaseInfo {
 
     private long id;
-    private long sid;
+    private String sid;
     private String name;
     private String phone;
     private int gender;
@@ -36,11 +36,11 @@ public class StudentBaseInfo {
         this.id = id;
     }
 
-    public long getSid() {
+    public String getSid() {
         return sid;
     }
 
-    public void setSid(long sid) {
+    public void setSid(String sid) {
         this.sid = sid;
     }
 

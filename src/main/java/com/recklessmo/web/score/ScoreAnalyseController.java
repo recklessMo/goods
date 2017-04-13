@@ -115,4 +115,14 @@ public class ScoreAnalyseController {
     }
 
 
+    @RequestMapping(value = "/rankchange", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public JsonResponse analyzeRankChange(@RequestBody Long[] examIdList){
+
+        Object obj = null;
+        return new JsonResponse(200, obj, null);
+    }
+
+
+
 }
