@@ -53,25 +53,34 @@
         }
 
         $scope.deleteExam = function (row) {
-            $scope.examChooseList = _.without($scope.examChooseList, row);
-        }
+            $scope.examChooseList = _.without($scope.examChooseList, row);}
 
-        //开始分析
-        //数据
-        $scope.rankList = [];
-        $scope.labelList = [];
 
         $scope.startAnalyse = function(){
             if($scope.examChooseList.length != 2){
                 SweetAlert.error("请选择两场考试进行对比分析!");
                 return;
             }
-            $scope.showTables();
+            blockUI.start();
+            var params = [$scope.examChooseList[0].examId, $scope.examChooseList[1].examId];
+            ScoreService.loadScoreRankChange(params).success(function(data){
+                blockUI.stop();
+                if(data.status == 200){
+                    $scope.labelList = data.data.labelList;
+                    $scope.dataList = data.data.dataList;
+                    $scope.showTables();
+                }else{
+                    SweetAlert.error("服务器内部错误, 请联系客服!");
+                }
+            }).error(function(){
+                SweetAlert.error("网络问题,请稍后重试!");
+                blockUI.stop();
+            });
         }
 
         //后续需要加上排序以及过滤的一系列逻辑.
         $scope.showTables = function(){
-            $scope.rankListTableParams = new NgTableParams({page: 1, count: 10}, {dataset: $scope.rankList});
+            $scope.rankListTableParams = new NgTableParams({page: 1, count: 10}, {dataset: $scope.dataList});
         }
 
     }

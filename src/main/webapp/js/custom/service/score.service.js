@@ -13,6 +13,7 @@
         this.loadScoreGapRank = loadScoreGapRank;
         this.loadScoreList = loadScoreList;
         this.loadScoreSelf = loadScoreSelf;
+        this.loadScoreRankChange = loadScoreRankChange
 
 
 
@@ -65,6 +66,14 @@
             });
         }
 
+        function loadScoreRankChange(data){
+            return $http({
+                url: "/v1/analyse/rankchange",
+                data: data,
+                method: "POST",
+                timeout: 5000
+            });
+        }
 
 
     }
