@@ -118,8 +118,12 @@ public class ScoreAnalyseController {
     @RequestMapping(value = "/rankchange", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public JsonResponse analyzeRankChange(@RequestBody Long[] examIdList){
-
-        Object obj = null;
+        if(examIdList.length != 2){
+            return new JsonResponse(402, null, null);
+        }
+        List<Score> first = scoreService.loadScoreByExamId(examIdList[0]);
+        List<Score> second = scoreService.loadScoreByExamId(examIdList[1]);
+        Object obj = scoreAnalyseService.analyseRankChange(first, second);
         return new JsonResponse(200, obj, null);
     }
 

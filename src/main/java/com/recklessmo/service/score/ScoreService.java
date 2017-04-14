@@ -74,6 +74,8 @@ public class ScoreService {
      */
     public List<Score> loadScoreByExamId(long examId){
         List<Score> scoreList = scoreDAO.getScoreListByExamId(examId);
+        compose(scoreList);
+        computeRank(scoreList);
         return scoreList;
     }
 
