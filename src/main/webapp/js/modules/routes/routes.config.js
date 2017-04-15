@@ -113,6 +113,11 @@
                 title: '进退步分析',
                 templateUrl: helper.basepath('custom/performance/score/result-rankchange.html')
             })
+            .state('app.result-absense', {
+                url: '/result-absense',
+                title: '缺考统计',
+                templateUrl: helper.basepath('custom/performance/score/result-absense.html')
+            })
             .state('app.analyze-template', {
                 url: '/analyze-template',
                 title: '分析模版',

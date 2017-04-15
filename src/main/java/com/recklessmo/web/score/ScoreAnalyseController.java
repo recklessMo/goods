@@ -115,6 +115,13 @@ public class ScoreAnalyseController {
     }
 
 
+    /**
+     *
+     * 分析两场考试的排名变化
+     *
+     * @param examIdList
+     * @return
+     */
     @RequestMapping(value = "/rankchange", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public JsonResponse analyzeRankChange(@RequestBody Long[] examIdList){
@@ -126,6 +133,23 @@ public class ScoreAnalyseController {
         Object obj = scoreAnalyseService.analyseRankChange(first, second);
         return new JsonResponse(200, obj, null);
     }
+
+
+    /**
+     *
+     * 分析两场考试的排名变化
+     *
+     * @param examIdList
+     * @return
+     */
+    @RequestMapping(value = "/absense", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public JsonResponse analyzeAbsense(@RequestBody long examId){
+        List<Score> examScore = scoreService.loadScoreByExamId(examId);
+        Object obj = scoreAnalyseService.analyseAbsense(examScore);
+        return new JsonResponse(200, obj, null);
+    }
+
 
 
 

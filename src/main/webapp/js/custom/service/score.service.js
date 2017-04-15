@@ -13,8 +13,8 @@
         this.loadScoreGapRank = loadScoreGapRank;
         this.loadScoreList = loadScoreList;
         this.loadScoreSelf = loadScoreSelf;
-        this.loadScoreRankChange = loadScoreRankChange
-
+        this.loadScoreRankChange = loadScoreRankChange;
+        this.loadScoreAbsense = loadScoreAbsense;
 
 
         //type代表分析的维度, 学科维度或者班级维度
@@ -69,6 +69,15 @@
         function loadScoreRankChange(data){
             return $http({
                 url: "/v1/analyse/rankchange",
+                data: data,
+                method: "POST",
+                timeout: 5000
+            });
+        }
+
+        function loadScoreAbsense(data){
+            return $http({
+                url: "/v1/analyse/absense",
                 data: data,
                 method: "POST",
                 timeout: 5000

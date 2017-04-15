@@ -12,7 +12,7 @@ public class CourseScore {
     private String courseName;
     private double score;
     private int rank;
-    //标记是否缺考
+    //标记是否缺考, 1代表缺考
     private int flag;
 
     public CourseScore(){

@@ -7,6 +7,7 @@ import com.recklessmo.model.score.CourseScore;
 import com.recklessmo.model.score.Score;
 import com.recklessmo.model.score.ScoreTemplate;
 import com.recklessmo.model.score.inner.CourseTotalSetting;
+import com.recklessmo.model.score.result.absense.ScoreAbsense;
 import com.recklessmo.model.score.result.gap.CourseGap;
 import com.recklessmo.model.score.result.gap.GapInner;
 import com.recklessmo.model.score.result.gap.ScoreGap;
@@ -22,11 +23,10 @@ import com.recklessmo.model.score.result.total.ClassTotal;
 import com.recklessmo.model.score.result.total.CourseTotal;
 import com.recklessmo.model.score.result.total.TotalInner;
 import com.recklessmo.model.setting.Group;
+import com.recklessmo.model.student.StudentBaseInfo;
 import com.recklessmo.model.student.StudentGradeInfo;
 import com.recklessmo.service.student.StudentService;
-import org.apache.commons.collections.map.HashedMap;
 import org.springframework.stereotype.Service;
-
 import javax.annotation.Resource;
 import java.util.*;
 import java.util.function.Function;
@@ -185,7 +185,7 @@ public class ScoreAnalyseService {
         if (scoreTemplate == null) {
 //            return null;
         }
-        Map<String, CourseGap> gapMap = new HashedMap();
+        Map<String, CourseGap> gapMap = new HashMap<>();
         scoreList.stream().forEach(score -> {
             score.getCourseScoreList().stream().forEach(courseScore -> {
                 CourseGap gap = gapMap.getOrDefault(courseScore.getCourseName(), new CourseGap(courseScore.getCourseName(), getScoreGapList(scoreTemplate, courseScore.getCourseName())));
@@ -235,7 +235,7 @@ public class ScoreAnalyseService {
         if (scoreTemplate == null) {
 //            return null;
         }
-        Map<String, CourseRank> rankMap = new HashedMap();
+        Map<String, CourseRank> rankMap = new HashMap<>();
         scoreList.stream().forEach(score -> {
             for (CourseScore courseScore : score.getCourseScoreList()) {
                 CourseRank rank = rankMap.get(courseScore.getCourseName());
@@ -291,7 +291,7 @@ public class ScoreAnalyseService {
      * @return
      */
     public Object analyseAvg(List<Score> scoreList, long templateId) {
-        Map<String, CourseRank> rankMap = new HashedMap();
+        Map<String, CourseRank> rankMap = new HashMap<>();
         return rankMap.values();
     }
 
@@ -463,6 +463,44 @@ public class ScoreAnalyseService {
         dynamicTable.setDataList(dataList);
         dynamicTable.setLabelList(tableColumnList);
         return dynamicTable;
+    }
+
+    /**
+     *
+     * 分析缺考信息
+     *
+     * @param scoreList
+     * @return
+     */
+    public Object analyseAbsense(List<Score> scoreList){
+        List<ScoreAbsense> scoreAbsenseList = new LinkedList<>();
+        scoreList.stream().forEach(score -> {
+            List<CourseScore> courseScoreList = score.getCourseScoreList();
+            courseScoreList.stream().forEach(courseScore -> {
+                if(courseScore.getFlag() == 1){
+                    Optional<ScoreAbsense> scoreAbsenseOptional = scoreAbsenseList.stream().filter(o->o.getCourseName().equals(courseScore.getCourseName())).findAny();
+                    if(scoreAbsenseOptional.isPresent()){
+                        scoreAbsenseOptional.get().getSidList().add(score.getSid());
+                    }else{
+                        ScoreAbsense scoreAbsense = new ScoreAbsense();
+                        scoreAbsense.setCourseName(courseScore.getCourseName());
+                        scoreAbsense.getSidList().add(score.getSid());
+                        scoreAbsenseList.add(scoreAbsense);
+                    }
+                }
+            });
+        });
+        Set<String> sidSet = new HashSet<>();
+        scoreAbsenseList.stream().forEach(scoreAbsense -> sidSet.addAll(scoreAbsense.getSidList()));
+        List<StudentBaseInfo> studentBaseInfoList = studentService.getStudentBaseInfoByIdList(new LinkedList<>(sidSet));
+        Map<String, StudentBaseInfo> nameMap = studentBaseInfoList.stream().collect(Collectors.toMap(StudentBaseInfo::getSid, Function.identity()));
+        scoreAbsenseList.stream().forEach(scoreAbsense -> {
+            scoreAbsense.getSidList().stream().forEach(sid -> {
+                scoreAbsense.getNameList().add(nameMap.get(sid).getName());
+            });
+            scoreAbsense.setTotalCount(scoreAbsense.getNameList().size());
+        });
+        return scoreAbsenseList;
     }
 
 
