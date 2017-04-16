@@ -23,7 +23,7 @@
     <select id="getCountByOpenId" resultType="java.lang.Integer">
         select count(1)
         from wechat_message
-        where and open_id = #{openId}
+        where open_id = #{openId}
     </select>
 
 </mapper>
