@@ -38,4 +38,7 @@ public class ExamService {
         return examDAO.getExamById(id);
     }
 
+    public List<Exam> getExamByIdList(long orgId, List<Long> idList){
+        return examDAO.getExamByIdList(orgId, idList);
+    }
 }

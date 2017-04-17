@@ -5,6 +5,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.recklessmo.model.setting.Course;
 import org.apache.commons.lang.StringUtils;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,6 +17,9 @@ public class Score {
     //联合主键
     private String sid;
     private long examId;
+    private String examName;
+    private String examType;
+    private Date created;
     //json存储每次考试对应的成绩详情
     private String detail;
     //对应的内部数据结构
@@ -39,6 +43,30 @@ public class Score {
         if(StringUtils.isNotEmpty(detail)) {
             courseScoreList = JSON.parseObject(detail, new TypeReference<List<CourseScore>>(){});
         }
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public String getExamType() {
+        return examType;
+    }
+
+    public void setExamType(String examType) {
+        this.examType = examType;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public String getExamName() {
+        return examName;
+    }
+
+    public void setExamName(String examName) {
+        this.examName = examName;
     }
 
     public String getName() {

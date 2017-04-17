@@ -21,6 +21,6 @@ public interface ExamDAO {
 
     Exam getExamById(@Param("id")long id);
 
-
+    List<Exam> getExamByIdList(@Param("orgId")long orgId, @Param("idList")List<Long> idList);
 
 }

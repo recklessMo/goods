@@ -4,7 +4,7 @@
 <mapper namespace="com.recklessmo.dao.exam.ExamDAO">
 
     <sql id="examColumns">
-        exam_id, exam_name, grade_id, class_id, type, upload_status, course_str
+        exam_id, exam_name, exam_time, grade_id, class_id, type, upload_status, course_str
     </sql>
 
     <select id="listExam" resultType="com.recklessmo.model.exam.Exam">
@@ -38,10 +38,10 @@
     <insert id="addExam" parameterType="com.recklessmo.model.exam.Exam">
         insert into exam
         (
-          exam_name, grade_id, class_id, type, upload_status, course_str
+          exam_name, exam_time, grade_id, class_id, type, upload_status, course_str
         )
         values(
-          #{examName}, #{gradeId}, #{classId}, #{type}, #{uploadStatus}, #{courseStr}
+          #{examName}, #{examTime}, #{gradeId}, #{classId}, #{type}, #{uploadStatus}, #{courseStr}
         )
     </insert>
 
@@ -54,6 +54,17 @@
         <include refid="examColumns"/>
         from exam
         where exam_id = #{id}
+    </select>
+    
+    <select id="getExamByIdList" resultType="com.recklessmo.model.exam.Exam">
+        SELECT
+        <include refid="examColumns"/>
+        from exam
+        where org_id = #{orgId}
+        and exam_id in
+        <foreach collection="idList" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
     </select>
 
 </mapper>

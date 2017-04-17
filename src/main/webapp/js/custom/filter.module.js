@@ -49,4 +49,11 @@
                 return hourStr + ":" + minuteStr;
             }
         })
+        .filter('examTypeFilter', function(){
+            return function(type){
+                if(type == 0){
+
+                }
+            }
+        })
 })();

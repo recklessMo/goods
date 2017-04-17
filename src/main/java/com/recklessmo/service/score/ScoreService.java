@@ -1,19 +1,18 @@
 package com.recklessmo.service.score;
 
-import com.alibaba.fastjson.JSON;
 import com.recklessmo.dao.score.ScoreDAO;
+import com.recklessmo.model.exam.Exam;
 import com.recklessmo.model.score.CourseScore;
 import com.recklessmo.model.score.Score;
-import com.recklessmo.model.setting.Course;
 import com.recklessmo.model.setting.Grade;
 import com.recklessmo.model.setting.Group;
 import com.recklessmo.model.student.StudentBaseInfo;
-import com.recklessmo.service.setting.CourseSettingService;
+import com.recklessmo.service.exam.ExamService;
+import com.recklessmo.service.setting.ClassLevelSettingService;
 import com.recklessmo.service.setting.GradeSettingService;
 import com.recklessmo.service.student.StudentService;
 import com.recklessmo.web.webmodel.page.ScoreListPage;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedCaseInsensitiveMap;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -35,7 +34,10 @@ public class ScoreService {
     private GradeSettingService gradeSettingService;
     @Resource
     private StudentService studentService;
-
+    @Resource
+    private ExamService examService;
+    @Resource
+    private ClassLevelSettingService classLevelSettingService;
 
     /**
      *
@@ -59,7 +61,7 @@ public class ScoreService {
      */
     public List<Score> loadScoreList(ScoreListPage page){
         List<Score> scoreList = scoreDAO.getList(page);
-        compose(page.getOrgId(), scoreList);
+        composeGradeInfo(page.getOrgId(), scoreList);
         computeRank(scoreList);
         return scoreList;
     }
@@ -74,7 +76,7 @@ public class ScoreService {
      */
     public List<Score> loadScoreByExamId(long orgId, long examId){
         List<Score> scoreList = scoreDAO.getScoreListByExamId(examId);
-        compose(orgId, scoreList);
+        composeGradeInfo(orgId, scoreList);
         computeRank(scoreList);
         return scoreList;
     }
@@ -113,7 +115,7 @@ public class ScoreService {
      */
     public List<Score> getScoreListBySid(long orgId, String sid){
         List<Score> scoreList =  scoreDAO.getScoreListBySid(orgId, sid);
-        compose(orgId, scoreList);
+        composeGradeInfo(orgId, scoreList);
         return scoreList;
     }
 
@@ -124,7 +126,7 @@ public class ScoreService {
      *
      * @param scoreList
      */
-    private void compose(long orgId, List<Score> scoreList){
+    private void composeGradeInfo(long orgId, List<Score> scoreList){
         List<Grade>  gradeList = gradeSettingService.listAllGrade();
         Map<Long, Grade> gradeMap = new HashMap<>();
         Map<Long, Group> groupMap = new HashMap<>();
@@ -135,9 +137,14 @@ public class ScoreService {
             });
         });
 
+        List<Long> examIdList = scoreList.stream().map(o -> o.getExamId()).collect(Collectors.toList());
+        List<Exam> examList = examService.getExamByIdList(orgId, examIdList);
+        Map<Long, Exam> examMap = examList.stream().collect(Collectors.toMap(Exam::getExamId, Function.identity()));
+
         List<String> sidList = scoreList.stream().map(o -> o.getSid()).collect(Collectors.toList());
         List<StudentBaseInfo> studentBaseInfoList = studentService.getStudentBaseInfoByIdList(orgId, sidList);
         Map<String, StudentBaseInfo> stuMap = studentBaseInfoList.stream().collect(Collectors.toMap(StudentBaseInfo::getSid, Function.identity()));
+
         scoreList.stream().forEach(score -> {
             score.setGradeName(gradeMap.get(score.getGradeId()).getGradeName());
             Group group = groupMap.get(score.getClassId());
@@ -145,6 +152,9 @@ public class ScoreService {
             score.setClassLevel(group.getClassLevel());
             score.setClassType(group.getClassType());
             score.setName(stuMap.get(score.getSid()).getName());
+            score.setExamName(examMap.get(score.getExamId()).getExamName());
+            score.setCreated(examMap.get(score.getExamId()).getExamTime());
+            score.setExamType(examMap.get(score.getExamId()).getType());
         });
     }
 
@@ -172,7 +182,5 @@ public class ScoreService {
             }
         });
     }
-
-
 
 }

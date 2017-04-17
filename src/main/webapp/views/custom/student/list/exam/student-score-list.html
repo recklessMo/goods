@@ -4,12 +4,12 @@
         <table ng-table="scoreTableParams" class="table table-bordered table-hover table-condensed editable-table table-min">
             <tr ng-repeat="item in $data" ng-dblclick="show(item.id)">
                 <td data-title="'考试名称'" style="text-align: center">{{item.examName}}</td>
-                <td data-title="'考试时间'" style="text-align: center">{{item.examName}}</td>
-                <td data-title="'考试类型'" style="text-align: center">{{item.type}}</td>
-                <td data-title="'所属年级'" style="text-align: center">{{item.gradeId}}</td>
-                <td data-title="'所属班级'" style="text-align: center">{{item.gradeId}}</td>
+                <td data-title="'考试时间'" style="text-align: center">{{item.created | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
+                <td data-title="'考试类型'" style="text-align: center">{{item.examType}}</td>
+                <td data-title="'所属年级'" style="text-align: center">{{item.gradeName}}</td>
+                <td data-title="'所属班级'" style="text-align: center">{{item.className}}</td>
                 <td data-title="'操作'" style="text-align: center">
-                    <button class="btn btn-info" ng-click="uploadScore(item)">查看成绩明细</button>
+                    <button class="btn btn-info" ng-click="showScore(item)">查看成绩明细</button>
                 </td>
             </tr>
         </table>
