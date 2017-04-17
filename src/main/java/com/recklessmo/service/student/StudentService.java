@@ -83,7 +83,9 @@ public class StudentService {
     }
 
     /**
+     *
      * 用于导出
+     *
      * @param page
      * @return
      */
@@ -93,12 +95,25 @@ public class StudentService {
 
 
     /**
-     * 根据微信id获取学生信息
+     *
+     *  根据微信id获取学生信息
+     *
      * @param wechatId
      * @return
      */
     public StudentAllInfo getStudentInfoByWechatId(String wechatId){
         return studentDAO.getStudentAllInfoByWechatId(wechatId);
+    }
+
+    /**
+     *
+     * 根据sid获取学生信息
+     *
+     * @param sid
+     * @return
+     */
+    public StudentAllInfo getStudentInfoBySid(String sid){
+        return studentDAO.getStudentInfoBySid(sid);
     }
 
 
@@ -144,6 +159,7 @@ public class StudentService {
     public List<StudentBaseInfo> getStudentBaseInfoByIdList(List<String> sidList){
         return studentDAO.getStudentBaseInfoByIdList(sidList);
     }
+
 
 
 

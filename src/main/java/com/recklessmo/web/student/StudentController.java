@@ -1,11 +1,13 @@
 package com.recklessmo.web.student;
 
+import com.recklessmo.model.security.DefaultUserDetails;
 import com.recklessmo.model.student.StudentAddInfo;
 import com.recklessmo.model.student.StudentAllInfo;
 import com.recklessmo.model.student.StudentBaseInfo;
 import com.recklessmo.model.student.StudentGradeInfo;
 import com.recklessmo.response.JsonResponse;
 import com.recklessmo.service.student.StudentService;
+import com.recklessmo.util.ContextUtils;
 import com.recklessmo.web.webmodel.page.StudentPage;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -37,6 +39,8 @@ public class StudentController {
     @ResponseBody
     @RequestMapping(value = "/v1/student/list", method = {RequestMethod.POST, RequestMethod.GET})
     public JsonResponse list(@RequestBody StudentPage page){
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
+        page.setOrgId(userDetails.getOrgId());
         int cnt = studentService.getStudentBaseInfoTotalCount(page);
         List<StudentBaseInfo> infoList = studentService.getStudentBaseInfo(page);
         return new JsonResponse(200, infoList, cnt);
@@ -63,6 +67,19 @@ public class StudentController {
     public JsonResponse searchByExam(@RequestBody StudentPage page){
         List<StudentGradeInfo> studentGradeInfoList = studentService.searchStudentByExam(page);
         return new JsonResponse(200, studentGradeInfoList, studentGradeInfoList.size());
+    }
+
+    /**
+     *
+     * 通过sid获取学生全部信息
+     * @param sid
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/v1/student/get", method = {RequestMethod.POST, RequestMethod.GET})
+    public JsonResponse getBySid(@RequestBody String sid){
+        StudentAllInfo studentAllInfo = studentService.getStudentInfoBySid(sid);
+        return new JsonResponse(200, studentAllInfo, null);
     }
 
 

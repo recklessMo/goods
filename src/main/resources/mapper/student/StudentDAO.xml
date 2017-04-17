@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.recklessmo.dao.student.StudentDAO">
+
     <sql id = "baseInfoColumns">
         id, sid, name, phone, gender
     </sql>
@@ -41,7 +42,16 @@
     </insert>
 
     <sql id="byPageQuery">
-
+        where org_id = #{orgId}
+        <if test="gradeId != null and gradeId != 0">
+            and grade_id = #{gradeId}
+        </if>
+        <if test="classId != null and classId != 0">
+            and class_id = #{classId}
+        </if>
+        <if test="searchStr != null and searchStr != ''">
+            and (name like "%"#{searchStr}"%" or sid like "%"#{searchStr}"%" or phone like "%"#{searchStr}"%" or scn like "%"#{searchStr}"%")
+        </if>
     </sql>
 
     <select id="getStudentBaseInfoList" resultType="com.recklessmo.model.student.StudentBaseInfo">
@@ -77,6 +87,12 @@
     <select id="getStudentAllInfoByWechatId" resultType="com.recklessmo.model.student.StudentAllInfo">
         select * from student
         where wechat_id = #{wechatId}
+        limit 1
+    </select>
+
+    <select id="getStudentInfoBySid" resultType="com.recklessmo.model.student.StudentAllInfo">
+        select * from student
+        where sid = #{sid}
         limit 1
     </select>
 

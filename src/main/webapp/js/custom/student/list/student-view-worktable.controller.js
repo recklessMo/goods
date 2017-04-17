@@ -45,10 +45,14 @@
                 counts: [],
                 getData: function (params) {
                     blockUI.start();
-                    return StudentService.searchStudent({page:params.page(), count:12}).then(function (data) {
+                    $scope.tableParams.page = params.page();
+                    $scope.tableParams.count = params.count();
+                    return StudentService.searchStudent($scope.tableParams).then(function (data) {
                         var result = data.data;
                         blockUI.stop();
-                        if (data.status == 200) {
+                        if (result.status == 200) {
+                            //result.totalCount = result.data.length;
+                            //console.log(result.data.length);
                             params.total(result.totalCount);
                             $scope.obj.totalCount = result.totalCount;
                             return result.data;
@@ -62,6 +66,13 @@
                 }
             });
         }
+
+
+        $scope.getInfo = function(sid){
+            //发送消息啦, 然后自组件们开始接受并且处理相关逻辑
+            $scope.$broadcast('chooseSid', sid);
+        }
+
 
 
     }

@@ -12,6 +12,16 @@
         this.addStudent = addStudent;
         this.loadStudent = loadStudent;
         this.searchStudentByExam = searchStudentByExam;
+        this.getSingleStudentInfo = getSingleStudentInfo;
+
+        function getSingleStudentInfo(data){
+            return $http({
+                method: "POST",
+                url : "/v1/student/get",
+                data:data,
+                timeout: 5000
+            });
+        }
 
         function searchStudentByExam(data){
             return $http({

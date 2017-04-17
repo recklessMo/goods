@@ -24,6 +24,7 @@ public interface StudentDAO {
     int getStudentAllInfoTotalCount(StudentPage page);
 
     StudentAllInfo getStudentAllInfoByWechatId(@Param("wechatId")String wechatId);
+    StudentAllInfo getStudentInfoBySid(@Param("sid")String sid);
     List<StudentAllInfo> getStudentListByGradeIdAndClassId(@Param("gradeId")long gradeId, @Param("classId")long classId);
 
     List<StudentGradeInfo> getStudentGradeInfoBySidList(@Param("sidList")List<String> sidList);

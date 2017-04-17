@@ -35,7 +35,7 @@
                 </div>
 
                 <div class="col-xs-5">
-                    <input type="text" class="form-control" style="width:100%;"
+                    <input type="text" class="form-control" style="width:100%;" ng-model="tableParams.searchStr"
                            placeholder="输入姓名,学号,身份证或者电话号码">
                 </div>
 
@@ -59,14 +59,9 @@
                         <td data-title="'性别'">{{row.gender | sexFilter}}</td>
                         <td data-title="'班级'">{{row.name}}</td>
                         <td data-title="'操作'">
-                            <a class="" ng-click="">详细</a>
+                            <a class="" ng-click="getInfo(row.sid)">详细</a>
                         </td>
                     </tr>
-                    <tfoot ng-if="!$data || $data.length<1">
-                        <tr>
-                            <td colspan="5" style="text-align: center;"> 无数据 </td>
-                        </tr>
-                    </tfoot>
                 </table>
             </div>
         </div>
