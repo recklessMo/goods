@@ -16,7 +16,6 @@
         this.loadScoreRankChange = loadScoreRankChange;
         this.loadScoreAbsense = loadScoreAbsense;
 
-
         //type代表分析的维度, 学科维度或者班级维度
         function loadScoreTotalResult(examId, type, templateId){
             return $http({

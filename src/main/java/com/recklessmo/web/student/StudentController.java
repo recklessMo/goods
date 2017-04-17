@@ -1,11 +1,13 @@
 package com.recklessmo.web.student;
 
+import com.recklessmo.model.score.Score;
 import com.recklessmo.model.security.DefaultUserDetails;
 import com.recklessmo.model.student.StudentAddInfo;
 import com.recklessmo.model.student.StudentAllInfo;
 import com.recklessmo.model.student.StudentBaseInfo;
 import com.recklessmo.model.student.StudentGradeInfo;
 import com.recklessmo.response.JsonResponse;
+import com.recklessmo.service.score.ScoreService;
 import com.recklessmo.service.student.StudentService;
 import com.recklessmo.util.ContextUtils;
 import com.recklessmo.web.webmodel.page.StudentPage;
@@ -27,6 +29,9 @@ public class StudentController {
 
     @Resource
     private StudentService studentService;
+
+    @Resource
+    private ScoreService scoreService;
 
     @ResponseBody
     @RequestMapping(value = "/v1/student/add", method = {RequestMethod.POST, RequestMethod.GET})
@@ -94,8 +99,26 @@ public class StudentController {
     @ResponseBody
     @RequestMapping(value = "/v1/student/save", method = {RequestMethod.POST, RequestMethod.GET})
     public JsonResponse saveStudentAllInfo(@RequestBody StudentAllInfo studentAllInfo){
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
+        studentAllInfo.setOrgId(userDetails.getOrgId());
         studentService.updateStudentInfo(studentAllInfo);
         return new JsonResponse(200, null, null);
+    }
+
+
+    /**
+     *
+     * 获取学生的成绩列表
+     *
+     * @param sid
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/v1/student/scoreList", method = {RequestMethod.POST, RequestMethod.GET})
+    public JsonResponse getScoreList(@RequestBody String sid){
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
+        List<Score> scoreList = scoreService.getScoreListBySid(userDetails.getOrgId(), sid);
+        return new JsonResponse(200, scoreList, scoreList.size());
     }
 
 

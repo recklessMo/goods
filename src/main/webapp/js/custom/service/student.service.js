@@ -14,6 +14,18 @@
         this.searchStudentByExam = searchStudentByExam;
         this.getSingleStudentInfo = getSingleStudentInfo;
         this.saveSingleStudentInfo = saveSingleStudentInfo;
+        this.loadScoreListBySid = loadScoreListBySid;
+
+        function loadScoreListBySid(data){
+            return $http({
+                method: "POST",
+                url : "/v1/student/scoreList",
+                headers: {'Content-Type': 'text/plain'},
+                data:data,
+                timeout: 5000
+            });
+        }
+
 
         function saveSingleStudentInfo(data){
             return $http({

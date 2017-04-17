@@ -106,6 +106,19 @@ public class ScoreService {
 
 
     /**
+     * 根据sid获取scoreList
+     * @param orgId
+     * @param sid
+     * @return
+     */
+    public List<Score> getScoreListBySid(long orgId, String sid){
+        List<Score> scoreList =  scoreDAO.getScoreListBySid(orgId, sid);
+        compose(orgId, scoreList);
+        return scoreList;
+    }
+
+
+    /**
      *
      * 计算年级信息
      *

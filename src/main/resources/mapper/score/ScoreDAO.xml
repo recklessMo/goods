@@ -44,6 +44,13 @@
         from score
         where exam_id = #{examId} and sid = #{sid}
     </select>
+    
+    <select id="getScoreListBySid" resultType="com.recklessmo.model.score.Score">
+        SELECT
+        <include refid="columns"/>
+        from score
+        where org_id = #{orgId} and sid = #{sid}
+    </select>
 
     <select id="getScoreByExamIdAndSidList" resultType="com.recklessmo.model.score.Score">
         select
