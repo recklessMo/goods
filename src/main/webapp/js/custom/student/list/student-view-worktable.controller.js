@@ -70,6 +70,7 @@
 
         $scope.getInfo = function(sid){
             //发送消息啦, 然后自组件们开始接受并且处理相关逻辑
+            $scope.obj.hasChooseId = true;
             $scope.$broadcast('chooseSid', sid);
         }
 

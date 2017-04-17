@@ -30,10 +30,12 @@
             });
         }
 
-        $scope.activate();
-
-        $scope.changeStatus = function (){
-            $scope.isEdit = !$scope.isEdit;
+        $scope.changeStatus = function () {
+            if ($scope.isEdit == true) {
+                $scope.save();
+            } else {
+                $scope.isEdit = true;
+            }
         }
 
 
@@ -44,13 +46,22 @@
                 return;
             }
 
-
-
-
+            blockUI.start();
+            StudentService.saveSingleStudentInfo($scope.offlineInfo).success(function(data){
+                blockUI.stop();
+                if(data.status == 200){
+                    $scope.isEdit = false;
+                    $scope.activate();
+                }else{
+                    SweetAlert.error("服务器内部错误, 请联系客服!");
+                }
+            }).error(function(){
+                SweetAlert.error("网络问题,请稍后重试!");
+                blockUI.stop();
+            });
         }
 
         $scope.isValid = function(data){
-
             return true;
         }
 
