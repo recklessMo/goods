@@ -4,15 +4,15 @@
 <mapper namespace="com.recklessmo.dao.student.StudentDAO">
 
     <sql id = "baseInfoColumns">
-        id, sid, name, phone, gender
+        id, org_id, sid, name, phone, gender
     </sql>
 
     <sql id = "studentAddColumns">
-        sid, name, other_name,phone, scn, gender, birth, home_town, people, birth_town, address, qq, wechat, grade_id, grade_name, class_id, class_name, job, wechat_id
+        org_id, sid, name, other_name,phone, scn, gender, birth, home_town, people, birth_town, address, qq, wechat, grade_id, grade_name, class_id, class_name, job, wechat_id
     </sql>
 
     <sql id = "studentAllColumns">
-        id, sid, name, other_name,phone, scn, gender, birth, home_town, people, birth_town, address, qq, wechat, grade_id, grade_name, class_id, class_name, job, wechat_id
+        id, org_id, sid, name, other_name,phone, scn, gender, birth, home_town, people, birth_town, address, qq, wechat, grade_id, grade_name, class_id, class_name, job, wechat_id
     </sql>
 
     <insert id="insertStudentAddInfo" parameterType="com.recklessmo.model.student.StudentAddInfo">
@@ -21,7 +21,7 @@
         <include refid="studentAddColumns"/>
         )
         VALUES (
-        #{sid},#{name}, #{otherName}, #{phone}, #{scn}, #{gender}, #{birth}, #{homeTown}, #{people}, #{birthTown}, #{address}, #{qq}, #{wechat}, #{gradeId}, #{gradeName}, #{classId}, #{className}, #{job}, #{wechatId}
+        #{orgId}, #{sid},#{name}, #{otherName}, #{phone}, #{scn}, #{gender}, #{birth}, #{homeTown}, #{people}, #{birthTown}, #{address}, #{qq}, #{wechat}, #{gradeId}, #{gradeName}, #{classId}, #{className}, #{job}, #{wechatId}
         )
     </insert>
 
@@ -32,7 +32,7 @@
         )
         VALUES
         <foreach collection="list" item="student" separator=",">
-            (#{student.sid},#{student.name}, #{student.otherName},
+            (#{student.orgId}, #{student.sid},#{student.name}, #{student.otherName},
             #{student.phone}, #{student.scn}, #{student.gender},
             #{student.birth}, #{student.homeTown}, #{student.people},
             #{student.birthTown}, #{student.address}, #{student.qq},
@@ -92,13 +92,24 @@
 
     <select id="getStudentInfoBySid" resultType="com.recklessmo.model.student.StudentAllInfo">
         select * from student
-        where sid = #{sid}
+        where sid = #{sid} and org_id = #{orgId}
         limit 1
     </select>
 
+    <update id="updateStudentInfo" parameterType="com.recklessmo.model.student.StudentAllInfo">
+        update student set
+        org_id = #{orgId}, sid = #{sid}, name = #{name}, other_name = #{otherName},
+        phone = #{phone}, scn = #{scn}, gender=#{gender},
+        birth = #{birth}, home_town=#{homeTown}, people=#{people},
+        birth_town = #{birthTown}, address=#{address}, qq=#{qq},
+        wechat=#{wechat},grade_id=#{gradeId}, grade_name=#{gradeName},
+        class_id=#{classId}, class_name=#{className},job=#{job}, wechat_id = #{wechatId}
+        where id = #{id}
+    </update>
+
     <select id="getStudentListByGradeIdAndClassId" resultType="com.recklessmo.model.student.StudentAllInfo">
         select * from student
-        where gradeId = #{gradeId}
+        where org_id = #{orgId} and gradeId = #{gradeId}
         <if test="classId != 0">
             and class_id = #{classId}
         </if>
@@ -107,14 +118,14 @@
     <select id="getStudentGradeInfoBySidList" resultType="com.recklessmo.model.student.StudentGradeInfo">
         select id, sid, name, grade_id, class_id
         from student
-        where sid in
+        where org_id = #{orgId} and sid in
         <foreach collection="sidList" item="sid" open="(" close=")" separator=",">
             #{sid}
         </foreach>
     </select>
 
     <select id="searchStudentByExam" resultType="com.recklessmo.model.student.StudentGradeInfo">
-        select st.id, st.sid, st.name, st.grade_id, st.class_id
+        select st.id, st.org_id, st.sid, st.name, st.grade_id, st.class_id
         from student st left join score sc on st.sid = sc.sid
         where sc.exam_id = #{examId}
     </select>
@@ -123,7 +134,7 @@
         select
         <include refid="baseInfoColumns"/>
         from student
-        where sid in
+        where org_id = #{orgId} and sid in
         <foreach collection="sidList" item="sid" open="(" close=")" separator=",">
             #{sid}
         </foreach>

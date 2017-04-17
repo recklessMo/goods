@@ -13,6 +13,16 @@
         this.loadStudent = loadStudent;
         this.searchStudentByExam = searchStudentByExam;
         this.getSingleStudentInfo = getSingleStudentInfo;
+        this.saveSingleStudentInfo = saveSingleStudentInfo;
+
+        function saveSingleStudentInfo(data){
+            return $http({
+                method: "POST",
+                url : "/v1/student/save",
+                data:data,
+                timeout: 5000
+            });
+        }
 
         function getSingleStudentInfo(data){
             return $http({

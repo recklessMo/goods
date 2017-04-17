@@ -6,11 +6,20 @@ package com.recklessmo.model.student;
 public class StudentBaseInfo {
 
     private long id;
+    private long orgId;
     private String sid;
     private String name;
     private String phone;
     private int gender;
     private int age;
+
+    public long getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(long orgId) {
+        this.orgId = orgId;
+    }
 
     public int getAge() {
         return age;

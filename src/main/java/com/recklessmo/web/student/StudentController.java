@@ -78,8 +78,24 @@ public class StudentController {
     @ResponseBody
     @RequestMapping(value = "/v1/student/get", method = {RequestMethod.POST, RequestMethod.GET})
     public JsonResponse getBySid(@RequestBody String sid){
-        StudentAllInfo studentAllInfo = studentService.getStudentInfoBySid(sid);
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
+        StudentAllInfo studentAllInfo = studentService.getStudentInfoBySid(userDetails.getOrgId(), sid);
         return new JsonResponse(200, studentAllInfo, null);
+    }
+
+
+    /**
+     *
+     * 更新信息
+     *
+     * @param studentAllInfo
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/v1/student/save", method = {RequestMethod.POST, RequestMethod.GET})
+    public JsonResponse saveStudentAllInfo(@RequestBody StudentAllInfo studentAllInfo){
+        studentService.updateStudentInfo(studentAllInfo);
+        return new JsonResponse(200, null, null);
     }
 
 

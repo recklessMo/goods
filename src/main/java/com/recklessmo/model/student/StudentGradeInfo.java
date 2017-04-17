@@ -6,6 +6,7 @@ package com.recklessmo.model.student;
 public class StudentGradeInfo {
 
     private long id;
+    private long orgId;
     private String sid;
     private String name;
     private long gradeId;
@@ -13,6 +14,13 @@ public class StudentGradeInfo {
     private long classId;
     private String className;
 
+    public long getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(long orgId) {
+        this.orgId = orgId;
+    }
 
     public String getGradeName() {
         return gradeName;

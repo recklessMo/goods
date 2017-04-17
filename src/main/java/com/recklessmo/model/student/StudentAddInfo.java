@@ -15,6 +15,7 @@ import java.util.List;
  */
 public class StudentAddInfo {
 
+    private long orgId;
     private String sid;
 
     private String name="";
@@ -42,6 +43,14 @@ public class StudentAddInfo {
     private String className = "";
     private String job = "";
     private String wechatId="";
+
+    public long getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(long orgId) {
+        this.orgId = orgId;
+    }
 
     public String getWechatId() {
         return wechatId;

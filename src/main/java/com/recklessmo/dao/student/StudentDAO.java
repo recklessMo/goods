@@ -24,13 +24,16 @@ public interface StudentDAO {
     int getStudentAllInfoTotalCount(StudentPage page);
 
     StudentAllInfo getStudentAllInfoByWechatId(@Param("wechatId")String wechatId);
-    StudentAllInfo getStudentInfoBySid(@Param("sid")String sid);
-    List<StudentAllInfo> getStudentListByGradeIdAndClassId(@Param("gradeId")long gradeId, @Param("classId")long classId);
+    StudentAllInfo getStudentInfoBySid(@Param("orgId")long orgId, @Param("sid")String sid);
+    void updateStudentInfo(StudentAllInfo studentAllInfo);
 
-    List<StudentGradeInfo> getStudentGradeInfoBySidList(@Param("sidList")List<String> sidList);
+
+    List<StudentAllInfo> getStudentListByGradeIdAndClassId(@Param("orgId")long orgId, @Param("gradeId")long gradeId, @Param("classId")long classId);
+
+    List<StudentGradeInfo> getStudentGradeInfoBySidList(@Param("orgId")long orgId, @Param("sidList")List<String> sidList);
 
     List<StudentGradeInfo> searchStudentByExam(StudentPage page);
 
-    List<StudentBaseInfo> getStudentBaseInfoByIdList(@Param("sidList")List<String> sidList);
+    List<StudentBaseInfo> getStudentBaseInfoByIdList(@Param("orgId")long orgId, @Param("sidList")List<String> sidList);
 }
 

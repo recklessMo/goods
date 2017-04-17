@@ -302,7 +302,7 @@ public class ScoreAnalyseService {
      * @param templateId
      * @return
      */
-    public Object analyseSelf(List<Score> scoreList, long templateId) {
+    public Object analyseSelf(long orgId, List<Score> scoreList, long templateId) {
         //根据templateId获取模板参数
         ScoreTemplate scoreTemplate = scoreTemplateService.get(templateId);
         if (scoreTemplate == null) {
@@ -320,7 +320,7 @@ public class ScoreAnalyseService {
             });
 
             List<String> sidList = scoreList.stream().map(o -> o.getSid()).collect(Collectors.toList());
-            List<StudentGradeInfo> gradeInfoList = studentService.getStudentGradeInfoBySidList(sidList);
+            List<StudentGradeInfo> gradeInfoList = studentService.getStudentGradeInfoBySidList(orgId, sidList);
             Map<String, StudentGradeInfo> gradeInfoMap = gradeInfoList.stream().collect(Collectors.toMap(StudentGradeInfo::getSid, Function.identity()));
             List<ScoreSelfInner> scoreSelfInnerList = new LinkedList<>();
             scoreList.stream().forEach(score -> {
@@ -472,7 +472,7 @@ public class ScoreAnalyseService {
      * @param scoreList
      * @return
      */
-    public Object analyseAbsense(List<Score> scoreList){
+    public Object analyseAbsense(long orgId, List<Score> scoreList){
         List<ScoreAbsense> scoreAbsenseList = new LinkedList<>();
         scoreList.stream().forEach(score -> {
             List<CourseScore> courseScoreList = score.getCourseScoreList();
@@ -492,7 +492,7 @@ public class ScoreAnalyseService {
         });
         Set<String> sidSet = new HashSet<>();
         scoreAbsenseList.stream().forEach(scoreAbsense -> sidSet.addAll(scoreAbsense.getSidList()));
-        List<StudentBaseInfo> studentBaseInfoList = studentService.getStudentBaseInfoByIdList(new LinkedList<>(sidSet));
+        List<StudentBaseInfo> studentBaseInfoList = studentService.getStudentBaseInfoByIdList(orgId, new LinkedList<>(sidSet));
         Map<String, StudentBaseInfo> nameMap = studentBaseInfoList.stream().collect(Collectors.toMap(StudentBaseInfo::getSid, Function.identity()));
         scoreAbsenseList.stream().forEach(scoreAbsense -> {
             scoreAbsense.getSidList().stream().forEach(sid -> {

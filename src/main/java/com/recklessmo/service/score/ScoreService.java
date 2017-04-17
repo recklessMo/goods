@@ -59,7 +59,7 @@ public class ScoreService {
      */
     public List<Score> loadScoreList(ScoreListPage page){
         List<Score> scoreList = scoreDAO.getList(page);
-        compose(scoreList);
+        compose(page.getOrgId(), scoreList);
         computeRank(scoreList);
         return scoreList;
     }
@@ -72,9 +72,9 @@ public class ScoreService {
      * @param examId
      * @return
      */
-    public List<Score> loadScoreByExamId(long examId){
+    public List<Score> loadScoreByExamId(long orgId, long examId){
         List<Score> scoreList = scoreDAO.getScoreListByExamId(examId);
-        compose(scoreList);
+        compose(orgId, scoreList);
         computeRank(scoreList);
         return scoreList;
     }
@@ -111,7 +111,7 @@ public class ScoreService {
      *
      * @param scoreList
      */
-    private void compose(List<Score> scoreList){
+    private void compose(long orgId, List<Score> scoreList){
         List<Grade>  gradeList = gradeSettingService.listAllGrade();
         Map<Long, Grade> gradeMap = new HashMap<>();
         Map<Long, Group> groupMap = new HashMap<>();
@@ -123,7 +123,7 @@ public class ScoreService {
         });
 
         List<String> sidList = scoreList.stream().map(o -> o.getSid()).collect(Collectors.toList());
-        List<StudentBaseInfo> studentBaseInfoList = studentService.getStudentBaseInfoByIdList(sidList);
+        List<StudentBaseInfo> studentBaseInfoList = studentService.getStudentBaseInfoByIdList(orgId, sidList);
         Map<String, StudentBaseInfo> stuMap = studentBaseInfoList.stream().collect(Collectors.toMap(StudentBaseInfo::getSid, Function.identity()));
         scoreList.stream().forEach(score -> {
             score.setGradeName(gradeMap.get(score.getGradeId()).getGradeName());

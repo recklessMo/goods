@@ -63,6 +63,7 @@ public class FileUploadController {
     @RequestMapping(value = "/score/uploadExcel", method = {RequestMethod.POST})
     @ResponseBody
     public JsonResponse scoreFileUpload(@RequestParam("examId") long examId, @RequestParam("file") MultipartFile multipartFile) throws Exception {
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
         //处理excel文件
         InputStream inputStream = multipartFile.getInputStream();
         Workbook workbook = WorkbookFactory.create(inputStream);
@@ -94,17 +95,17 @@ public class FileUploadController {
             //返回错误信息
             return new JsonResponse(300, "数据错误!", null);
         } else {
-            preProcessData(data);
+            preProcessData(userDetails.getOrgId(), data);
             scoreService.insertScoreList(data);
             return new JsonResponse(200, null, null);
         }
     }
 
-    private void preProcessData(List<Score> scoreList){
+    private void preProcessData(long orgId, List<Score> scoreList){
         List<Grade> gradeList = gradeSettingService.listAllGrade();
         Map<Long, Grade> gradeMap = gradeList.stream().collect(Collectors.toMap(Grade::getGradeId, Function.identity()));
         List<String> sidList = scoreList.stream().map(o->o.getSid()).collect(Collectors.toList());
-        List<StudentGradeInfo> studentGradeInfoList = studentService.getStudentGradeInfoBySidList(sidList);
+        List<StudentGradeInfo> studentGradeInfoList = studentService.getStudentGradeInfoBySidList(orgId, sidList);
         Map<String, StudentGradeInfo> studentGradeInfoMap = studentGradeInfoList.stream().collect(Collectors.toMap(StudentGradeInfo::getSid, Function.identity()));
         scoreList.stream().forEach(item -> {
             StudentGradeInfo studentGradeInfo = studentGradeInfoMap.get(item.getSid());

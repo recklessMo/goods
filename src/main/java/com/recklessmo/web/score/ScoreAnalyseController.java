@@ -2,10 +2,14 @@ package com.recklessmo.web.score;
 
 import com.recklessmo.model.score.Score;
 import com.recklessmo.model.score.result.gap.CourseGap;
+import com.recklessmo.model.security.DefaultUserDetails;
 import com.recklessmo.response.JsonResponse;
 import com.recklessmo.service.score.ScoreAnalyseService;
 import com.recklessmo.service.score.ScoreService;
+import com.recklessmo.util.ContextUtils;
 import com.recklessmo.web.webmodel.model.SelfModel;
+import com.sun.corba.se.impl.legacy.connection.USLPort;
+import com.sun.tools.classfile.ConstantPool;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,7 +46,8 @@ public class ScoreAnalyseController {
     @RequestMapping(value = "/total", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public JsonResponse analyzeTotal(@RequestParam("examId")long examId, @RequestParam("type")int type, @RequestParam("templateId")long templateId){
-        List<Score> scoreList = scoreService.loadScoreByExamId(examId);
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
+        List<Score> scoreList = scoreService.loadScoreByExamId(userDetails.getOrgId(), examId);
         //开始进行整体分析
         Object result = scoreAnalyseService.analyseTotal(scoreList, type, templateId);
         return new JsonResponse(200, result, null);
@@ -59,7 +64,8 @@ public class ScoreAnalyseController {
     @RequestMapping(value = "/gap", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public JsonResponse analyzeGap(@RequestParam("examId")long examId, @RequestParam("templateId")long templateId){
-        List<Score> scoreList = scoreService.loadScoreByExamId(examId);
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
+        List<Score> scoreList = scoreService.loadScoreByExamId(userDetails.getOrgId(),examId);
         //根据模板Id获取模板设置的数据
         Collection<CourseGap> obj = scoreAnalyseService.analyseGap(scoreList, templateId);
         return new JsonResponse(200, obj, null);
@@ -77,7 +83,8 @@ public class ScoreAnalyseController {
     @RequestMapping(value = "/rank", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public JsonResponse analyzeRank(@RequestParam("examId")long examId, @RequestParam("templateId")long templateId){
-        List<Score> scoreList = scoreService.loadScoreByExamId(examId);
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
+        List<Score> scoreList = scoreService.loadScoreByExamId(userDetails.getOrgId(), examId);
         Object obj = scoreAnalyseService.analyseRank(scoreList, 0);
         return new JsonResponse(200, obj, null);
     }
@@ -93,7 +100,8 @@ public class ScoreAnalyseController {
     @RequestMapping(value = "/avg", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public JsonResponse analyzeAvg(@RequestParam("examId")long examId, @RequestParam("templateId")long templateId){
-        List<Score> scoreList = scoreService.loadScoreByExamId(examId);
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
+        List<Score> scoreList = scoreService.loadScoreByExamId(userDetails.getOrgId(), examId);
         Object obj = scoreAnalyseService.analyseAvg(scoreList, 0);
         return new JsonResponse(200, obj, null);
     }
@@ -109,8 +117,9 @@ public class ScoreAnalyseController {
     @RequestMapping(value = "/self", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public JsonResponse analyzeSelf(@RequestBody SelfModel selfModel){
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
         List<Score> scoreList = scoreService.getScoreByExamIdAndSidList(selfModel.getExamId(), selfModel.getSidList());
-        Object obj = scoreAnalyseService.analyseSelf(scoreList, selfModel.getTemplateId());
+        Object obj = scoreAnalyseService.analyseSelf(userDetails.getOrgId(), scoreList, selfModel.getTemplateId());
         return new JsonResponse(200, obj, null);
     }
 
@@ -128,8 +137,9 @@ public class ScoreAnalyseController {
         if(examIdList.length != 2){
             return new JsonResponse(402, null, null);
         }
-        List<Score> first = scoreService.loadScoreByExamId(examIdList[0]);
-        List<Score> second = scoreService.loadScoreByExamId(examIdList[1]);
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
+        List<Score> first = scoreService.loadScoreByExamId(userDetails.getOrgId(), examIdList[0]);
+        List<Score> second = scoreService.loadScoreByExamId(userDetails.getOrgId(), examIdList[1]);
         Object obj = scoreAnalyseService.analyseRankChange(first, second);
         return new JsonResponse(200, obj, null);
     }
@@ -145,8 +155,9 @@ public class ScoreAnalyseController {
     @RequestMapping(value = "/absense", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public JsonResponse analyzeAbsense(@RequestBody long examId){
-        List<Score> examScore = scoreService.loadScoreByExamId(examId);
-        Object obj = scoreAnalyseService.analyseAbsense(examScore);
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
+        List<Score> examScore = scoreService.loadScoreByExamId(userDetails.getOrgId(), examId);
+        Object obj = scoreAnalyseService.analyseAbsense(userDetails.getOrgId(), examScore);
         return new JsonResponse(200, obj, null);
     }
 

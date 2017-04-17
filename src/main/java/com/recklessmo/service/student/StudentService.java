@@ -54,6 +54,13 @@ public class StudentService {
         studentDAO.insertStudentAddInfo(studentAddInfo);
     }
 
+    /**
+     * 用于保存学生信息
+     * @param studentAllInfo
+     */
+    public void updateStudentInfo(StudentAllInfo studentAllInfo){
+        studentDAO.updateStudentInfo(studentAllInfo);
+    }
 
     /**
      * 用于批量插入学生信息
@@ -112,8 +119,8 @@ public class StudentService {
      * @param sid
      * @return
      */
-    public StudentAllInfo getStudentInfoBySid(String sid){
-        return studentDAO.getStudentInfoBySid(sid);
+    public StudentAllInfo getStudentInfoBySid(long orgId, String sid){
+        return studentDAO.getStudentInfoBySid(orgId, sid);
     }
 
 
@@ -125,13 +132,13 @@ public class StudentService {
      * @param classId
      * @return
      */
-    public List<StudentAllInfo> getStudentListByGradeIdAndClassId(long gradeId, long classId){
-        return studentDAO.getStudentListByGradeIdAndClassId(gradeId, classId);
+    public List<StudentAllInfo> getStudentListByGradeIdAndClassId(long orgId, long gradeId, long classId){
+        return studentDAO.getStudentListByGradeIdAndClassId(orgId, gradeId, classId);
     }
 
 
-    public List<StudentGradeInfo> getStudentGradeInfoBySidList(List<String> sidList){
-        return studentDAO.getStudentGradeInfoBySidList(sidList);
+    public List<StudentGradeInfo> getStudentGradeInfoBySidList(long orgId, List<String> sidList){
+        return studentDAO.getStudentGradeInfoBySidList(orgId, sidList);
     }
 
 
@@ -156,8 +163,8 @@ public class StudentService {
      * @param sidList
      * @return
      */
-    public List<StudentBaseInfo> getStudentBaseInfoByIdList(List<String> sidList){
-        return studentDAO.getStudentBaseInfoByIdList(sidList);
+    public List<StudentBaseInfo> getStudentBaseInfoByIdList(long orgId, List<String> sidList){
+        return studentDAO.getStudentBaseInfoByIdList(orgId, sidList);
     }
 
 

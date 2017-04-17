@@ -37,6 +37,24 @@
         }
 
 
+        //保存
+        $scope.save = function(){
+            if(!$scope.isValid($scope.offlineInfo)){
+                SweetAlert.error("数据不合理!");
+                return;
+            }
+
+
+
+
+        }
+
+        $scope.isValid = function(data){
+
+            return true;
+        }
+
+
 
     }
 })();
