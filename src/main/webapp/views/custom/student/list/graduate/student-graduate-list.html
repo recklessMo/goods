@@ -1,1 +1,31 @@
-毕业去向,可能有多次更新,所以采用表格形式
+<div ng-controller="StudentGraduateListController" style="overflow: auto;padding:20px;">
+
+    <div class="row">
+        <div class="col-md-3 pull-left">
+            <button class="btn btn-info" ng-click="addJob()">
+                添加新去向
+            </button>
+            <button class="btn btn-info" ng-click="activate()">
+                刷新
+            </button>
+        </div>
+    </div>
+
+    <div style="margin-top: 20px;">
+        <table ng-table="graduateTableParams"
+               class="table table-bordered table-hover table-condensed editable-table table-min"
+               style="border:1px solid #eeeeee;">
+            <tr ng-repeat="item in $data" ng-dblclick="showClass(item.gradeId)">
+                <td data-title="'姓名'" style="text-align: center;">{{item.jobName}}</td>
+                <td data-title="'去向信息'" style="text-align: center;">{{item.jobDetail}}</td>
+                <td data-title="'记录人'" style="text-align: center;">{{item.jobDetail}}</td>
+                <td data-title="'记录时间'" style="text-align: center;">{{item.jobDetail}}</td>
+                <td data-title="'操作'" style="text-align: center;width:45%;">
+                    <button class="btn btn-danger" ng-click="editGraduate(item.jobId)">编辑</button>
+                    <button class="btn btn-danger" ng-click="deleteGraduate(item.jobId)">删除</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</div>

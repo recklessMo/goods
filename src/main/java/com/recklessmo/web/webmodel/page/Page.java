@@ -11,6 +11,15 @@ public class Page {
     private long orgId;
     private String searchStr;
     private int type = 1;
+    private String sid;
+
+    public String getSid() {
+        return sid;
+    }
+
+    public void setSid(String sid) {
+        this.sid = sid;
+    }
 
     public int getType() {
         return type;
