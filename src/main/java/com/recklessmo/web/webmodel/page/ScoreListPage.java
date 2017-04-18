@@ -9,8 +9,6 @@ public class ScoreListPage extends Page{
     private long gradeId;
     //查询哪个班级
     private long classId;
-    //查询那个sid
-    private long sid;
 
 
     public long getGradeId() {
@@ -37,11 +35,4 @@ public class ScoreListPage extends Page{
         this.examId = examId;
     }
 
-    public long getSid() {
-        return sid;
-    }
-
-    public void setSid(long sid) {
-        this.sid = sid;
-    }
 }

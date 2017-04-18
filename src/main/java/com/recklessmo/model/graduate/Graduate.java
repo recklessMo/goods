@@ -13,8 +13,17 @@ public class Graduate {
     private String name;
     private String detail;
     private long opId;
+    private String opName;
     private Date created;
     private int deleted;
+
+    public String getOpName() {
+        return opName;
+    }
+
+    public void setOpName(String opName) {
+        this.opName = opName;
+    }
 
     public long getId() {
         return id;

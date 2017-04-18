@@ -52,7 +52,7 @@ public class GraduateController {
         graduateService.updateGraduate(graduate);
         return new JsonResponse(200, null, null);
     }
-    
+
     @ResponseBody
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public JsonResponse deleteGraduate(@RequestBody long id){
@@ -60,7 +60,6 @@ public class GraduateController {
         graduateService.deleteGraduate(id);
         return new JsonResponse(200, null, null);
     }
-
 
 
 }

@@ -4,7 +4,7 @@
 <mapper namespace="com.recklessmo.dao.graduate.GraduateDAO">
 
     <sql id="columns">
-        id, org_id, sid, name, detail, op_id, created, deleted
+        id, org_id, sid, name, detail, op_id, op_name, created, deleted
     </sql>
 
     <select id="listGraduate" resultType="com.recklessmo.model.graduate.Graduate">
@@ -17,17 +17,17 @@
     <insert id="addGraduate" parameterType="com.recklessmo.model.graduate.Graduate">
         insert into graduate
         (
-          org_id, sid, name, detail, op_id, created, deleted
+          org_id, sid, name, detail, op_id, op_name,  created, deleted
         )
         values
         (
-          #{orgId}, #{sid}, #{name}, #{detail}, #{opId}, #{created}, #{deleted}
+          #{orgId}, #{sid}, #{name}, #{detail}, #{opId}, #{opName}, #{created}, #{deleted}
         )
     </insert>
 
     <update id="updateGraduate" parameterType="com.recklessmo.model.graduate.Graduate">
         update graduate set
-        name = #{name}, detail = #{detail}, #{opId}, #{deleted}
+        name = #{name}, detail = #{detail}, op_id = #{opId}, op_name = #{opName}, deleted = #{deleted}
     </update>
 
     <update id="deleteGraduate">

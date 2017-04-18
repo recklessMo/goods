@@ -9,9 +9,14 @@
 
         $scope.graduateDataList = [];
 
+        $scope.$on('chooseSid', function(event, data){
+            $scope.sid = data;
+            $scope.activate();
+        });
+
         $scope.activate = function() {
             blockUI.start();
-            GraduateService.getGraduateList().success(function(data){
+            GraduateService.getGraduateList({sid : $scope.sid}).success(function(data){
                 blockUI.stop();
                 if (data.status == 200) {
                     $scope.graduateDataList = data.data;
@@ -20,12 +25,10 @@
                     SweetAlert.error("服务器内部错误, 请联系客服!");
                 }
             }).error(function(){
-                SweetAlert.error("网络问题,请稍后重试!");
                 blockUI.stop();
+                SweetAlert.error("网络问题,请稍后重试!");
             });
         }
-
-        $scope.activate();
 
         $scope.showTables = function(){
             $scope.graduateTableParams = new NgTableParams({},{
