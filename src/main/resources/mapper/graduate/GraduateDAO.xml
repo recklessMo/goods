@@ -11,7 +11,7 @@
         select
         <include refid="columns"/>
         from graduate
-        where org_id = #{orgId} and sid = #{sid}
+        where org_id = #{orgId} and sid = #{sid} and deleted = 0
     </select>
 
     <insert id="addGraduate" parameterType="com.recklessmo.model.graduate.Graduate">
