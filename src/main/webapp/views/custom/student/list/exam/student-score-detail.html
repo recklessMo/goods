@@ -1,0 +1,10 @@
+<div ng-controller="StudentScoreDetailController" style="overflow: auto;padding:20px;">
+    <table ng-table="scoreDetailTableParams" class="table table-bordered table-hover table-condensed editable-table table-min">
+        <tr ng-repeat="item in $data">
+            <td data-title="'学科名称'" style="text-align: center;">{{item.courseName}}</td>
+            <td data-title="'考试成绩'" style="text-align: center">{{item.score}}</td>
+            <td data-title="'排名'" style="text-align: center">{{item.rank}}</td>
+            <td data-title="'是否缺考'" style="text-align: center">{{item.flag == 1 ? '是' : '否'}}</td>
+        </tr>
+    </table>
+</div>

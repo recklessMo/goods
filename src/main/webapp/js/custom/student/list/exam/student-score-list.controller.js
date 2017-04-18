@@ -3,9 +3,9 @@
     angular
         .module('custom')
         .controller('StudentScoreListController', StudentScoreListController);
-    StudentScoreListController.$inject = ['$scope','StudentService', 'ScoreService',  'SweetAlert', 'NgTableParams', 'blockUI', 'Notify'];
+    StudentScoreListController.$inject = ['$scope', 'ngDialog', 'StudentService', 'ScoreService',  'SweetAlert', 'NgTableParams', 'blockUI', 'Notify'];
 
-    function StudentScoreListController($scope, StudentService, ScoreService, SweetAlert, NgTableParams, blockUI, Notify) {
+    function StudentScoreListController($scope, ngDialog, StudentService, ScoreService, SweetAlert, NgTableParams, blockUI, Notify) {
 
         $scope.isEdit = false;
 
@@ -34,6 +34,19 @@
 
         $scope.showTables  = function(){
             $scope.scoreTableParams = new NgTableParams({page: 1, count: 10}, {dataset: $scope.scoreList});
+        }
+
+
+        $scope.showScore = function(item){
+            var dialog= ngDialog.open({
+                template: 'app/views/custom/student/list/exam/student-score-detail.html',
+                controller: 'StudentScoreDetailController',
+                className: 'ngdialog-theme-default custom-width-800',
+                data : item
+            });
+            dialog.closePromise.then(function(data){
+                return;
+            });
         }
 
     }
