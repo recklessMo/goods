@@ -10,6 +10,8 @@
         $scope.reward = _.clone($scope.ngDialogData.data);
         $scope.type = $scope.ngDialogData.type;
 
+        $scope.typeList = [{type: 1, value: '奖励'}, {type: 2, value: '惩罚'}];
+
         $scope.save = function (item) {
             if (!$scope.valid(item)) {
                 SweetAlert.error("数据填写不正确!");

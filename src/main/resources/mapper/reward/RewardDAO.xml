@@ -28,7 +28,7 @@
 
     <update id="updateReward" parameterType="com.recklessmo.model.reward.Reward">
         update reward set
-        name = #{name}, detail = #{detail}, op_id = #{opId}, op_name = #{opName}, deleted = #{deleted}
+        type = #{type}, detail = #{detail}, op_id = #{opId}, op_name = #{opName}, deleted = #{deleted}
         where id = #{id}
     </update>
 

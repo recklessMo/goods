@@ -24,7 +24,7 @@
     <div class="row" style="margin-top: 30px;">
         <div class="col-md-12">
             <div class="input-group">
-                <span class="input-group-addon" style="color:red;height: 100px;">类型</span>
+                <span class="input-group-addon" style="color:red;">类型</span>
                 <ui-select ng-model="reward.type" theme="bootstrap"
                            class="text-left" style="width:100%;">
                     <ui-select-match placeholder="选择类型">{{$select.selected.value}}
@@ -36,10 +36,10 @@
             </div>
         </div>
 
-        <div class="col-md-12">
+        <div class="col-md-12" style="margin-top: 20px;">
             <div class="input-group">
                 <span class="input-group-addon" style="color:red;height: 100px;">详情</span>
-                <textarea row="5" class="form-control" ng-model="graduate.detail" style="height: 100px;"/>
+                <textarea row="5" class="form-control" ng-model="reward.detail" style="height: 100px;"/>
             </div>
         </div>
     </div>
@@ -47,7 +47,7 @@
 
     <div class="row" style="text-align: center;margin-top:50px;">
         <div class="col-md-12" style="text-align: center;">
-            <button data-style="expand-left" ladda="loading" class="btn btn-primary" ng-click="save(graduate)">保存</button>
+            <button data-style="expand-left" ladda="loading" class="btn btn-primary" ng-click="save(reward)">保存</button>
             <button class="btn btn-primary" ng-click="closeThisDialog('cancel')">取消</button>
         </div>
     </div>

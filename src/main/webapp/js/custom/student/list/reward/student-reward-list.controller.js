@@ -3,9 +3,9 @@
     angular
         .module('custom')
         .controller('StudentRewardListController', StudentRewardListController);
-    StudentRewardListController.$inject = ['$scope','RewardService', 'SweetAlert', 'NgTableParams', 'blockUI', 'Notify'];
+    StudentRewardListController.$inject = ['$scope', 'ngDialog', 'RewardService', 'SweetAlert', 'NgTableParams', 'blockUI', 'Notify'];
 
-    function StudentRewardListController($scope, RewardService, SweetAlert, NgTableParams, blockUI, Notify) {
+    function StudentRewardListController($scope, ngDialog, RewardService, SweetAlert, NgTableParams, blockUI, Notify) {
 
         $scope.rewardDataList = [];
 
@@ -31,7 +31,7 @@
         }
 
         $scope.showTables = function () {
-            $scope.reardTableParams = new NgTableParams({}, {
+            $scope.rewardTableParams = new NgTableParams({}, {
                 counts: [],
                 dataset: $scope.rewardDataList
             });
@@ -42,7 +42,7 @@
         $scope.edit = function (item, type) {
             item['sid'] = $scope.sid;
             var dialog = ngDialog.open({
-                template: 'app/views/custom/student/list/graduate/student-reward-add.html',
+                template: 'app/views/custom/student/list/reward/student-reward-add.html',
                 controller: 'StudentRewardAddController',
                 className: 'ngdialog-theme-default custom-width-800',
                 data: {data: item, type: type}
