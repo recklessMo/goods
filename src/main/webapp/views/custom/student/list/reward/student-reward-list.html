@@ -1,1 +1,32 @@
-奖惩信息, 表格加对话框形式即可. 调研清楚就可以开始做
+<div ng-controller="StudentRewardListController" style="overflow: auto;padding:20px;">
+
+    <div class="row">
+        <div class="col-md-3 pull-left">
+            <button class="btn btn-info" ng-click="edit({}, 2)">
+                添加
+            </button>
+            <button class="btn btn-info" ng-click="activate()">
+                刷新
+            </button>
+        </div>
+    </div>
+
+    <div style="margin-top: 20px;">
+        <table ng-table="rewardTableParams"
+               class="table table-bordered table-hover table-condensed editable-table table-min"
+               style="border:1px solid #eeeeee;">
+            <tr ng-repeat="item in $data">
+                <td data-title="'姓名'" style="text-align: center;">{{item.name}}</td>
+                <td data-title="'类型'" style="text-align: center;">{{item.detail}}</td>
+                <td data-title="'详细'" style="text-align: center;">{{item.detail}}</td>
+                <td data-title="'记录人'" style="text-align: center;">{{item.opName}}</td>
+                <td data-title="'记录时间'" style="text-align: center;">{{item.created | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
+                <td data-title="'操作'" style="text-align: center;">
+                    <button class="btn btn-info" ng-click="edit(item, 1)">编辑</button>
+                    <button class="btn btn-danger" ng-click="delete(item.id)">删除</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</div>
