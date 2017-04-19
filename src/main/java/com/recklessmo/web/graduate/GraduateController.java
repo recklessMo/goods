@@ -48,7 +48,7 @@ public class GraduateController {
         DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
         graduate.setOrgId(userDetails.getOrgId());
         graduate.setOpId(userDetails.getId());
-        graduate.setOpName(userDetails.getName());
+        graduate.setOpName(userDetails.getUsername());
         graduate.setCreated(new Date());
         StudentAllInfo studentAllInfo = studentService.getStudentInfoBySid(userDetails.getOrgId(), graduate.getSid());
         graduate.setName(studentAllInfo.getName());

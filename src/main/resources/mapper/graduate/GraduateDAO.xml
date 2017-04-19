@@ -12,6 +12,7 @@
         <include refid="columns"/>
         from graduate
         where org_id = #{orgId} and sid = #{sid} and deleted = 0
+        order by created desc
     </select>
 
     <insert id="addGraduate" parameterType="com.recklessmo.model.graduate.Graduate">
@@ -28,6 +29,7 @@
     <update id="updateGraduate" parameterType="com.recklessmo.model.graduate.Graduate">
         update graduate set
         name = #{name}, detail = #{detail}, op_id = #{opId}, op_name = #{opName}, deleted = #{deleted}
+        where id = #{id}
     </update>
 
     <update id="deleteGraduate">

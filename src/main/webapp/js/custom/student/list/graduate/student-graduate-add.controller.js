@@ -7,7 +7,7 @@
 
     function StudentGraduateAddController($scope, ngDialog, GraduateService, SweetAlert, NgTableParams, blockUI, Notify) {
 
-        $scope.graduate = $scope.ngDialogData.data;
+        $scope.graduate = _.clone($scope.ngDialogData.data);
         $scope.type = $scope.ngDialogData.type;
 
         $scope.save = function (item) {
@@ -22,6 +22,7 @@
                     blockUI.stop();
                     if (data.status == 200) {
                         SweetAlert.success("添加成功!");
+                        $scope.closeThisDialog('reload');
                     } else {
                         SweetAlert.error("服务器内部错误, 请联系客服!");
                     }
@@ -33,7 +34,8 @@
                 GraduateService.updateGraduate(item).success(function (data) {
                     blockUI.stop();
                     if (data.status == 200) {
-                        SweetAlert.success("添加成功!");
+                        SweetAlert.success("修改成功!");
+                        $scope.closeThisDialog('reload');
                     } else {
                         SweetAlert.error("服务器内部错误, 请联系客服!");
                     }
