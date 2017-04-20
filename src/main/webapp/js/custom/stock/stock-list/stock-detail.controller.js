@@ -13,14 +13,15 @@
         $scope.init = function(){
             $scope.goodsHistoryTableParams = new NgTableParams({}, {
                 counts: [],
-                getData: function($defer, params){
+                getData: function(params){
                     blockUI.start();
-                    StockService.getGoodsHistory($scope.id).success(function(data){
+                    return StockService.getGoodsHistory($scope.id).success(function(result){
+                        var data = result.data;
                         blockUI.stop();
                         if(data.status == 200){
-                            $defer.resolve(data.data);
+                            return data.data;
                         }
-                    }).error(function(){
+                    }, function(){
                         blockUI.stop();
                         SweetAlert.error("加载失败!");
                         $scope.closeThisDialog("ok");

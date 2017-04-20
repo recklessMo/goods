@@ -118,6 +118,13 @@ public class UserController {
     public JsonResponse update(@RequestBody UserVO user){
         try {
             //将权限进行去重和排序
+            Iterator<Integer> it = user.getAuthorities().iterator();
+            while(it.hasNext()){
+                Integer temp = it.next();
+                if(temp == null){
+                    it.remove();
+                }
+            }
             user.getAuthorities().sort((o1,o2)->o1.compareTo(o2));
             User userModel = new User();
             userModel.setAuthorities(StringUtils.join(user.getAuthorities(), ","));
