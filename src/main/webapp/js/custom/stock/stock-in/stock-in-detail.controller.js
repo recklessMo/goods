@@ -24,7 +24,8 @@
                     var data = result.data;
                     block.stop();
                     if(data.status == 200){
-                        return $scope.stockItems;
+                        $scope.stock = data.data;
+                        return $scope.stock.items;
                     }
                 }, function(){
                     block.stop();

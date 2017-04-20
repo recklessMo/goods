@@ -40,16 +40,19 @@ dependencies {
 	compile 'joda-time:joda-time:2.9.7'
 
 	//日志, jcl和slf4j都只是实现了api接口
+
 	//log4j核心包,log4j是真正实现记录日志的库
 	compile 'org.apache.logging.log4j:log4j-api:2.7'
 	compile 'org.apache.logging.log4j:log4j-core:2.7'
+
 	//适配器, 下面的包适配于采用jcl记录日志的库
 	compile 'org.apache.logging.log4j:log4j-jcl:2.7'
 	//适配器, 下面的包是培育采用slf4j记录日志的库
 	compile 'org.apache.logging.log4j:log4j-slf4j-impl:2.7'
-	//xml
+
+	//for parse xml
 	compile 'com.thoughtworks.xstream:xstream:1.4.9'
-	//for excel
+	//for excel export/import
 	compile 'net.sf.jett:jett-core:0.10.0'
 
 }

@@ -15,10 +15,11 @@
                 counts: [],
                 getData: function(params){
                     blockUI.start();
-                    return StockService.getGoodsHistory($scope.id).success(function(result){
+                    return StockService.getGoodsHistory($scope.id).then(function(result){
                         var data = result.data;
                         blockUI.stop();
                         if(data.status == 200){
+                            params.total(data.totalCount);
                             return data.data;
                         }
                     }, function(){
