@@ -7,8 +7,6 @@
 
     function StudentOpLogListController($scope, OpLogService, SweetAlert, NgTableParams, blockUI, Notify) {
 
-        $scope.opDataList = [];
-
         $scope.$on('chooseSid', function (event, data) {
             $scope.sid = data;
             $scope.activate();
@@ -25,15 +23,16 @@
                         count: params.count(),
                         sid: $scope.sid
                     };
-                    OpLogService.loadOpList($scope.tableParams).success(function (data) {
+                    return OpLogService.loadOpList($scope.tableParams).then(function (data) {
+                        var result = data.data;
                         blockUI.stop();
-                        if (data.status == 200) {
-                            $scope.opDataList = data.data;
-                            $scope.showTables();
+                        if (result.status == 200) {
+                            params.total(result.totalCount);
+                            return result.data;
                         } else {
                             SweetAlert.error("服务器内部错误, 请联系客服!");
                         }
-                    }).error(function () {
+                    }, function () {
                         blockUI.stop();
                         SweetAlert.error("网络问题,请稍后重试!");
                     });
