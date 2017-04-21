@@ -5,19 +5,24 @@ import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+
 /**
- * Created by hpf on 4/21/17.
- */
+ *
+ * created 04/21 2017
+ *
+ **/
 @Service
 public class MailService {
 
-    @Autowired
+    @Resource
     private MailSender mailSender;
 
     public void sendSimpleEmail(String title, String text, String to) {
         try {
             SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-            simpleMailMessage.setFrom("school-cloud");
+            simpleMailMessage.setFrom("13088063013@163.com");
+            simpleMailMessage.setTo(to);
             simpleMailMessage.setSubject(title);
             simpleMailMessage.setText(text);
             mailSender.send(simpleMailMessage);

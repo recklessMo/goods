@@ -24,7 +24,6 @@ dependencies {
 	compile 'org.springframework.security:spring-security-web:3.2.3.RELEASE'
 	compile 'org.springframework.security:spring-security-config:3.2.3.RELEASE'
 	compile 'com.google.guava:guava:18.0'
-	compile 'org.apache.commons:commons-email:1.4'
 	compile 'commons-codec:commons-codec:1.10'
 	compile 'com.alibaba:fastjson:1.2.5'
 	compile 'org.eclipse.jetty:jetty-servlets:9.2.10.v20150310'
@@ -35,6 +34,8 @@ dependencies {
 	compile 'javax.servlet:javax.servlet-api:3.1.0'
 	compile 'commons-lang:commons-lang:2.6'
 	compile 'org.apache.httpcomponents:httpclient:4.5.2'
+	//发邮件
+	compile 'org.apache.commons:commons-email:1.4'
 	//光, 据说是很快的连接池, 优化到了字节码级别
 	compile 'com.zaxxer:HikariCP:2.5.1'
 	//时间处理库joda

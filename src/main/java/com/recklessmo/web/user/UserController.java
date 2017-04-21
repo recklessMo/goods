@@ -5,6 +5,7 @@ import com.recklessmo.model.user.User;
 import com.recklessmo.model.user.UserVO;
 import com.recklessmo.response.JsonResponse;
 import com.recklessmo.response.ResponseType;
+import com.recklessmo.service.mail.MailService;
 import com.recklessmo.service.security.EduUserDetailService;
 import com.recklessmo.service.user.UserService;
 import com.recklessmo.util.ContextUtils;
@@ -30,6 +31,9 @@ public class UserController {
 
     @Resource
     private UserDetailsService userDetailsService;
+
+    @Resource
+    private MailService mailService;
 
     /**
      *

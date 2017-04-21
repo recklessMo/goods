@@ -8,8 +8,6 @@ import com.recklessmo.service.score.ScoreAnalyseService;
 import com.recklessmo.service.score.ScoreService;
 import com.recklessmo.util.ContextUtils;
 import com.recklessmo.web.webmodel.model.SelfModel;
-import com.sun.corba.se.impl.legacy.connection.USLPort;
-import com.sun.tools.classfile.ConstantPool;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
