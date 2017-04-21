@@ -26,8 +26,8 @@ public class Menu{
             new Menu(103, "教务站", "录入导出", "icon-user-follow", "app.student-add-worktable"),
 //            new Menu(103, "教务站", "奖惩录入", "icon-user-follow", "app.student-reward"),
 //            new Menu(104, "教务站", "毕业去向", "icon-user-follow", "app.student-graduate"),
-//            new Menu(105, "教务站", "任课设置", "icon-user-follow", "app.student-teacher"),
-//            new Menu(106, "教务站", "课表编排", "icon-user-follow", "app.class-schedule"),
+            new Menu(105, "教务站", "任课设置", "icon-user-follow", "app.student-teacher"),
+            new Menu(106, "教务站", "课表编排", "icon-user-follow", "app.class-schedule"),
 
 
             new Menu(201, "成绩站", "考试设置", "icon-plus", "app.exam"),//done
@@ -39,7 +39,7 @@ public class Menu{
             new Menu(205, "成绩站", "整体分析", "icon-plus", "app.result-total"),//done
             new Menu(206, "成绩站", "分数段分析", "icon-plus", "app.result-gap"),//done
             new Menu(207, "成绩站", "名次分析", "icon-plus", "app.result-rank"),//done
-            new Menu(208, "成绩站", "均分分析", "icon-plus", "app.result-avg"),
+//            new Menu(208, "成绩站", "均分分析", "icon-plus", "app.result-avg"),
             new Menu(209, "成绩站", "进退步分析", "icon-plus", "app.result-rankchange"),
             new Menu(210, "成绩站", "缺考统计", "icon-plus", "app.result-absense"),
 //            new Menu(211, "成绩站", "不合格名单", "icon-plus", "app.result-unqualified"),
