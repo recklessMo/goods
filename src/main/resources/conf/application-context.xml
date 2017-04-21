@@ -18,6 +18,26 @@
         </property>
     </bean>
 
+    <!--配置mail sender-->
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="smtp.163.com"/>
+        <property name="username" value="13088063013@163.com"/>
+        <property name="password" value="123456h"/>
+        <property name="defaultEncoding" value="UTF-8"/>
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.socketFactory.class">javax.net.SocketFactory</prop>
+                <prop key="mail.transport.protocol">smtp</prop>
+                <prop key="mail.smtp.socketFactory.fallback">false</prop>
+                <prop key="mail.smtp.port">25</prop>
+                <prop key="mail.smtp.socketFactory.port">25</prop>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.timeout">250000</prop>
+            </props>
+        </property>
+    </bean>
+
+
     <!--数据源,目前使用简单配置-->
     <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource">
         <property name="jdbcUrl" value="${url}"/>
