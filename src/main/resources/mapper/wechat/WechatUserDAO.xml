@@ -7,15 +7,31 @@
     </sql>
 
 
-    <select id="getListByOrgId" resultType="com.recklessmo.model.wechat.WechatUser">
+    <select id="getRecentListByOrgId" resultType="com.recklessmo.model.wechat.WechatUser">
         select
         <include refid="columns"/>
         from wechat_user
         where org_id = #{orgId} and deleted = 0
+        order by updated desc
         limit #{startIndex}, #{count}
     </select>
 
-    <select id="getCountByOrgId" resultType="java.lang.Integer">
+    <select id="getRecentCountByOrgId" resultType="java.lang.Integer">
+        select count(1)
+        from wechat_user
+        where org_id = #{orgId} and deleted = 0
+    </select>
+
+    <select id="getAllListByOrgId" resultType="com.recklessmo.model.wechat.WechatUser">
+        select
+        <include refid="columns"/>
+        from wechat_user
+        where org_id = #{orgId} and deleted = 0
+        order by id asc
+        limit #{startIndex}, #{count}
+    </select>
+
+    <select id="getAllCountByOrgId" resultType="java.lang.Integer">
         select count(1)
         from wechat_user
         where org_id = #{orgId} and deleted = 0

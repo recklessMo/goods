@@ -93,10 +93,11 @@ public class WechatCallbackController {
                         wechatUserService.insertUser(wechatUser);
                     }
                 } else {
-                    //扫描公众号二维码关注. 暂时无法做任何事
+                    //直接扫描公众号二维码关注. 暂时无法做任何事
                 }
             } else if (wechatCallbackMsg.getEvent().equals("unsubscribe")) {
-                //解绑openId
+                //解绑openId, 标记为删除
+                wechatUserService.releaseUserByOpenId(wechatCallbackMsg.getFromUserName());
             } else if (wechatCallbackMsg.getEvent().equals("SCAN")) {
                 //用户关注之后再进行扫码
                 //直接更换绑定信息

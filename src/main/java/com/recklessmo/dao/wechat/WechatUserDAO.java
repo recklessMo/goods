@@ -11,9 +11,14 @@ import java.util.List;
  */
 public interface WechatUserDAO {
 
-    //获取微信用户
-    List<WechatUser> getListByOrgId(Page page);
-    int getCountByOrgId(Page page);
+    //获取最近咨询的微信用户
+    List<WechatUser> getRecentListByOrgId(Page page);
+    int getRecentCountByOrgId(Page page);
+
+    //获取所有微信用户
+    List<WechatUser> getAllListByOrgId(Page page);
+    int getAllCountByOrgId(Page page);
+
 
     WechatUser getByOpenId(@Param("openId")String openId);
 

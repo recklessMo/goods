@@ -69,8 +69,8 @@ public class WechatUserController {
     @ResponseBody
     @RequestMapping(value = "/all/list", method = RequestMethod.POST)
     public JsonResponse listAllUser(@RequestBody Page page){
-        List<WechatUser> wechatUsers = wechatUserService.getRecentUserList(page);
-        int totalCount = wechatUserService.getRecentUserCount(page);
+        List<WechatUser> wechatUsers = wechatUserService.getAllUserList(page);
+        int totalCount = wechatUserService.getAllUserCount(page);
         return new JsonResponse(200, wechatUsers, totalCount);
     }
 

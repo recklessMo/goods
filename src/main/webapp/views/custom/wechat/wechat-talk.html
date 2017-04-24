@@ -33,13 +33,11 @@
                         <uib-tab-heading>
                             全部用户
                         </uib-tab-heading>
-                        <div class="suifang-tab-content">
-                            <table ng-table="AllUserTableParams"
-                                   class="table table-bordered table-hover">
-                                <tr ng-repeat="user in $data">
-                                    <td ng-click="choosePatient(user)"
-                                        ng-class="{'user-diagnosis':choosePatientId==user.userId}">
-                                        <div class="all-user-info">
+                        <table ng-table="wechatAllUserTableParams"
+                               class="table table-bordered table-hover">
+                            <tr ng-repeat="user in $data">
+                                <td ng-click="clickUser(user)">
+                                    <div class="all-user-info">
                                         <span class="user-name">
                                              {{user.name}}
                                         </span>
@@ -49,11 +47,10 @@
                                         <span ng-if="!user.wechatId" class="unbind-status">
                                             未绑定
                                         </span>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
                     </uib-tab>
                 </uib-tabset>
             </div>
@@ -66,7 +63,8 @@
                         咨询对话框
                     </uib-tab-heading>
                     <div style="height: 100%;">
-                        <div ng-controller="WechatMsgDialogController" ng-include="'app/views/custom/wechat/wechat-msg-dialog.html'" style="height: 100%;"></div>
+                        <div ng-controller="WechatMsgDialogController"
+                             ng-include="'app/views/custom/wechat/wechat-msg-dialog.html'" style="height: 100%;"></div>
                     </div>
                 </uib-tab>
                 <uib-tab select="" style="text-align: center;height: 100%;">

@@ -18,7 +18,7 @@
                     counts: [],
                     getData: function (params) {
                         blockUI.start();
-                        return WechatService.loadWechatRecentUser({page: params.page(), count: 9}).then(function (data) {
+                        return WechatService.loadWechatRecentUser({page: params.page(), count: 10}).then(function (data) {
                             blockUI.stop();
                             var result = data.data;
                             if (result.status == 200) {
@@ -37,7 +37,7 @@
                 $scope.wechatAllUserTableParams = new NgTableParams({}, {
                     getData: function (params) {
                         blockUI.start();
-                        return WechatService.loadWechatAllUser({page: params.page(), count: 9}).then(function (data) {
+                        return WechatService.loadWechatAllUser({page: params.page(), count: 10}).then(function (data) {
                             blockUI.stop();
                             var result = data.data;
                             if (result.status == 200) {

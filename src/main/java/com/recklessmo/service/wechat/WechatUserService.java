@@ -24,15 +24,27 @@ public class WechatUserService {
     @Resource
     private WechatUserDAO wechatUserDAO;
 
-    /*************************微信用户*****************************/
+    /*************************微信用户 前端展示*****************************/
     public List<WechatUser> getRecentUserList(Page page){
-        return wechatUserDAO.getListByOrgId(page);
+        List<WechatUser> wechatUserList = wechatUserDAO.getRecentListByOrgId(page);
+        wechatUserList.stream().forEach();
+        return wechatUserList;
     }
 
     public int getRecentUserCount(Page page){
-        return wechatUserDAO.getCountByOrgId(page);
+        return wechatUserDAO.getRecentCountByOrgId(page);
     }
 
+    public List<WechatUser> getAllUserList(Page page){
+        return wechatUserDAO.getAllListByOrgId(page);
+    }
+
+    public int getAllUserCount(Page page){
+        return wechatUserDAO.getAllCountByOrgId(page);
+    }
+
+
+    /*************************微信用户 绑定和解绑定*****************************/
     public void insertUser(WechatUser user){
 
     }
