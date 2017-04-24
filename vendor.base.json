@@ -34,5 +34,6 @@
   "bower_components/lodash/dist/lodash.min.js",
   "node_modules/echarts/dist/echarts.min.js",
   "node_modules/ng-table/bundles/ng-table.min.js",
-  "bower_components/angucomplete-alt/dist/angucomplete-alt.min.js"
+  "bower_components/angucomplete-alt/dist/angucomplete-alt.min.js",
+  "node_modules/stompjs/lib/stomp.min.js"
 ]

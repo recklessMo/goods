@@ -25,5 +25,9 @@
 ##<script src="/app/js/app.js"></script>
 ##<script src="/app/pages/templateCache.js"></script>
 <!-- version:$version -->
+<script>
+    window.__current = $!current;
+    window.__orgId = $!orgId;
+</script>
 </body>
 </html>

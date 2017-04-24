@@ -47,7 +47,8 @@
     "through2": "^0.6.3",
     "yargs": "^3.7.2",
     "font-awesome": "4.7.0",
-    "simple-line-icons": "2.2.3"
+    "simple-line-icons": "2.2.3",
+    "stompjs": "^2.3.3"
   },
   "scripts": {
     "prestart": "bower install",

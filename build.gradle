@@ -35,26 +35,30 @@ dependencies {
 	compile 'commons-lang:commons-lang:2.6'
 	compile 'org.apache.httpcomponents:httpclient:4.5.2'
 	//发邮件
-	compile 'org.apache.commons:commons-email:1.4'
+	compile 'javax.mail:mail:1.4.4'
 	//光, 据说是很快的连接池, 优化到了字节码级别
 	compile 'com.zaxxer:HikariCP:2.5.1'
 	//时间处理库joda
 	compile 'joda-time:joda-time:2.9.7'
-
 	//日志, jcl和slf4j都只是实现了api接口, 而log4j是真正记录日志的库, 所以还需要一些适配
 	//log4j核心包,log4j是真正实现记录日志的库
 	compile 'org.apache.logging.log4j:log4j-api:2.7'
 	compile 'org.apache.logging.log4j:log4j-core:2.7'
-
 	//适配器, 下面的包适配于采用jcl记录日志的库
 	compile 'org.apache.logging.log4j:log4j-jcl:2.7'
-	//适配器, 下面的包是培育采用slf4j记录日志的库
+	//适配器, 下面的包适配于采用slf4j记录日志的库
 	compile 'org.apache.logging.log4j:log4j-slf4j-impl:2.7'
-
 	//for parse xml
 	compile 'com.thoughtworks.xstream:xstream:1.4.9'
 	//for excel export/import
 	compile 'net.sf.jett:jett-core:0.10.0'
+	//用于websocket
+	compile 'org.springframework:spring-messaging:4.3.5.RELEASE'
+	compile 'org.springframework:spring-websocket:4.3.5.RELEASE'
+	//web socket
+	compile 'com.fasterxml.jackson.core:jackson-core:2.8.8'
+	compile 'com.fasterxml.jackson.core:jackson-annotations:2.8.8'
+	compile 'com.fasterxml.jackson.core:jackson-databind:2.8.8'
 
 }
 
