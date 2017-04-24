@@ -33,6 +33,7 @@
                 });
             }else if(type == 'allUser'){
                 $scope.wechatAllUserTableParams = new NgTableParams({}, {
+                    counts: [],
                     getData: function (params) {
                         blockUI.start();
                         return WechatService.loadWechatAllUser({page: params.page(), count: 10}).then(function (data) {
@@ -58,7 +59,12 @@
         //点击某个user
         $scope.clickUser = function(user){
             $scope.chooseUser = true;
-            $scope.$broadcast("chooseStudent", user.openId);
+            var data = {openId: user.openId};
+            if(user.openId && user.openId.length > 0){
+                data.type = 'bind';
+            }
+            console.log(data);
+            $scope.$broadcast("chooseStudent", data);
         }
 
     }

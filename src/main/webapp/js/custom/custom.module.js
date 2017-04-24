@@ -17,6 +17,7 @@
             function (NotifyService, $rootScope) {
                 if(window.__current != 0){
                     $rootScope.userId = window.__current;
+                    $rootScope.orgId = window.__orgId;
                     NotifyService.initialize();
                 }
             }]

@@ -21,6 +21,10 @@
                 socket.stomp.subscribe('/websocket/notify/' + $rootScope.userId, function (data) {
                     noitfy(data);
                 });
+
+                socket.stomp.subscribe('/websocket/notify/broadcast' + $rootScope.orgId, function (data) {
+                    noitfy(data);
+                });
             };
 
             var errorCallback = function (error) {

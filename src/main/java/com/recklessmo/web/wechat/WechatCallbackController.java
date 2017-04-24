@@ -132,7 +132,8 @@ public class WechatCallbackController {
             //同时发送websocket消息
             Map<String, Object> payLoad = new HashMap<>();
             payLoad.put("type", "RECEIVE_WECHAT_MSG");
-            simpMessagingTemplate.convertAndSend("/websocket/notify/" + wechatMessage, studentAllInfo.getSid());
+            payLoad.put("data", wechatCallbackMsg.getFromUserName());
+            simpMessagingTemplate.convertAndSend("/websocket/notify/broadcast/" + studentAllInfo.getOrgId(), payLoad);
         } else if (wechatCallbackMsg.getMsgType().equals("image")
                 || wechatCallbackMsg.getMsgType().equals("voice") || wechatCallbackMsg.getMsgType().equals("video") || wechatCallbackMsg.getMsgType().equals("shortvideo")) {
             //暂时不支持这种类型的消息.

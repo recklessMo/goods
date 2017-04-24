@@ -9,8 +9,16 @@
 
         //入口
         $scope.$on("chooseStudent", function (event, data) {
-            if(data.status == 'bind') {
+            console.log(data);
+            if(data.type == 'bind') {
                 $scope.openId = data.openId;
+                $scope.fetchMessages(1);
+            }
+        });
+
+        $scope.$on("RECEIVE_WECHAT_MSG", function (event, data) {
+            console.log(data);
+            if($scope.openId == data.data){
                 $scope.fetchMessages(1);
             }
         });
