@@ -8,8 +8,6 @@
     function WechatTalkController($scope, WechatService,DicService, SweetAlert, NgTableParams, blockUI, Notify) {
 
         var tempDate = new Date();
-        $scope.todayStartTime = new Date(tempDate.getFullYear()+'/'+(tempDate.getMonth()+1)+'/'+tempDate.getDate()).getTime(); //当天零点的时间
-
 
         //切换tab
         $scope.changeTab = function(type){

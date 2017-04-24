@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.recklessmo.dao.wechat.WechatUserDAO">
     <sql id = "columns">
-        id,org_id,open_id,open_name,sid,head_url,updated,last_message,deleted
+        id,org_id,open_id,sid,head_url,updated,last_message,deleted
     </sql>
 
 

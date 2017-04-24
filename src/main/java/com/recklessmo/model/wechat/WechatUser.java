@@ -10,20 +10,56 @@ public class WechatUser {
     private long id;
     private long orgId;
     private String sid;
+    private String name;
+    private long gradeId;
+    private String gradeName;
+    private long classId;
+    private String className;
     private String openId;
-    private String openName;
 
     private String headUrl;
     private String lastMessage;
     private Date updated;
     private int deleted;
 
-    public String getOpenName() {
-        return openName;
+    public String getName() {
+        return name;
     }
 
-    public void setOpenName(String openName) {
-        this.openName = openName;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public long getGradeId() {
+        return gradeId;
+    }
+
+    public void setGradeId(long gradeId) {
+        this.gradeId = gradeId;
+    }
+
+    public String getGradeName() {
+        return gradeName;
+    }
+
+    public void setGradeName(String gradeName) {
+        this.gradeName = gradeName;
+    }
+
+    public long getClassId() {
+        return classId;
+    }
+
+    public void setClassId(long classId) {
+        this.classId = classId;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
     }
 
     public long getId() {

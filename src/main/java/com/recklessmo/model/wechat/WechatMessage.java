@@ -7,6 +7,11 @@ import java.util.Date;
  */
 public class WechatMessage {
 
+    public static int MSG_DIRECTION_SEND = 1;
+    public static int MSG_DIRECTION_RECEIVE = 2;
+
+    public static int MSG_TYPE_TEXT = 1;
+
     private long id;
     private long orgId;
     private String openId;

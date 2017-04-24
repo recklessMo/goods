@@ -13,16 +13,13 @@
                                 <td ng-click="clickUser(user)">
                                     <div class="recent-msg-base-info">
                                         <span>
-                                            {{user.openName}}
+                                            {{user.name}}
                                         </span>
-                                        <span ng-if="todayStartTime <= user.updated">
-                                            {{user.updated | date : 'HH:mm'}}
-                                        </span>
-                                        <span ng-if="todayStartTime > user.updated">
-                                            {{user.updated | date : 'M-d'}}
+                                        <span>
+                                            {{user.updated | date : 'yyyy-MM-dd HH:mm'}}
                                         </span>
                                     </div>
-                                    <div class="recent-msg-last-content">
+                                    <div class="recent-msg-last-content" style="margin-top:10px;">
                                         <span>{{user.lastMessage}}</span>
                                     </div>
                                 </td>
@@ -41,10 +38,10 @@
                                         <span class="user-name">
                                              {{user.name}}
                                         </span>
-                                        <span ng-if="user.wechatId" class="bind-status">
+                                        <span ng-if="user.openId" class="bind-status">
                                             已绑定
                                         </span>
-                                        <span ng-if="!user.wechatId" class="unbind-status">
+                                        <span ng-if="!user.openId" class="unbind-status">
                                             未绑定
                                         </span>
                                     </div>
@@ -55,7 +52,7 @@
                 </uib-tabset>
             </div>
         </div>
-        <div class="col-xs-9" style="padding-left:0px;height: 100%;" ng-if="chooseUser">
+        <div class="col-xs-9" style="padding-left:0px;height: 100%;" ng-show="chooseUser">
             <uib-tabset justified="true" style="height: 100%;border:1px;padding-left: 0;padding-right: 0;"
                         class="col-xs-12 tab-full-content panel panel-default">
                 <uib-tab select="" style="text-align: center;height: 100%;">

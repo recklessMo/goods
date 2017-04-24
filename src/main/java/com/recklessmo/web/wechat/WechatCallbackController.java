@@ -7,12 +7,14 @@ import com.recklessmo.model.wechat.WechatCallbackMsg;
 import com.recklessmo.model.wechat.WechatMessage;
 import com.recklessmo.model.wechat.WechatTicket;
 import com.recklessmo.model.wechat.WechatUser;
+import com.recklessmo.service.student.StudentService;
 import com.recklessmo.service.wechat.*;
 import com.recklessmo.util.wechat.WechatCookieUtils;
 import com.recklessmo.util.wechat.WechatUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpStatus;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -47,6 +49,13 @@ public class WechatCallbackController {
 
     @Resource
     private WechatUserService wechatUserService;
+
+    @Resource
+    private SimpMessagingTemplate simpMessagingTemplate;
+
+
+    @Resource
+    private StudentService studentService;
 
     /**
      * 微信回调接口
@@ -88,9 +97,9 @@ public class WechatCallbackController {
                         wechatUser.setSid(wechatTicket.getSid());
                         wechatUser.setOrgId(wechatTicket.getOrgId());
                         wechatUser.setOpenId(wechatCallbackMsg.getFromUserName());
-                        wechatUser.setOpenName(wechatTicket.getName());
                         wechatUser.setLastMessage("");
                         wechatUserService.insertUser(wechatUser);
+                        wechatMessageService.sendAutoMessage("subscribe", wechatTicket.getOrgId());
                     }
                 } else {
                     //直接扫描公众号二维码关注. 暂时无法做任何事
@@ -110,16 +119,20 @@ public class WechatCallbackController {
                 }
             }
         } else if (wechatCallbackMsg.getMsgType().equals("text")){
+            StudentAllInfo studentAllInfo = studentService.getStudentInfoByWechatId(wechatCallbackMsg.getFromUserName());
             //文本消息
             WechatMessage wechatMessage = new WechatMessage();
-            wechatMessage.setOrgId(0);
-            wechatMessage.setType(2);//接收
-            wechatMessage.setMessageType(1);//文本
+            wechatMessage.setOrgId(studentAllInfo.getOrgId());
+            wechatMessage.setType(WechatMessage.MSG_DIRECTION_RECEIVE);//接收
+            wechatMessage.setMessageType(WechatMessage.MSG_TYPE_TEXT);//文本
             wechatMessage.setMessage(wechatCallbackMsg.getContent());
             wechatMessage.setCreated(new Date());
             wechatMessage.setOpenId(wechatCallbackMsg.getFromUserName());
-            wechatMessage.setOpenName("微信用户");
             wechatMessageService.receiveMessage(wechatMessage);
+            //同时发送websocket消息
+            Map<String, Object> payLoad = new HashMap<>();
+            payLoad.put("type", "RECEIVE_WECHAT_MSG");
+            simpMessagingTemplate.convertAndSend("/websocket/notify/" + wechatMessage, studentAllInfo.getSid());
         } else if (wechatCallbackMsg.getMsgType().equals("image")
                 || wechatCallbackMsg.getMsgType().equals("voice") || wechatCallbackMsg.getMsgType().equals("video") || wechatCallbackMsg.getMsgType().equals("shortvideo")) {
             //暂时不支持这种类型的消息.

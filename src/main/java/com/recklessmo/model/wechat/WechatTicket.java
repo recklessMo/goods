@@ -7,20 +7,14 @@ import java.util.Date;
  */
 public class WechatTicket {
 
+    //暂时先写死
+    public static int SCENE_ID = 10;
+
     private long id;
     private long orgId;
     private String sid;
-    private String name;
     private String ticket;
     private Date created;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public long getId() {
         return id;

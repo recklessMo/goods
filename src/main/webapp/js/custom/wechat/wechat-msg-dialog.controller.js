@@ -7,13 +7,13 @@
 
     function WechatMsgDialogController($scope, WechatService,DicService, SweetAlert, NgTableParams,$timeout, blockUI, Notify) {
 
-
         //入口
         $scope.$on("chooseStudent", function (event, data) {
-            $scope.openId = data;
-            $scope.fetchMessages(1);
+            if(data.status == 'bind') {
+                $scope.openId = data.openId;
+                $scope.fetchMessages(1);
+            }
         });
-
 
         $scope.message = {
             messageJson: {content: "", type: "text"},
@@ -23,8 +23,6 @@
         $scope.bindStatus = true;
 
         var tempDate = new Date();
-        $scope.todayTime = new Date(tempDate.getFullYear()+'/'+(tempDate.getMonth()+1)+'/'+tempDate.getDate()).getTime(); //当天零点的时间
-
 
         //点击查看图片或者视频
         //$scope.showMedia = function (msg) {
@@ -55,7 +53,9 @@
                 count: $scope.itemsPerPage,
                 openId: _.get($scope, "openId", "")
             };
+            blockUI.start();
             WechatService.loadWechatMsg(params).success(function (data) {
+                blockUI.stop();
                 if(data.status == 200) {
                     $scope.totalItems = data.totalCount;
                     data.data.sort(function (a, b) {
@@ -64,11 +64,12 @@
                     $scope.message.messageList = data.data;
                     $timeout(function () {
                         $scope.scrollToBottom();
-                    }, 500);
+                    }, 200);
                 }else{
                     SweetAlert.error("服务器异常!");
                 }
             }).error(function () {
+                blockUI.stop();
                 Notify.alert('网络受限,请稍后重试...', {status: 'danger', pos: 'top-right', timeout: 1000});
             });
         };

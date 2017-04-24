@@ -42,12 +42,12 @@ public class WechatMessageController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public JsonResponse addMessage(@RequestBody WechatMessage wechatMessage){
         DefaultUserDetails defaultUserDetails = ContextUtils.getLoginUserDetail();
-        wechatMessage.setOrgId(0);
+        wechatMessage.setOrgId(defaultUserDetails.getOrgId());
         wechatMessage.setCreated(new Date());
-        wechatMessage.setMessageType(1);
+        wechatMessage.setMessageType(WechatMessage.MSG_DIRECTION_SEND);
         wechatMessage.setUserId(defaultUserDetails.getId());
         wechatMessage.setUserName(defaultUserDetails.getName());
-        wechatMessage.setType(1);
+        wechatMessage.setType(WechatMessage.MSG_TYPE_TEXT);
         boolean result = wechatMessageService.sendMessage(wechatMessage);
         return new JsonResponse(200, result, null);
     }
