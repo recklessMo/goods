@@ -8,7 +8,6 @@ import com.recklessmo.response.ResponseType;
 import com.recklessmo.service.mail.MailService;
 import com.recklessmo.service.security.EduUserDetailService;
 import com.recklessmo.service.user.UserService;
-import com.recklessmo.service.websocket.WebsocketService;
 import com.recklessmo.util.ContextUtils;
 import com.recklessmo.web.webmodel.page.UserPage;
 import org.apache.commons.lang.StringUtils;
@@ -28,12 +27,15 @@ import java.util.*;
 public class WebsocketController {
 
     @Resource
-    private WebsocketService websocketService;
+    private SimpMessagingTemplate simpMessagingTemplate;
 
     @ResponseBody
     @RequestMapping(value = "/send", method = {RequestMethod.POST, RequestMethod.GET})
     public JsonResponse sendMessage(@RequestParam("id")long userId){
-        websocketService.sendMsg(userId, "xxx", "yyy");
+        Map<String, Object> payLoad = new HashMap<>();
+        payLoad.put("type", "xxx");
+        payLoad.put("data", "yyy");
+        simpMessagingTemplate.convertAndSend("/websocket/notify/" + userId, payLoad);
         return new JsonResponse(200, null, null);
     }
 
