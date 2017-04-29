@@ -16,6 +16,11 @@
             DicService.loadAllGrade().success(function(data){
                 if(data.status == 200){
                     $scope.gradeList = data.data;
+                    //添加全部，因为bootstrap引用出了问题
+                    _.forEach($scope.gradeList, function(item){
+                        item.classList.unshift({classId: 0, className:'全部'});
+                    });
+                    $scope.gradeList.unshift({gradeId: 0, gradeName:'全部', classList:[]});
                 }
                 blockUI.stop();
             }).error(function(){
@@ -25,11 +30,11 @@
 
             $scope.selectGrade = function(data){
                 $scope.classList = data.classList;
+                $scope.tableParams.classId = 0;
             }
         }
 
         initSelector();
-
 
         $scope.obj = {};
 
@@ -51,8 +56,6 @@
                         var result = data.data;
                         blockUI.stop();
                         if (result.status == 200) {
-                            //result.totalCount = result.data.length;
-                            //console.log(result.data.length);
                             params.total(result.totalCount);
                             $scope.obj.totalCount = result.totalCount;
                             return result.data;
