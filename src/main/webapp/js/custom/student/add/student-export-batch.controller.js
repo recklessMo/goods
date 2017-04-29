@@ -68,7 +68,7 @@
         $scope.activate();
 
         $scope.export = function(){
-            window.open("/common/file/student/downloadExcel");
+            window.open("/common/file/student/export?gradeId=" + $scope.tableParams.gradeId + "&classId=" + $scope.tableParams.classId);
         }
 
     }

@@ -119,6 +119,29 @@ public class FileDownloadController {
 
     /**
      *
+     * 导出学生信息文件
+     *
+     * @param response
+     * @throws Exception
+     */
+    @RequestMapping(value = "/student/export", method = {RequestMethod.POST, RequestMethod.GET})
+    public void studentExport(@RequestParam("gradeId")long gradeId, @RequestParam("classId")long classId, HttpServletResponse response) throws Exception {
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
+        StudentPage studentPage = new StudentPage();
+        studentPage.setOrgId(userDetails.getOrgId());
+        studentPage.setGradeId(gradeId);
+        studentPage.setClassId(classId);
+        studentPage.setPage(1);
+        studentPage.setCount(10000);
+        List<StudentAllInfo> studentAllInfoList = studentService.getStudentAllInfo(studentPage);
+        Map<String, Object> beans = Maps.newHashMap();
+        beans.put("dataList", studentAllInfoList);
+        returnFile(beans, response, "学生信息导出", "student_export", ".xlsx");
+    }
+
+
+    /**
+     *
      * 测试
      *
      * @param response
