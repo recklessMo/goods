@@ -33,14 +33,30 @@ public class StudentController {
     @Resource
     private ScoreService scoreService;
 
+    /**
+     *
+     * 单个录入学生信息
+     *
+     * @param studentAddInfo
+     * @return
+     */
     @ResponseBody
     @RequestMapping(value = "/v1/student/add", method = {RequestMethod.POST, RequestMethod.GET})
     public JsonResponse addStudentInfo(@RequestBody StudentAddInfo studentAddInfo){
         //TODO 可能需要做一些字段的校验,可以考虑写个annotation来进行校验
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
+        studentAddInfo.setOrgId(userDetails.getOrgId());
         studentService.insertStudentAddInfo(studentAddInfo);
         return new JsonResponse(200, null, null);
     }
 
+    /**
+     *
+     * 学生基本信息查询
+     *
+     * @param page
+     * @return
+     */
     @ResponseBody
     @RequestMapping(value = "/v1/student/list", method = {RequestMethod.POST, RequestMethod.GET})
     public JsonResponse list(@RequestBody StudentPage page){
@@ -51,9 +67,18 @@ public class StudentController {
         return new JsonResponse(200, infoList, cnt);
     }
 
+    /**
+     *
+     * 导出所有的学生信息
+     *
+     * @param page
+     * @return
+     */
     @ResponseBody
     @RequestMapping(value = "/v1/student/listall", method = {RequestMethod.POST, RequestMethod.GET})
     public JsonResponse listall(@RequestBody StudentPage page){
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
+        page.setOrgId(userDetails.getOrgId());
         int cnt = studentService.getStudentAllInfoTotalCount(page);
         List<StudentAllInfo> infoList = studentService.getStudentAllInfo(page);
         return new JsonResponse(200, infoList, cnt);
