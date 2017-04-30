@@ -4,7 +4,7 @@
 <mapper namespace="com.recklessmo.dao.exam.ExamDAO">
 
     <sql id="examColumns">
-        exam_id, exam_name, exam_time, grade_id, class_id, exam_type, upload_status, course_str
+        exam_id, exam_name, exam_time, grade_id, class_id, exam_type, upload_status, course_str, deleted
     </sql>
 
     <select id="listExam" resultType="com.recklessmo.model.exam.Exam">
@@ -12,14 +12,15 @@
         <include refid="examColumns"/>
         from exam
         <where>
+            deleted = 0
             <if test="0 != gradeId">
-                grade_id = #{gradeId}
+                and grade_id = #{gradeId}
             </if>
             <if test="0 != classId">
                 and class_id = #{classId}
             </if>
             <if test="null != examType and '全部' != examType">
-                and examType = #{examType}
+                and exam_type = #{examType}
             </if>
             <if test="null != searchStr and '' != searchStr">
                 and exam_name like "%"#{searchStr}"%"
@@ -32,8 +33,15 @@
         select count(1)
         from exam
         <where>
+            deleted = 0
+            <if test="0 != gradeId">
+                and grade_id = #{gradeId}
+            </if>
             <if test="0 != classId">
-                class_id = #{classId}
+                and class_id = #{classId}
+            </if>
+            <if test="null != examType and '全部' != examType">
+                and exam_type = #{examType}
             </if>
             <if test="null != searchStr and '' != searchStr">
                 and exam_name like "%"#{searchStr}"%"
@@ -44,15 +52,19 @@
     <insert id="addExam" parameterType="com.recklessmo.model.exam.Exam">
         insert into exam
         (
-          exam_name, exam_time, grade_id, class_id, type, upload_status, course_str
+          org_id, exam_name, exam_time, grade_id, class_id, exam_type, upload_status, course_str, deleted
         )
         values(
-          #{examName}, #{examTime}, #{gradeId}, #{classId}, #{type}, #{uploadStatus}, #{courseStr}
+          #{orgId}, #{examName}, #{examTime}, #{gradeId}, #{classId}, #{examType}, #{uploadStatus}, #{courseStr}, #{deleted}
         )
     </insert>
 
     <update id="updateExam">
-        update exam set uploadStatus = #{status} where exam_id = #{id}
+        update exam set upload_status = #{status} where exam_id = #{id}
+    </update>
+
+    <update id="deleteExam">
+        update exam set deleted = 1 where exam_id = #{id}
     </update>
 
     <select id="getExamById" resultType="com.recklessmo.model.exam.Exam">
@@ -66,7 +78,7 @@
         SELECT
         <include refid="examColumns"/>
         from exam
-        where org_id = #{orgId}
+        where org_id = #{orgId} and deleted = 0
         and exam_id in
         <foreach collection="idList" item="id" open="(" close=")" separator=",">
             #{id}

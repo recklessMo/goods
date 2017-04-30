@@ -41,4 +41,8 @@ public class ExamService {
     public List<Exam> getExamByIdList(long orgId, List<Long> idList){
         return examDAO.getExamByIdList(orgId, idList);
     }
+
+    public void deleteExam(long id){
+        examDAO.deleteExam(id);
+    }
 }

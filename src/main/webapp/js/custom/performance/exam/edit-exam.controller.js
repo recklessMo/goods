@@ -46,10 +46,10 @@
         //考试对象
         $scope.exam = {};
         $scope.save = function(exam){
-
             ExamService.saveExam(exam).success(function(data){
                 if(data.status == 200){
-                    SweetAlert.error("添加成功!");
+                    SweetAlert.success("添加成功!");
+                    $scope.closeThisDialog('reload');
                 }
                 blockUI.stop();
             }).error(function(){

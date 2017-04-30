@@ -37,7 +37,7 @@
         initSelector();
 
 
-        $scope.tableParams = {page : 1, count : 10, gradeId : 0 , classId: 0 , examType: "", searchStr: ""};
+        $scope.tableParams = {page : 1, count : 10, gradeId : 0 , classId: 0 , examType: "全部", searchStr: ""};
 
         $scope.activate = function() {
             $scope.examTableParams = new NgTableParams({}, {
@@ -64,7 +64,7 @@
 
         $scope.activate();
 
-        //删除用户
+        //删除考试
         $scope.delete = function(id){
             SweetAlert.swal({
                 title: '确认删除?',
@@ -81,9 +81,9 @@
                     //然后子scope里面就不能用this了,因为this就指向了子scope,
                     //实际上在table的每一行里面的点击是调用了父scope的delete方法
                     blockUI.start();
-                    AccountService.deleteUser(id).success(function () {
+                    ExamService.deleteExam(id).success(function () {
                         Notify.alert("删除成功!", {status:"success", timeout: 3000});
-                        $scope.userTableParams.reload();
+                        $scope.examTableParams.reload();
                         blockUI.stop();
                     }).error(function(){
                         blockUI.stop();

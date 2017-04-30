@@ -64,6 +64,22 @@
         </div>
     </div>
 
+    <div class="row" style="margin-top: 30px;">
+        <div class="col-md-6">
+            <div class="input-group">
+                <span class="input-group-addon" style="color:red">考试类型</span>
+                <ui-select ng-model="exam.examType" theme="bootstrap"
+                           class="text-left" style="width:100%;">
+                    <ui-select-match placeholder="选择类型">{{$select.selected}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="examType in examTypeList">
+                        <span ng-bind-html="examType"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+        </div>
+    </div>
+
     <div class="row" style="margin-top: 20px;">
         <div class="col-md-12">
             <label class="text-info">
