@@ -7,7 +7,7 @@
 
     function ExamListController($scope, ExamService, DicService, SweetAlert, NgTableParams, ngDialog, blockUI, Notify) {
 
-        $scope.examTypeList = ['小测', '周考', '月考', '期中', '期末'];
+        $scope.examTypeList = ['全部', '小测', '周考', '月考', '期中', '期末'];
 
         $scope.gradeList = [];
         $scope.classList = [];
@@ -18,6 +18,9 @@
             DicService.loadAllGrade().success(function(data){
                 if(data.status == 200){
                     $scope.gradeList = data.data;
+                    _.forEach($scope.gradeList, function(item){
+                        item.classList.unshift({classId: 0, className:'全部'});
+                    });
                 }
                 blockUI.stop();
             }).error(function(){
@@ -27,13 +30,14 @@
 
             $scope.selectGrade = function(data){
                 $scope.classList = data.classList;
+                $scope.tableParams.classId = 0;
             }
         }
 
         initSelector();
 
 
-        $scope.tableParams = {page : 1, count : 10, gradeId : 0 , classId: 0 , examType: null,searchStr: null};
+        $scope.tableParams = {page : 1, count : 10, gradeId : 0 , classId: 0 , examType: "", searchStr: ""};
 
         $scope.activate = function() {
             $scope.examTableParams = new NgTableParams({}, {

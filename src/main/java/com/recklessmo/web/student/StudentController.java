@@ -79,8 +79,6 @@ public class StudentController {
     public JsonResponse listall(@RequestBody StudentPage page){
         DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
         page.setOrgId(userDetails.getOrgId());
-        page.setPage(1);
-        page.setCount(10000);
         int cnt = studentService.getStudentAllInfoTotalCount(page);
         List<StudentAllInfo> infoList = studentService.getStudentAllInfo(page);
         return new JsonResponse(200, infoList, cnt);

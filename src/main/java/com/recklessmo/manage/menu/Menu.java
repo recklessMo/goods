@@ -22,7 +22,7 @@ public class Menu{
 
             new Menu(101, "教务站", "学生查询", "icon-people", "app.student-view-worktable"),
             //选择考试, 然后进行成绩趋势分析
-            new Menu(102, "教务站", "个人成绩趋势", "icon-user-follow", "app.student-score-trend"),
+//            new Menu(102, "教务站", "个人成绩趋势", "icon-user-follow", "app.student-score-trend"),
             new Menu(103, "教务站", "录入导出", "icon-user-follow", "app.student-add-worktable"),
 //            new Menu(103, "教务站", "奖惩录入", "icon-user-follow", "app.student-reward"),
 //            new Menu(104, "教务站", "毕业去向", "icon-user-follow", "app.student-graduate"),

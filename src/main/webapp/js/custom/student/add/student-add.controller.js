@@ -35,16 +35,13 @@
 
         //保存学生信息
         $scope.save = function(){
-
-            blockUI.start();
-
             //校验
             if(!$scope.validate()){
                 //给个对话框提示
-                blockUI.stop();
                 return;
             }
 
+            blockUI.start();
             //提交
             StudentService.addStudent($scope.student).success(function(data){
                 blockUI.stop();
@@ -63,7 +60,22 @@
 
         //校验必填信息
         $scope.validate = function(){
-            if(_.isNil($scope.student.name)) {
+            if(_.isNil($scope.student.name)
+                || _.isNil($scope.student.gender)
+                || _.isNil($scope.student.birth)
+                || _.isNil($scope.student.birthTown)
+                || _.isNil($scope.student.address)
+                || _.isNil($scope.student.homeTown)
+                || _.isNil($scope.student.people)
+                || _.isNil($scope.student.phone)
+                || _.isNil($scope.student.scn)
+                || _.isNil($scope.student.qq)
+                || _.isNil($scope.student.wechat)
+                || _.isNil($scope.student.sid)
+                || _.isNil($scope.student.gradeId)
+                || _.isNil($scope.student.classId)
+            ) {
+                SweetAlert.error("信息填写不完整！");
                 return false;
             }
             return true;

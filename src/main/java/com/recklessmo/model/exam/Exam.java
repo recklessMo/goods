@@ -28,7 +28,7 @@ public class Exam {
     //为0代表所有班级
     private long classId;
     //考试类型, 小考,周考,月考,期中考,期末考
-    private String type;
+    private String examType;
     //代表考试成绩的上传状态
     private int uploadStatus;
     //考试时间
@@ -104,12 +104,12 @@ public class Exam {
         this.classId = classId;
     }
 
-    public String getType() {
-        return type;
+    public String getExamType() {
+        return examType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setExamType(String examType) {
+        this.examType = examType;
     }
 
     public int getUploadStatus() {

@@ -4,7 +4,7 @@
 <mapper namespace="com.recklessmo.dao.exam.ExamDAO">
 
     <sql id="examColumns">
-        exam_id, exam_name, exam_time, grade_id, class_id, type, upload_status, course_str
+        exam_id, exam_name, exam_time, grade_id, class_id, exam_type, upload_status, course_str
     </sql>
 
     <select id="listExam" resultType="com.recklessmo.model.exam.Exam">
@@ -12,8 +12,14 @@
         <include refid="examColumns"/>
         from exam
         <where>
+            <if test="0 != gradeId">
+                grade_id = #{gradeId}
+            </if>
             <if test="0 != classId">
-                class_id = #{classId}
+                and class_id = #{classId}
+            </if>
+            <if test="null != examType and '全部' != examType">
+                and examType = #{examType}
             </if>
             <if test="null != searchStr and '' != searchStr">
                 and exam_name like "%"#{searchStr}"%"
