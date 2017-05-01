@@ -8,35 +8,15 @@
     function ScoreListController($scope, ScoreService, DicService, SweetAlert, NgTableParams, blockUI, Notify) {
 
         $scope.tableParams = {examId: 1, page: 1, count : 100};
-        $scope.examId = 1;
         //当前需要显示的部分
+        $scope.examId = 1;
         $scope.scoreList = [];
-        //班级的列表
-        $scope.classList = [
-            {classId:0, className:"全年级"},
-            {classId:-1, className: "文科"},
-            {classId:-2, className: "理科"}
-        ];
+        $scope.labelList = [];
 
         $scope.remoteUrlRequestFn = function(str){
             return {str: str};
         }
 
-        $scope.cidList = [{id:1, title:'1班'},{id:2, title:'2班'}];
-
-        $scope.activate = function() {
-            var page = {page : 1, count: 100, gradeId:1};
-            DicService.loadClassByGrade(page).success(function(data){
-                if(data.status == 200) {
-                    $scope.classList.push.apply($scope.classList, data.data);
-                    $scope.search();
-                }
-            }).error(function(){
-                SweetAlert.error("发生了错误! 请刷新页面!");
-            });
-        }
-
-        $scope.activate();
 
         $scope.search = function(){
             blockUI.start();

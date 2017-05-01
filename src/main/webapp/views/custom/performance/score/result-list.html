@@ -1,39 +1,53 @@
-<div ng-controller="ScoreListController" style="background: #fff;overflow: auto;height:100%;padding: 15px;">
+<div ng-controller="ScoreListController" style="height: 100%;" class="container-fluid">
 
-    <div class="row">
-        <div class="col-xs-4">
-            <div angucomplete-alt
-                 id="searchExam"
-                 placeholder="搜索考试"
-                 pause="300"
-                 selected-object="selectedProject"
-                 remote-url="/v1/exam/search"
-                 remote-url-request-formatter="remoteUrlRequestFn"
-                 remote-url-data-field="data"
-                 title-field="examName"
-                 description-field="examName"
-                 input-class="form-control form-control-small"
-                 text-searching="搜索中"
-                 text-no-results="没有结果"
-                 minlength="1"
-                 match-class="highlight">
+    <div class="row" style="height: 100%;margin-left:0px;">
+        <!--用于显示考试列表的panel-->
+        <div class="col-xs-3" ng-show="showLeftWindow" style="height: 100%;padding-right:0px;padding-left:0px;">
+            <!--选择考试-->
+            <div class="panel" style="height:100%;box-shadow: 0 0 1px;overflow:auto;">
+                <div style="height: 80%;">
+                    <div class="title">
+                        <span>选择考试: </span>
+                        <span>{{selectedExam.examName}}</span>
+                    </div>
+                    <div style="padding:2px 10px;" class="form-inline">
+                        <input type="text" placeholder="输入考试名称进行查询" class="form-control"
+                               style="display: inline-block;width: calc( 100% - 70px);"/>
+                        <button class="btn btn-info" ng-click="searchExam()">查询</button>
+                    </div>
+                    <div style="margin-top:10px;">
+                        <table ng-table="examTableParams" class="table table-condensed table-bordered table-striped"
+                               style="border: 1px solid #eeeeee;">
+                            <tr ng-repeat="row in $data" ng-dblclick="" style="text-align: center;">
+                                <td data-title="'考试名称'">{{row.examName}}</td>
+                                <td data-title="'操作'">
+                                    <a class="" ng-click="addExam(row)">查看</a>
+                                </td>
+                            </tr>
+                            <tfoot ng-if="!$data || $data.length<1">
+                            <tr>
+                                <td colspan="5" style="text-align: center;"> 无数据</td>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="col-xs-4">
-            <button class="btn btn-info" ng-click="search()">查询</button>
-            <button class="btn btn-info" ng-click="search()">导出</button>
+        <!--显示一个箭头-->
+        <div ng-click="showOrHideLeftWindow()" style="height:94%;width: 16px;z-index:100;" class="arrow-button">
+            <i class="fa" style="font-size: 1.5em"
+               ng-class="showLeftWindow?'fa-angle-double-left':'fa-angle-double-right'"></i>
+        </div>
+        <!--用于显示右端的分析数据-->
+        <div ng-class="showLeftWindow ? 'col-xs-9' : 'col-xs-12'" style="height:100%;z-index:50;">
+            <div class="row" style="height: 100%;padding-left:15px;">
+                <div class="col-xs-12" style="height: 100%;">
+                    <div ng-include="'app/views/custom/performance/score/detail/result-score-detail.html'"
+                         style="height: 100%;"></div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-xs-12" style="height:calc(100% - 45px);margin-top:10px;overflow: auto;">
-            <table ng-table-dynamic="scoreListTableParams with labelList" show-filter="true"
-                   class="table table-bordered table-hover table-condensed table-responsive fixed-table"
-                   style="border:1px solid #eeeeee;table-layout: fixed;">
-                <tr ng-repeat="item in $data" ng-dblclick="show(item.id)">
-                    <td data-ng-repeat="column in $columns">{{::item[column.field]}}</td>
-                </tr>
-            </table>
-        </div>
-    </div>
 </div>
