@@ -14,7 +14,7 @@
 
         function deleteExam(data){
             return $http({
-                method: "post",
+                method : "POST",
                 data: data,
                 timeout: 5000,
                 url: "/v1/exam/delete"

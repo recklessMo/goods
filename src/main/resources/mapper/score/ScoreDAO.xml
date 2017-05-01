@@ -21,7 +21,7 @@
         from score
         <where>
             exam_id = #{examId}
-            <if test="sid != 0">
+            <if test="null != sid and 0 != sid">
               and sid = #{sid}
             </if>
             <if test="classId != 0">

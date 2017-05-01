@@ -1,43 +1,39 @@
 <div ng-controller="ScoreListController" style="background: #fff;overflow: auto;height:100%;padding: 15px;">
 
-    <div class="col-xs-12">
-        <div class="col-xs-5 col-xs-offset-7">
-            <div class="row">
-                <div class="col-xs-8">
-                    <div angucomplete-alt
-                         id="searchExam"
-                         placeholder="搜索考试"
-                         pause="300"
-                         selected-object="selectedProject"
-                         remote-url="/v1/exam/search"
-                         remote-url-request-formatter="remoteUrlRequestFn"
-                         remote-url-data-field="data"
-                         title-field="examName"
-                         description-field="examName"
-                         input-class="form-control form-control-small"
-                         text-searching="搜索中"
-                         text-no-results="没有结果"
-                         minlength="1"
-                         match-class="highlight">
-                    </div>
-                </div>
-                <div class="col-xs-4">
-                    <button class="btn btn-info" ng-click="search()">查询</button>
-                    <button class="btn btn-info" ng-click="search()">导出</button>
-                    <!--<button class="btn btn-info" ng-click="search()">打印</button>-->
-                </div>
+    <div class="row">
+        <div class="col-xs-4">
+            <div angucomplete-alt
+                 id="searchExam"
+                 placeholder="搜索考试"
+                 pause="300"
+                 selected-object="selectedProject"
+                 remote-url="/v1/exam/search"
+                 remote-url-request-formatter="remoteUrlRequestFn"
+                 remote-url-data-field="data"
+                 title-field="examName"
+                 description-field="examName"
+                 input-class="form-control form-control-small"
+                 text-searching="搜索中"
+                 text-no-results="没有结果"
+                 minlength="1"
+                 match-class="highlight">
             </div>
+        </div>
+        <div class="col-xs-4">
+            <button class="btn btn-info" ng-click="search()">查询</button>
+            <button class="btn btn-info" ng-click="search()">导出</button>
         </div>
     </div>
 
-    <div class="col-xs-12" style="height:calc(100% - 45px);margin-top:10px;overflow: auto;">
-        <table ng-table-dynamic="scoreListTableParams with labelList" show-filter="true"
-               class="table table-bordered table-hover table-condensed table-responsive fixed-table"
-               style="border:1px solid #eeeeee;table-layout: fixed;">
-            <tr ng-repeat="item in $data" ng-dblclick="show(item.id)">
-                <td data-ng-repeat="column in $columns">{{::item[column.field]}}</td>
-            </tr>
-        </table>
+    <div class="row">
+        <div class="col-xs-12" style="height:calc(100% - 45px);margin-top:10px;overflow: auto;">
+            <table ng-table-dynamic="scoreListTableParams with labelList" show-filter="true"
+                   class="table table-bordered table-hover table-condensed table-responsive fixed-table"
+                   style="border:1px solid #eeeeee;table-layout: fixed;">
+                <tr ng-repeat="item in $data" ng-dblclick="show(item.id)">
+                    <td data-ng-repeat="column in $columns">{{::item[column.field]}}</td>
+                </tr>
+            </table>
+        </div>
     </div>
-
 </div>

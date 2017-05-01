@@ -63,7 +63,7 @@
                 <td data-title="'上传成绩'" style="text-align: center;">{{item.uploadStatus == 0 ? '未上传' : '已上传'}}</td>
                 <td data-title="'操作'" style="text-align: center">
                     <button class="btn btn-info" ng-click="uploadScore(item)">上传成绩</button>
-                    <button class="btn btn-danger" ng-click="delete(item.id)">删除</button>
+                    <button class="btn btn-danger" ng-click="delete(item.examId)">删除</button>
                 </td>
             </tr>
         </table>
