@@ -42,6 +42,7 @@ public class WechatNetworkService {
 
     private static CloseableHttpClient httpclient = HttpClients.createDefault();
 
+    private long lastUpdateTime = 0;
 
     /**
      *
@@ -58,11 +59,12 @@ public class WechatNetworkService {
     private void refreshAccessToken() {
         //时间到了就更新,没到不更新
         long now = System.currentTimeMillis();
-        long last = WechatConstants.lastUpdateTime;
-        if (now - last >= WechatConstants.GAP) {
+        long last = lastUpdateTime;
+        if (now - lastUpdateTime >= WechatConstants.GAP) {
             String token = getTokenFromWechat();
             if(token != null){
                 accessToken = token;
+                lastUpdateTime = now;
             }
         }
     }

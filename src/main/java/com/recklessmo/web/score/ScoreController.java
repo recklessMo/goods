@@ -5,8 +5,10 @@ import com.recklessmo.model.dynamicTable.DynamicTable;
 import com.recklessmo.model.dynamicTable.TableColumn;
 import com.recklessmo.model.score.CourseScore;
 import com.recklessmo.model.score.Score;
+import com.recklessmo.model.security.DefaultUserDetails;
 import com.recklessmo.response.JsonResponse;
 import com.recklessmo.service.score.ScoreService;
+import com.recklessmo.util.ContextUtils;
 import com.recklessmo.web.webmodel.page.ScoreListPage;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,6 +42,8 @@ public class ScoreController {
     @RequestMapping(value = "/list", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public JsonResponse list(@RequestBody ScoreListPage scoreListPage) {
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
+        scoreListPage.setOrgId(userDetails.getOrgId());
         DynamicTable result = new DynamicTable();
         List<Score> data = scoreService.loadScoreList(scoreListPage);
         Map<String, String> nameMap = new HashMap<>();

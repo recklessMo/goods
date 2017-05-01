@@ -21,12 +21,12 @@
                             <tr ng-repeat="row in $data" ng-dblclick="" style="text-align: center;">
                                 <td data-title="'考试名称'">{{row.examName}}</td>
                                 <td data-title="'操作'">
-                                    <a class="" ng-click="addExam(row)">查看</a>
+                                    <a class="" ng-click="search(row.examId)">查看</a>
                                 </td>
                             </tr>
                             <tfoot ng-if="!$data || $data.length<1">
                             <tr>
-                                <td colspan="5" style="text-align: center;"> 无数据</td>
+                                <td colspan="2" style="text-align: center;"> 无数据</td>
                             </tr>
                             </tfoot>
                         </table>

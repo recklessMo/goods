@@ -15,10 +15,7 @@ import com.recklessmo.web.webmodel.page.ScoreListPage;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -137,7 +134,8 @@ public class ScoreService {
             });
         });
 
-        List<Long> examIdList = scoreList.stream().map(o -> o.getExamId()).collect(Collectors.toList());
+        Set<Long> examIdSet = scoreList.stream().map(o -> o.getExamId()).collect(Collectors.toSet());
+        List<Long> examIdList = new LinkedList<>(examIdSet);
         List<Exam> examList = examService.getExamByIdList(orgId, examIdList);
         Map<Long, Exam> examMap = examList.stream().collect(Collectors.toMap(Exam::getExamId, Function.identity()));
 

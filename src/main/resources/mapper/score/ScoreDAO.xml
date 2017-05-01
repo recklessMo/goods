@@ -24,7 +24,7 @@
             <if test="null != sid and 0 != sid">
               and sid = #{sid}
             </if>
-            <if test="classId != 0">
+            <if test="null != classId and classId != 0">
               and cid = #{classId}
             </if>
         </where>
