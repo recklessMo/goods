@@ -38,8 +38,6 @@
 
 
         $scope.tableParams = {
-            gradeId: 0,
-            classId: 0,
             page : 1,
             count: 10
         };

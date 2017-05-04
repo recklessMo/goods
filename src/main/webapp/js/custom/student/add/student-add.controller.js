@@ -62,20 +62,12 @@
         $scope.validate = function(){
             if(_.isNil($scope.student.name)
                 || _.isNil($scope.student.gender)
-                || _.isNil($scope.student.birth)
-                || _.isNil($scope.student.birthTown)
-                || _.isNil($scope.student.address)
-                || _.isNil($scope.student.homeTown)
-                || _.isNil($scope.student.people)
                 || _.isNil($scope.student.phone)
-                || _.isNil($scope.student.scn)
-                || _.isNil($scope.student.qq)
-                || _.isNil($scope.student.wechat)
                 || _.isNil($scope.student.sid)
                 || _.isNil($scope.student.gradeId)
                 || _.isNil($scope.student.classId)
             ) {
-                SweetAlert.error("信息填写不完整！");
+                SweetAlert.error("（姓名，性别，监护人电话，学号，年级，班级）为必填内容！");
                 return false;
             }
             return true;
