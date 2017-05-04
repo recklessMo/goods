@@ -80,7 +80,12 @@
 
         //后续需要加上排序以及过滤的一系列逻辑.
         $scope.showTables = function(){
-            $scope.rankListTableParams = new NgTableParams({page: 1, count: 10}, {dataset: $scope.dataList});
+            $scope.rankListTableParams = new NgTableParams({page: 1, count: 10},
+                {
+                    counts: [],
+                    dataset: $scope.dataList
+                }
+            );
         }
 
     }

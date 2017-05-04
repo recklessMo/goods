@@ -92,12 +92,14 @@
             $scope.message.message = $scope.msgTextarea.content;
             $scope.msgTextarea = {};
             // 医生发送消息
+            blockUI.start();
             WechatService.sendWechatMsg($scope.message).success(function (data) {
                 // 将医生发送的消息显示
                 $scope.fetchMessages(1);
                 $timeout(function(){
                     $scope.scrollToBottom();
                 },500)
+                blockUI.stop();
             });
         };
 
