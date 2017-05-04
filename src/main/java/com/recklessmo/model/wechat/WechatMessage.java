@@ -15,9 +15,9 @@ public class WechatMessage {
     private long id;
     private long orgId;
     private String openId;
-    private String openName;
-    private long userId;
-    private String userName;
+    private String openName = "";
+    private long userId = 0;
+    private String userName = "";
 
     private int type;
     private int messageType;

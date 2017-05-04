@@ -47,7 +47,7 @@
     </div>
     <div class="wechat-input-area" style="padding-top:65px;">
         <!--<button ng-click="sendMsg()" class="chat-send-btn">发送</button>-->
-        <textarea ng-model="msgTextarea.content" ng-keydown="$event.keyCode == 13 && sendMessage();"
+        <textarea id="enterElement" ng-model="msgTextarea.content" ng-keydown="$event.keyCode == 13 && sendMessage();"
                   style="height:100%;width:100%;border: 1px solid lightgray;"></textarea>
     </div>
 </div>

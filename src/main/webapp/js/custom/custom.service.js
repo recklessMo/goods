@@ -22,7 +22,7 @@
                     noitfy(data);
                 });
 
-                socket.stomp.subscribe('/websocket/notify/broadcast' + $rootScope.orgId, function (data) {
+                socket.stomp.subscribe('/websocket/notify/broadcast/' + $rootScope.orgId, function (data) {
                     noitfy(data);
                 });
             };

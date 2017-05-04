@@ -18,7 +18,7 @@
 
         $scope.$on("RECEIVE_WECHAT_MSG", function (event, data) {
             console.log(data);
-            if($scope.openId == data.data){
+            if($scope.openId == data){
                 $scope.fetchMessages(1);
             }
         });
@@ -109,6 +109,10 @@
             var scrollElement = document.getElementById("wechatMessageList");
             if (scrollElement) {
                 scrollElement.scrollTop = scrollElement.scrollHeight;
+            }
+            var enterElement = document.getElementById("enterElement");
+            if (enterElement) {
+                enterElement.focus();
             }
         };
 
