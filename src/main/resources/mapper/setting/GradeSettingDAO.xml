@@ -4,19 +4,19 @@
 <mapper namespace="com.recklessmo.dao.setting.GradeSettingDAO">
 
     <sql id = "gradeColumns">
-        grade_id, grade_name, charger, phone, detail
+        grade_id, org_id, grade_name, charger, phone, detail
     </sql>
 
     <sql id = "gradeColumnsWithoutId">
-        grade_name, charger, phone, detail
+        org_id, grade_name, charger, phone, detail
     </sql>
 
     <sql id = "classColumns">
-        class_id, grade_id, class_name, charger, phone, detail, class_type, class_level, course_teacher, schedule_course
+        class_id, org_id, grade_id, class_name, charger, phone, detail, class_type, class_level, course_teacher, schedule_course
     </sql>
 
     <sql id = "classColumnsWithoutId">
-        grade_id, class_name, charger, phone, detail, class_type, class_level, course_teacher, schedule_course
+        org_id, grade_id, class_name, charger, phone, detail, class_type, class_level, course_teacher, schedule_course
     </sql>
 
     <insert id="addGrade">
@@ -24,7 +24,7 @@
         (
         <include refid="gradeColumnsWithoutId"/>
         )
-        values(#{gradeName},#{charger}, #{phone}, #{detail})
+        values(#{orgId}, #{gradeName},#{charger}, #{phone}, #{detail})
     </insert>
 
     <insert id="addClass">
@@ -32,7 +32,7 @@
         (
         <include refid="classColumnsWithoutId"/>
         )
-        values(#{gradeId}, #{className},#{charger},#{phone},#{detail}, #{classType}, #{classLevel}, #{courseTeacher}, #{scheduleCourse})
+        values(#{orgId}, #{gradeId}, #{className},#{charger},#{phone},#{detail}, #{classType}, #{classLevel}, #{courseTeacher}, #{scheduleCourse})
     </insert>
 
     <update id="deleteGrade">
@@ -48,7 +48,7 @@
         (
         <include refid="gradeColumns"/>
         )
-        values(#{gradeId}, #{gradeName},#{charger}, #{phone}, #{detail})
+        values(#{gradeId}, #{orgId}, #{gradeName},#{charger}, #{phone}, #{detail})
     </update>
 
     <update id="updateClass">
@@ -56,13 +56,14 @@
         (
         <include refid="classColumns"/>
         )
-        values(#{classId}, #{gradeId}, #{className}, #{charger}, #{phone}, #{detail}, #{classType}, #{classLevel}, #{courseTeacher}, #{scheduleCourse})
+        values(#{classId}, #{orgId}, #{gradeId}, #{className}, #{charger}, #{phone}, #{detail}, #{classType}, #{classLevel}, #{courseTeacher}, #{scheduleCourse})
     </update>
 
     <select id="listGrade" resultType="com.recklessmo.model.setting.Grade">
         select
         <include refid="gradeColumns"/>
         from grade
+        where org_id = #{orgId}
         limit #{startIndex}, #{count}
     </select>
 
@@ -70,6 +71,7 @@
         select
         count(1)
         from grade
+        where org_id = #{orgId}
     </select>
 
     <select id="listClass" resultType="com.recklessmo.model.setting.Group">
@@ -89,11 +91,13 @@
 
     <sql id="gradeColumnsWithClass">
         g.grade_id as g_grade_id,
+        g.org_id as g_org_id,
         g.grade_name as g_grade_name,
         g.charger as g_charger,
         g.phone as g_phone,
         g.detail as g_detail,
         c.class_id as c_class_id,
+        c.org_id as c_org_id,
         c.grade_id as c_grade_id,
         c.class_name as c_class_name,
         c.charger as c_charger,
@@ -107,6 +111,7 @@
 
     <resultMap id="gradeMap" type="com.recklessmo.model.setting.Grade">
         <result column="g_grade_id" property="gradeId"/>
+        <result column="g_org_id" property="orgId"/>
         <result column="g_grade_name" property="gradeName"/>
         <result column="g_charger" property="charger"/>
         <result column="g_phone" property="phone"/>
@@ -116,6 +121,7 @@
 
     <resultMap id="classMap" type="com.recklessmo.model.setting.Group">
         <result column="c_class_id" property="classId"/>
+        <result column="c_org_id" property="orgId"/>
         <result column="c_grade_id" property="gradeId"/>
         <result column="c_class_name" property="className"/>
         <result column="c_charger" property="charger"/>
@@ -132,6 +138,7 @@
         <include refid="gradeColumnsWithClass"/>
         from
         grade g  left join class c on c.grade_id = g.grade_id
+        where g.org_id = #{orgId}
     </select>
     
     <select id="getSingleGroup" resultType="com.recklessmo.model.setting.Group">

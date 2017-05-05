@@ -7,6 +7,7 @@ import java.util.List;
  */
 public class Grade {
 
+    private long orgId;
     private long gradeId;
     private String gradeName;
     private String charger;
@@ -14,6 +15,14 @@ public class Grade {
     private String detail;
 
     private List<Group> classList;
+
+    public long getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(long orgId) {
+        this.orgId = orgId;
+    }
 
     public List<Group> getClassList() {
         return classList;

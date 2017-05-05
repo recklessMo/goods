@@ -13,6 +13,7 @@ import java.util.Map;
  */
 public class Group {
 
+    private long orgId;
     private long classId;
     private long gradeId;
     private String className;
@@ -24,6 +25,14 @@ public class Group {
 
     private Map<String, CourseTeacher> courseTeacherMap = new LinkedHashMap<>();
     private Map<String, ScheduleCourse> scheduleCourseMap = new LinkedHashMap<>();
+
+    public long getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(long orgId) {
+        this.orgId = orgId;
+    }
 
     public String getClassType() {
         return classType;

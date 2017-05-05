@@ -45,6 +45,12 @@
         $scope.activate = function() {
             $scope.studentTableParams = new NgTableParams({}, {
                 getData: function (params) {
+                    if(_.isUndefined($scope.tableParams.gradeId)){
+                        $scope.tableParams.gradeId = 0;
+                    }
+                    if(_.isUndefined($scope.tableParams.classId)){
+                        $scope.tableParams.classId = 0;
+                    }
                     $scope.tableParams.page = params.page();
                     $scope.tableParams.count = params.count();
                     blockUI.start();

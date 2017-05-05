@@ -58,15 +58,15 @@ public class GradeSettingService {
         return gradeSettingDAO.listClassCount(page);
     }
 
-    public List<Grade> listAllGrade(){
-        return gradeSettingDAO.listAllGrade();
+    public List<Grade> listAllGrade(long orgId){
+        return gradeSettingDAO.listAllGrade(orgId);
     }
 
     public Grade getSingleGrade(long gradeId){
         return gradeSettingDAO.getSingleGrade(gradeId);
     }
 
-    public Group getSingleGroup(long id){
-        return gradeSettingDAO.getSingleGroup(id);
+    public Group getSingleGroup(long classId){
+        return gradeSettingDAO.getSingleGroup(classId);
     }
 }

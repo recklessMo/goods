@@ -26,7 +26,7 @@ public interface GradeSettingDAO {
     List<Group> listClass(Page page);
     int listClassCount(Page page);
 
-    List<Grade> listAllGrade();
+    List<Grade> listAllGrade(@Param("orgId")long orgId);
 
     Group getSingleGroup(@Param("classId")long id);
     Grade getSingleGrade(@Param("gradeId")long id);
