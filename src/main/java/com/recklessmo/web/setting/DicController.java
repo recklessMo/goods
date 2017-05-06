@@ -42,7 +42,8 @@ public class DicController {
     @RequestMapping(value = "/grade/list", method = {RequestMethod.POST, RequestMethod.GET})
     @ResponseBody
     public JsonResponse listGrade(){
-        List<Grade> grades = gradeSettingService.listAllGrade();
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
+        List<Grade> grades = gradeSettingService.listAllGrade(userDetails.getOrgId());
         return new JsonResponse(200, grades, null);
     }
 

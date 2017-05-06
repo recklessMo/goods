@@ -153,7 +153,7 @@ public class StudentService {
      */
     public List<StudentGradeInfo> searchStudentByExam(StudentPage page){
         List<StudentGradeInfo> studentGradeInfoList =  studentDAO.searchStudentByExam(page);
-        compose(studentGradeInfoList);
+        compose(studentGradeInfoList, page.getOrgId());
         return studentGradeInfoList;
     }
 
@@ -168,10 +168,8 @@ public class StudentService {
     }
 
 
-
-
-    private void compose(List<StudentGradeInfo> studentGradeInfoList){
-        List<Grade> gradeList = gradeSettingService.listAllGrade();
+    private void compose(List<StudentGradeInfo> studentGradeInfoList, long orgId){
+        List<Grade> gradeList = gradeSettingService.listAllGrade(orgId);
         Map<Long, String> gradeMap = new HashMap<>();
         Map<Long, String> classMap = new HashMap<>();
         gradeList.stream().forEach(grade-> {

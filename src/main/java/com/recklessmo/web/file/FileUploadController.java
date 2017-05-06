@@ -1,6 +1,5 @@
 package com.recklessmo.web.file;
 
-import com.recklessmo.model.exam.Exam;
 import com.recklessmo.model.score.CourseScore;
 import com.recklessmo.model.score.Score;
 import com.recklessmo.model.security.DefaultUserDetails;
@@ -15,6 +14,7 @@ import com.recklessmo.service.setting.CourseSettingService;
 import com.recklessmo.service.setting.GradeSettingService;
 import com.recklessmo.service.student.StudentService;
 import com.recklessmo.util.ContextUtils;
+import org.apache.commons.jexl2.UnifiedJEXL;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -101,10 +101,10 @@ public class FileUploadController {
         }
     }
 
-    private void preProcessData(long orgId, List<Score> scoreList){
-        List<Grade> gradeList = gradeSettingService.listAllGrade();
+    private void preProcessData(long orgId, List<Score> scoreList) {
+        List<Grade> gradeList = gradeSettingService.listAllGrade(orgId);
         Map<Long, Grade> gradeMap = gradeList.stream().collect(Collectors.toMap(Grade::getGradeId, Function.identity()));
-        List<String> sidList = scoreList.stream().map(o->o.getSid()).collect(Collectors.toList());
+        List<String> sidList = scoreList.stream().map(o -> o.getSid()).collect(Collectors.toList());
         List<StudentGradeInfo> studentGradeInfoList = studentService.getStudentGradeInfoBySidList(orgId, sidList);
         Map<String, StudentGradeInfo> studentGradeInfoMap = studentGradeInfoList.stream().collect(Collectors.toMap(StudentGradeInfo::getSid, Function.identity()));
         scoreList.stream().forEach(item -> {
@@ -114,7 +114,7 @@ public class FileUploadController {
             item.setClassId(studentGradeInfo.getClassId());
             item.setGradeName(gradeMap.get(studentGradeInfo.getGradeId()).getGradeName());
             Optional<Group> groupOptional = grade.getClassList().stream().filter(o -> o.getClassId() == studentGradeInfo.getClassId()).findAny();
-            if(groupOptional.isPresent()){
+            if (groupOptional.isPresent()) {
                 item.setClassName(groupOptional.get().getClassName());
             }
         });
@@ -151,14 +151,14 @@ public class FileUploadController {
             String label = labelList.get(j);
             Cell cell = row.getCell(j, Row.RETURN_BLANK_AS_NULL);
             if ("年级".equals(label) || "班级".equals(label) || "姓名".equals(label)) {
-            } else if("年级ID".equals(label) || "班级ID".equals(label) || "学号".equals(label)){
+            } else if ("年级ID".equals(label) || "班级ID".equals(label) || "学号".equals(label)) {
                 if (cell != null) {
                     String value = dataFormatter.formatCellValue(cell);
-                    if("年级ID".equals(label)){
+                    if ("年级ID".equals(label)) {
                         score.setGradeId(Long.parseLong(value));
-                    }else if("班级ID".equals(label)){
+                    } else if ("班级ID".equals(label)) {
                         score.setClassId(Long.parseLong(value));
-                    }else {
+                    } else {
                         score.setSid(value);
                     }
                 } else {
@@ -205,8 +205,8 @@ public class FileUploadController {
         DataFormatter dataFormatter = new DataFormatter();
         Workbook workbook = WorkbookFactory.create(inputStream);
         List<StudentAddInfo> data = new LinkedList<>();
-        Map<String, Long> gradeMap = getGradeMap(0L);
-        Map<String, Long> classMap = getClassMap(0L);
+        Map<String, Long> gradeMap = getGradeMap(defaultUserDetails.getOrgId());
+        Map<String, Long> classMap = getClassMap(defaultUserDetails.getOrgId());
         int totalSheets = workbook.getNumberOfSheets();
         if (totalSheets != 0) {
             Sheet sheet = workbook.getSheetAt(0);
@@ -219,67 +219,77 @@ public class FileUploadController {
                 int colNums = row.getLastCellNum();
                 for (int j = row.getFirstCellNum(); j < colNums; j++) {
                     Cell cell = row.getCell(j, Row.RETURN_BLANK_AS_NULL);
+                    String value = null;
                     if (cell != null) {
                         //处理值;都转换成string之后进行具体解析
-                        String value = dataFormatter.formatCellValue(cell);
-                        value = value.trim();
-                        switch (j) {
-                            case 0:
-                                studentAddInfo.setName(value);
-                                break;
-                            case 1:
-                                studentAddInfo.setOtherName(value);
-                                break;
-                            case 2:
-                                studentAddInfo.setPhone(value);
-                                break;
-                            case 3:
-                                studentAddInfo.setScn(value);
-                                break;
-                            case 4:
-                                studentAddInfo.setGender("男".equals(value) ? 0 : 1);
-                                break;
-                            case 5:
-                                studentAddInfo.setBirth(sdf.parse(value));
-                                break;
-                            case 6:
-                                studentAddInfo.setBirthTown(value);
-                                break;
-                            case 7:
-                                studentAddInfo.setPeople(value);
-                                break;
-                            case 8:
-                                studentAddInfo.setHomeTown(value);
-                                break;
-                            case 9:
-                                studentAddInfo.setAddress(value);
-                                break;
-                            case 10:
-                                studentAddInfo.setQq(value);
-                                break;
-                            case 11:
-                                studentAddInfo.setWechat(value);
-                                break;
-                            case 12:
-                                studentAddInfo.setSid("0");
-                                break;
-                            case 13:
-                                studentAddInfo.setGradeName(value);
-                                studentAddInfo.setGradeId(gradeMap.get(value));
-                                break;
-                            case 14:
-                                studentAddInfo.setClassName(value);
-                                studentAddInfo.setClassId(classMap.get(studentAddInfo.getGradeName() + "_" + value));
-                                break;
-                            case 15:
-                                studentAddInfo.setJob(value);
-                                break;
-                            default:
-                                break;
-                        }
-                    } else {
-                        //抛出异常,不允许有为空的情况,缺失的都必须用0来代替
-                        //全部为0代表缺考
+                        value = dataFormatter.formatCellValue(cell).trim();
+                    }
+                    switch (j) {
+                        case 0:
+                            checkCell(value, row.getRowNum(), j+1);
+                            studentAddInfo.setSid(value);
+                            break;
+                        case 1:
+                            checkCell(value, row.getRowNum(), j+1);
+                            studentAddInfo.setGradeName(value);
+                            Long gradeId = gradeMap.get(value);
+                            if(gradeId == null) {
+                                throw new Exception("年级名称:" + value + " 不存在!");
+                            }
+                            studentAddInfo.setGradeId(gradeId);
+                            break;
+                        case 2:
+                            checkCell(value, row.getRowNum(), j+1);
+                            studentAddInfo.setClassName(value);
+                            Long classId = classMap.get(studentAddInfo.getGradeName()+"_" + value);
+                            if(classId == null) {
+                                throw new Exception("班级名称:" + value + " 不存在!");
+                            }
+                            studentAddInfo.setClassId(classId);
+                            break;
+                        case 3:
+                            checkCell(value, row.getRowNum(), j+1);
+                            studentAddInfo.setName(value);
+                            break;
+                        case 4:
+                            studentAddInfo.setOtherName(value);
+                            break;
+                        case 5:
+                            studentAddInfo.setJob(value);
+                            break;
+                        case 6:
+                            studentAddInfo.setPhone(value);
+                            break;
+                        case 7:
+                            studentAddInfo.setScn(value);
+                            break;
+                        case 8:
+                            checkCell(value, row.getRowNum(), j+1);
+                            studentAddInfo.setGender("男".equals(value) ? 0 : 1);
+                            break;
+                        case 9:
+                            studentAddInfo.setBirth(sdf.parse(value));
+                            break;
+                        case 10:
+                            studentAddInfo.setBirthTown(value);
+                            break;
+                        case 11:
+                            studentAddInfo.setPeople(value);
+                            break;
+                        case 12:
+                            studentAddInfo.setHomeTown(value);
+                            break;
+                        case 13:
+                            studentAddInfo.setAddress(value);
+                            break;
+                        case 14:
+                            studentAddInfo.setQq(value);
+                            break;
+                        case 15:
+                            studentAddInfo.setWechat(value);
+                            break;
+                        default:
+                            break;
                     }
                 }
                 data.add(studentAddInfo);
@@ -291,8 +301,14 @@ public class FileUploadController {
         return new JsonResponse(200, null, null);
     }
 
+    private void checkCell(String value, int row, int col) throws Exception{
+        if(value == null) {
+            throw new Exception("(第" + row + "行, 第" + col + "列)不能为空！");
+        }
+    }
+
     private Map<String, Long> getGradeMap(long orgId) {
-        List<Grade> gradeList = gradeSettingService.listAllGrade();
+        List<Grade> gradeList = gradeSettingService.listAllGrade(orgId);
         Map<String, Long> res = new HashMap<>();
         for (Grade grade : gradeList) {
             res.put(grade.getGradeName(), grade.getGradeId());
@@ -301,7 +317,7 @@ public class FileUploadController {
     }
 
     private Map<String, Long> getClassMap(long orgId) {
-        List<Grade> gradeList = gradeSettingService.listAllGrade();
+        List<Grade> gradeList = gradeSettingService.listAllGrade(orgId);
         Map<String, Long> res = new HashMap<>();
         for (Grade grade : gradeList) {
             for (Group group : grade.getClassList()) {

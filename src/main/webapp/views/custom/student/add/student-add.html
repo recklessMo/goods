@@ -4,7 +4,7 @@
             <div class="panel panel-default" style="border:none;">
                 <div class="panel-heading" style="font-size:15px;font-weight: bold;">
                     <i class="fa fa-user-plus" aria-hidden="true"></i>
-                    录入信息
+                    录入信息<span style="color: red;">(红色为必填)</span>
                     <div class="pull-right">
                         <button ng-click="save()" class="btn btn-info">保存</button>
                     </div>
@@ -14,7 +14,7 @@
                         <hr/>
                         <h5>I 基本信息</h5>
                         <div class="form-group from-inline">
-                            <label class="col-md-1 control-label">姓名</label>
+                            <label class="col-md-1 control-label" style="color: red;">姓名</label>
                             <div class="col-md-2" style="padding-left: 0px">
                                 <input type="text" class="form-control" ng-model="student.name"/>
                             </div>
@@ -24,7 +24,7 @@
                                 <input type="text" class="form-control" ng-model="student.otherName"/>
                             </div>
 
-                            <label class="col-md-1 control-label">性别</label>
+                            <label class="col-md-1 control-label" style="color: red;">性别</label>
                             <div class="col-md-2" style="padding-left: 0px">
                                 <ui-select ng-model="student.gender" theme="bootstrap"
                                            class="text-left" style="width:100%;" on-select="selectGrade($item)">
@@ -65,7 +65,7 @@
                         </div>
 
                         <div class="form-group from-inline">
-                            <label class="col-md-1 control-label">监护人手机</label>
+                            <label class="col-md-1 control-label" style="color: red;">监护人手机</label>
                             <div class="col-md-2" style="padding-left: 0px">
                                 <input type="text" class="form-control" ng-model="student.phone"/>
                             </div>
@@ -89,12 +89,12 @@
                         <hr/>
                         <h5>I 教务信息</h5>
                         <div class="form-group from-inline">
-                            <label class="col-md-1 control-label">学号</label>
+                            <label class="col-md-1 control-label" style="color: red;">学号</label>
                             <div class="col-md-2" style="padding-left: 0px">
                                 <input type="text" class="form-control" ng-model="student.sid"/>
                             </div>
 
-                            <label class="col-md-1 control-label">年级</label>
+                            <label class="col-md-1 control-label" style="color: red;">年级</label>
                             <div class="col-md-2" style="padding-left: 0px">
                                 <ui-select ng-model="student.gradeId" theme="bootstrap"
                                            class="text-left" style="width:100%;" on-select="selectGrade($item)">
@@ -106,7 +106,7 @@
                                 </ui-select>
                             </div>
 
-                            <label class="col-md-1 control-label">班级</label>
+                            <label class="col-md-1 control-label" style="color: red;">班级</label>
                             <div class="col-md-2" style="padding-left: 0px">
                                 <ui-select ng-model="student.classId" theme="bootstrap"
                                            class="text-left" style="width:100%;">

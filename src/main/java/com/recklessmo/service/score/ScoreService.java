@@ -124,7 +124,7 @@ public class ScoreService {
      * @param scoreList
      */
     private void composeGradeInfo(long orgId, List<Score> scoreList){
-        List<Grade>  gradeList = gradeSettingService.listAllGrade();
+        List<Grade>  gradeList = gradeSettingService.listAllGrade(orgId);
         Map<Long, Grade> gradeMap = new HashMap<>();
         Map<Long, Group> groupMap = new HashMap<>();
         gradeList.stream().forEach(grade -> {

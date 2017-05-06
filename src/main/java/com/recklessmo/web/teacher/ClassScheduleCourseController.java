@@ -1,6 +1,7 @@
 package com.recklessmo.web.teacher;
 
 import com.recklessmo.model.course.*;
+import com.recklessmo.model.security.DefaultUserDetails;
 import com.recklessmo.model.setting.Course;
 import com.recklessmo.model.setting.Grade;
 import com.recklessmo.model.setting.Group;
@@ -9,6 +10,7 @@ import com.recklessmo.response.JsonResponse;
 import com.recklessmo.service.setting.CourseSettingService;
 import com.recklessmo.service.setting.GradeSettingService;
 import com.recklessmo.service.setting.ScheduleSettingService;
+import com.recklessmo.util.ContextUtils;
 import com.recklessmo.web.webmodel.page.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -60,10 +62,11 @@ public class ClassScheduleCourseController {
     @ResponseBody
     @RequestMapping(value = "/v1/class/schedule/list", method = {RequestMethod.POST, RequestMethod.GET})
     public JsonResponse listClassTeacherInfo(){
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
         Page page = new Page();
         page.setPage(1);
         page.setCount(10000);
-        List<Grade> gradeList = gradeSettingService.listAllGrade();
+        List<Grade> gradeList = gradeSettingService.listAllGrade(userDetails.getOrgId());
         List<Schedule> scheduleList = scheduleSettingService.listSchedule();
         AllClassScheduleCourseInfo allClassScheduleCourseInfo = new AllClassScheduleCourseInfo();
         allClassScheduleCourseInfo.setScheduleList(scheduleList);

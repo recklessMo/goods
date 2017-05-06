@@ -2,6 +2,7 @@ package com.recklessmo.web.teacher;
 
 import com.recklessmo.model.course.AllClassCourseTeacherInfo;
 import com.recklessmo.model.course.SingleClassCourseTeacherInfo;
+import com.recklessmo.model.security.DefaultUserDetails;
 import com.recklessmo.model.setting.Course;
 import com.recklessmo.model.course.CourseTeacher;
 import com.recklessmo.model.setting.Grade;
@@ -9,6 +10,7 @@ import com.recklessmo.model.setting.Group;
 import com.recklessmo.response.JsonResponse;
 import com.recklessmo.service.setting.CourseSettingService;
 import com.recklessmo.service.setting.GradeSettingService;
+import com.recklessmo.util.ContextUtils;
 import com.recklessmo.web.webmodel.page.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -66,10 +68,11 @@ public class ClassCourseTeacherController {
     @ResponseBody
     @RequestMapping(value = "/v1/class/teacher/list", method = {RequestMethod.POST, RequestMethod.GET})
     public JsonResponse listClassTeacherInfo(){
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
         Page page = new Page();
         page.setPage(1);
         page.setCount(10000);
-        List<Grade> gradeList = gradeSettingService.listAllGrade();
+        List<Grade> gradeList = gradeSettingService.listAllGrade(userDetails.getOrgId());
         List<Course> courseList = courseSettingService.listCourse(page);
         AllClassCourseTeacherInfo allClassCourseTeacherInfo = new AllClassCourseTeacherInfo();
         allClassCourseTeacherInfo.setCourseList(courseList);
