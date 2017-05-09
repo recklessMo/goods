@@ -8,13 +8,22 @@
     StudentService.$inject = ['$http'];
     function StudentService($http) {
 
-        this.searchStudent = searchStudent;
+        this.listStudent = listStudent;
+
         this.addStudent = addStudent;
-        this.loadStudent = loadStudent;
         this.searchStudentByExam = searchStudentByExam;
         this.getSingleStudentInfo = getSingleStudentInfo;
         this.saveSingleStudentInfo = saveSingleStudentInfo;
         this.loadScoreListBySid = loadScoreListBySid;
+
+        function listStudent(data) {
+            return $http({
+                method: "POST",
+                url: "/v1/student/list",
+                data: data,
+                timeout: 5000
+            });
+        }
 
         function loadScoreListBySid(data){
             return $http({
@@ -54,15 +63,6 @@
             });
         }
 
-        function searchStudent(data) {
-            return $http({
-                method: "POST",
-                url : "/v1/student/list",
-                data:data,
-                timeout: 5000
-            });
-        }
-
         function addStudent(data) {
             return $http({
                     method: "POST",
@@ -72,14 +72,7 @@
             });
         }
 
-        function loadStudent(data) {
-            return $http({
-                method: "POST",
-                url: "/v1/student/listall",
-                data: data,
-                timeout: 5000
-            });
-        }
+
 
     }
 })

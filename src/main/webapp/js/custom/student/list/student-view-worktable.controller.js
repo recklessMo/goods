@@ -52,7 +52,7 @@
                     blockUI.start();
                     $scope.tableParams.page = params.page();
                     $scope.tableParams.count = params.count();
-                    return StudentService.searchStudent($scope.tableParams).then(function (data) {
+                    return StudentService.listStudent($scope.tableParams).then(function (data) {
                         var result = data.data;
                         blockUI.stop();
                         if (result.status == 200) {

@@ -46,8 +46,9 @@ public class StudentController {
     }
 
     /**
+     * list
      *
-     * 学生基本信息查询
+     * 学生信息查询
      *
      * @param page
      * @return
@@ -60,21 +61,6 @@ public class StudentController {
         int cnt = studentService.getStudentInfoTotalCount(page);
         List<StudentInfo> infoList = studentService.getStudentInfo(page);
         return new JsonResponse(200, infoList, cnt);
-    }
-
-
-    /**
-     *
-     * 用于通过考试来搜索学生
-     *
-     * @param page
-     * @return
-     */
-    @ResponseBody
-    @RequestMapping(value = "/v1/student/searchByExam", method = {RequestMethod.POST, RequestMethod.GET})
-    public JsonResponse searchByExam(@RequestBody StudentPage page){
-        List<StudentInfo> studentInfoList = studentService.searchStudentByExam(page);
-        return new JsonResponse(200, studentInfoList, studentInfoList.size());
     }
 
     /**
@@ -91,6 +77,19 @@ public class StudentController {
         return new JsonResponse(200, studentInfo, null);
     }
 
+    /**
+     *
+     * 用于通过考试来搜索学生
+     *
+     * @param page
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/v1/student/searchByExam", method = {RequestMethod.POST, RequestMethod.GET})
+    public JsonResponse searchByExam(@RequestBody StudentPage page){
+        List<StudentInfo> studentInfoList = studentService.searchStudentByExam(page);
+        return new JsonResponse(200, studentInfoList, studentInfoList.size());
+    }
 
     /**
      *
