@@ -2,15 +2,10 @@ package com.recklessmo.service.student;
 
 import com.recklessmo.dao.student.StudentDAO;
 import com.recklessmo.model.setting.Grade;
-import com.recklessmo.model.student.StudentAddInfo;
-import com.recklessmo.model.student.StudentAllInfo;
-import com.recklessmo.model.student.StudentBaseInfo;
-import com.recklessmo.model.student.StudentGradeInfo;
+import com.recklessmo.model.student.StudentInfo;
 import com.recklessmo.service.setting.GradeSettingService;
 import com.recklessmo.web.webmodel.page.StudentPage;
-import org.springframework.security.web.authentication.preauth.x509.SubjectDnX509PrincipalExtractor;
 import org.springframework.stereotype.Service;
-
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
@@ -29,44 +24,54 @@ public class StudentService {
     private GradeSettingService gradeSettingService;
 
     /**
-     * 用于搜索显示
+     *
+     * 用于搜索学生列表
+     *
      * @param page
      * @return
      */
-    public List<StudentBaseInfo> getStudentBaseInfo(StudentPage page){
-        return studentDAO.getStudentBaseInfoList(page);
+    public List<StudentInfo> getStudentInfo(StudentPage page){
+        return studentDAO.getStudentInfoList(page);
     }
 
     /**
+     *
      * 用于搜索指定条件下的搜索总数,用于分页
+     *
      * @param page
      * @return
      */
-    public int getStudentBaseInfoTotalCount(StudentPage page){
-        return studentDAO.getStudentBaseInfoListTotalCount(page);
+    public int getStudentInfoTotalCount(StudentPage page){
+        return studentDAO.getStudentInfoListTotalCount(page);
     }
 
     /**
+     *
      * 用于插入学生信息
-     * @param studentAddInfo
+     *
+     * @param studentInfo
      */
-    public void insertStudentAddInfo(StudentAddInfo studentAddInfo){
-        studentDAO.insertStudentAddInfo(studentAddInfo);
+    public void insertStudentAddInfo(StudentInfo studentInfo){
+        studentDAO.insertStudentInfo(studentInfo);
     }
 
     /**
-     * 用于保存学生信息
+     *
+     * 用于更新学生信息
+     *
      * @param studentAllInfo
      */
-    public void updateStudentInfo(StudentAllInfo studentAllInfo){
-        studentDAO.updateStudentInfo(studentAllInfo);
+    public void updateStudentInfo(StudentInfo studentInfo){
+        studentDAO.updateStudentInfo(studentInfo);
     }
 
     /**
+     *
      * 用于批量插入学生信息
      * 每次插入500个
+     *
      */
-    public void insertStudentList(List<StudentAddInfo> studentList){
+    public void insertStudentList(List<StudentInfo> studentList){
         int gap = 500;
         int start = 0;
         while(start < studentList.size()) {
@@ -74,32 +79,11 @@ public class StudentService {
             if(end > studentList.size()){
                 end = studentList.size();
             }
-            List<StudentAddInfo> sub = studentList.subList(start, end);
+            List<StudentInfo> sub = studentList.subList(start, end);
             studentDAO.insertStudentList(sub);
             start = end;
         }
     }
-
-    /**
-     * 用于导出显示
-     * @param page
-     * @return
-     */
-    public List<StudentAllInfo> getStudentAllInfo(StudentPage page){
-        return studentDAO.getStudentAllInfo(page);
-    }
-
-    /**
-     *
-     * 用于导出
-     *
-     * @param page
-     * @return
-     */
-    public int getStudentAllInfoTotalCount(StudentPage page){
-        return studentDAO.getStudentAllInfoTotalCount(page);
-    }
-
 
     /**
      *
@@ -108,8 +92,8 @@ public class StudentService {
      * @param wechatId
      * @return
      */
-    public StudentAllInfo getStudentInfoByWechatId(String wechatId){
-        return studentDAO.getStudentAllInfoByWechatId(wechatId);
+    public StudentInfo getStudentInfoByWechatId(String wechatId){
+        return studentDAO.getStudentInfoByWechatId(wechatId);
     }
 
     /**
@@ -119,8 +103,20 @@ public class StudentService {
      * @param sid
      * @return
      */
-    public StudentAllInfo getStudentInfoBySid(long orgId, String sid){
+    public StudentInfo getStudentInfoBySid(long orgId, String sid){
         return studentDAO.getStudentInfoBySid(orgId, sid);
+    }
+
+    /**
+     *
+     * 根据学号列表获取学生信息
+     *
+     * @param orgId
+     * @param sidList
+     * @return
+     */
+    public List<StudentInfo> getStudentInfoBySidList(long orgId, List<String> sidList){
+        return studentDAO.getStudentInfoBySidList(orgId, sidList);
     }
 
 
@@ -132,43 +128,28 @@ public class StudentService {
      * @param classId
      * @return
      */
-    public List<StudentAllInfo> getStudentListByGradeIdAndClassId(long orgId, long gradeId, long classId){
+    public List<StudentInfo> getStudentListByGradeIdAndClassId(long orgId, long gradeId, long classId){
         return studentDAO.getStudentListByGradeIdAndClassId(orgId, gradeId, classId);
-    }
-
-
-    public List<StudentGradeInfo> getStudentGradeInfoBySidList(long orgId, List<String> sidList){
-        return studentDAO.getStudentGradeInfoBySidList(orgId, sidList);
     }
 
 
     /**
      *
-     * 根据examid和searchstr查询学生信息
+     * 根据examid查询学生信息
      *
      * 用于进行个人综合分析页面的实现
      *
      * @param page
      * @return
      */
-    public List<StudentGradeInfo> searchStudentByExam(StudentPage page){
-        List<StudentGradeInfo> studentGradeInfoList =  studentDAO.searchStudentByExam(page);
-        compose(studentGradeInfoList, page.getOrgId());
-        return studentGradeInfoList;
+    public List<StudentInfo> searchStudentByExam(StudentPage page){
+        List<StudentInfo> studentInfoList =  studentDAO.searchStudentByExam(page);
+        compose(studentInfoList, page.getOrgId());
+        return studentInfoList;
     }
 
 
-    /**
-     * 根据学号idList获取学生的信息
-     * @param sidList
-     * @return
-     */
-    public List<StudentBaseInfo> getStudentBaseInfoByIdList(long orgId, List<String> sidList){
-        return studentDAO.getStudentBaseInfoByIdList(orgId, sidList);
-    }
-
-
-    private void compose(List<StudentGradeInfo> studentGradeInfoList, long orgId){
+    private void compose(List<StudentInfo> studentInfoList, long orgId){
         List<Grade> gradeList = gradeSettingService.listAllGrade(orgId);
         Map<Long, String> gradeMap = new HashMap<>();
         Map<Long, String> classMap = new HashMap<>();
@@ -179,7 +160,7 @@ public class StudentService {
             });
         });
 
-        studentGradeInfoList.stream().forEach(studentGradeInfo -> {
+        studentInfoList.stream().forEach(studentGradeInfo -> {
             studentGradeInfo.setGradeName(gradeMap.get(studentGradeInfo.getGradeId()));
             studentGradeInfo.setClassName(classMap.get(studentGradeInfo.getClassId()));
         });

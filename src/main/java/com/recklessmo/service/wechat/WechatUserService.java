@@ -3,7 +3,7 @@ package com.recklessmo.service.wechat;
 import com.google.common.base.Functions;
 import com.recklessmo.dao.wechat.WechatMessageDAO;
 import com.recklessmo.dao.wechat.WechatUserDAO;
-import com.recklessmo.model.student.StudentGradeInfo;
+import com.recklessmo.model.student.StudentInfo;
 import com.recklessmo.model.wechat.WechatMessage;
 import com.recklessmo.model.wechat.WechatUser;
 import com.recklessmo.service.student.StudentService;
@@ -36,16 +36,16 @@ public class WechatUserService {
 
     private void composeWechatUserInfo(long orgId, List<WechatUser> wechatUserList){
         List<String> sidList = wechatUserList.stream().map(o -> o.getSid()).collect(Collectors.toList());
-        List<StudentGradeInfo> studentGradeInfoList = studentService.getStudentGradeInfoBySidList(orgId, sidList);
-        Map<String, StudentGradeInfo> studentGradeInfoMap = studentGradeInfoList.stream().collect(Collectors.toMap(StudentGradeInfo::getSid, Function.identity()));
+        List<StudentInfo> studentInfoList = studentService.getStudentInfoBySidList(orgId, sidList);
+        Map<String, StudentInfo> studentInfoMap = studentInfoList.stream().collect(Collectors.toMap(StudentInfo::getSid, Function.identity()));
         wechatUserList.stream().forEach(wechatUser -> {
-            StudentGradeInfo studentGradeInfo = studentGradeInfoMap.get(wechatUser.getSid());
-            if(studentGradeInfo != null) {
-                wechatUser.setName(studentGradeInfo.getName());
-                wechatUser.setGradeId(studentGradeInfo.getGradeId());
-                wechatUser.setGradeName(studentGradeInfo.getGradeName());
-                wechatUser.setClassId(studentGradeInfo.getClassId());
-                wechatUser.setClassName(studentGradeInfo.getClassName());
+            StudentInfo studentInfo = studentInfoMap.get(wechatUser.getSid());
+            if(studentInfo != null) {
+                wechatUser.setName(studentInfo.getName());
+                wechatUser.setGradeId(studentInfo.getGradeId());
+                wechatUser.setGradeName(studentInfo.getGradeName());
+                wechatUser.setClassId(studentInfo.getClassId());
+                wechatUser.setClassName(studentInfo.getClassName());
             }
         });
     }

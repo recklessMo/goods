@@ -1,6 +1,5 @@
 package com.recklessmo.web.system;
 
-import com.recklessmo.model.student.StudentAddInfo;
 import com.recklessmo.model.system.Org;
 import com.recklessmo.response.JsonResponse;
 import com.recklessmo.service.system.OrgService;

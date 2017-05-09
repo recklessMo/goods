@@ -2,7 +2,7 @@ package com.recklessmo.web.wechat;
 
 import com.alibaba.fastjson.JSON;
 import com.recklessmo.constant.WechatConstants;
-import com.recklessmo.model.student.StudentAllInfo;
+import com.recklessmo.model.student.StudentInfo;
 import com.recklessmo.model.wechat.WechatCallbackMsg;
 import com.recklessmo.model.wechat.WechatMessage;
 import com.recklessmo.model.wechat.WechatTicket;
@@ -119,10 +119,10 @@ public class WechatCallbackController {
                 }
             }
         } else if (wechatCallbackMsg.getMsgType().equals("text")){
-            StudentAllInfo studentAllInfo = studentService.getStudentInfoByWechatId(wechatCallbackMsg.getFromUserName());
+            StudentInfo studentInfo = studentService.getStudentInfoByWechatId(wechatCallbackMsg.getFromUserName());
             //文本消息
             WechatMessage wechatMessage = new WechatMessage();
-            wechatMessage.setOrgId(studentAllInfo.getOrgId());
+            wechatMessage.setOrgId(studentInfo.getOrgId());
             wechatMessage.setType(WechatMessage.MSG_DIRECTION_RECEIVE);//接收
             wechatMessage.setMessageType(WechatMessage.MSG_TYPE_TEXT);//文本
             wechatMessage.setMessage(wechatCallbackMsg.getContent());
@@ -133,7 +133,7 @@ public class WechatCallbackController {
             Map<String, Object> payLoad = new HashMap<>();
             payLoad.put("type", "RECEIVE_WECHAT_MSG");
             payLoad.put("data", wechatCallbackMsg.getFromUserName());
-            simpMessagingTemplate.convertAndSend("/websocket/notify/broadcast/" + studentAllInfo.getOrgId(), payLoad);
+            simpMessagingTemplate.convertAndSend("/websocket/notify/broadcast/" + studentInfo.getOrgId(), payLoad);
         } else if (wechatCallbackMsg.getMsgType().equals("image")
                 || wechatCallbackMsg.getMsgType().equals("voice") || wechatCallbackMsg.getMsgType().equals("video") || wechatCallbackMsg.getMsgType().equals("shortvideo")) {
             //暂时不支持这种类型的消息.
@@ -210,15 +210,15 @@ public class WechatCallbackController {
         }
 
         //如果没有绑定的话就进行绑定
-        StudentAllInfo studentAllInfo = wechatCallbackService.getStudentInfoByWechatId(openId);
-        if(studentAllInfo == null){
+        StudentInfo studentInfo = wechatCallbackService.getStudentInfoByWechatId(openId);
+        if(studentInfo == null){
             return "bind";
         }
 
         //找到了cookie并且绑定了, 就进去主页面
         if(type == 1){
             //基本信息
-            model.addAttribute("studentInfo", JSON.toJSONString(studentAllInfo));
+            model.addAttribute("studentInfo", JSON.toJSONString(studentInfo));
             return "info";
         }else if(type == 2){
             //成绩分析

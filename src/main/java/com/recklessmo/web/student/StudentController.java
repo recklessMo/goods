@@ -2,19 +2,14 @@ package com.recklessmo.web.student;
 
 import com.recklessmo.model.score.Score;
 import com.recklessmo.model.security.DefaultUserDetails;
-import com.recklessmo.model.student.StudentAddInfo;
-import com.recklessmo.model.student.StudentAllInfo;
-import com.recklessmo.model.student.StudentBaseInfo;
-import com.recklessmo.model.student.StudentGradeInfo;
+import com.recklessmo.model.student.StudentInfo;
 import com.recklessmo.response.JsonResponse;
 import com.recklessmo.service.score.ScoreService;
 import com.recklessmo.service.student.StudentService;
 import com.recklessmo.util.ContextUtils;
 import com.recklessmo.web.webmodel.page.StudentPage;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.RequestToViewNameTranslator;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -37,16 +32,16 @@ public class StudentController {
      *
      * 单个录入学生信息
      *
-     * @param studentAddInfo
+     * @param studentInfo
      * @return
      */
     @ResponseBody
     @RequestMapping(value = "/v1/student/add", method = {RequestMethod.POST, RequestMethod.GET})
-    public JsonResponse addStudentInfo(@RequestBody StudentAddInfo studentAddInfo){
+    public JsonResponse addStudentInfo(@RequestBody StudentInfo studentInfo){
         //TODO 可能需要做一些字段的校验,可以考虑写个annotation来进行校验
         DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
-        studentAddInfo.setOrgId(userDetails.getOrgId());
-        studentService.insertStudentAddInfo(studentAddInfo);
+        studentInfo.setOrgId(userDetails.getOrgId());
+        studentService.insertStudentAddInfo(studentInfo);
         return new JsonResponse(200, null, null);
     }
 
@@ -62,25 +57,8 @@ public class StudentController {
     public JsonResponse list(@RequestBody StudentPage page){
         DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
         page.setOrgId(userDetails.getOrgId());
-        int cnt = studentService.getStudentBaseInfoTotalCount(page);
-        List<StudentBaseInfo> infoList = studentService.getStudentBaseInfo(page);
-        return new JsonResponse(200, infoList, cnt);
-    }
-
-    /**
-     *
-     * 导出所有的学生信息
-     *
-     * @param page
-     * @return
-     */
-    @ResponseBody
-    @RequestMapping(value = "/v1/student/listall", method = {RequestMethod.POST, RequestMethod.GET})
-    public JsonResponse listall(@RequestBody StudentPage page){
-        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
-        page.setOrgId(userDetails.getOrgId());
-        int cnt = studentService.getStudentAllInfoTotalCount(page);
-        List<StudentAllInfo> infoList = studentService.getStudentAllInfo(page);
+        int cnt = studentService.getStudentInfoTotalCount(page);
+        List<StudentInfo> infoList = studentService.getStudentInfo(page);
         return new JsonResponse(200, infoList, cnt);
     }
 
@@ -95,8 +73,8 @@ public class StudentController {
     @ResponseBody
     @RequestMapping(value = "/v1/student/searchByExam", method = {RequestMethod.POST, RequestMethod.GET})
     public JsonResponse searchByExam(@RequestBody StudentPage page){
-        List<StudentGradeInfo> studentGradeInfoList = studentService.searchStudentByExam(page);
-        return new JsonResponse(200, studentGradeInfoList, studentGradeInfoList.size());
+        List<StudentInfo> studentInfoList = studentService.searchStudentByExam(page);
+        return new JsonResponse(200, studentInfoList, studentInfoList.size());
     }
 
     /**
@@ -109,8 +87,8 @@ public class StudentController {
     @RequestMapping(value = "/v1/student/get", method = {RequestMethod.POST, RequestMethod.GET})
     public JsonResponse getBySid(@RequestBody String sid){
         DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
-        StudentAllInfo studentAllInfo = studentService.getStudentInfoBySid(userDetails.getOrgId(), sid);
-        return new JsonResponse(200, studentAllInfo, null);
+        StudentInfo studentInfo = studentService.getStudentInfoBySid(userDetails.getOrgId(), sid);
+        return new JsonResponse(200, studentInfo, null);
     }
 
 
@@ -123,10 +101,10 @@ public class StudentController {
      */
     @ResponseBody
     @RequestMapping(value = "/v1/student/save", method = {RequestMethod.POST, RequestMethod.GET})
-    public JsonResponse saveStudentAllInfo(@RequestBody StudentAllInfo studentAllInfo){
+    public JsonResponse saveStudentAllInfo(@RequestBody StudentInfo studentInfo){
         DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
-        studentAllInfo.setOrgId(userDetails.getOrgId());
-        studentService.updateStudentInfo(studentAllInfo);
+        studentInfo.setOrgId(userDetails.getOrgId());
+        studentService.updateStudentInfo(studentInfo);
         return new JsonResponse(200, null, null);
     }
 

@@ -3,32 +3,28 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.recklessmo.dao.student.StudentDAO">
 
-    <sql id = "baseInfoColumns">
-        id, org_id, sid, name, phone, gender
-    </sql>
-
-    <sql id = "studentAddColumns">
+    <sql id = "studentColumnsWithoutId">
         org_id, sid, name, other_name,phone, scn, gender, birth, home_town, people, birth_town, address, qq, wechat, grade_id, grade_name, class_id, class_name, job, wechat_id
     </sql>
 
-    <sql id = "studentAllColumns">
+    <sql id = "studentColumns">
         id, org_id, sid, name, other_name,phone, scn, gender, birth, home_town, people, birth_town, address, qq, wechat, grade_id, grade_name, class_id, class_name, job, wechat_id
     </sql>
 
-    <insert id="insertStudentAddInfo" parameterType="com.recklessmo.model.student.StudentAddInfo">
+    <insert id="insertStudentInfo" parameterType="com.recklessmo.model.student.StudentInfo">
         insert into student
         (
-        <include refid="studentAddColumns"/>
+        <include refid="studentColumnsWithoutId"/>
         )
         VALUES (
         #{orgId}, #{sid},#{name}, #{otherName}, #{phone}, #{scn}, #{gender}, #{birth}, #{homeTown}, #{people}, #{birthTown}, #{address}, #{qq}, #{wechat}, #{gradeId}, #{gradeName}, #{classId}, #{className}, #{job}, #{wechatId}
         )
     </insert>
 
-    <insert id="insertStudentList" parameterType="com.recklessmo.model.student.StudentAddInfo">
+    <insert id="insertStudentList" parameterType="com.recklessmo.model.student.StudentInfo">
         insert into student
         (
-        <include refid="studentAddColumns"/>
+        <include refid="studentColumnsWithoutId"/>
         )
         VALUES
         <foreach collection="list" item="student" separator=",">
@@ -40,6 +36,17 @@
             #{student.classId}, #{student.className}, #{student.job}, #{student.wechatId})
         </foreach>
     </insert>
+
+    <update id="updateStudentInfo" parameterType="com.recklessmo.model.student.StudentInfo">
+        update student set
+        org_id = #{orgId}, sid = #{sid}, name = #{name}, other_name = #{otherName},
+        phone = #{phone}, scn = #{scn}, gender=#{gender},
+        birth = #{birth}, home_town=#{homeTown}, people=#{people},
+        birth_town = #{birthTown}, address=#{address}, qq=#{qq},
+        wechat=#{wechat},grade_id=#{gradeId}, grade_name=#{gradeName},
+        class_id=#{classId}, class_name=#{className},job=#{job}, wechat_id = #{wechatId}
+        where id = #{id}
+    </update>
 
     <sql id="byPageQuery">
         where org_id = #{orgId}
@@ -54,90 +61,55 @@
         </if>
     </sql>
 
-    <select id="getStudentBaseInfoList" resultType="com.recklessmo.model.student.StudentBaseInfo">
+    <select id="getStudentInfoList" resultType="com.recklessmo.model.student.StudentInfo">
         select
-        <include refid="baseInfoColumns"/>
+        <include refid="studentColumns"/>
         from student
         <include refid="byPageQuery"/>
         limit #{startIndex}, #{count}
     </select>
 
-    <select id="getStudentBaseInfoListTotalCount" resultType="java.lang.Integer">
-        select
-        count(1)
-        from student
-        <include refid="byPageQuery"/>
-    </select>
-
-    <select id="getStudentAllInfo" resultType="com.recklessmo.model.student.StudentAllInfo">
-        select
-        <include refid="studentAllColumns"/>
-        from student
-        <include refid="byPageQuery"/>
-        limit #{startIndex}, #{count}
-    </select>
-
-    <select id="getStudentAllInfoTotalCount" resultType="java.lang.Integer">
+    <select id="getStudentInfoListTotalCount" resultType="java.lang.Integer">
         select
         count(1)
         from student
         <include refid="byPageQuery"/>
     </select>
     
-    <select id="getStudentAllInfoByWechatId" resultType="com.recklessmo.model.student.StudentAllInfo">
-        select * from student
+    <select id="getStudentInfoByWechatId" resultType="com.recklessmo.model.student.StudentInfo">
+        select
+        <include refid="studentColumns"/>
+        from student
         where wechat_id = #{wechatId}
         limit 1
     </select>
 
-    <select id="getStudentInfoBySid" resultType="com.recklessmo.model.student.StudentAllInfo">
-        select * from student
+    <select id="getStudentInfoBySid" resultType="com.recklessmo.model.student.StudentInfo">
+        select
+        <include refid="studentColumns"/>
+        from student
         where sid = #{sid} and org_id = #{orgId}
         limit 1
     </select>
 
-    <update id="updateStudentInfo" parameterType="com.recklessmo.model.student.StudentAllInfo">
-        update student set
-        org_id = #{orgId}, sid = #{sid}, name = #{name}, other_name = #{otherName},
-        phone = #{phone}, scn = #{scn}, gender=#{gender},
-        birth = #{birth}, home_town=#{homeTown}, people=#{people},
-        birth_town = #{birthTown}, address=#{address}, qq=#{qq},
-        wechat=#{wechat},grade_id=#{gradeId}, grade_name=#{gradeName},
-        class_id=#{classId}, class_name=#{className},job=#{job}, wechat_id = #{wechatId}
-        where id = #{id}
-    </update>
+    <select id="getStudentInfoBySidList" resultType="com.recklessmo.model.student.StudentInfo">
+        select
+        <include refid="studentColumns"/>
+        from student
+        where org_id = #{orgId} and sid in
+        <foreach collection="sidList" item="sid" open="(" close=")" separator=",">
+            #{sid}
+        </foreach>
+    </select>
 
-    <select id="getStudentListByGradeIdAndClassId" resultType="com.recklessmo.model.student.StudentAllInfo">
-        select * from student
+    <select id="getStudentListByGradeIdAndClassId" resultType="com.recklessmo.model.student.StudentInfo">
+        select
+        <include refid="studentColumns"/>
+        from student
         where org_id = #{orgId} and gradeId = #{gradeId}
         <if test="classId != 0">
             and class_id = #{classId}
         </if>
-    </select>
-
-    <select id="getStudentGradeInfoBySidList" resultType="com.recklessmo.model.student.StudentGradeInfo">
-        select id, sid, name, grade_id, class_id
-        from student
-        where org_id = #{orgId} and sid in
-        <foreach collection="sidList" item="sid" open="(" close=")" separator=",">
-            #{sid}
-        </foreach>
-    </select>
-
-    <select id="searchStudentByExam" resultType="com.recklessmo.model.student.StudentGradeInfo">
-        select st.id, st.org_id, st.sid, st.name, st.grade_id, st.class_id
-        from student st left join score sc on st.sid = sc.sid
-        where sc.exam_id = #{examId}
-    </select>
-
-    <select id="getStudentBaseInfoByIdList" resultType="com.recklessmo.model.student.StudentBaseInfo">
-        select
-        <include refid="baseInfoColumns"/>
-        from student
-        where org_id = #{orgId} and sid in
-        <foreach collection="sidList" item="sid" open="(" close=")" separator=",">
-            #{sid}
-        </foreach>
     </select>
 
 </mapper>

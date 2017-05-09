@@ -2,7 +2,7 @@ package com.recklessmo.web.reward;
 
 import com.recklessmo.model.reward.Reward;
 import com.recklessmo.model.security.DefaultUserDetails;
-import com.recklessmo.model.student.StudentAllInfo;
+import com.recklessmo.model.student.StudentInfo;
 import com.recklessmo.response.JsonResponse;
 import com.recklessmo.service.reward.RewardService;
 import com.recklessmo.service.student.StudentService;
@@ -48,8 +48,8 @@ public class RewardController {
         reward.setOpId(userDetails.getId());
         reward.setOpName(userDetails.getUsername());
         reward.setCreated(new Date());
-        StudentAllInfo studentAllInfo = studentService.getStudentInfoBySid(userDetails.getOrgId(), reward.getSid());
-        reward.setName(studentAllInfo.getName());
+        StudentInfo studentInfo = studentService.getStudentInfoBySid(userDetails.getOrgId(), reward.getSid());
+        reward.setName(studentInfo.getName());
         rewardService.addReward(reward);
         return new JsonResponse(200, null, null);
     }

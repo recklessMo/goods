@@ -13,30 +13,26 @@ import java.util.List;
  * Created by hpf on 7/23/16.
  * 插入学生信息的model
  */
-public class StudentAddInfo {
+public class StudentInfo {
 
+    private long id;
     private long orgId;
     private String sid;
-
     private String name="";
     private String otherName="";
     private String phone="";
     private String scn="";
-
     private int gender;
     private Date birth = new Date();
     private String homeTown = "";
     private String people = "";
-
     private String birthTown = "";
     private String address = "";
     private String qq = "";
     private String wechat = "";
-
 //    //暂时先不以结构化来表示,似乎json串就够了
 //    private String educations;
 //    private String relations;
-
     private long gradeId;
     private String gradeName = "";
     private long classId;

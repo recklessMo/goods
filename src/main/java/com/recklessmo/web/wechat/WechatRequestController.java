@@ -5,7 +5,7 @@ import com.recklessmo.model.score.Score;
 import com.recklessmo.model.score.result.total.ClassTotal;
 import com.recklessmo.model.setting.Grade;
 import com.recklessmo.model.setting.Group;
-import com.recklessmo.model.student.StudentAllInfo;
+import com.recklessmo.model.student.StudentInfo;
 import com.recklessmo.model.wechat.page.WechatIndexModel;
 import com.recklessmo.response.JsonResponse;
 import com.recklessmo.service.exam.ExamService;
@@ -77,14 +77,14 @@ public class WechatRequestController {
         if(openId == null){
             openId = "o2mBHwqHpFzTcZXVvAmmBTjazR_k";
         }
-        StudentAllInfo studentAllInfo = studentService.getStudentInfoByWechatId(openId);
+        StudentInfo studentInfo = studentService.getStudentInfoByWechatId(openId);
         response.addHeader("Access-Control-Allow-Origin", "*");
         Page page = new Page();
         page.setPage(1);
         page.setCount(100);
         int gradeCount = gradeSettingService.listGradeCount(page);
-        Grade grade = gradeSettingService.getSingleGrade(studentAllInfo.getGradeId());
-        Optional<Group> groupOptional = grade.getClassList().stream().filter(o->o.getClassId() == studentAllInfo.getClassId()).findAny();
+        Grade grade = gradeSettingService.getSingleGrade(studentInfo.getGradeId());
+        Optional<Group> groupOptional = grade.getClassList().stream().filter(o->o.getClassId() == studentInfo.getClassId()).findAny();
         Group group = null;
         if(groupOptional.isPresent()) {
             group = groupOptional.get();
@@ -122,9 +122,9 @@ public class WechatRequestController {
         if(openId == null){
             openId = "o2mBHwqHpFzTcZXVvAmmBTjazR_k";
         }
-        StudentAllInfo studentAllInfo = studentService.getStudentInfoByWechatId(openId);
+        StudentInfo studentInfo = studentService.getStudentInfoByWechatId(openId);
         response.addHeader("Access-Control-Allow-Origin", "*");
-        return new JsonResponse(200, studentAllInfo, null);
+        return new JsonResponse(200, studentInfo, null);
     }
 
 
@@ -143,11 +143,11 @@ public class WechatRequestController {
         if(openId == null){
             openId = "o2mBHwqHpFzTcZXVvAmmBTjazR_k";
         }
-        StudentAllInfo studentAllInfo = studentService.getStudentInfoByWechatId(openId);
+        StudentInfo studentInfo = studentService.getStudentInfoByWechatId(openId);
         response.addHeader("Access-Control-Allow-Origin", "*");
 
         ExamListPage examListPage = new ExamListPage();
-        examListPage.setClassId(studentAllInfo.getClassId());
+        examListPage.setClassId(studentInfo.getClassId());
         List<Exam> examList = examService.listExam(examListPage);
         return new JsonResponse(200, examList, null);
     }
@@ -168,7 +168,7 @@ public class WechatRequestController {
         if(openId == null){
             openId = "o2mBHwqHpFzTcZXVvAmmBTjazR_k";
         }
-        StudentAllInfo studentAllInfo = studentService.getStudentInfoByWechatId(openId);
+        StudentInfo studentInfo = studentService.getStudentInfoByWechatId(openId);
         response.addHeader("Access-Control-Allow-Origin", "*");
 
 //        ScoreListPage scoreListPage = new ScoreListPage();
@@ -197,11 +197,11 @@ public class WechatRequestController {
         if(openId == null){
             openId = "o2mBHwqHpFzTcZXVvAmmBTjazR_k";
         }
-        StudentAllInfo studentAllInfo = studentService.getStudentInfoByWechatId(openId);
+        StudentInfo studentInfo = studentService.getStudentInfoByWechatId(openId);
         response.addHeader("Access-Control-Allow-Origin", "*");
         ScoreListPage scoreListPage = new ScoreListPage();
         scoreListPage.setExamId(eid);
-        scoreListPage.setClassId(studentAllInfo.getClassId());
+        scoreListPage.setClassId(studentInfo.getClassId());
         scoreListPage.setPage(1);
         scoreListPage.setCount(1000);
 //        List<Score> scores = scoreService.loadScoreList(scoreListPage);
@@ -227,7 +227,7 @@ public class WechatRequestController {
         if(openId == null){
             openId = "o2mBHwqHpFzTcZXVvAmmBTjazR_k";
         }
-        StudentAllInfo studentAllInfo = studentService.getStudentInfoByWechatId(openId);
+        StudentInfo studentInfo = studentService.getStudentInfoByWechatId(openId);
         response.addHeader("Access-Control-Allow-Origin", "*");
 //        ScoreListPage scoreListPage = new ScoreListPage();
 //        scoreListPage.setExamId(eid);

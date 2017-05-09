@@ -5,8 +5,7 @@ import com.recklessmo.model.score.Score;
 import com.recklessmo.model.security.DefaultUserDetails;
 import com.recklessmo.model.setting.Grade;
 import com.recklessmo.model.setting.Group;
-import com.recklessmo.model.student.StudentAddInfo;
-import com.recklessmo.model.student.StudentGradeInfo;
+import com.recklessmo.model.student.StudentInfo;
 import com.recklessmo.response.JsonResponse;
 import com.recklessmo.service.exam.ExamService;
 import com.recklessmo.service.score.ScoreService;
@@ -14,7 +13,6 @@ import com.recklessmo.service.setting.CourseSettingService;
 import com.recklessmo.service.setting.GradeSettingService;
 import com.recklessmo.service.student.StudentService;
 import com.recklessmo.util.ContextUtils;
-import org.apache.commons.jexl2.UnifiedJEXL;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -105,15 +103,15 @@ public class FileUploadController {
         List<Grade> gradeList = gradeSettingService.listAllGrade(orgId);
         Map<Long, Grade> gradeMap = gradeList.stream().collect(Collectors.toMap(Grade::getGradeId, Function.identity()));
         List<String> sidList = scoreList.stream().map(o -> o.getSid()).collect(Collectors.toList());
-        List<StudentGradeInfo> studentGradeInfoList = studentService.getStudentGradeInfoBySidList(orgId, sidList);
-        Map<String, StudentGradeInfo> studentGradeInfoMap = studentGradeInfoList.stream().collect(Collectors.toMap(StudentGradeInfo::getSid, Function.identity()));
+        List<StudentInfo> studentGradeInfoList = studentService.getStudentInfoBySidList(orgId, sidList);
+        Map<String, StudentInfo> studentInfoMap = studentGradeInfoList.stream().collect(Collectors.toMap(StudentInfo::getSid, Function.identity()));
         scoreList.stream().forEach(item -> {
-            StudentGradeInfo studentGradeInfo = studentGradeInfoMap.get(item.getSid());
-            Grade grade = gradeMap.get(studentGradeInfo.getGradeId());
-            item.setGradeId(studentGradeInfo.getGradeId());
-            item.setClassId(studentGradeInfo.getClassId());
-            item.setGradeName(gradeMap.get(studentGradeInfo.getGradeId()).getGradeName());
-            Optional<Group> groupOptional = grade.getClassList().stream().filter(o -> o.getClassId() == studentGradeInfo.getClassId()).findAny();
+            StudentInfo studentInfo = studentInfoMap.get(item.getSid());
+            Grade grade = gradeMap.get(studentInfo.getGradeId());
+            item.setGradeId(studentInfo.getGradeId());
+            item.setClassId(studentInfo.getClassId());
+            item.setGradeName(gradeMap.get(studentInfo.getGradeId()).getGradeName());
+            Optional<Group> groupOptional = grade.getClassList().stream().filter(o -> o.getClassId() == studentInfo.getClassId()).findAny();
             if (groupOptional.isPresent()) {
                 item.setClassName(groupOptional.get().getClassName());
             }
@@ -204,7 +202,7 @@ public class FileUploadController {
         InputStream inputStream = multipartFile.getInputStream();
         DataFormatter dataFormatter = new DataFormatter();
         Workbook workbook = WorkbookFactory.create(inputStream);
-        List<StudentAddInfo> data = new LinkedList<>();
+        List<StudentInfo> data = new LinkedList<>();
         Map<String, Long> gradeMap = getGradeMap(defaultUserDetails.getOrgId());
         Map<String, Long> classMap = getClassMap(defaultUserDetails.getOrgId());
         int totalSheets = workbook.getNumberOfSheets();
@@ -214,7 +212,7 @@ public class FileUploadController {
                 if (row.getRowNum() == 0) {
                     continue;
                 }
-                StudentAddInfo studentAddInfo = new StudentAddInfo();
+                StudentInfo studentInfo = new StudentInfo();
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 int colNums = row.getLastCellNum();
                 for (int j = row.getFirstCellNum(); j < colNums; j++) {
@@ -227,72 +225,72 @@ public class FileUploadController {
                     switch (j) {
                         case 0:
                             checkCell(value, row.getRowNum(), j+1);
-                            studentAddInfo.setSid(value);
+                            studentInfo.setSid(value);
                             break;
                         case 1:
                             checkCell(value, row.getRowNum(), j+1);
-                            studentAddInfo.setGradeName(value);
+                            studentInfo.setGradeName(value);
                             Long gradeId = gradeMap.get(value);
                             if(gradeId == null) {
                                 throw new Exception("年级名称:" + value + " 不存在!");
                             }
-                            studentAddInfo.setGradeId(gradeId);
+                            studentInfo.setGradeId(gradeId);
                             break;
                         case 2:
                             checkCell(value, row.getRowNum(), j+1);
-                            studentAddInfo.setClassName(value);
-                            Long classId = classMap.get(studentAddInfo.getGradeName()+"_" + value);
+                            studentInfo.setClassName(value);
+                            Long classId = classMap.get(studentInfo.getGradeName()+"_" + value);
                             if(classId == null) {
                                 throw new Exception("班级名称:" + value + " 不存在!");
                             }
-                            studentAddInfo.setClassId(classId);
+                            studentInfo.setClassId(classId);
                             break;
                         case 3:
                             checkCell(value, row.getRowNum(), j+1);
-                            studentAddInfo.setName(value);
+                            studentInfo.setName(value);
                             break;
                         case 4:
-                            studentAddInfo.setOtherName(value);
+                            studentInfo.setOtherName(value);
                             break;
                         case 5:
-                            studentAddInfo.setJob(value);
+                            studentInfo.setJob(value);
                             break;
                         case 6:
-                            studentAddInfo.setPhone(value);
+                            studentInfo.setPhone(value);
                             break;
                         case 7:
-                            studentAddInfo.setScn(value);
+                            studentInfo.setScn(value);
                             break;
                         case 8:
                             checkCell(value, row.getRowNum(), j+1);
-                            studentAddInfo.setGender("男".equals(value) ? 0 : 1);
+                            studentInfo.setGender("男".equals(value) ? 0 : 1);
                             break;
                         case 9:
-                            studentAddInfo.setBirth(sdf.parse(value));
+                            studentInfo.setBirth(sdf.parse(value));
                             break;
                         case 10:
-                            studentAddInfo.setBirthTown(value);
+                            studentInfo.setBirthTown(value);
                             break;
                         case 11:
-                            studentAddInfo.setPeople(value);
+                            studentInfo.setPeople(value);
                             break;
                         case 12:
-                            studentAddInfo.setHomeTown(value);
+                            studentInfo.setHomeTown(value);
                             break;
                         case 13:
-                            studentAddInfo.setAddress(value);
+                            studentInfo.setAddress(value);
                             break;
                         case 14:
-                            studentAddInfo.setQq(value);
+                            studentInfo.setQq(value);
                             break;
                         case 15:
-                            studentAddInfo.setWechat(value);
+                            studentInfo.setWechat(value);
                             break;
                         default:
                             break;
                     }
                 }
-                data.add(studentAddInfo);
+                data.add(studentInfo);
             }
         } else {
             //抛出异常,无数据

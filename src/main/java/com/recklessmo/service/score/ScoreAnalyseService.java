@@ -23,8 +23,7 @@ import com.recklessmo.model.score.result.total.ClassTotal;
 import com.recklessmo.model.score.result.total.CourseTotal;
 import com.recklessmo.model.score.result.total.TotalInner;
 import com.recklessmo.model.setting.Group;
-import com.recklessmo.model.student.StudentBaseInfo;
-import com.recklessmo.model.student.StudentGradeInfo;
+import com.recklessmo.model.student.StudentInfo;
 import com.recklessmo.service.student.StudentService;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
@@ -320,12 +319,12 @@ public class ScoreAnalyseService {
             });
 
             List<String> sidList = scoreList.stream().map(o -> o.getSid()).collect(Collectors.toList());
-            List<StudentGradeInfo> gradeInfoList = studentService.getStudentGradeInfoBySidList(orgId, sidList);
-            Map<String, StudentGradeInfo> gradeInfoMap = gradeInfoList.stream().collect(Collectors.toMap(StudentGradeInfo::getSid, Function.identity()));
+            List<StudentInfo> studentInfoList = studentService.getStudentInfoBySidList(orgId, sidList);
+            Map<String, StudentInfo> studentInfoMap = studentInfoList.stream().collect(Collectors.toMap(StudentInfo::getSid, Function.identity()));
             List<ScoreSelfInner> scoreSelfInnerList = new LinkedList<>();
             scoreList.stream().forEach(score -> {
                 ScoreSelfInner scoreSelfInner = new ScoreSelfInner();
-                scoreSelfInner.setName(gradeInfoMap.get(score.getSid()).getName());
+                scoreSelfInner.setName(studentInfoMap.get(score.getSid()).getName());
                 Map<String, Double> courseMap = score.getCourseScoreList().stream().collect(Collectors.toMap(CourseScore::getCourseName, o -> o.getScore()));
                 List<Double> resultScoreList = new LinkedList<>();
                 courseSelfList.stream().forEach(courseSelf -> {
@@ -336,7 +335,7 @@ public class ScoreAnalyseService {
             });
             scoreSelf.setCourseInfoList(courseSelfList);
             scoreSelf.setScoreSelfInnerList(scoreSelfInnerList);
-            scoreSelf.setNameList(gradeInfoList.stream().map(o -> o.getName()).collect(Collectors.toList()));
+            scoreSelf.setNameList(studentInfoList.stream().map(o -> o.getName()).collect(Collectors.toList()));
             return scoreSelf;
         }
         return null;
@@ -492,8 +491,8 @@ public class ScoreAnalyseService {
         });
         Set<String> sidSet = new HashSet<>();
         scoreAbsenseList.stream().forEach(scoreAbsense -> sidSet.addAll(scoreAbsense.getSidList()));
-        List<StudentBaseInfo> studentBaseInfoList = studentService.getStudentBaseInfoByIdList(orgId, new LinkedList<>(sidSet));
-        Map<String, StudentBaseInfo> nameMap = studentBaseInfoList.stream().collect(Collectors.toMap(StudentBaseInfo::getSid, Function.identity()));
+        List<StudentInfo> studentBaseInfoList = studentService.getStudentInfoBySidList(orgId, new LinkedList<>(sidSet));
+        Map<String, StudentInfo> nameMap = studentBaseInfoList.stream().collect(Collectors.toMap(StudentInfo::getSid, Function.identity()));
         scoreAbsenseList.stream().forEach(scoreAbsense -> {
             scoreAbsense.getSidList().stream().forEach(sid -> {
                 scoreAbsense.getNameList().add(nameMap.get(sid).getName());

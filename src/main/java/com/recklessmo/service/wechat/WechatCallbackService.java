@@ -1,7 +1,7 @@
 package com.recklessmo.service.wechat;
 
 import com.recklessmo.dao.student.StudentDAO;
-import com.recklessmo.model.student.StudentAllInfo;
+import com.recklessmo.model.student.StudentInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -27,8 +27,8 @@ public class WechatCallbackService {
      * @param wechatId
      * @return
      */
-    public StudentAllInfo getStudentInfoByWechatId(String wechatId){
-        return studentDAO.getStudentAllInfoByWechatId(wechatId);
+    public StudentInfo getStudentInfoByWechatId(String wechatId){
+        return studentDAO.getStudentInfoByWechatId(wechatId);
     }
 
 

@@ -6,7 +6,7 @@ import com.recklessmo.model.score.CourseScore;
 import com.recklessmo.model.score.Score;
 import com.recklessmo.model.setting.Grade;
 import com.recklessmo.model.setting.Group;
-import com.recklessmo.model.student.StudentBaseInfo;
+import com.recklessmo.model.student.StudentInfo;
 import com.recklessmo.service.exam.ExamService;
 import com.recklessmo.service.setting.ClassLevelSettingService;
 import com.recklessmo.service.setting.GradeSettingService;
@@ -140,8 +140,8 @@ public class ScoreService {
         Map<Long, Exam> examMap = examList.stream().collect(Collectors.toMap(Exam::getExamId, Function.identity()));
 
         List<String> sidList = scoreList.stream().map(o -> o.getSid()).collect(Collectors.toList());
-        List<StudentBaseInfo> studentBaseInfoList = studentService.getStudentBaseInfoByIdList(orgId, sidList);
-        Map<String, StudentBaseInfo> stuMap = studentBaseInfoList.stream().collect(Collectors.toMap(StudentBaseInfo::getSid, Function.identity()));
+        List<StudentInfo> studentBaseInfoList = studentService.getStudentInfoBySidList(orgId, sidList);
+        Map<String, StudentInfo> stuMap = studentBaseInfoList.stream().collect(Collectors.toMap(StudentInfo::getSid, Function.identity()));
 
         scoreList.stream().forEach(score -> {
             score.setGradeName(gradeMap.get(score.getGradeId()).getGradeName());

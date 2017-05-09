@@ -7,7 +7,7 @@ import com.recklessmo.model.security.DefaultUserDetails;
 import com.recklessmo.model.setting.Course;
 import com.recklessmo.model.setting.Grade;
 import com.recklessmo.model.setting.Group;
-import com.recklessmo.model.student.StudentAllInfo;
+import com.recklessmo.model.student.StudentInfo;
 import com.recklessmo.model.system.Org;
 import com.recklessmo.service.exam.ExamService;
 import com.recklessmo.service.setting.CourseSettingService;
@@ -133,7 +133,7 @@ public class FileDownloadController {
         studentPage.setClassId(classId);
         studentPage.setPage(1);
         studentPage.setCount(10000);
-        List<StudentAllInfo> studentAllInfoList = studentService.getStudentAllInfo(studentPage);
+        List<StudentInfo> studentAllInfoList = studentService.getStudentInfo(studentPage);
         Map<String, Object> beans = Maps.newHashMap();
         beans.put("dataList", studentAllInfoList);
         returnFile(beans, response, "学生信息导出", "student_export", ".xlsx");
