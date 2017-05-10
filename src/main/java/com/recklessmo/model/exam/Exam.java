@@ -24,9 +24,11 @@ public class Exam {
     private String examName;
     //所属年级
     private long gradeId;
+    private String gradeName;
     //所属班级
     //为0代表所有班级
     private long classId;
+    private String className;
     //考试类型, 小考,周考,月考,期中考,期末考
     private String examType;
     //代表考试成绩的上传状态
@@ -35,6 +37,7 @@ public class Exam {
     private Date examTime;
     //学科列表
     private List<Long> courseList = new LinkedList<>();
+    private List<String> courseNameList = new LinkedList<>();
     private String courseStr;
 
     public String getCourseStr() {
@@ -46,6 +49,14 @@ public class Exam {
         if (StringUtils.isNotEmpty(courseStr)) {
             this.courseList = JSON.parseObject(courseStr, new TypeReference<List<Long>>() {});
         }
+    }
+
+    public List<String> getCourseNameList() {
+        return courseNameList;
+    }
+
+    public void setCourseNameList(List<String> courseNameList) {
+        this.courseNameList = courseNameList;
     }
 
     public List<Long> getCourseList() {
@@ -118,5 +129,21 @@ public class Exam {
 
     public void setUploadStatus(int uploadStatus) {
         this.uploadStatus = uploadStatus;
+    }
+
+    public String getGradeName() {
+        return gradeName;
+    }
+
+    public void setGradeName(String gradeName) {
+        this.gradeName = gradeName;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
     }
 }

@@ -37,7 +37,7 @@
         initSelector();
 
 
-        $scope.tableParams = {page : 1, count : 10, gradeId : 0 , classId: 0 , examType: "全部", searchStr: ""};
+        $scope.tableParams = {page : 1, count : 10, searchStr: ""};
 
         $scope.activate = function() {
             $scope.examTableParams = new NgTableParams({}, {

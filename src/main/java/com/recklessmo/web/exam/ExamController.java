@@ -27,6 +27,8 @@ public class ExamController {
     @ResponseBody
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     public JsonResponse listExam(@RequestBody ExamListPage page){
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
+        page.setOrgId(userDetails.getOrgId());
         List<Exam> examList = examService.listExam(page);
         int count = examService.listExamCount(page);
         return new JsonResponse(200, examList, count);
