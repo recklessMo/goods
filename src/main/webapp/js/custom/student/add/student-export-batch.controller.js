@@ -54,7 +54,7 @@
                     $scope.tableParams.page = params.page();
                     $scope.tableParams.count = params.count();
                     blockUI.start();
-                    return StudentService.loadStudent($scope.tableParams).then(function (data) {
+                    return StudentService.listStudent($scope.tableParams).then(function (data) {
                         blockUI.stop();
                         var result = data.data;
                         if (result.status == 200) {

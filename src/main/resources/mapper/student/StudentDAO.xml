@@ -4,11 +4,11 @@
 <mapper namespace="com.recklessmo.dao.student.StudentDAO">
 
     <sql id = "studentColumnsWithoutId">
-        org_id, sid, name, other_name,phone, scn, gender, birth, home_town, people, birth_town, address, qq, wechat, grade_id, grade_name, class_id, class_name, job, wechat_id
+        org_id, sid, name, other_name,phone, scn, gender, birth, home_town, people, birth_town, address, qq, wechat, grade_id, grade_name, class_id, job, wechat_id
     </sql>
 
     <sql id = "studentColumns">
-        id, org_id, sid, name, other_name,phone, scn, gender, birth, home_town, people, birth_town, address, qq, wechat, grade_id, grade_name, class_id, class_name, job, wechat_id
+        id, org_id, sid, name, other_name,phone, scn, gender, birth, home_town, people, birth_town, address, qq, wechat, grade_id, class_id, job, wechat_id
     </sql>
 
     <insert id="insertStudentInfo" parameterType="com.recklessmo.model.student.StudentInfo">
@@ -17,7 +17,7 @@
         <include refid="studentColumnsWithoutId"/>
         )
         VALUES (
-        #{orgId}, #{sid},#{name}, #{otherName}, #{phone}, #{scn}, #{gender}, #{birth}, #{homeTown}, #{people}, #{birthTown}, #{address}, #{qq}, #{wechat}, #{gradeId}, #{gradeName}, #{classId}, #{className}, #{job}, #{wechatId}
+        #{orgId}, #{sid},#{name}, #{otherName}, #{phone}, #{scn}, #{gender}, #{birth}, #{homeTown}, #{people}, #{birthTown}, #{address}, #{qq}, #{wechat}, #{gradeId}, #{classId}, #{job}, #{wechatId}
         )
     </insert>
 
@@ -32,8 +32,8 @@
             #{student.phone}, #{student.scn}, #{student.gender},
             #{student.birth}, #{student.homeTown}, #{student.people},
             #{student.birthTown}, #{student.address}, #{student.qq},
-            #{student.wechat}, #{student.gradeId}, #{student.gradeName},
-            #{student.classId}, #{student.className}, #{student.job}, #{student.wechatId})
+            #{student.wechat}, #{student.gradeId},#{student.classId},
+            #{student.job}, #{student.wechatId})
         </foreach>
     </insert>
 
@@ -43,8 +43,8 @@
         phone = #{phone}, scn = #{scn}, gender=#{gender},
         birth = #{birth}, home_town=#{homeTown}, people=#{people},
         birth_town = #{birthTown}, address=#{address}, qq=#{qq},
-        wechat=#{wechat},grade_id=#{gradeId}, grade_name=#{gradeName},
-        class_id=#{classId}, class_name=#{className},job=#{job}, wechat_id = #{wechatId}
+        wechat=#{wechat},grade_id=#{gradeId},class_id=#{classId},
+        job=#{job}, wechat_id = #{wechatId}
         where id = #{id}
     </update>
 

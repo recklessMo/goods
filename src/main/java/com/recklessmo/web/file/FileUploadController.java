@@ -290,12 +290,13 @@ public class FileUploadController {
                             break;
                     }
                 }
+                studentInfo.setOrgId(defaultUserDetails.getOrgId());
                 data.add(studentInfo);
             }
-        } else {
-            //抛出异常,无数据
         }
-        studentService.insertStudentList(data);
+        if(data.size() > 0) {
+            studentService.insertStudentList(data);
+        }
         return new JsonResponse(200, null, null);
     }
 
