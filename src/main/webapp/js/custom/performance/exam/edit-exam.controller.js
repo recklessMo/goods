@@ -7,6 +7,8 @@
 
     function EditExamController($scope, ExamService, DicService, SweetAlert, NgTableParams, ngDialog, blockUI, Notify) {
 
+        //考试对象
+        $scope.exam = {};
         $scope.examTypeList = ['小测', '周考', '月考', '期中', '期末'];
 
         $scope.gradeList = [];
@@ -19,6 +21,9 @@
             DicService.loadAllGrade().success(function(data){
                 if(data.status == 200){
                     $scope.gradeList = data.data;
+                    _.forEach($scope.gradeList, function(item){
+                        item.classList.unshift({classId: 0, className:'全部'});
+                    });
                 }
                 blockUI.stop();
             }).error(function(){
@@ -28,6 +33,7 @@
 
             $scope.selectGrade = function(data){
                 $scope.classList = data.classList;
+                $scope.exam.classId = 0;
             }
 
             DicService.loadCourseList().success(function(data){
@@ -43,8 +49,6 @@
 
         initSelector();
 
-        //考试对象
-        $scope.exam = {};
         $scope.save = function(exam){
             ExamService.saveExam(exam).success(function(data){
                 if(data.status == 200){

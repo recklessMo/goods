@@ -90,7 +90,7 @@
             <ui-select multiple ng-model="exam.courseList" theme="bootstrap" close-on-select="false" title="选择科目"
                        remove-selected="false">
                 <ui-select-match placeholder="选择科目">{{$item.courseName}};</ui-select-match>
-                <ui-select-choices repeat="course.id as course in courseList">
+                <ui-select-choices repeat="course.courseId as course in courseList">
                     <div ng-bind-html="course.courseName"></div>
                 </ui-select-choices>
             </ui-select>

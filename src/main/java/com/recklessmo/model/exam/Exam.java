@@ -39,6 +39,7 @@ public class Exam {
     private List<Long> courseList = new LinkedList<>();
     private List<String> courseNameList = new LinkedList<>();
     private String courseStr;
+    private int deleted;
 
     public String getCourseStr() {
         return JSON.toJSONString(courseList);
@@ -145,5 +146,13 @@ public class Exam {
 
     public void setClassName(String className) {
         this.className = className;
+    }
+
+    public int getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(int deleted) {
+        this.deleted = deleted;
     }
 }
