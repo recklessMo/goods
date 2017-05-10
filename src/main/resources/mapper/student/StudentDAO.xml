@@ -4,7 +4,7 @@
 <mapper namespace="com.recklessmo.dao.student.StudentDAO">
 
     <sql id = "studentColumnsWithoutId">
-        org_id, sid, name, other_name,phone, scn, gender, birth, home_town, people, birth_town, address, qq, wechat, grade_id, grade_name, class_id, job, wechat_id
+        org_id, sid, name, other_name,phone, scn, gender, birth, home_town, people, birth_town, address, qq, wechat, grade_id, class_id, job, wechat_id
     </sql>
 
     <sql id = "studentColumns">
