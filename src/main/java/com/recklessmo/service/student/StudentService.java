@@ -8,6 +8,7 @@ import com.recklessmo.web.webmodel.page.StudentPage;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +32,9 @@ public class StudentService {
      * @return
      */
     public List<StudentInfo> getStudentInfo(StudentPage page){
-        return studentDAO.getStudentInfoList(page);
+        List<StudentInfo> result = studentDAO.getStudentInfoList(page);
+        compose(result, page.getOrgId());
+        return result;
     }
 
     /**
@@ -104,7 +107,9 @@ public class StudentService {
      * @return
      */
     public StudentInfo getStudentInfoBySid(long orgId, String sid){
-        return studentDAO.getStudentInfoBySid(orgId, sid);
+        StudentInfo studentInfo =  studentDAO.getStudentInfoBySid(orgId, sid);
+        compose(studentInfo, orgId);
+        return studentInfo;
     }
 
     /**
@@ -148,6 +153,12 @@ public class StudentService {
         return studentInfoList;
     }
 
+
+    private void compose(StudentInfo studentInfo, long orgId){
+        List<StudentInfo> studentInfoList = new LinkedList<>();
+        studentInfoList.add(studentInfo);
+        compose(studentInfoList, orgId);
+    }
 
     private void compose(List<StudentInfo> studentInfoList, long orgId){
         List<Grade> gradeList = gradeSettingService.listAllGrade(orgId);

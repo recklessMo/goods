@@ -3,12 +3,38 @@
     angular
         .module('custom')
         .controller('StudentBaseInfoController', StudentBaseInfoController);
-    StudentBaseInfoController.$inject = ['$scope','StudentService', 'SweetAlert', 'NgTableParams', 'blockUI', 'Notify'];
+    StudentBaseInfoController.$inject = ['$scope', 'DicService', 'StudentService', 'SweetAlert', 'NgTableParams', 'blockUI', 'Notify'];
 
-    function StudentBaseInfoController($scope, StudentService, SweetAlert, NgTableParams, blockUI, Notify) {
+    function StudentBaseInfoController($scope, DicService, StudentService, SweetAlert, NgTableParams, blockUI, Notify) {
 
         $scope.isEdit = false;
         $scope.offlineInfo = {};
+
+        $scope.gradeList = [];
+        $scope.classList = [];
+        $scope.genderList = [{name:"男", value:0}, {name:"女", value:1}];
+
+        //初始化选择器列表
+        function initSelector(){
+            blockUI.start();
+            DicService.loadAllGrade().success(function(data){
+                if(data.status == 200){
+                    $scope.gradeList = data.data;
+                }
+                blockUI.stop();
+            }).error(function(){
+                SweetAlert.error("网络异常, 请稍后重试!");
+                blockUI.stop();
+            });
+
+            $scope.selectGrade = function(data){
+                $scope.classList = data.classList;
+                $scope.offlineInfo.classId = 0;
+            }
+        }
+
+        initSelector();
+
 
         $scope.$on('chooseSid', function(event, data){
             $scope.sid = data;
@@ -21,6 +47,7 @@
                 blockUI.stop();
                 if(data.status == 200){
                     $scope.offlineInfo = data.data;
+                    $scope.isEdit = false;
                 }else{
                     SweetAlert.error("服务器内部错误, 请联系客服!");
                 }
@@ -59,6 +86,11 @@
                 SweetAlert.error("网络问题,请稍后重试!");
                 blockUI.stop();
             });
+        }
+
+        $scope.cancel = function(){
+            $scope.isEdit = false;
+            $scope.activate();
         }
 
         $scope.isValid = function(data){

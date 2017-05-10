@@ -1,13 +1,16 @@
 <div ng-controller="StudentBaseInfoController" style="overflow: auto;height: 100%;padding-left:20px;">
 
     <div class="row">
-        <div class="col-xs-12">
+        <div class="col-xs-12" style="margin-bottom: 20px;">
             <button class="btn btn-default" ng-click="changeStatus()">
                 {{isEdit ? '保存' : '修改'}}
             </button>
+            <button class="btn btn-info" ng-show="isEdit" ng-click="cancel()">
+                取消
+            </button>
         </div>
 
-        <div ng-show="isEdit">
+        <div ng-show="isEdit" style="margin-top:10px;">
             <h5 style="margin-bottom: 30px;">I 学籍信息</h5>
             <div class="col-xs-6 info-block">
                 <span class="label">姓名:</span>
@@ -26,16 +29,29 @@
 
             <div class="col-xs-6 info-block">
                 <span class="label">年级:</span>
-
                 <div class="info-item">
-                    <input type="text" ng-model="offlineInfo.gradeName" placeholder="年级" class="form-control"/>
+                    <ui-select ng-model="offlineInfo.gradeId" theme="bootstrap"
+                               class="text-left" style="width:100%;" on-select="selectGrade($item)">
+                        <ui-select-match placeholder="选择年级">{{$select.selected.gradeName}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="grade.gradeId as grade in gradeList">
+                            <span ng-bind-html="grade.gradeName"></span>
+                        </ui-select-choices>
+                    </ui-select>
                 </div>
             </div>
+
             <div class="col-xs-6 info-block">
                 <span class="label">班级:</span>
-
                 <div class="info-item">
-                    <input type="text" ng-model="offlineInfo.className" placeholder="班级" class="form-control"/>
+                    <ui-select ng-model="offlineInfo.classId" theme="bootstrap"
+                               class="text-left" style="width:100%;">
+                        <ui-select-match placeholder="选择班级">{{$select.selected.className}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="class.classId as class in classList">
+                            <span ng-bind-html="class.className"></span>
+                        </ui-select-choices>
+                    </ui-select>
                 </div>
             </div>
 
@@ -68,9 +84,15 @@
 
             <div class="col-xs-6 info-block">
                 <span class="label">性别:</span>
-
                 <div class="info-item">
-                    <input type="text" ng-model="offlineInfo.gener" placeholder="性别" class="form-control"/>
+                    <ui-select ng-model="offlineInfo.gender" theme="bootstrap"
+                               class="text-left" style="width:100%;">
+                        <ui-select-match placeholder="选择性别">{{$select.selected.name}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="gender.value as gender in genderList">
+                            <span ng-bind-html="gender.name"></span>
+                        </ui-select-choices>
+                    </ui-select>
                 </div>
             </div>
 
@@ -137,8 +159,7 @@
             </div>
         </div>
 
-
-        <div ng-show="!isEdit">
+        <div ng-show="!isEdit" style="margin-top:10px;">
             <h5 style="margin-bottom: 30px;">I 学籍信息</h5>
             <div class="col-xs-6 info-block">
                 <span class="label">姓名:</span>
@@ -188,7 +209,7 @@
             <div class="col-xs-6 info-block">
                 <span class="label">性别:</span>
                 <div class="info-item">
-                    <span>{{offlineInfo.gener}}</span>
+                    <span>{{offlineInfo.gender | sexFilter}}</span>
                 </div>
             </div>
             <div class="col-xs-6 info-block">
@@ -240,6 +261,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 
 </div>
