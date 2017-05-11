@@ -11,7 +11,7 @@
         $scope.type = $scope.ngDialogData.type;
         //分数模板
         $scope.scoreTemplate = ($scope.type == 'edit' ? $scope.ngDialogData.data : {});
-        $scope.courseList = ["总分", "语文", "数学", "英语", "政治", "历史", "地理", "物理", "化学", "生物"];
+        $scope.courseList = ["语文", "数学", "英语", "政治", "历史", "地理", "物理", "化学", "生物"];
 
         $scope.save = function(){
             blockUI.start();

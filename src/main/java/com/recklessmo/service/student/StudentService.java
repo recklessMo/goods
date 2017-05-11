@@ -1,5 +1,6 @@
 package com.recklessmo.service.student;
 
+import com.recklessmo.dao.score.ScoreDAO;
 import com.recklessmo.dao.student.StudentDAO;
 import com.recklessmo.model.setting.Grade;
 import com.recklessmo.model.student.StudentInfo;
@@ -20,6 +21,9 @@ public class StudentService {
 
     @Resource
     private StudentDAO studentDAO;
+
+    @Resource
+    private ScoreDAO scoreDAO;
 
     @Resource
     private GradeSettingService gradeSettingService;
@@ -148,7 +152,8 @@ public class StudentService {
      * @return
      */
     public List<StudentInfo> searchStudentByExam(StudentPage page){
-        List<StudentInfo> studentInfoList =  studentDAO.searchStudentByExam(page);
+        List<String> sidList =  scoreDAO.searchSidByExamId(page.getOrgId(), page.getExamId());
+        List<StudentInfo> studentInfoList = studentDAO.getStudentInfoBySidList(page.getOrgId(), sidList);
         compose(studentInfoList, page.getOrgId());
         return studentInfoList;
     }

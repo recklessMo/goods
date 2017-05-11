@@ -23,6 +23,5 @@ public interface StudentDAO {
     List<StudentInfo> getStudentInfoBySidList(@Param("orgId")long orgId, @Param("sidList")List<String> sidList);
     List<StudentInfo> getStudentListByGradeIdAndClassId(@Param("orgId")long orgId, @Param("gradeId")long gradeId, @Param("classId")long classId);
 
-    List<StudentInfo> searchStudentByExam(StudentPage page);
 }
 

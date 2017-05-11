@@ -87,6 +87,8 @@ public class StudentController {
     @ResponseBody
     @RequestMapping(value = "/v1/student/searchByExam", method = {RequestMethod.POST, RequestMethod.GET})
     public JsonResponse searchByExam(@RequestBody StudentPage page){
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
+        page.setOrgId(userDetails.getOrgId());
         List<StudentInfo> studentInfoList = studentService.searchStudentByExam(page);
         return new JsonResponse(200, studentInfoList, studentInfoList.size());
     }

@@ -67,4 +67,9 @@
         limit 10
     </select>
 
+    <select id="searchSidByExamId" resultType="java.lang.String">
+        select sid from score
+        where exam_id = #{examId} and org_id = #{orgId}
+    </select>
+
 </mapper>

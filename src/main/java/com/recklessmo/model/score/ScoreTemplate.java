@@ -26,6 +26,7 @@ public class ScoreTemplate {
      * 数据库字段
      */
     private long id;
+    private long orgId;
     private String name = "default";
     //代表是哪种分析的模板
     private int type = 0;
@@ -118,5 +119,13 @@ public class ScoreTemplate {
 
     public void setCourseGapSettingMap(Map<String, String> courseGapSettingMap) {
         this.courseGapSettingMap = courseGapSettingMap;
+    }
+
+    public long getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(long orgId) {
+        this.orgId = orgId;
     }
 }

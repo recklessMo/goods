@@ -26,11 +26,9 @@
                 counts: [],
                 getData: function (params) {
                     blockUI.start();
-                    return ExamService.loadExams({
-                        searchStr: $scope.tableParams.examName,
-                        page: params.page(),
-                        count: 10
-                    }).then(function (data) {
+                    $scope.tableParams.page = params.page();
+                    $scope.tableParams.count = 10;
+                    return ExamService.loadExams($scope.tableParams).then(function (data) {
                         blockUI.stop();
                         var result = data.data;
                         if (result.status == 200) {
