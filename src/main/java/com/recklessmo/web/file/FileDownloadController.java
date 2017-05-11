@@ -75,18 +75,8 @@ public class FileDownloadController {
         DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
         //根据考试所选定的科目来进行模板表格
         Exam exam = examService.getExamById(examId);
-        Page page = new Page();
-        page.setOrgId(userDetails.getOrgId());
-        page.setPage(1);
-        page.setCount(1000);
-        List<Course> courseList = courseSettingService.listCourse(page);
-        List<String> columns = new LinkedList<>();
-        Map<Long, Course> courseMap = courseList.stream().collect(Collectors.toMap(Course::getId, Function.identity()));
-        exam.getCourseList().stream().forEach(item -> {
-            columns.add(courseMap.get(item).getCourseName());
-        });
         Map<String, Object> beans = new HashMap<>();
-        beans.put("columns", columns);
+        beans.put("columns", exam.getCourseNameList());
         //根据考试选定的年级范围, 来将学生的学号姓名等自动导出
 //        List<StudentExcelModel> dataList = new LinkedList<>();
 //        List<StudentAllInfo> studentAllInfoList = studentService.getStudentListByGradeIdAndClassId(exam.getGradeId(), exam.getClassId());

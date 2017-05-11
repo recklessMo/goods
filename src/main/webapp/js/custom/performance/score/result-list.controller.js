@@ -45,7 +45,7 @@
 
 
         /**业务逻辑**/
-        $scope.scoreParams = {examId: 1, page: 1, count : 100};
+        $scope.scoreParams = {examId: 1};
         $scope.scoreList = [];
         $scope.labelList = [];
 

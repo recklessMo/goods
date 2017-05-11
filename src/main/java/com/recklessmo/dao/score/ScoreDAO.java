@@ -13,6 +13,8 @@ public interface ScoreDAO {
 
     void insertList(@Param("scoreList") List<Score> scoreList);
 
+    void removeList(@Param("orgId")long orgId, @Param("examId")long examId);
+
     List<Score> getList(ScoreListPage page);
 
     List<Score> getScoreListByExamId(@Param("examId")long examId);

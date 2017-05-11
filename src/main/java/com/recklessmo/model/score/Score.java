@@ -15,6 +15,7 @@ import java.util.List;
 public class Score {
 
     //联合主键
+    private long orgId;
     private String sid;
     private long examId;
     private String examName;
@@ -149,4 +150,11 @@ public class Score {
         this.examId = examId;
     }
 
+    public long getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(long orgId) {
+        this.orgId = orgId;
+    }
 }

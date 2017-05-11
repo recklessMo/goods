@@ -59,7 +59,7 @@
         )
     </insert>
 
-    <update id="updateExam">
+    <update id="updateExamStatus">
         update exam set upload_status = #{status} where exam_id = #{id}
     </update>
 

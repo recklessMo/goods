@@ -4,16 +4,20 @@
 <mapper namespace="com.recklessmo.dao.score.ScoreDAO">
 
     <sql id = "columns">
-        exam_id, sid, grade_id, class_id, detail
+        org_id, exam_id, sid, grade_id, class_id, detail
     </sql>
 
 
     <insert id="insertList">
-        replace into score(exam_id, sid, grade_id, class_id, detail) values
+        replace into score(org_id, exam_id, sid, grade_id, class_id, detail) values
         <foreach collection="scoreList" item="item" separator=",">
-            (#{item.examId}, #{item.sid}, #{item.gradeId}, #{item.classId}, #{item.detail})
+            (#{item.orgId}, #{item.examId}, #{item.sid}, #{item.gradeId}, #{item.classId}, #{item.detail})
         </foreach>
     </insert>
+
+    <delete id="removeList">
+        delete from score where exam_id = #{examId} and org_id = #{orgId}
+    </delete>
 
     <select id="getList" resultType="com.recklessmo.model.score.Score">
         select

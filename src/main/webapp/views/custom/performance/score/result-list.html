@@ -11,7 +11,7 @@
                         <span>{{selectedExam.examName}}</span>
                     </div>
                     <div style="padding:2px 10px;" class="form-inline">
-                        <input type="text" placeholder="输入考试名称进行查询" class="form-control"
+                        <input type="text" placeholder="输入考试名称进行查询" class="form-control" ng-model="tableParams.searchStr"
                                style="display: inline-block;width: calc( 100% - 70px);"/>
                         <button class="btn btn-info" ng-click="searchExam()">查询</button>
                     </div>

@@ -49,6 +49,16 @@ public class ScoreService {
         }
     }
 
+    /**
+     *
+     * 移除成绩数据
+     *
+     * @param scoreList
+     */
+    public void removeScoreList(long orgId, long examId){
+        scoreDAO.removeList(orgId, examId);
+    }
+
 
     /**
      * 获取成绩列表(分页)

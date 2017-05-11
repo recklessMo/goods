@@ -1,5 +1,6 @@
 package com.recklessmo.web.file;
 
+import com.recklessmo.model.exam.Exam;
 import com.recklessmo.model.score.CourseScore;
 import com.recklessmo.model.score.Score;
 import com.recklessmo.model.security.DefaultUserDetails;
@@ -93,28 +94,25 @@ public class FileUploadController {
             //返回错误信息
             return new JsonResponse(300, "数据错误!", null);
         } else {
-            preProcessData(userDetails.getOrgId(), data);
+            preProcessData(examId, userDetails.getOrgId(), data);
+            scoreService.removeScoreList(userDetails.getOrgId(), examId);
             scoreService.insertScoreList(data);
+            //更新上传状态
+            examService.updateExamStatus(examId, Exam.EXAM_UPLOADED);
             return new JsonResponse(200, null, null);
         }
     }
 
-    private void preProcessData(long orgId, List<Score> scoreList) {
-        List<Grade> gradeList = gradeSettingService.listAllGrade(orgId);
-        Map<Long, Grade> gradeMap = gradeList.stream().collect(Collectors.toMap(Grade::getGradeId, Function.identity()));
+    private void preProcessData(long examId, long orgId, List<Score> scoreList) {
         List<String> sidList = scoreList.stream().map(o -> o.getSid()).collect(Collectors.toList());
-        List<StudentInfo> studentGradeInfoList = studentService.getStudentInfoBySidList(orgId, sidList);
-        Map<String, StudentInfo> studentInfoMap = studentGradeInfoList.stream().collect(Collectors.toMap(StudentInfo::getSid, Function.identity()));
+        List<StudentInfo> studentInfoList = studentService.getStudentInfoBySidList(orgId, sidList);
+        Map<String, StudentInfo> studentInfoMap = studentInfoList.stream().collect(Collectors.toMap(StudentInfo::getSid, Function.identity()));
         scoreList.stream().forEach(item -> {
+            item.setOrgId(orgId);
+            item.setExamId(examId);
             StudentInfo studentInfo = studentInfoMap.get(item.getSid());
-            Grade grade = gradeMap.get(studentInfo.getGradeId());
             item.setGradeId(studentInfo.getGradeId());
             item.setClassId(studentInfo.getClassId());
-            item.setGradeName(gradeMap.get(studentInfo.getGradeId()).getGradeName());
-            Optional<Group> groupOptional = grade.getClassList().stream().filter(o -> o.getClassId() == studentInfo.getClassId()).findAny();
-            if (groupOptional.isPresent()) {
-                item.setClassName(groupOptional.get().getClassName());
-            }
         });
     }
 
@@ -145,27 +143,21 @@ public class FileUploadController {
         Score score = new Score();
         score.setExamId(examId);
         DataFormatter dataFormatter = new DataFormatter();
-        for (int j = row.getFirstCellNum(); j < row.getLastCellNum(); j++) {
+        for (int j = 0; j < labelList.size(); j++) {
             String label = labelList.get(j);
             Cell cell = row.getCell(j, Row.RETURN_BLANK_AS_NULL);
-            if ("年级".equals(label) || "班级".equals(label) || "姓名".equals(label)) {
-            } else if ("年级ID".equals(label) || "班级ID".equals(label) || "学号".equals(label)) {
+            if ("姓名".equals(label)) {
+            } else if ("学号".equals(label)) {
                 if (cell != null) {
                     String value = dataFormatter.formatCellValue(cell);
-                    if ("年级ID".equals(label)) {
-                        score.setGradeId(Long.parseLong(value));
-                    } else if ("班级ID".equals(label)) {
-                        score.setClassId(Long.parseLong(value));
-                    } else {
-                        score.setSid(value);
-                    }
+                    score.setSid(value);
                 } else {
                     int rowNumber = row.getRowNum();
                     sb.append("第");
                     sb.append(rowNumber);
                     sb.append("行, 第");
                     sb.append(j);
-                    sb.append("列, 为空");
+                    sb.append("列, 为空!");
                 }
             } else {
                 CourseScore courseScore = new CourseScore();
