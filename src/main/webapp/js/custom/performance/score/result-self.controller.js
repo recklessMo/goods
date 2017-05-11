@@ -79,12 +79,10 @@
                 return;
             }
 
-            $scope.template = {id: 2};
-
-            //if(angular.isUndefined($scope.template)){
-            //    SweetAlert.error("请选择模板!")
-            //    return;
-            //}
+            if(angular.isUndefined($scope.template)){
+                SweetAlert.error("请选择模板!")
+                return;
+            }
 
             //both are ok , so we proceed .首先获取数据, 只加载一遍.
             $scope.show()
@@ -147,11 +145,16 @@
                 return;
             }
 
+            if(_.isUndefined($scope.template.id)){
+                SweetAlert.error("请选择合适的模板进行分析！");
+                return;
+            }
+
             blockUI.start();
             var sidList = _.map($scope.studentChooseList, function(item){
                 return item.sid;
             });
-            var params = {examId: $scope.selectedExam.examId, templateId:7, sidList: sidList};
+            var params = {examId: $scope.selectedExam.examId, templateId: $scope.template.id, sidList: sidList};
             ScoreService.loadScoreSelf(params).success(function(data){
                 blockUI.stop();
                 if(data.status == 200){
