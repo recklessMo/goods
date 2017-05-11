@@ -22,8 +22,10 @@ import com.recklessmo.model.score.result.self.ScoreSelfInner;
 import com.recklessmo.model.score.result.total.ClassTotal;
 import com.recklessmo.model.score.result.total.CourseTotal;
 import com.recklessmo.model.score.result.total.TotalInner;
+import com.recklessmo.model.setting.Course;
 import com.recklessmo.model.setting.Group;
 import com.recklessmo.model.student.StudentInfo;
+import com.recklessmo.service.setting.CourseSettingService;
 import com.recklessmo.service.student.StudentService;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
@@ -43,8 +45,14 @@ public class ScoreAnalyseService {
     @Resource
     private StudentService studentService;
 
-    private Map<Long, Group> getClassMap(List<Score> scoreList) {
-        return null;
+    @Resource
+    private CourseSettingService courseSettingService;
+
+
+    private Map<String, Long> getCourseNameToIdMap(){
+        List<Course> courseList = courseSettingService.getStandardCourseList();
+        Map<String, Long> result = courseList.stream().collect(Collectors.toMap(Course::getCourseName, course -> course.getCourseId()));
+        return result;
     }
 
     /**
@@ -75,13 +83,13 @@ public class ScoreAnalyseService {
                 singleClass(score, classTotal, scoreTemplate);
                 //文科，文科-1，
                 if(score.getClassType().equals("文科班")){
-                    ClassTotal wenke = result.getOrDefault(-1L, new ClassTotal(-1L, "文科"));
+                    ClassTotal wenke = result.getOrDefault(-1L, new ClassTotal(-1L, "文科班"));
                     result.put(-1L, wenke);
                     singleClass(score, wenke, scoreTemplate);
                 }
                 //理科，理科-2
                 if(score.getClassType().equals("理科班")){
-                    ClassTotal like = result.getOrDefault(-2L, new ClassTotal(-2L, "理科"));
+                    ClassTotal like = result.getOrDefault(-2L, new ClassTotal(-2L, "理科班"));
                     result.put(-2l, like);
                     singleClass(score, like, scoreTemplate);
                 }
@@ -100,22 +108,31 @@ public class ScoreAnalyseService {
             Map<String, CourseTotal> result = new HashMap<>();
             scoreList.stream().forEach(newScore -> {
                 newScore.getCourseScoreList().stream().forEach(courseScore -> {
-                    CourseTotal courseTotal = result.getOrDefault(courseScore.getCourseName(), new CourseTotal(courseScore.getCourseName()));
+                    CourseTotal courseTotal = result.getOrDefault(courseScore.getCourseName(), new CourseTotal(courseScore.getCourseName(), courseScore.getCourseId()));
                     result.put(courseScore.getCourseName(), courseTotal);
-                    TotalInner totalInner;
-                    Optional<TotalInner> temp = courseTotal.getClassTotalList().stream().filter(m -> m.getName().equals(newScore.getClassName())).findAny();
-                    if (temp.isPresent()) {
-                        totalInner = temp.get();
-                    } else {
-                        totalInner = new TotalInner(newScore.getClassName(), newScore.getClassId());
-                        courseTotal.getClassTotalList().add(totalInner);
-                        Collections.sort(courseTotal.getClassTotalList(), (o1, o2) -> o1.getId() > o2.getId() ? 1 : o1.getId() == o2.getId() ? 0 : -1);
+                    //先找一下本班的
+                    singleCourse(newScore.getClassName(), newScore.getClassId(), courseScore, courseTotal, scoreTemplate);
+                    //然后全年级的
+                    singleCourse("全年级", -3L, courseScore, courseTotal, scoreTemplate);
+                    //然后文理分科
+                    if(newScore.getClassType().equals("文科班")){
+                        singleCourse("文科班", -1L, courseScore, courseTotal, scoreTemplate);
                     }
-                    totalInner(courseScore, totalInner, scoreTemplate);
+                    if(newScore.getClassType().equals("理科班")){
+                        singleCourse("理科班", -2L, courseScore, courseTotal, scoreTemplate);
+                    }
                 });
             });
             result.values().stream().forEach(item -> item.getClassTotalList().stream().forEach(totalInner -> processAfterTotalInner(totalInner)));
-            return result.values();
+            List<CourseTotal> values = new LinkedList<>(result.values());
+            Map<String, Long> courseMap = getCourseNameToIdMap();
+            values.stream().forEach(value -> {
+                value.setCourseId(courseMap.getOrDefault(value.getCourseName(), 0L));
+            });
+            Collections.sort(values, (a, b) -> {
+                return a.getCourseId() >= b.getCourseId() ? (a.getCourseId() == b.getCourseId() ? 0 : 1) : -1;
+            });
+            return values;
         }
         return null;
     }
@@ -132,6 +149,19 @@ public class ScoreAnalyseService {
             }
             totalInner(courseScore, totalInner, scoreTemplate);
         });
+    }
+
+    private void singleCourse(String className, long classId, CourseScore courseScore, CourseTotal courseTotal, ScoreTemplate scoreTemplate){
+        TotalInner selfInner;
+        Optional<TotalInner> selfInnerOptional = courseTotal.getClassTotalList().stream().filter(m -> m.getName().equals(className)).findAny();
+        if (selfInnerOptional.isPresent()) {
+            selfInner = selfInnerOptional.get();
+        } else {
+            selfInner = new TotalInner(className, classId);
+            courseTotal.getClassTotalList().add(selfInner);
+            Collections.sort(courseTotal.getClassTotalList(), (o1, o2) -> o1.getId() > o2.getId() ? 1 : o1.getId() == o2.getId() ? 0 : -1);
+        }
+        totalInner(courseScore, selfInner, scoreTemplate);
     }
 
     //内部数据

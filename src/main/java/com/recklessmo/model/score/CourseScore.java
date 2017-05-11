@@ -9,6 +9,7 @@ import java.util.List;
  */
 public class CourseScore {
 
+    private long courseId;
     private String courseName;
     private double score;
     private int rank;
@@ -19,12 +20,20 @@ public class CourseScore {
 
     }
 
-    public CourseScore(String courseName, double score, int rank){
+    public CourseScore(String courseName,long courseId, double score, int rank){
+        this.courseId = courseId;
         this.courseName = courseName;
         this.score = score;
         this.rank = rank;
     }
 
+    public long getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(long courseId) {
+        this.courseId = courseId;
+    }
 
     public int getFlag() {
         return flag;

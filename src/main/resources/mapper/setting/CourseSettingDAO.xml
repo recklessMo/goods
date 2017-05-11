@@ -45,4 +45,10 @@
         update course set deleted = 1 where id = #{id}
     </update>
 
+    <select id="getStandardCourseList" resultType="com.recklessmo.model.setting.Course">
+        select
+        <include refid="courseColumns"/>
+        from course where org_id = 0
+    </select>
+
 </mapper>

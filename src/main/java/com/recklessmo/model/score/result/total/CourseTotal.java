@@ -8,6 +8,7 @@ import java.util.List;
  */
 public class CourseTotal {
 
+    private long courseId;
     private String courseName;
     private List<TotalInner> classTotalList = new LinkedList<>();
 
@@ -15,8 +16,17 @@ public class CourseTotal {
 
     }
 
-    public CourseTotal(String courseName){
+    public CourseTotal(String courseName, long courseId){
         this.courseName = courseName;
+        this.courseId = courseId;
+    }
+
+    public long getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(long courseId) {
+        this.courseId = courseId;
     }
 
     public String getCourseName() {

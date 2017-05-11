@@ -43,5 +43,8 @@ public class CourseSettingService {
         return courseSettingDAO.listCourseCount(page);
     }
 
+    public List<Course> getStandardCourseList(){
+        return courseSettingDAO.getStandardCourseList();
+    }
 
 }

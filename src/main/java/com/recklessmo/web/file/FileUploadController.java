@@ -69,6 +69,7 @@ public class FileUploadController {
         List<Score> data = new LinkedList<>();
         List<String> labelList = null;
         StringBuilder errMsg = new StringBuilder();
+        //获取courseMap
         int totalSheets = workbook.getNumberOfSheets();
         if (totalSheets != 0) {
             Sheet sheet = workbook.getSheetAt(0);

@@ -23,4 +23,6 @@ public interface CourseSettingDAO {
 
     Course getCourseByCourseIdAndOrgId(@Param("courseId")long courseId, @Param("orgId")long orgId);
 
+    List<Course> getStandardCourseList();
+
 }
