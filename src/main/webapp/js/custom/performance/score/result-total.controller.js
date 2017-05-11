@@ -26,13 +26,15 @@
                 counts: [],
                 getData: function (params) {
                     blockUI.start();
-                    return ExamService.loadExams({searchStr: $scope.tableParams.examName, page: params.page(), count: 10}).then(function (data) {
+                    $scope.tableParams.page = params.page();
+                    $scope.tableParams.count = 10;
+                    return ExamService.loadExams($scope.tableParams).then(function (data) {
                         blockUI.stop();
                         var result = data.data;
                         if (result.status == 200) {
                             params.total(result.totalCount);
                             return result.data;
-                        }else{
+                        } else {
                             SweetAlert.error("服务器内部错误, 请联系客服!");
                         }
                     }, function () {
@@ -152,7 +154,7 @@
                     //指定图表的配置项和数据
                     var option = {
                         title: {
-                            text: item.classId + '班'
+                            text: item.className
                         },
                         toolbox: {
                             show: true,

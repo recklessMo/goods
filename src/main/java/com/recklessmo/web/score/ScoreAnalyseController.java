@@ -106,7 +106,7 @@ public class ScoreAnalyseController {
 
     /**
      *
-     * 分析个人综合情况
+     * 分析个人综合情况（done）
      *
      * @param examId
      * @param templateId

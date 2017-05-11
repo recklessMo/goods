@@ -64,8 +64,6 @@ public class ScoreAnalyseService {
         if (scoreTemplate == null) {
             return null;
         }
-        //根据成绩列表获取班级列表
-        Map<Long, Group> map = getClassMap(scoreList);
         //班级维度
         if (type == 1) {
             Map<Long, ClassTotal> result = new HashMap<>();
@@ -73,15 +71,31 @@ public class ScoreAnalyseService {
                 //加入对应的分开班级
                 ClassTotal classTotal = result.getOrDefault(score.getClassId(), new ClassTotal(score.getClassId(), score.getClassName()));
                 result.put(score.getClassId(), classTotal);
+                //单独分析一个班，每个班有自己的id
                 singleClass(score, classTotal, scoreTemplate);
-                //todo 加入文理科, 文科-1, 理科-2
-                // 整体分析, 全体-3
+                //文科，文科-1，
+                if(score.getClassType().equals("文科班")){
+                    ClassTotal wenke = result.getOrDefault(-1L, new ClassTotal(-1L, "文科"));
+                    result.put(-1L, wenke);
+                    singleClass(score, wenke, scoreTemplate);
+                }
+                //理科，理科-2
+                if(score.getClassType().equals("理科班")){
+                    ClassTotal like = result.getOrDefault(-2L, new ClassTotal(-2L, "理科"));
+                    result.put(-2l, like);
+                    singleClass(score, like, scoreTemplate);
+                }
+                //分析全年级，-3班代表全年级
                 ClassTotal all = result.getOrDefault(-3L, new ClassTotal(-3L, "全年级"));
                 result.put(-3L, all);
                 singleClass(score, all, scoreTemplate);
             });
             result.values().stream().forEach(item -> item.getCourseTotalList().stream().forEach(totalInner -> processAfterTotalInner(totalInner)));
-            return result.values();
+            List<ClassTotal> values = new LinkedList<>(result.values());
+            Collections.sort(values, (a, b) -> {
+                return a.getClassId() >= b.getClassId() ? (a.getClassId() == b.getClassId() ? 0 : 1) : -1;
+            });
+            return values;
         } else if (type == 2) {
             Map<String, CourseTotal> result = new HashMap<>();
             scoreList.stream().forEach(newScore -> {
