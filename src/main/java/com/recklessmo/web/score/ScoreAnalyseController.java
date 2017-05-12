@@ -30,7 +30,7 @@ public class ScoreAnalyseController {
 
     /**
      *
-     * 整体分析结果
+     * 整体分析结果 done
      *
      * pre: score进行缓存
      *

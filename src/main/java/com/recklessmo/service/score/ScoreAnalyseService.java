@@ -226,43 +226,78 @@ public class ScoreAnalyseService {
         //根据templateId获取模板参数
         ScoreTemplate scoreTemplate = scoreTemplateService.get(templateId);
         if (scoreTemplate == null) {
-//            return null;
+            return null;
         }
         Map<String, CourseGap> gapMap = new HashMap<>();
+        Map<String, List<ScoreGap>> scoreGapMap = getScoreGapMap(scoreTemplate);
         scoreList.stream().forEach(score -> {
             score.getCourseScoreList().stream().forEach(courseScore -> {
-                CourseGap gap = gapMap.getOrDefault(courseScore.getCourseName(), new CourseGap(courseScore.getCourseName(), getScoreGapList(scoreTemplate, courseScore.getCourseName())));
+                CourseGap gap = gapMap.getOrDefault(courseScore.getCourseName(), new CourseGap(courseScore.getCourseName(), getScoreGapList(scoreGapMap, courseScore.getCourseName())));
                 gapMap.put(courseScore.getCourseName(), gap);
-                GapInner gapInner;
-                Optional<GapInner> temp = gap.getGapInnerList().stream().filter(m -> m.getCid() == score.getClassId()).findAny();
-                if (temp.isPresent()) {
-                    gapInner = temp.get();
-                } else {
-                    gapInner = new GapInner(gap.getGapList().size());
-                    gapInner.setCid(score.getClassId());
-                    gapInner.setClassName(score.getClassName());
-                    gap.getGapInnerList().add(gapInner);
-                    Collections.sort(gap.getGapInnerList(), (o1, o2) -> o1.getClassName().compareTo(o2.getClassName()));
-                }
-                for (int i = 0; i < gap.getGapList().size(); i++) {
-                    ScoreGap scoreGap = gap.getGapList().get(i);
-                    if (courseScore.getScore() >= scoreGap.getStart() && courseScore.getScore() <= scoreGap.getEnd()) {
-                        gapInner.getCountList().set(i, gapInner.getCountList().get(i) + 1);
-                    }
-                }
+                singleGap(gap, score, courseScore);
             });
+            double total = score.getCourseScoreList().stream().mapToDouble(o->o.getScore()).sum();
+            CourseGap totalGap = gapMap.getOrDefault("总分", new CourseGap("总分", getScoreGapList(scoreGapMap, "总分")));
+            gapMap.put("总分", totalGap);
+            CourseScore temp = new CourseScore();
+            temp.setScore(total);
+            temp.setCourseName("总分");
+            singleGap(totalGap, score, temp);
         });
-        return gapMap.values();
+        List<CourseGap> values = new LinkedList<>(gapMap.values());
+        Map<String, Long> courseMap = getCourseNameToIdMap();
+        values.stream().forEach(item -> {
+            item.setCourseId(courseMap.getOrDefault(item.getName(), 0L));
+        });
+        Collections.sort(values, (a, b) -> {
+            return a.getCourseId() >= b.getCourseId() ? (a.getCourseId() == b.getCourseId() ? 0 : 1) : -1;
+        });
+        return values;
     }
 
-    private List<ScoreGap> getScoreGapList(ScoreTemplate scoreTemplate, String courseName) {
-        List<ScoreGap> scoreGaps = new LinkedList<>();
-        scoreGaps.add(new ScoreGap(1d, 20d));
-        scoreGaps.add(new ScoreGap(21d, 40d));
-        scoreGaps.add(new ScoreGap(41d, 50d));
-        scoreGaps.add(new ScoreGap(51d, 70d));
-        scoreGaps.add(new ScoreGap(71d, 100d));
-        return scoreGaps;
+    private void singleGap(CourseGap gap, Score score, CourseScore courseScore){
+        GapInner gapInner;
+        Optional<GapInner> temp = gap.getGapInnerList().stream().filter(m -> m.getCid() == score.getClassId()).findAny();
+        if (temp.isPresent()) {
+            gapInner = temp.get();
+        } else {
+            gapInner = new GapInner(gap.getGapList().size());
+            gapInner.setCid(score.getClassId());
+            gapInner.setClassName(score.getClassName());
+            gap.getGapInnerList().add(gapInner);
+            Collections.sort(gap.getGapInnerList(), (o1, o2) -> o1.getClassName().compareTo(o2.getClassName()));
+        }
+        for (int i = 0; i < gap.getGapList().size(); i++) {
+            ScoreGap scoreGap = gap.getGapList().get(i);
+            if (courseScore.getScore() >= scoreGap.getStart() && courseScore.getScore() <= scoreGap.getEnd()) {
+                gapInner.getCountList().set(i, gapInner.getCountList().get(i) + 1);
+            }
+        }
+    }
+
+    private Map<String, List<ScoreGap>> getScoreGapMap(ScoreTemplate scoreTemplate){
+        Map<String, List<ScoreGap>> result = new HashMap<>();
+        Map<String, String> scoreGapMap = scoreTemplate.getCourseGapSettingMap();
+        scoreGapMap.entrySet().stream().forEach(item -> {
+            String str = item.getValue();
+            String[] scoreGapArray = str.trim().split("\\s+");
+            for(String single : scoreGapArray){
+                String[] temp = single.trim().split("-");
+                if(temp.length == 2){
+                    double start = Double.parseDouble(temp[0]);
+                    double end = Double.parseDouble(temp[1]);
+                    ScoreGap scoreGap = new ScoreGap(start, end);
+                    List<ScoreGap> singleValue = result.getOrDefault(item.getKey(), new LinkedList<>());
+                    result.put(item.getKey(), singleValue);
+                    singleValue.add(new ScoreGap(start, end));
+                }
+            }
+        });
+        return result;
+    }
+
+    private List<ScoreGap> getScoreGapList(Map<String, List<ScoreGap>> scoreGapMap, String courseName) {
+        return scoreGapMap.getOrDefault(courseName, new LinkedList<>());
     }
 
     /**

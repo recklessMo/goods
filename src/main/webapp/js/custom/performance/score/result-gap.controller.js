@@ -77,12 +77,10 @@
                 return;
             }
 
-            $scope.template = {id : 2};
-
-            //if(angular.isUndefined($scope.template)){
-            //    SweetAlert.error("请选择模板!")
-            //    return;
-            //}
+            if(angular.isUndefined($scope.template)){
+                SweetAlert.error("请选择模板!")
+                return;
+            }
 
             //both are ok , so we proceed .首先获取数据, 只加载一遍.
             blockUI.start();

@@ -10,6 +10,7 @@ import java.util.List;
 public class CourseGap {
 
     //名字
+    private long courseId;
     private String name;
 
     private List<ScoreGap> gapList;
@@ -23,6 +24,14 @@ public class CourseGap {
         this.name = name;
         this.gapList = gapList;
         this.gapInnerList = new LinkedList<>();
+    }
+
+    public long getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(long courseId) {
+        this.courseId = courseId;
     }
 
     public String getName() {

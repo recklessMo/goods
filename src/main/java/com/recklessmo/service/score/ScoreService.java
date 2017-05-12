@@ -43,7 +43,6 @@ public class ScoreService {
      * @param scoreList
      */
     public void insertScoreList(List<Score> scoreList){
-        computeRank(scoreList);
         if(scoreList != null && scoreList.size() != 0) {
             scoreDAO.insertList(scoreList);
         }

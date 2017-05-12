@@ -57,6 +57,11 @@ public class ScoreTemplate {
 
     public void setDetail(String detail) {
         this.detail = detail;
+        if (type == TEMPLATE_TYPE_SCORE_TOTAL) {
+            courseTotalSettingMap = JSON.parseObject(detail, new TypeReference<Map<String, CourseTotalSetting>>(){});
+        }else if(type == TEMPLATE_TYPE_SCORE_GAP){
+            courseGapSettingMap = JSON.parseObject(detail, new TypeReference<Map<String, String>>(){});
+        }
     }
 
     public long getId() {
@@ -99,26 +104,20 @@ public class ScoreTemplate {
         this.updated = updated;
     }
 
-    public Map<String, CourseTotalSetting> getCourseTotalSettingMap() {
-        if (type == TEMPLATE_TYPE_SCORE_TOTAL) {
-            return JSON.parseObject(detail, new TypeReference<Map<String, CourseTotalSetting>>() {});
-        }
-        return null;
-    }
-
-    public void setCourseTotalSettingMap(Map<String, CourseTotalSetting> courseTotalSettingMap) {
-        this.courseTotalSettingMap = courseTotalSettingMap;
-    }
-
     public Map<String, String> getCourseGapSettingMap() {
-        if(type == TEMPLATE_TYPE_SCORE_GAP){
-            return JSON.parseObject(detail, new TypeReference<Map<String, String>>(){});
-        }
-        return null;
+        return courseGapSettingMap;
     }
 
     public void setCourseGapSettingMap(Map<String, String> courseGapSettingMap) {
         this.courseGapSettingMap = courseGapSettingMap;
+    }
+
+    public Map<String, CourseTotalSetting> getCourseTotalSettingMap() {
+        return courseTotalSettingMap;
+    }
+
+    public void setCourseTotalSettingMap(Map<String, CourseTotalSetting> courseTotalSettingMap) {
+        this.courseTotalSettingMap = courseTotalSettingMap;
     }
 
     public long getOrgId() {
