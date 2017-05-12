@@ -65,6 +65,7 @@
             }
             console.log(data);
             $scope.$broadcast("chooseStudent", data);
+            $scope.$broadcast('chooseSid', user.sid);
         }
 
     }
