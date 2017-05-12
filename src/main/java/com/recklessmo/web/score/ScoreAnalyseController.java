@@ -83,7 +83,7 @@ public class ScoreAnalyseController {
     public JsonResponse analyzeRank(@RequestParam("examId")long examId, @RequestParam("templateId")long templateId){
         DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
         List<Score> scoreList = scoreService.loadScoreByExamId(userDetails.getOrgId(), examId);
-        Object obj = scoreAnalyseService.analyseRank(scoreList, 0);
+        Object obj = scoreAnalyseService.analyseRank(scoreList, templateId);
         return new JsonResponse(200, obj, null);
     }
 

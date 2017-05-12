@@ -232,17 +232,10 @@ public class ScoreAnalyseService {
         Map<String, List<ScoreGap>> scoreGapMap = getScoreGapMap(scoreTemplate);
         scoreList.stream().forEach(score -> {
             score.getCourseScoreList().stream().forEach(courseScore -> {
-                CourseGap gap = gapMap.getOrDefault(courseScore.getCourseName(), new CourseGap(courseScore.getCourseName(), getScoreGapList(scoreGapMap, courseScore.getCourseName())));
+                CourseGap gap = gapMap.getOrDefault(courseScore.getCourseName(), new CourseGap(courseScore.getCourseName(), scoreGapMap.getOrDefault(courseScore.getCourseName(), new LinkedList<>())));
                 gapMap.put(courseScore.getCourseName(), gap);
                 singleGap(gap, score, courseScore);
             });
-            double total = score.getCourseScoreList().stream().mapToDouble(o->o.getScore()).sum();
-            CourseGap totalGap = gapMap.getOrDefault("总分", new CourseGap("总分", getScoreGapList(scoreGapMap, "总分")));
-            gapMap.put("总分", totalGap);
-            CourseScore temp = new CourseScore();
-            temp.setScore(total);
-            temp.setCourseName("总分");
-            singleGap(totalGap, score, temp);
         });
         List<CourseGap> values = new LinkedList<>(gapMap.values());
         Map<String, Long> courseMap = getCourseNameToIdMap();
@@ -296,10 +289,6 @@ public class ScoreAnalyseService {
         return result;
     }
 
-    private List<ScoreGap> getScoreGapList(Map<String, List<ScoreGap>> scoreGapMap, String courseName) {
-        return scoreGapMap.getOrDefault(courseName, new LinkedList<>());
-    }
-
     /**
      * 名次分析
      *
@@ -311,54 +300,70 @@ public class ScoreAnalyseService {
         //根据templateId获取模板参数
         ScoreTemplate scoreTemplate = scoreTemplateService.get(templateId);
         if (scoreTemplate == null) {
-//            return null;
+            return null;
         }
+        Map<String, List<RankGap>> courseRankGapMap = getRankGapList(scoreTemplate);
         Map<String, CourseRank> rankMap = new HashMap<>();
         scoreList.stream().forEach(score -> {
+            double total = 0;
             for (CourseScore courseScore : score.getCourseScoreList()) {
-                CourseRank rank = rankMap.get(courseScore.getCourseName());
-                if (rank == null) {
-                    rank = new CourseRank();
-                    rank.setName(courseScore.getCourseName());
-                    rank.setGapList(getRankGapList());
-                    rankMap.put(courseScore.getCourseName(), rank);
-                }
-                RankInner rankInner;
-                Optional<RankInner> temp = rank.getGapInnerList().stream().filter(m -> m.getCid() == score.getClassId()).findAny();
-                if (temp.isPresent()) {
-                    rankInner = temp.get();
-                } else {
-                    rankInner = new RankInner(rank.getGapList().size());
-                    rankInner.setCid(score.getClassId());
-                    rankInner.setCname(score.getClassName());
-                    rank.getGapInnerList().add(rankInner);
-                }
+                CourseRank rank = rankMap.getOrDefault(courseScore.getCourseName(), new CourseRank(0L, courseScore.getCourseName(), courseRankGapMap.getOrDefault(courseScore.getCourseName(), new LinkedList<>())));
+                rankMap.put(courseScore.getCourseName(), rank);
+                singleRank(rank, score, courseScore);
+                total += courseScore.getScore();
+            }
+        });
+        //排序
+        List<CourseRank> values = new LinkedList<>(rankMap.values());
+        Map<String, Long> courseMap = getCourseNameToIdMap();
+        values.stream().forEach(item -> {
+            item.setCourseId(courseMap.getOrDefault(item.getCourseName(), 0L));
+        });
+        Collections.sort(values, (a, b) -> {
+            return a.getCourseId() >= b.getCourseId() ? (a.getCourseId() == b.getCourseId() ? 0 : 1) : -1;
+        });
+        return values;
+    }
 
-                for (int i = 0; i < rank.getGapList().size(); i++) {
-                    RankGap rankGap = rank.getGapList().get(i);
-                    if (courseScore.getScore() >= rankGap.getStart() && courseScore.getScore() <= rankGap.getEnd()) {
-                        rankInner.getCountList().set(i, rankInner.getCountList().get(i) + 1);
-                    }
+    private void singleRank(CourseRank rank, Score score, CourseScore courseScore){
+        RankInner rankInner;
+        Optional<RankInner> temp = rank.getGapInnerList().stream().filter(m -> m.getCid() == score.getClassId()).findAny();
+        if (temp.isPresent()) {
+            rankInner = temp.get();
+        } else {
+            rankInner = new RankInner(rank.getGapList().size());
+            rankInner.setCid(score.getClassId());
+            rankInner.setCname(score.getClassName());
+            rank.getGapInnerList().add(rankInner);
+        }
+
+        for (int i = 0; i < rank.getGapList().size(); i++) {
+            RankGap rankGap = rank.getGapList().get(i);
+            if (courseScore.getRank() >= rankGap.getStart() && courseScore.getRank() <= rankGap.getEnd()) {
+                rankInner.getCountList().set(i, rankInner.getCountList().get(i) + 1);
+            }
+        }
+    }
+
+    private Map<String, List<RankGap>> getRankGapList(ScoreTemplate scoreTemplate) {
+        Map<String, List<RankGap>> result = new HashMap<>();
+        Map<String, String> rankGapMap = scoreTemplate.getCourseRankSettingMap();
+        rankGapMap.entrySet().stream().forEach(item -> {
+            String str = item.getValue();
+            String[] scoreGapArray = str.trim().split("\\s+");
+            for(String single : scoreGapArray){
+                String[] temp = single.trim().split("-");
+                if(temp.length == 2){
+                    double start = Double.parseDouble(temp[0]);
+                    double end = Double.parseDouble(temp[1]);
+                    ScoreGap scoreGap = new ScoreGap(start, end);
+                    List<RankGap> singleValue = result.getOrDefault(item.getKey(), new LinkedList<>());
+                    result.put(item.getKey(), singleValue);
+                    singleValue.add(new RankGap((int)start, (int)end));
                 }
             }
         });
-        return rankMap.values();
-    }
-
-    private List<RankGap> getRankGapList() {
-        List<RankGap> gapList = new LinkedList<>();
-        gapList.add(new RankGap(1, 10));
-        gapList.add(new RankGap(11, 20));
-        gapList.add(new RankGap(21, 30));
-        gapList.add(new RankGap(31, 40));
-        gapList.add(new RankGap(41, 50));
-        gapList.add(new RankGap(51, 60));
-        gapList.add(new RankGap(61, 70));
-        gapList.add(new RankGap(71, 80));
-        gapList.add(new RankGap(81, 90));
-        gapList.add(new RankGap(91, 100));
-        gapList.add(new RankGap(101, 100000));
-        return gapList;
+        return result;
     }
 
     /**

@@ -175,6 +175,13 @@ public class ScoreService {
         Map<String, List<CourseScore>> resultMap = new HashMap<>();
         scoreList.stream().forEach(score -> {
             List<CourseScore> courseScoreList = score.getCourseScoreList();
+            double total = score.getCourseScoreList().stream().mapToDouble(O->O.getScore()).sum();
+            CourseScore totalScore = new CourseScore();
+            totalScore.setCourseId(0);
+            totalScore.setScore(total);
+            totalScore.setCourseName("总分");
+            courseScoreList.add(totalScore);
+
             courseScoreList.stream().forEach(courseScore -> {
                 List<CourseScore> valueList = resultMap.getOrDefault(courseScore.getCourseName(), new LinkedList<>());
                 valueList.add(courseScore);

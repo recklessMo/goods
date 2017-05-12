@@ -85,6 +85,13 @@
                     className: 'ngdialog-theme-default max-dialog',
                     data: {type: 'add'}
                 });
+            } else if($scope.type == 3){
+                dialog = ngDialog.open({
+                    template: 'app/views/custom/performance/template/edit/template-rank-edit.html',
+                    controller: 'TemplateRankEditController',
+                    className: 'ngdialog-theme-default max-dialog',
+                    data: {type: 'add'}
+                });
             }
             dialog.closePromise.then(function (data) {
                 if (data.value != 'reload') {
@@ -108,6 +115,13 @@
                 dialog = ngDialog.open({
                     template: 'app/views/custom/performance/template/edit/template-gap-edit.html',
                     controller: 'TemplateGapEditController',
+                    className: 'ngdialog-theme-default custom-width-1200',
+                    data: {type: 'edit', data: item}
+                });
+            } else if($scope.type == 3){
+                dialog = ngDialog.open({
+                    template: 'app/views/custom/performance/template/edit/template-rank-edit.html',
+                    controller: 'TemplateRankEditController',
                     className: 'ngdialog-theme-default custom-width-1200',
                     data: {type: 'edit', data: item}
                 });

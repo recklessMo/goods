@@ -21,6 +21,7 @@ public class ScoreTemplate {
 
     public static int TEMPLATE_TYPE_SCORE_TOTAL = 1;
     public static int TEMPLATE_TYPE_SCORE_GAP = 2;
+    public static int TEMPLATE_TYPE_SCORE_RANK = 3;
 
     /**
      * 数据库字段
@@ -44,6 +45,8 @@ public class ScoreTemplate {
     private Map<String, CourseTotalSetting> courseTotalSettingMap;
     //分数段分析的模板, type为2
     private Map<String, String> courseGapSettingMap;
+    //名次分析的模板, type为3
+    private Map<String, String> courseRankSettingMap;
 
 
     public String getDetail() {
@@ -51,6 +54,8 @@ public class ScoreTemplate {
             return JSON.toJSONString(courseTotalSettingMap);
         }else if(type == TEMPLATE_TYPE_SCORE_GAP){
             return JSON.toJSONString(courseGapSettingMap);
+        }else if(type == TEMPLATE_TYPE_SCORE_RANK){
+            return JSON.toJSONString(courseRankSettingMap);
         }
         return "";
     }
@@ -61,6 +66,8 @@ public class ScoreTemplate {
             courseTotalSettingMap = JSON.parseObject(detail, new TypeReference<Map<String, CourseTotalSetting>>(){});
         }else if(type == TEMPLATE_TYPE_SCORE_GAP){
             courseGapSettingMap = JSON.parseObject(detail, new TypeReference<Map<String, String>>(){});
+        }else if(type == TEMPLATE_TYPE_SCORE_RANK){
+            courseRankSettingMap = JSON.parseObject(detail, new TypeReference<Map<String, String>>(){});
         }
     }
 
@@ -126,5 +133,13 @@ public class ScoreTemplate {
 
     public void setOrgId(long orgId) {
         this.orgId = orgId;
+    }
+
+    public Map<String, String> getCourseRankSettingMap() {
+        return courseRankSettingMap;
+    }
+
+    public void setCourseRankSettingMap(Map<String, String> courseRankSettingMap) {
+        this.courseRankSettingMap = courseRankSettingMap;
     }
 }

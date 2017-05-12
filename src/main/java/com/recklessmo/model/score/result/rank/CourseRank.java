@@ -1,6 +1,8 @@
 package com.recklessmo.model.score.result.rank;
 
 
+import com.recklessmo.model.setting.Course;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -10,18 +12,36 @@ import java.util.List;
 public class CourseRank {
 
     //名字
-    private String name;
+    private long courseId;
+    private String courseName;
 
     private List<RankGap> gapList = new LinkedList<>();
     private List<RankInner> gapInnerList = new LinkedList<>();
 
+    public CourseRank(){
 
-    public String getName() {
-        return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public CourseRank(long courseId, String courseName, List<RankGap> rankGapList){
+        this.courseId = courseId;
+        this.courseName = courseName;
+        this.gapList = rankGapList;
+    }
+
+    public long getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(long courseId) {
+        this.courseId = courseId;
+    }
+
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
     }
 
     public List<RankGap> getGapList() {

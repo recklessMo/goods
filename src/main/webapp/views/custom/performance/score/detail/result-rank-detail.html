@@ -13,7 +13,7 @@
         <!--分数段表格, 根据科目分为多个表格-->
         <div ng-repeat="table in resultList"  style="padding-top:50px;" ng-show="flag.show == 1">
             <div class="title">
-                <span>{{table.name}}</span>
+                <span>{{table.courseName}}</span>
             </div>
             <table class="table table-bordered table-hover table-condensed editable-table table-min">
                 <tr>
@@ -21,7 +21,7 @@
                     <th ng-repeat="headItem in table.gapList track by $index"  style="text-align: center;">{{headItem.start}}-{{headItem.end}}(名)</th>
                 </tr>
                 <tr ng-repeat="item in table.gapInnerList track by $index">
-                    <td>{{item.className}}</td>
+                    <td>{{item.cname}}</td>
                     <td ng-repeat="countItem in item.countList track by $index" style="text-align: center">{{countItem}}</td>
                 </tr>
             </table>
@@ -29,12 +29,12 @@
 
         <!--分数段柱状图, 根据科目分为多个图形-->
         <div ng-repeat="table in resultList" style="padding-top:50px;text-align: center;" ng-show="flag.show == 2">
-            <div id="{{'chart' + table.name}}" style="height: 400px; width: 1000px;margin:auto;"></div>
+            <div id="{{'chart' + table.courseName}}" style="height: 400px; width: 1000px;margin:auto;"></div>
         </div>
 
         <!--分数段折线图, 根据科目分为多个图形-->
         <div ng-repeat="table in resultList" style="padding-top:50px;text-align: center;" ng-show="flag.show == 3">
-            <div id="{{'chart1' + table.name}}" style="height: 400px; width: 1000px;margin:auto;"></div>
+            <div id="{{'chart1' + table.courseName}}" style="height: 400px; width: 1000px;margin:auto;"></div>
         </div>
     </div>
 

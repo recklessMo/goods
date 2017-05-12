@@ -81,16 +81,14 @@
                 return;
             }
 
-            $scope.template = {id: 2};
-
-            //if(angular.isUndefined($scope.template)){
-            //    SweetAlert.error("请选择模板!")
-            //    return;
-            //}
+            if(angular.isUndefined($scope.template)){
+                SweetAlert.error("请选择模板!")
+                return;
+            }
 
             //both are ok , so we proceed .首先获取数据, 只加载一遍.
             blockUI.start();
-            ScoreService.loadScoreGapResult($scope.selectedExam.examId, $scope.template.id).success(function (data) {
+            ScoreService.loadScoreGapRank($scope.selectedExam.examId, $scope.template.id).success(function (data) {
                 blockUI.stop();
                 if (data.status == 200) {
                     $scope.resultList = data.data;
@@ -127,7 +125,7 @@
             $scope.flag.show = 2;
             // 基于准备好的dom，初始化echarts实例
             $scope.resultList.forEach(function (item) {
-                var myChart = echarts.init(document.getElementById('chart' + item.name));
+                var myChart = echarts.init(document.getElementById('chart' + item.courseName));
                 var gapList = item.gapList.map(function (e) {
                     return e.start + "-" + e.end;
                 });
@@ -135,20 +133,20 @@
                 var series = [];
                 var legend = gapInnerList.map(function (e) {
                     series.push({
-                        name: e.className, type: "bar", data: e.countList, label: {
+                        name: e.cname, type: "bar", data: e.countList, label: {
                             normal: {
                                 show: true,
                                 position: 'top'
                             }
                         }
                     });
-                    return e.className;
+                    return e.cname;
                 });
                 //处理几个list
                 //指定图表的配置项和数据
                 var option = {
                     title: {
-                        text: item.name,
+                        text: item.courseName,
                         subtext: '分数段分析'
                     },
                     toolbox: {
@@ -178,7 +176,7 @@
             $scope.flag.show = 3;
             // 基于准备好的dom，初始化echarts实例
             $scope.resultList.forEach(function (item) {
-                var myChart = echarts.init(document.getElementById('chart1' + item.name));
+                var myChart = echarts.init(document.getElementById('chart1' + item.courseName));
                 var gapList = item.gapList.map(function (e) {
                     return e.start + "-" + e.end;
                 });
@@ -186,20 +184,20 @@
                 var series = [];
                 var legend = gapInnerList.map(function (e) {
                     series.push({
-                        name: e.className, type: "line", data: e.countList, label: {
+                        name: e.cname, type: "line", data: e.countList, label: {
                             normal: {
                                 show: true,
                                 position: 'top'
                             }
                         }
                     });
-                    return e.className;
+                    return e.cname;
                 });
                 //处理几个list
                 //指定图表的配置项和数据
                 var option = {
                     title: {
-                        text: item.name,
+                        text: item.courseName,
                         subtext: '分数段分析'
                     },
                     toolbox: {
