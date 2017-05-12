@@ -4,11 +4,11 @@
 <mapper namespace="com.recklessmo.dao.setting.JobSettingDAO">
 
     <sql id = "columns">
-        job_id, job_name, job_detail
+        job_id, org_id, job_name, job_detail
     </sql>
 
     <insert id="addJob" parameterType="com.recklessmo.model.setting.Job">
-        insert into job(job_name, job_detail) values(#{jobName}, #{jobDetail})
+        insert into job(org_id, job_name, job_detail) values(#{orgId}, #{jobName}, #{jobDetail})
     </insert>
 
     <select id="listJob" resultType="com.recklessmo.model.setting.Job">
@@ -25,7 +25,7 @@
     </select>
 
     <delete id="deleteJob">
-        delete from job where job_id = #{id}
+        delete from job where job_id = #{id} and org_id = #{orgId}
     </delete>
 
 </mapper>

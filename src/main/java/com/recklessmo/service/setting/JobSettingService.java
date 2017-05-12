@@ -32,5 +32,5 @@ public class JobSettingService {
         return jobSettingDAO.listJob(page);
     }
 
-    public void deleteJob(long id) {jobSettingDAO.deleteJob(id);}
+    public void deleteJob(long orgId, long id) {jobSettingDAO.deleteJob(orgId, id);}
 }

@@ -45,6 +45,10 @@
         }
 
         function validate(job){
+            if(_.isUndefined(job.jobName) || _.isUndefined(job.jobDetail)){
+                SweetAlert.error("请填写必填信息!");
+                return false;
+            }
             return true;
         }
 

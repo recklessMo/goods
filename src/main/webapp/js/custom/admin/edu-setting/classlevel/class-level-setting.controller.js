@@ -9,7 +9,7 @@
 
         $scope.tableParams = {
             page : 1,
-            count: 20
+            count: 200
         };
 
         $scope.activate = function() {

@@ -26,9 +26,7 @@ public class Course {
     private long orgId;
     private long courseId;
     private String courseName;
-    private String detail;
     private int type;
-    private Date createTime = new Date();
     //用于表示学校是否导入
     private boolean hasImport = false;
     private int deleted = 0;
@@ -89,19 +87,4 @@ public class Course {
         this.courseName = courseName;
     }
 
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public String getDetail() {
-        return detail;
-    }
-
-    public void setDetail(String detail) {
-        this.detail = detail;
-    }
 }

@@ -12,8 +12,7 @@ public class Grade {
     private String gradeName;
     private String otherName;
     private String charger;
-    private String phone;
-    private String detail;
+    private String phone = "";
 
     private List<Group> classList;
 
@@ -73,11 +72,4 @@ public class Grade {
         this.phone = phone;
     }
 
-    public String getDetail() {
-        return detail;
-    }
-
-    public void setDetail(String detail) {
-        this.detail = detail;
-    }
 }

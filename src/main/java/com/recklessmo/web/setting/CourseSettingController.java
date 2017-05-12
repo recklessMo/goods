@@ -39,15 +39,6 @@ public class CourseSettingController {
 //        return new JsonResponse(200, null, null);
 //    }
 
-
-
-    @RequestMapping(value = "/course/update", method = {RequestMethod.POST})
-    @ResponseBody
-    public JsonResponse updateCourse(@RequestBody Course Course){
-        courseSettingService.updateCourse(Course);
-        return new JsonResponse(200, null, null);
-    }
-
     @RequestMapping(value = "/course/list", method = {RequestMethod.POST})
     @ResponseBody
     public JsonResponse listCourse(@RequestBody Page page){
@@ -81,7 +72,6 @@ public class CourseSettingController {
             try{
                 //直接添加, 通过数据库主键来判断
                 course.setOrgId(userDetails.getOrgId());
-                course.setCreateTime(new Date());
                 courseSettingService.addCourse(course);
             }catch(Exception e){
                 e.printStackTrace();

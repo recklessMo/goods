@@ -3,9 +3,9 @@
     angular
         .module('custom')
         .controller('ImportCourseController', ImportCourseController);
-    ImportCourseController.$inject = ['$scope', 'SettingService', 'SweetAlert', 'blockUI', 'NgTableParams'];
+    ImportCourseController.$inject = ['$scope', 'SettingService', 'SweetAlert', 'blockUI', 'NgTableParams', 'Notify'];
 
-    function ImportCourseController($scope, SettingService, SweetAlert, blockUI, NgTableParams) {
+    function ImportCourseController($scope, SettingService, SweetAlert, blockUI, NgTableParams, Notify) {
 
         var block = blockUI.instances.get("import-course");
 
@@ -22,12 +22,12 @@
             $scope.allCourseTableParams = new NgTableParams($scope.tableParams, {
                 counts: [],
                 getData: function (params) {
-                    blockUI.start();
+                    block.start();
                     return SettingService.listStandardCourse({
                         page: params.page(),
                         count: params.count()
                     }).then(function (data) {
-                        blockUI.stop();
+                        block.stop();
                         var result = data.data;
                         if (result.status == 200) {
                             params.total(result.totalCount);
@@ -38,7 +38,7 @@
                         }
                     }, function () {
                         SweetAlert.error("网络异常, 请稍后重试!");
-                        blockUI.stop();
+                        block.stop();
                     });
                 }
             })
@@ -65,7 +65,7 @@
                 $scope.loading = false;
                 block.stop();
                 if (data.status == 200) {
-                    SweetAlert.success("导入成功!");
+                    Notify.alert("导入成功!", {status:"success", timeout: 3000});
                     $scope.closeThisDialog('reload');
                 } else {
                     //更新失败的情况

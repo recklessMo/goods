@@ -4,7 +4,7 @@
 <mapper namespace="com.recklessmo.dao.setting.ClassLevelSettingDAO">
 
     <sql id = "columns">
-        org_id, level_name, level_detail
+        id, org_id, level_name, level_detail
     </sql>
 
     <insert id="addClassLevel" parameterType="com.recklessmo.model.setting.ClassLevel">
@@ -18,7 +18,7 @@
     </select>
 
     <delete id="deleteClassLevel">
-        delete from class_level where level_name = #{levelName} and org_id = #{orgId}
+        delete from class_level where id = #{id} and org_id = #{orgId}
     </delete>
 
 </mapper>

@@ -43,6 +43,10 @@
         }
 
         function validate(classLevel){
+            if(_.isUndefined(classLevel.levelName) || _.isUndefined(classLevel.levelDetail)){
+                SweetAlert.error("请填写必填信息!");
+                return false;
+            }
             return true;
         }
 

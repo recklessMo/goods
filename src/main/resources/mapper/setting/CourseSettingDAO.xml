@@ -4,11 +4,11 @@
 <mapper namespace="com.recklessmo.dao.setting.CourseSettingDAO">
 
     <sql id = "courseColumns">
-        id, course_id, course_name, create_time, detail, type, org_id, deleted
+        id, course_id, course_name, type, org_id, deleted
     </sql>
 
     <sql id = "courseColumnsWithoutId">
-        course_id, course_name, create_time, detail, type, org_id, deleted
+        course_id, course_name, type, org_id, deleted
     </sql>
 
     <insert id="addCourse">
@@ -16,7 +16,7 @@
         (
           <include refid="courseColumnsWithoutId"/>
         )
-        values(#{courseId}, #{courseName},#{createTime}, #{detail}, #{type}, #{orgId}, #{deleted})
+        values(#{courseId}, #{courseName}, #{type}, #{orgId}, #{deleted})
     </insert>
 
     <select id="listCourse" resultType="com.recklessmo.model.setting.Course">

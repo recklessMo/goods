@@ -44,9 +44,9 @@ public class ClassLevelSettingController {
 
     @RequestMapping(value = "/classlevel/delete", method = {RequestMethod.POST})
     @ResponseBody
-    public JsonResponse deleteClassLevel(@RequestBody String name){
+    public JsonResponse deleteClassLevel(@RequestBody long id){
         DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
-        classLevelSettingService.deleteClassLevel(userDetails.getOrgId(), name);
+        classLevelSettingService.deleteClassLevel(userDetails.getOrgId(), id);
         return new JsonResponse(200, null, null);
     }
 

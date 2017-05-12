@@ -9,7 +9,7 @@
 
         $scope.tableParams = {
             page : 1,
-            count: 20
+            count: 200
         };
 
         $scope.activate = function() {
@@ -49,21 +49,6 @@
                 $scope.courseTableParams.reload();
             });
         }
-
-        //$scope.editCourse = function(course){
-        //    var dialog= ngDialog.open({
-        //        template: 'app/views/custom/admin/edu-setting/course/edit-course.html',
-        //        controller: 'EditCourseController',
-        //        className: 'ngdialog-theme-default custom-width-800',
-        //        data : {type: 'edit', course : course}
-        //    });
-        //    dialog.closePromise.then(function(data){
-        //        if(data.value != 'reload'){
-        //            return;
-        //        }
-        //        $scope.courseTableParams.reload();
-        //    });
-        //}
 
         $scope.deleteCourse = function(id){
             SweetAlert.swal({

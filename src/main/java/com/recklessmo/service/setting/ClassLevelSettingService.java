@@ -26,5 +26,5 @@ public class ClassLevelSettingService {
         return classLevelSettingDAO.listClassLevel(page);
     }
 
-    public void deleteClassLevel(long orgId, String name) {classLevelSettingDAO.deleteClassLevel(orgId, name);}
+    public void deleteClassLevel(long orgId, long id) {classLevelSettingDAO.deleteClassLevel(orgId, id);}
 }

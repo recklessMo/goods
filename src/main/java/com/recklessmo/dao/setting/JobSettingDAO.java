@@ -15,5 +15,5 @@ public interface JobSettingDAO {
     void addJob(Job job);
     List<Job> listJob(Page page);
     int listJobCount(Page page);
-    void deleteJob(@Param("id") long id);
+    void deleteJob(@Param("orgId")long orgId, @Param("id") long id);
 }

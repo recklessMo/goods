@@ -13,5 +13,5 @@ import java.util.List;
 public interface ClassLevelSettingDAO {
     void addClassLevel(ClassLevel classLevel);
     List<ClassLevel> listClassLevel(Page page);
-    void deleteClassLevel(@Param("orgId")long orgId, @Param("levelName") String levelName);
+    void deleteClassLevel(@Param("orgId")long orgId, @Param("id") long id);
 }

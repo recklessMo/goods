@@ -8,8 +8,17 @@ import java.util.Date;
 public class Job {
 
     private long jobId;
+    private long orgId;
     private String jobName;
     private String jobDetail;
+
+    public long getJobId() {
+        return jobId;
+    }
+
+    public void setJobId(long jobId) {
+        this.jobId = jobId;
+    }
 
     public String getJobDetail() {
         return jobDetail;
@@ -19,12 +28,12 @@ public class Job {
         this.jobDetail = jobDetail;
     }
 
-    public long getJobId() {
-        return jobId;
+    public long getOrgId() {
+        return orgId;
     }
 
-    public void setJobId(long jobId) {
-        this.jobId = jobId;
+    public void setOrgId(long orgId) {
+        this.orgId = orgId;
     }
 
     public String getJobName() {

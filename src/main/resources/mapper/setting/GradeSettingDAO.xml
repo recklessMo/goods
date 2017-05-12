@@ -4,19 +4,19 @@
 <mapper namespace="com.recklessmo.dao.setting.GradeSettingDAO">
 
     <sql id = "gradeColumns">
-        grade_id, org_id, grade_name, other_name, charger, phone, detail
+        grade_id, org_id, grade_name, other_name, charger, phone
     </sql>
 
     <sql id = "gradeColumnsWithoutId">
-        org_id, grade_name, other_name, charger, phone, detail
+        org_id, grade_name, other_name, charger, phone
     </sql>
 
     <sql id = "classColumns">
-        class_id, org_id, grade_id, class_name, charger, phone, detail, class_type, class_level, course_teacher, schedule_course
+        class_id, org_id, grade_id, class_name, charger, phone, class_type, class_level, course_teacher, schedule_course
     </sql>
 
     <sql id = "classColumnsWithoutId">
-        org_id, grade_id, class_name, charger, phone, detail, class_type, class_level, course_teacher, schedule_course
+        org_id, grade_id, class_name, charger, phone, class_type, class_level, course_teacher, schedule_course
     </sql>
 
     <insert id="addGrade">
@@ -24,7 +24,7 @@
         (
         <include refid="gradeColumnsWithoutId"/>
         )
-        values(#{orgId}, #{gradeName}, #{otherName}, #{charger}, #{phone}, #{detail})
+        values(#{orgId}, #{gradeName}, #{otherName}, #{charger}, #{phone})
     </insert>
 
     <insert id="addClass">
@@ -32,7 +32,7 @@
         (
         <include refid="classColumnsWithoutId"/>
         )
-        values(#{orgId}, #{gradeId}, #{className},#{charger},#{phone},#{detail}, #{classType}, #{classLevel}, #{courseTeacher}, #{scheduleCourse})
+        values(#{orgId}, #{gradeId}, #{className},#{charger},#{phone}, #{classType}, #{classLevel}, #{courseTeacher}, #{scheduleCourse})
     </insert>
 
     <update id="deleteGrade">
@@ -48,7 +48,7 @@
         (
         <include refid="gradeColumns"/>
         )
-        values(#{gradeId}, #{orgId}, #{gradeName}, #{otherName}, #{charger}, #{phone}, #{detail})
+        values(#{gradeId}, #{orgId}, #{gradeName}, #{otherName}, #{charger}, #{phone})
     </update>
 
     <update id="updateClass">
@@ -56,7 +56,7 @@
         (
         <include refid="classColumns"/>
         )
-        values(#{classId}, #{orgId}, #{gradeId}, #{className}, #{charger}, #{phone}, #{detail}, #{classType}, #{classLevel}, #{courseTeacher}, #{scheduleCourse})
+        values(#{classId}, #{orgId}, #{gradeId}, #{className}, #{charger}, #{phone}, #{classType}, #{classLevel}, #{courseTeacher}, #{scheduleCourse})
     </update>
 
     <select id="listGrade" resultType="com.recklessmo.model.setting.Grade">
@@ -96,14 +96,12 @@
         g.other_name as g_other_name,
         g.charger as g_charger,
         g.phone as g_phone,
-        g.detail as g_detail,
         c.class_id as c_class_id,
         c.org_id as c_org_id,
         c.grade_id as c_grade_id,
         c.class_name as c_class_name,
         c.charger as c_charger,
         c.phone as c_phone,
-        c.detail as c_detail,
         c.class_type as c_class_type,
         c.class_level as c_class_level,
         c.course_teacher as c_course_teacher,
@@ -117,7 +115,6 @@
         <result column="g_other_name" property="otherName"/>
         <result column="g_charger" property="charger"/>
         <result column="g_phone" property="phone"/>
-        <result column="g_detail" property="detail"/>
         <collection property="classList" resultMap="classMap"/>
     </resultMap>
 
@@ -128,7 +125,6 @@
         <result column="c_class_name" property="className"/>
         <result column="c_charger" property="charger"/>
         <result column="c_phone" property="phone"/>
-        <result column="c_detail" property="detail"/>
         <result column="c_class_type" property="classType"/>
         <result column="c_class_level" property="classLevel"/>
         <result column="c_course_teacher" property="courseTeacher"/>

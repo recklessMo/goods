@@ -3,9 +3,9 @@
     angular
         .module('custom')
         .controller('EditGradeController', EditGradeController);
-    EditGradeController.$inject = ['$scope', 'SettingService', 'SweetAlert', 'blockUI'];
+    EditGradeController.$inject = ['$scope', 'SettingService', 'SweetAlert', 'blockUI', 'Notify'];
 
-    function EditGradeController($scope, SettingService, SweetAlert, blockUI) {
+    function EditGradeController($scope, SettingService, SweetAlert, blockUI, Notify) {
 
         $scope.yearList = ['2012级', '2013级', '2014级', '2015级', '2016级', '2017级', '2018级', '2019级', '2020级'];
         $scope.otherNameList = ['初一', '初二', '初三', '初四', '高一', '高二', '高三', '高四'];
@@ -36,7 +36,7 @@
                     $scope.loading = false;
                     block.stop();
                     if (data.status == 200) {
-                        SweetAlert.success("添加成功!");
+                        Notify.alert("添加成功!", {status:"success", timeout: 3000});
                         $scope.closeThisDialog('reload');
                     } else {
                         //更新失败的情况
@@ -52,7 +52,7 @@
                     $scope.loading = false;
                     block.stop();
                     if (data.status == 200) {
-                        SweetAlert.success("修改成功!");
+                        Notify.alert("修改成功!", {status:"success", timeout: 3000});
                         $scope.closeThisDialog('reload');
                     } else {
                         //更新失败的情况
@@ -67,6 +67,10 @@
         }
 
         function validate(grade){
+            if(_.isUndefined(grade.gradeName) || _.isUndefined(grade.otherName) || _.isUndefined(grade.charger)){
+                SweetAlert.error("请填写必填信息!");
+                return false;
+            }
             return true;
         }
 

@@ -5,9 +5,18 @@ package com.recklessmo.model.setting;
  */
 public class ClassLevel {
 
+    private long id;
     private long orgId;
     private String levelName;
     private String levelDetail;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public long getOrgId() {
         return orgId;

@@ -20,8 +20,7 @@ public class Group {
     private String classType;
     private String classLevel;
     private String charger;
-    private String phone;
-    private String detail;
+    private String phone = "";
 
     private Map<String, CourseTeacher> courseTeacherMap = new LinkedHashMap<>();
     private Map<String, ScheduleCourse> scheduleCourseMap = new LinkedHashMap<>();
@@ -105,15 +104,6 @@ public class Group {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-
-    public String getDetail() {
-        return detail;
-    }
-
-    public void setDetail(String detail) {
-        this.detail = detail;
-    }
-
 
     public Map<String, CourseTeacher> getCourseTeacherMap() {
         return courseTeacherMap;
