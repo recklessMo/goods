@@ -3,7 +3,6 @@ package com.recklessmo.web.oplog;
 import com.recklessmo.model.graduate.Graduate;
 import com.recklessmo.model.oplog.OpLog;
 import com.recklessmo.model.security.DefaultUserDetails;
-import com.recklessmo.model.student.StudentAllInfo;
 import com.recklessmo.response.JsonResponse;
 import com.recklessmo.service.graduate.GraduateService;
 import com.recklessmo.service.oplog.OpLogService;

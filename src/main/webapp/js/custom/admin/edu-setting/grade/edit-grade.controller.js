@@ -7,6 +7,9 @@
 
     function EditGradeController($scope, SettingService, SweetAlert, blockUI) {
 
+        $scope.yearList = ['2012级', '2013级', '2014级', '2015级', '2016级', '2017级', '2018级', '2019级', '2020级'];
+        $scope.otherNameList = ['初一', '初二', '初三', '初四', '高一', '高二', '高三', '高四'];
+
         var block = blockUI.instances.get("edit-grade");
 
         $scope.grade = _.clone($scope.ngDialogData.grade);

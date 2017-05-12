@@ -11,7 +11,6 @@ import com.recklessmo.service.score.ScoreTemplateService;
 import com.recklessmo.util.ContextUtils;
 import com.recklessmo.web.webmodel.page.Page;
 import com.recklessmo.web.webmodel.page.ScoreListPage;
-import com.sun.xml.internal.ws.api.streaming.XMLStreamReaderFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 

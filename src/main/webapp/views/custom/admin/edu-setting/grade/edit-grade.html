@@ -25,34 +25,49 @@
         <div class="row" style="margin-top: 30px;">
             <div class="col-md-6">
                 <div class="input-group">
-                    <span class="input-group-addon" style="color:red">年级名称</span>
-                    <input ng-class="!user.userName?'field-dirty' : ''" type="text" class="form-control" ng-model="grade.gradeName"/>
+                    <span class="input-group-addon" style="color:red">入学年份</span>
+                    <ui-select ng-model="grade.gradeName" theme="bootstrap"
+                               class="text-left" style="width:100%;">
+                        <ui-select-match placeholder="选择入学年份">{{$select.selected}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="year in yearList">
+                            <span ng-bind-html="year"></span>
+                        </ui-select-choices>
+                    </ui-select>
                 </div>
             </div>
 
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-addon" style="color:red">年级名称</span>
+                    <ui-select ng-model="grade.otherName" theme="bootstrap"
+                               class="text-left" style="width:100%;">
+                        <ui-select-match placeholder="选择年级名称">{{$select.selected}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="otherName in otherNameList">
+                            <span ng-bind-html="otherName"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 30px;">
             <div class="col-md-6">
                 <div class="input-group">
                     <span class="input-group-addon" style="color:red">年级主任</span>
                     <input ng-class="!user.pwd?'field-dirty' : ''" type="text" class="form-control" ng-model="grade.charger">
                 </div>
             </div>
-        </div>
 
-        <div class="row" style="margin-top: 20px;">
             <div class="col-md-6">
                 <div class="input-group">
                     <span class="input-group-addon">主任电话</span>
                     <input ng-class="!user.name?'field-dirty' : ''" type="text" class="form-control" ng-model="grade.phone">
                 </div>
             </div>
-
-            <div class="col-md-6">
-                <div class="input-group">
-                    <span class="input-group-addon">备注</span>
-                    <input ng-class="!user.name?'field-dirty' : ''" type="text" class="form-control" ng-model="grade.detail">
-                </div>
-            </div>
         </div>
+
     </fieldset>
 
 
