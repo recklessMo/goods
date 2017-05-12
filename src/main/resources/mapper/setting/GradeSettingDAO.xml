@@ -4,11 +4,11 @@
 <mapper namespace="com.recklessmo.dao.setting.GradeSettingDAO">
 
     <sql id = "gradeColumns">
-        grade_id, org_id, grade_name, charger, phone, detail
+        grade_id, org_id, grade_name, other_name, charger, phone, detail
     </sql>
 
     <sql id = "gradeColumnsWithoutId">
-        org_id, grade_name, charger, phone, detail
+        org_id, grade_name, other_name, charger, phone, detail
     </sql>
 
     <sql id = "classColumns">
@@ -24,7 +24,7 @@
         (
         <include refid="gradeColumnsWithoutId"/>
         )
-        values(#{orgId}, #{gradeName},#{charger}, #{phone}, #{detail})
+        values(#{orgId}, #{gradeName}, #{otherName}, #{charger}, #{phone}, #{detail})
     </insert>
 
     <insert id="addClass">
@@ -48,7 +48,7 @@
         (
         <include refid="gradeColumns"/>
         )
-        values(#{gradeId}, #{orgId}, #{gradeName},#{charger}, #{phone}, #{detail})
+        values(#{gradeId}, #{orgId}, #{gradeName}, #{otherName}, #{charger}, #{phone}, #{detail})
     </update>
 
     <update id="updateClass">
@@ -93,6 +93,7 @@
         g.grade_id as g_grade_id,
         g.org_id as g_org_id,
         g.grade_name as g_grade_name,
+        g.other_name as g_other_name,
         g.charger as g_charger,
         g.phone as g_phone,
         g.detail as g_detail,
@@ -113,6 +114,7 @@
         <result column="g_grade_id" property="gradeId"/>
         <result column="g_org_id" property="orgId"/>
         <result column="g_grade_name" property="gradeName"/>
+        <result column="g_other_name" property="otherName"/>
         <result column="g_charger" property="charger"/>
         <result column="g_phone" property="phone"/>
         <result column="g_detail" property="detail"/>
