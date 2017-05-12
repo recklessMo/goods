@@ -27,6 +27,7 @@ import com.recklessmo.model.setting.Group;
 import com.recklessmo.model.student.StudentInfo;
 import com.recklessmo.service.setting.CourseSettingService;
 import com.recklessmo.service.student.StudentService;
+import com.recklessmo.web.webmodel.model.TrendModel;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.*;
@@ -586,6 +587,33 @@ public class ScoreAnalyseService {
         return scoreAbsenseList;
     }
 
+
+    /**
+     *
+     * 分析个人成绩趋势
+     *
+     * @param showType
+     * @param examType
+     * @param scoreList
+     * @return
+     */
+    public Object analyseTrend(List<String> examTypeList, String showType, List<Score> tempScoreList){
+        //过滤出需要处理的scorelist
+        Set<String> examTypeSet = new HashSet<>(examTypeList);
+        List<Score> scoreList = new LinkedList<>();
+        tempScoreList.stream().forEach(item -> {
+            if(examTypeSet.contains(item.getExamType())){
+                scoreList.add(item);
+            }
+        });
+        //开始进行分析
+        if(showType.equals("表格")){
+
+
+        }
+
+        return null;
+    }
 
     public static void main(String[] args) {
         Integer a = new Integer(1000);

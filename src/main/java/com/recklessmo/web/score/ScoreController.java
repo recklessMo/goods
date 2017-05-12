@@ -34,7 +34,7 @@ public class ScoreController {
     private ScoreService scoreService;
 
     /**
-     * 查询成绩单
+     * 查询成绩单 done
      *
      * @param
      * @return

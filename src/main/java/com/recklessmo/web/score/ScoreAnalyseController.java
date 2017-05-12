@@ -8,6 +8,7 @@ import com.recklessmo.service.score.ScoreAnalyseService;
 import com.recklessmo.service.score.ScoreService;
 import com.recklessmo.util.ContextUtils;
 import com.recklessmo.web.webmodel.model.SelfModel;
+import com.recklessmo.web.webmodel.model.TrendModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,7 +54,7 @@ public class ScoreAnalyseController {
 
     /**
      *
-     * 分数段分析的结果, 可以通过更改不同的分数段进行分析
+     * 分数段分析的结果, 可以通过更改不同的分数段进行分析 done
      *
      * @param examId 考试Id
      * @param templateId
@@ -72,7 +73,7 @@ public class ScoreAnalyseController {
 
     /**
      *
-     * 分析排名
+     * 分析排名 done
      *
      * @param examId
      * @param templateId
@@ -124,7 +125,7 @@ public class ScoreAnalyseController {
 
     /**
      *
-     * 分析两场考试的排名变化
+     * 分析两场考试的排名变化 done
      *
      * @param examIdList
      * @return
@@ -145,7 +146,7 @@ public class ScoreAnalyseController {
 
     /**
      *
-     * 分析两场考试的排名变化
+     * 分析缺考 done
      *
      * @param examIdList
      * @return
@@ -160,6 +161,23 @@ public class ScoreAnalyseController {
     }
 
 
+    /**
+     *
+     * 分析个人成绩趋势
+     *
+     * @param sid
+     * @param showType
+     * @param examType
+     * @return
+     */
+    @RequestMapping(value = "/trend", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public JsonResponse analyzeTrend(@RequestBody TrendModel trendModel){
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
+        List<Score> scoreList = scoreService.getScoreListBySid(userDetails.getOrgId(), trendModel.getSid());
+
+        return new JsonResponse(200, null, null);
+    }
 
 
 }

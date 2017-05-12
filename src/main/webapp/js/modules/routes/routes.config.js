@@ -88,6 +88,11 @@
                 title: '成绩单',
                 templateUrl: helper.basepath('custom/performance/score/result-list.html')
             })
+            .state('app.result-trend', {
+                url: '/result-trend',
+                title: '成绩趋势分析',
+                templateUrl: helper.basepath('custom/performance/score/result-trend.html')
+            })
             .state('app.result-self', {
                 url: '/result-self',
                 title: '个人综合',
