@@ -56,7 +56,7 @@
     <div style="margin-top: 10px;">
         <table ng-table="examTableParams" class="table table-bordered table-hover table-condensed editable-table table-min">
             <tr ng-repeat="item in $data" ng-dblclick="show(item.id)">
-                <td data-title="'考试ID'" style="text-align: center;">{{item.examId}}</td>
+                <!--<td data-title="'考试ID'" style="text-align: center;">{{item.examId}}</td>-->
                 <td data-title="'名称'" style="text-align: center">{{item.examName}}</td>
                 <td data-title="'考试时间'" style="text-align: center">{{item.examTime | date:'yyyy-MM-dd'}}</td>
                 <td data-title="'所属年级'" style="text-align: center">{{item.gradeName}}</td>
