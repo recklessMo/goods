@@ -98,7 +98,6 @@ public class FileUploadController {
             preProcessData(examId, userDetails.getOrgId(), data);
             scoreService.removeScoreList(userDetails.getOrgId(), examId);
             scoreService.insertScoreList(data);
-            //更新上传状态
             examService.updateExamStatus(examId, Exam.EXAM_UPLOADED);
             return new JsonResponse(200, null, null);
         }
@@ -147,7 +146,7 @@ public class FileUploadController {
         for (int j = 0; j < labelList.size(); j++) {
             String label = labelList.get(j);
             Cell cell = row.getCell(j, Row.RETURN_BLANK_AS_NULL);
-            if ("姓名".equals(label)) {
+            if ("姓名".equals(label) || "年级".equals(label) || "班级".equals(label)) {
             } else if ("学号".equals(label)) {
                 if (cell != null) {
                     String value = dataFormatter.formatCellValue(cell);
@@ -259,7 +258,7 @@ public class FileUploadController {
                             studentInfo.setGender("男".equals(value) ? 0 : 1);
                             break;
                         case 9:
-                            studentInfo.setBirth(sdf.parse(value));
+                            studentInfo.setBirth(value);
                             break;
                         case 10:
                             studentInfo.setBirthTown(value);

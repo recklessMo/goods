@@ -21,6 +21,7 @@ public class IndexController {
         DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
         model.addAttribute("current", userDetails.getId());
         model.addAttribute("orgId", userDetails.getOrgId());
+        model.addAttribute("orgName", "大庆市铁人学校");
         return "index";
     }
 

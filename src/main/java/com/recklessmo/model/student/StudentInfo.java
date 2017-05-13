@@ -23,7 +23,7 @@ public class StudentInfo {
     private String phone="";
     private String scn="";
     private int gender;
-    private Date birth = new Date();
+    private String birth = "";
     private String homeTown = "";
     private String people = "";
     private String birthTown = "";
@@ -35,10 +35,19 @@ public class StudentInfo {
 //    private String relations;
     private long gradeId;
     private String gradeName = "";
+    private String gradeOtherName = "";
     private long classId;
     private String className = "";
     private String job = "";
     private String wechatId="";
+
+    public String getGradeOtherName() {
+        return gradeOtherName;
+    }
+
+    public void setGradeOtherName(String gradeOtherName) {
+        this.gradeOtherName = gradeOtherName;
+    }
 
     public long getId() {
         return id;
@@ -152,11 +161,11 @@ public class StudentInfo {
         this.gender = gender;
     }
 
-    public Date getBirth() {
+    public String getBirth() {
         return birth;
     }
 
-    public void setBirth(Date birth) {
+    public void setBirth(String birth) {
         this.birth = birth;
     }
 

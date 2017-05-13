@@ -3,6 +3,7 @@ package com.recklessmo.service.student;
 import com.recklessmo.dao.score.ScoreDAO;
 import com.recklessmo.dao.student.StudentDAO;
 import com.recklessmo.model.setting.Grade;
+import com.recklessmo.model.setting.Group;
 import com.recklessmo.model.student.StudentInfo;
 import com.recklessmo.service.setting.GradeSettingService;
 import com.recklessmo.web.webmodel.page.StudentPage;
@@ -138,7 +139,9 @@ public class StudentService {
      * @return
      */
     public List<StudentInfo> getStudentListByGradeIdAndClassId(long orgId, long gradeId, long classId){
-        return studentDAO.getStudentListByGradeIdAndClassId(orgId, gradeId, classId);
+        List<StudentInfo> studentInfoList = studentDAO.getStudentListByGradeIdAndClassId(orgId, gradeId, classId);
+        compose(studentInfoList, orgId);
+        return studentInfoList;
     }
 
 
@@ -167,18 +170,25 @@ public class StudentService {
 
     private void compose(List<StudentInfo> studentInfoList, long orgId){
         List<Grade> gradeList = gradeSettingService.listAllGrade(orgId);
-        Map<Long, String> gradeMap = new HashMap<>();
-        Map<Long, String> classMap = new HashMap<>();
+        Map<Long, Grade> gradeMap = new HashMap<>();
+        Map<Long, Group> classMap = new HashMap<>();
         gradeList.stream().forEach(grade-> {
-            gradeMap.put(grade.getGradeId(), grade.getGradeName());
+            gradeMap.put(grade.getGradeId(), grade);
             grade.getClassList().stream().forEach(group -> {
-                classMap.put(group.getClassId(), group.getClassName());
+                classMap.put(group.getClassId(), group);
             });
         });
 
         studentInfoList.stream().forEach(studentGradeInfo -> {
-            studentGradeInfo.setGradeName(gradeMap.get(studentGradeInfo.getGradeId()));
-            studentGradeInfo.setClassName(classMap.get(studentGradeInfo.getClassId()));
+            Grade grade = gradeMap.get(studentGradeInfo.getGradeId());
+            if(grade != null) {
+                studentGradeInfo.setGradeName(grade.getGradeName());
+                studentGradeInfo.setGradeOtherName(grade.getOtherName());
+            }
+            Group group = classMap.get(studentGradeInfo.getClassId());
+            if(group != null) {
+                studentGradeInfo.setClassName(group.getClassName());
+            }
         });
     }
 

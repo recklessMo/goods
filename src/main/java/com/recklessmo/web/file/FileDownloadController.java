@@ -78,19 +78,19 @@ public class FileDownloadController {
         Map<String, Object> beans = new HashMap<>();
         beans.put("columns", exam.getCourseNameList());
         //根据考试选定的年级范围, 来将学生的学号姓名等自动导出
-//        List<StudentExcelModel> dataList = new LinkedList<>();
-//        List<StudentAllInfo> studentAllInfoList = studentService.getStudentListByGradeIdAndClassId(exam.getGradeId(), exam.getClassId());
-//        Grade grade = gradeSettingService.getSingleGrade(exam.getGradeId());
-//        Map<Long, String> classNameMap = grade.getClassList().stream().collect(Collectors.toMap(Group::getClassId, group -> group.getClassName()));
-//        studentAllInfoList.stream().forEach(student -> {
-//            StudentExcelModel studentExcelModel = new StudentExcelModel();
-//            studentExcelModel.setGradeName(grade.getGradeName());
-//            studentExcelModel.setClassName(classNameMap.get(student.getClassId()));
-//            studentExcelModel.setName(student.getName());
-//            studentExcelModel.setSid(student.getSid());
-//            dataList.add(studentExcelModel);
-//        });
-//        beans.put("dataList", dataList);
+        List<StudentInfo> studentInfoList = studentService.getStudentListByGradeIdAndClassId(userDetails.getOrgId(), exam.getGradeId(), exam.getClassId());
+        studentInfoList.sort((a, b)->{
+            int gradeResult = a.getGradeName().compareTo(b.getGradeName());
+            if(gradeResult == 0){
+                int classResult = a.getClassName().compareTo(b.getClassName());
+                if(classResult == 0){
+                    return a.getSid().compareTo(b.getSid());
+                }
+                return classResult;
+            }
+            return gradeResult;
+        });
+        beans.put("dataList", studentInfoList);
         returnFile(beans, response, "成绩导入", "score_import",  ".xlsx");
     }
 

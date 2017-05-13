@@ -106,7 +106,7 @@
         select
         <include refid="studentColumns"/>
         from student
-        where org_id = #{orgId} and gradeId = #{gradeId}
+        where org_id = #{orgId} and grade_id = #{gradeId}
         <if test="classId != 0">
             and class_id = #{classId}
         </if>
