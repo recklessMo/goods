@@ -34,7 +34,7 @@ public class Exam {
     //代表考试成绩的上传状态
     private int uploadStatus;
     //考试时间
-    private Date examTime;
+    private String examTime;
     //学科列表
     private List<Long> courseList = new LinkedList<>();
     private List<String> courseNameList = new LinkedList<>();
@@ -68,11 +68,11 @@ public class Exam {
         this.courseList = courseList;
     }
 
-    public Date getExamTime() {
+    public String getExamTime() {
         return examTime;
     }
 
-    public void setExamTime(Date examTime) {
+    public void setExamTime(String examTime) {
         this.examTime = examTime;
     }
 

@@ -160,7 +160,6 @@ public class ScoreService {
             score.setClassType(group.getClassType());
             score.setName(stuMap.get(score.getSid()).getName());
             score.setExamName(examMap.get(score.getExamId()).getExamName());
-            score.setCreated(examMap.get(score.getExamId()).getExamTime());
             score.setExamType(examMap.get(score.getExamId()).getExamType());
         });
     }

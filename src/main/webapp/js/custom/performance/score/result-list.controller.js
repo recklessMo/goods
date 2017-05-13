@@ -45,18 +45,30 @@
 
 
         /**业务逻辑**/
-        $scope.scoreParams = {examId: 1};
+        $scope.obj = {classId: 0};
         $scope.scoreList = [];
         $scope.labelList = [];
+        $scope.classList = [];
 
-        $scope.search = function(examId){
+        $scope.search = function(exam){
             blockUI.start();
-            $scope.scoreParams.examId = examId;
-            ScoreService.loadScoreList($scope.scoreParams).success(function (data) {
+            $scope.obj.examId = exam.examId;
+            $scope.obj.examName = exam.examName;
+            ScoreService.loadScoreList({examId: exam.examId}).success(function (data) {
                 blockUI.stop();
                 if (data.status == 200) {
                     $scope.labelList = data.data.labelList;
                     $scope.scoreList = data.data.dataList;
+                    var hash = {};
+                    var tempList = [];
+                    _.forEach($scope.scoreList, function(item){
+                        if(!hash[item.classid]){
+                            hash[item.classid] = true;
+                            tempList.push({classId: item.classid, className: item.classname});
+                        }
+                    });
+                    $scope.classList = _.sortBy(tempList, ['className']);
+                    $scope.classList.unshift({classId:0, className:"全部"});
                     $scope.showTables();
                 } else {
                     SweetAlert.error("发生了错误! 请刷新页面!");
@@ -75,6 +87,10 @@
                     dataset: $scope.scoreList
                 }
             );
+        }
+
+        $scope.export = function(examId, classId){
+            window.open("/common/file/score/export?examId=" + examId + "&classId=" + classId);
         }
 
     }

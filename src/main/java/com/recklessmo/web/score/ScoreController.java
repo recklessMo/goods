@@ -57,6 +57,7 @@ public class ScoreController {
             dataMap.put("type", item.getClassType());
             dataMap.put("level", item.getClassLevel());
             dataMap.put("classname", item.getClassName());
+            dataMap.put("classid", item.getClassId());
             dataMap.put("name", item.getName());
             if(pos == 0) {
                 nameMap.put("type", "类型");//文科理科全科

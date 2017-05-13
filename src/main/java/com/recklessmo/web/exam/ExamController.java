@@ -53,7 +53,6 @@ public class ExamController {
             //新加
             exam.setOrgId(defaultUserDetails.getOrgId());
             exam.setUploadStatus(Exam.EXAM_UN_UPLOADED);
-            exam.setExamTime(new Date());
             examService.addExam(exam);
         }
         return new JsonResponse(200, null, null);
