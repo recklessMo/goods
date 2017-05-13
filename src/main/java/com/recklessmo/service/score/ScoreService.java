@@ -194,7 +194,7 @@ public class ScoreService {
         scoreList.sort((a, b) -> {
             CourseScore acs = a.getCourseScoreList().get(a.getCourseScoreList().size() - 1);
             CourseScore bcs = b.getCourseScoreList().get(b.getCourseScoreList().size() - 1);
-            return acs.getScore() >= bcs.getScore() ? (acs.getScore() == bcs.getScore() ? 0 : -1) : 1;
+            return Double.compare(acs.getScore(), bcs.getScore());
         });
 
         //计算名次
@@ -207,11 +207,17 @@ public class ScoreService {
                 courseScores.sort((o1, o2) -> {return o1.getScore() >= o2.getScore() ? (o1.getScore() == o2.getScore() ? 0 : -1) : 1;});
                 for(int j = 0; j < courseScores.size(); j++){
                     courseScores.get(j).setClassRank(j + 1);
+                    if(j > 0 && Double.compare(courseScores.get(j).getScore(), courseScores.get(j - 1).getScore()) == 0){
+                        courseScores.get(j).setClassRank(courseScores.get(j - 1).getClassRank());
+                    }
                 }
             });
             totalList.sort((o1, o2) -> {return o1.getScore() >= o2.getScore() ? (o1.getScore() == o2.getScore() ? 0 : -1) : 1;});
             for(int i = 0; i < totalList.size(); i++){
                 totalList.get(i).setRank(i + 1);
+                if(i > 0 && Double.compare(totalList.get(i).getScore(), totalList.get(i - 1).getScore()) == 0){
+                    totalList.get(i).setRank(totalList.get(i - 1).getRank());
+                }
             }
         });
     }
