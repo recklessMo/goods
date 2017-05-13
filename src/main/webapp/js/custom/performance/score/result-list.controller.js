@@ -90,6 +90,10 @@
         }
 
         $scope.export = function(examId, classId){
+            if(_.isUndefined(classId) || _.isUndefined(examId)){
+                SweetAlert.error("请先选择考试!");
+                return;
+            }
             window.open("/common/file/score/export?examId=" + examId + "&classId=" + classId);
         }
 

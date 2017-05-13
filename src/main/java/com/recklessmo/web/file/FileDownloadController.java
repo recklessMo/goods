@@ -3,6 +3,7 @@ package com.recklessmo.web.file;
 import com.google.common.collect.Maps;
 import com.recklessmo.model.exam.Exam;
 import com.recklessmo.model.excel.StudentExcelModel;
+import com.recklessmo.model.score.CourseScore;
 import com.recklessmo.model.score.Score;
 import com.recklessmo.model.score.result.self.ScoreSelf;
 import com.recklessmo.model.security.DefaultUserDetails;
@@ -116,8 +117,8 @@ public class FileDownloadController {
         Exam exam = examService.getExamById(examId);
         //表头
         List<String> labelList = new LinkedList<>();
-        labelList.add("类型");
-        labelList.add("类别");
+        labelList.add("班级类型");
+        labelList.add("班级类别");
         labelList.add("年级");
         labelList.add("班级");
         labelList.add("学号");
@@ -135,7 +136,11 @@ public class FileDownloadController {
         ScoreListPage scoreListPage = new ScoreListPage();
         scoreListPage.setOrgId(userDetails.getOrgId());
         scoreListPage.setExamId(examId);
-        List<Score> scoreList = scoreService.loadScoreList(scoreListPage);
+        List<Score> tempList = scoreService.loadScoreList(scoreListPage);
+        List<Score> scoreList = tempList;
+        if(classId != 0){
+            scoreList = tempList.stream().filter(o->o.getClassId() == classId).collect(Collectors.toList());
+        }
         scoreList.stream().forEach(score -> {
             List<String> temp = new LinkedList<>();
             temp.add(score.getClassType());
@@ -144,9 +149,10 @@ public class FileDownloadController {
             temp.add(score.getClassName());
             temp.add(score.getSid());
             temp.add(score.getName());
+            CourseScore totalCourseScore = score.getCourseScoreList().get(score.getCourseScoreList().size() - 1);
             score.getCourseScoreList().stream().forEach(courseScore -> {
                 temp.add(String.valueOf(courseScore.getScore()));
-                temp.add(String.valueOf(courseScore.getRank()));
+                temp.add(String.valueOf(courseScore.getRank()) + (courseScore.getRank() > totalCourseScore.getRank() ? "*" : ""));
                 temp.add(String.valueOf(courseScore.getClassRank()));
             });
             dataList.add(temp);
