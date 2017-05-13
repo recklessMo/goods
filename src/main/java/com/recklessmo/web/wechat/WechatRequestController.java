@@ -201,7 +201,6 @@ public class WechatRequestController {
         response.addHeader("Access-Control-Allow-Origin", "*");
         ScoreListPage scoreListPage = new ScoreListPage();
         scoreListPage.setExamId(eid);
-        scoreListPage.setClassId(studentInfo.getClassId());
         scoreListPage.setPage(1);
         scoreListPage.setCount(1000);
 //        List<Score> scores = scoreService.loadScoreList(scoreListPage);

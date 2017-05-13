@@ -171,27 +171,47 @@ public class ScoreService {
      * @param scoreList
      */
     private void computeRank(List<Score> scoreList){
-        Map<String, List<CourseScore>> resultMap = new HashMap<>();
+        Map<String, Map<Long, List<CourseScore>>> resultMap = new HashMap<>();
+        //整理数据
         scoreList.stream().forEach(score -> {
             List<CourseScore> courseScoreList = score.getCourseScoreList();
-            double total = score.getCourseScoreList().stream().mapToDouble(O->O.getScore()).sum();
+            double total = score.getCourseScoreList().stream().mapToDouble(o->o.getScore()).sum();
             CourseScore totalScore = new CourseScore();
             totalScore.setCourseId(0);
             totalScore.setScore(total);
             totalScore.setCourseName("总分");
             courseScoreList.add(totalScore);
-
             courseScoreList.stream().forEach(courseScore -> {
-                List<CourseScore> valueList = resultMap.getOrDefault(courseScore.getCourseName(), new LinkedList<>());
-                valueList.add(courseScore);
-                resultMap.put(courseScore.getCourseName(), valueList);
+                Map<Long, List<CourseScore>> valueListMap = resultMap.getOrDefault(courseScore.getCourseName(), new HashMap<>());
+                resultMap.put(courseScore.getCourseName(), valueListMap);
+                List<CourseScore> classCourseList = valueListMap.getOrDefault(score.getClassId(), new LinkedList<>());
+                valueListMap.put(score.getClassId(), classCourseList);
+                classCourseList.add(courseScore);
             });
         });
 
-        resultMap.values().stream().forEach(courseScores -> {
-            courseScores.sort((o1, o2) -> {return o1.getScore() >= o2.getScore() ? (o1.getScore() == o2.getScore() ? 0 : -1) : 1;});
-            for(int i = 0; i < courseScores.size(); i++){
-                courseScores.get(i).setRank(i + 1);
+        //进行排序
+        scoreList.sort((a, b) -> {
+            CourseScore acs = a.getCourseScoreList().get(a.getCourseScoreList().size() - 1);
+            CourseScore bcs = b.getCourseScoreList().get(b.getCourseScoreList().size() - 1);
+            return acs.getScore() >= bcs.getScore() ? (acs.getScore() == bcs.getScore() ? 0 : -1) : 1;
+        });
+
+        //计算名次
+        resultMap.values().stream().forEach(courseScoreMap -> {
+            //计算总名次
+            List<CourseScore> totalList = new LinkedList<>();
+            courseScoreMap.values().stream().forEach(courseScores -> {
+                totalList.addAll(courseScores);
+                //计算单科名次
+                courseScores.sort((o1, o2) -> {return o1.getScore() >= o2.getScore() ? (o1.getScore() == o2.getScore() ? 0 : -1) : 1;});
+                for(int j = 0; j < courseScores.size(); j++){
+                    courseScores.get(j).setClassRank(j + 1);
+                }
+            });
+            totalList.sort((o1, o2) -> {return o1.getScore() >= o2.getScore() ? (o1.getScore() == o2.getScore() ? 0 : -1) : 1;});
+            for(int i = 0; i < totalList.size(); i++){
+                totalList.get(i).setRank(i + 1);
             }
         });
     }

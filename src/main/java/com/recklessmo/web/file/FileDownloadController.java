@@ -3,6 +3,8 @@ package com.recklessmo.web.file;
 import com.google.common.collect.Maps;
 import com.recklessmo.model.exam.Exam;
 import com.recklessmo.model.excel.StudentExcelModel;
+import com.recklessmo.model.score.Score;
+import com.recklessmo.model.score.result.self.ScoreSelf;
 import com.recklessmo.model.security.DefaultUserDetails;
 import com.recklessmo.model.setting.Course;
 import com.recklessmo.model.setting.Grade;
@@ -10,12 +12,14 @@ import com.recklessmo.model.setting.Group;
 import com.recklessmo.model.student.StudentInfo;
 import com.recklessmo.model.system.Org;
 import com.recklessmo.service.exam.ExamService;
+import com.recklessmo.service.score.ScoreService;
 import com.recklessmo.service.setting.CourseSettingService;
 import com.recklessmo.service.setting.GradeSettingService;
 import com.recklessmo.service.student.StudentService;
 import com.recklessmo.util.ContextUtils;
 import com.recklessmo.util.excel.ExcelUtils;
 import com.recklessmo.web.webmodel.page.Page;
+import com.recklessmo.web.webmodel.page.ScoreListPage;
 import com.recklessmo.web.webmodel.page.StudentPage;
 import net.sf.jett.transform.ExcelTransformer;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -63,6 +67,10 @@ public class FileDownloadController {
     @Resource
     private GradeSettingService gradeSettingService;
 
+    @Resource
+    private ScoreService scoreService;
+
+
     /**
      *
      * 下载成绩录入模板
@@ -92,6 +100,61 @@ public class FileDownloadController {
         });
         beans.put("dataList", studentInfoList);
         returnFile(beans, response, "成绩导入", "score_import",  ".xlsx");
+    }
+
+    /**
+     *
+     * 导出成绩单
+     *
+     * @param response
+     * @throws Exception
+     */
+    @RequestMapping(value = "/score/export", method = {RequestMethod.POST, RequestMethod.GET})
+    public void scoreExport(@RequestParam("examId")long examId, @RequestParam("classId")long classId, HttpServletResponse response) throws Exception {
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
+        //根据考试所选定的科目来进行模板表格
+        Exam exam = examService.getExamById(examId);
+        //表头
+        List<String> labelList = new LinkedList<>();
+        labelList.add("类型");
+        labelList.add("类别");
+        labelList.add("年级");
+        labelList.add("班级");
+        labelList.add("学号");
+        labelList.add("姓名");
+        exam.getCourseNameList().stream().forEach(courseName -> {
+            labelList.add(courseName);
+            labelList.add("年级排名");
+            labelList.add("班级排名");
+        });
+        labelList.add("总分");
+        labelList.add("年级排名");
+        labelList.add("班级排名");
+        //数据
+        List<List<String>> dataList = new LinkedList<>();
+        ScoreListPage scoreListPage = new ScoreListPage();
+        scoreListPage.setOrgId(userDetails.getOrgId());
+        scoreListPage.setExamId(examId);
+        List<Score> scoreList = scoreService.loadScoreList(scoreListPage);
+        scoreList.stream().forEach(score -> {
+            List<String> temp = new LinkedList<>();
+            temp.add(score.getClassType());
+            temp.add(score.getClassLevel());
+            temp.add(score.getGradeName());
+            temp.add(score.getClassName());
+            temp.add(score.getSid());
+            temp.add(score.getName());
+            score.getCourseScoreList().stream().forEach(courseScore -> {
+                temp.add(String.valueOf(courseScore.getScore()));
+                temp.add(String.valueOf(courseScore.getRank()));
+                temp.add(String.valueOf(courseScore.getClassRank()));
+            });
+            dataList.add(temp);
+        });
+        Map<String, Object> beans = new HashMap<>();
+        beans.put("labelList", labelList);
+        beans.put("dataList", dataList);
+        returnFile(beans, response, "成绩单导出", "score_export", ".xlsx");
     }
 
     /**

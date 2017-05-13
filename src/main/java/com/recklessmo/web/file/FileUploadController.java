@@ -4,6 +4,7 @@ import com.recklessmo.model.exam.Exam;
 import com.recklessmo.model.score.CourseScore;
 import com.recklessmo.model.score.Score;
 import com.recklessmo.model.security.DefaultUserDetails;
+import com.recklessmo.model.setting.Course;
 import com.recklessmo.model.setting.Grade;
 import com.recklessmo.model.setting.Group;
 import com.recklessmo.model.student.StudentInfo;
@@ -70,6 +71,7 @@ public class FileUploadController {
         List<String> labelList = null;
         StringBuilder errMsg = new StringBuilder();
         //获取courseMap
+        Map<String, Long> courseNameToIdMap = getCourseNameToIdMap();
         int totalSheets = workbook.getNumberOfSheets();
         if (totalSheets != 0) {
             Sheet sheet = workbook.getSheetAt(0);
@@ -83,7 +85,7 @@ public class FileUploadController {
                         throw new Exception("表头不正确");
                     }
                 }
-                Score score = processRow(examId, labelList, row, errMsg);
+                Score score = processRow(courseNameToIdMap, examId, labelList, row, errMsg);
                 data.add(score);
             }
         } else {
@@ -139,7 +141,7 @@ public class FileUploadController {
         return true;
     }
 
-    private Score processRow(long examId, List<String> labelList, Row row, StringBuilder sb) throws Exception {
+    private Score processRow(Map<String, Long> courseMap, long examId, List<String> labelList, Row row, StringBuilder sb) throws Exception {
         Score score = new Score();
         score.setExamId(examId);
         DataFormatter dataFormatter = new DataFormatter();
@@ -162,6 +164,7 @@ public class FileUploadController {
             } else {
                 CourseScore courseScore = new CourseScore();
                 courseScore.setCourseName(label);
+                courseScore.setCourseId(courseMap.get(label));
                 if (cell != null) {
                     String value = dataFormatter.formatCellValue(cell);
                     //处理值;都转换成string之后进行具体解析
@@ -316,6 +319,12 @@ public class FileUploadController {
             }
         }
         return res;
+    }
+
+    private Map<String, Long> getCourseNameToIdMap(){
+        List<Course> courseList = courseSettingService.getStandardCourseList();
+        Map<String, Long> result = courseList.stream().collect(Collectors.toMap(Course::getCourseName, course -> course.getCourseId()));
+        return result;
     }
 
 }

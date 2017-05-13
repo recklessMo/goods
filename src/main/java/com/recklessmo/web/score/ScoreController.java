@@ -65,16 +65,20 @@ public class ScoreController {
                 labelList.add("classname");
                 labelList.add("name");
             }
+            CourseScore totalCourseScore = item.getCourseScoreList().get(item.getCourseScoreList().size() - 1);
             for (int i = 0; i < item.getCourseScoreList().size(); i++) {
                 CourseScore courseScore = item.getCourseScoreList().get(i);
                 String temp = "course" + i;
                 dataMap.put(temp, courseScore.getScore());
-                dataMap.put(temp + "rank", courseScore.getRank());
+                dataMap.put(temp + "gradeRank", courseScore.getRank());
+                dataMap.put(temp + "classRank", courseScore.getClassRank());
                 if(pos == 0) {
                     nameMap.put(temp, courseScore.getCourseName());
-                    nameMap.put(temp + "rank", "排名");
+                    nameMap.put(temp + "gradeRank", "年级排名");
+                    nameMap.put(temp + "classRank", "班级排名");
                     labelList.add(temp);
-                    labelList.add(temp + "rank");
+                    labelList.add(temp + "gradeRank");
+                    labelList.add(temp + "classRank");
                 }
             }
             dataList.add(dataMap);

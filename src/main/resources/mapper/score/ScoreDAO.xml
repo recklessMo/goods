@@ -23,17 +23,8 @@
         select
         <include refid="columns"/>
         from score
-        <where>
-            exam_id = #{examId}
-            <if test="null != sid and 0 != sid">
-              and sid = #{sid}
-            </if>
-            <if test="null != classId and classId != 0">
-              and cid = #{classId}
-            </if>
-        </where>
-        order by grade_id asc
-        limit #{startIndex}, #{count}
+        where exam_id = #{examId}
+        order by class_id asc
     </select>
 
     <select id="getScoreListByExamId" resultType="com.recklessmo.model.score.Score">

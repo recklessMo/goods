@@ -12,6 +12,9 @@ public class CourseScore {
     private long courseId;
     private String courseName;
     private double score;
+    //班级排名
+    private int classRank;
+    //年级排名
     private int rank;
     //标记是否缺考, 1代表缺考
     private int flag;
@@ -25,6 +28,14 @@ public class CourseScore {
         this.courseName = courseName;
         this.score = score;
         this.rank = rank;
+    }
+
+    public int getClassRank() {
+        return classRank;
+    }
+
+    public void setClassRank(int classRank) {
+        this.classRank = classRank;
     }
 
     public long getCourseId() {

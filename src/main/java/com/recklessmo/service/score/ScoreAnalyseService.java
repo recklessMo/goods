@@ -50,12 +50,6 @@ public class ScoreAnalyseService {
     private CourseSettingService courseSettingService;
 
 
-    private Map<String, Long> getCourseNameToIdMap(){
-        List<Course> courseList = courseSettingService.getStandardCourseList();
-        Map<String, Long> result = courseList.stream().collect(Collectors.toMap(Course::getCourseName, course -> course.getCourseId()));
-        return result;
-    }
-
     /**
      * 进行整体分析.
      * <p>
@@ -126,10 +120,6 @@ public class ScoreAnalyseService {
             });
             result.values().stream().forEach(item -> item.getClassTotalList().stream().forEach(totalInner -> processAfterTotalInner(totalInner)));
             List<CourseTotal> values = new LinkedList<>(result.values());
-            Map<String, Long> courseMap = getCourseNameToIdMap();
-            values.stream().forEach(value -> {
-                value.setCourseId(courseMap.getOrDefault(value.getCourseName(), 0L));
-            });
             Collections.sort(values, (a, b) -> {
                 return a.getCourseId() >= b.getCourseId() ? (a.getCourseId() == b.getCourseId() ? 0 : 1) : -1;
             });
@@ -239,10 +229,6 @@ public class ScoreAnalyseService {
             });
         });
         List<CourseGap> values = new LinkedList<>(gapMap.values());
-        Map<String, Long> courseMap = getCourseNameToIdMap();
-        values.stream().forEach(item -> {
-            item.setCourseId(courseMap.getOrDefault(item.getName(), 0L));
-        });
         Collections.sort(values, (a, b) -> {
             return a.getCourseId() >= b.getCourseId() ? (a.getCourseId() == b.getCourseId() ? 0 : 1) : -1;
         });
@@ -316,10 +302,6 @@ public class ScoreAnalyseService {
         });
         //排序
         List<CourseRank> values = new LinkedList<>(rankMap.values());
-        Map<String, Long> courseMap = getCourseNameToIdMap();
-        values.stream().forEach(item -> {
-            item.setCourseId(courseMap.getOrDefault(item.getCourseName(), 0L));
-        });
         Collections.sort(values, (a, b) -> {
             return a.getCourseId() >= b.getCourseId() ? (a.getCourseId() == b.getCourseId() ? 0 : 1) : -1;
         });
