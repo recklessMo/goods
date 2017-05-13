@@ -18,10 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.naming.NameParser;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by hpf on 8/29/16.
@@ -47,7 +44,6 @@ public class ScoreController {
         DynamicTable result = new DynamicTable();
         List<Score> data = scoreService.loadScoreList(scoreListPage);
         Map<String, String> nameMap = new HashMap<>();
-
         //data
         List<Map<String, Object>> dataList = new LinkedList<>();
         List<String> labelList = new LinkedList<>();

@@ -17,7 +17,7 @@
             return $http({
                 method : "POST",
                 url: "/v1/dic/course/list",
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -25,7 +25,7 @@
             return $http({
                 method: "GET",
                 url: "/v1/dic/grade/list",
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -34,7 +34,7 @@
                 method: "POST",
                 url: "/v1/dic/class/list",
                 data: data,
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -43,7 +43,7 @@
                 method: "POST",
                 url: "/v1/dic/job/list",
                 data: data,
-                timeout: 5000
+                timeout: 10000
             });
         }
 

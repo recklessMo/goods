@@ -15,7 +15,7 @@
                 method: "POST",
                 url : "/v1/user/list",
                 data:obj,
-                timeout: 5000
+                timeout: 10000
             });
         }
 

@@ -13,7 +13,7 @@
                 method: "POST",
                 url : "/v1/user/list",
                 data:obj,
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -21,7 +21,7 @@
             return $http({
                 method: "POST",
                 url : "/v1/permission/list",
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -30,7 +30,7 @@
                 method:"POST",
                 url: "/v1/user/get",
                 data:id,
-                timeout:5000
+                timeout: 10000
             });
         }
 
@@ -39,7 +39,7 @@
                 method: "POST",
                 url : "v1/user/delete",
                 data:id,
-                timeout:5000
+                timeout: 10000
             });
         }
 
@@ -48,7 +48,7 @@
                 method: "POST",
                 url : "/v1/user/add",
                 data: user,
-                timeout:5000
+                timeout: 10000
             });
         }
 
@@ -57,7 +57,7 @@
                 method: "POST",
                 url: "/v1/user/update",
                 data:user,
-                timeout:5000
+                timeout: 10000
             });
         }
 
@@ -67,7 +67,7 @@
                 url: "/v1/user/pwd/update",
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                 data: $.param({id:id, pwd:pwd}),
-                timeout:5000
+                timeout: 10000
             });
         }
 

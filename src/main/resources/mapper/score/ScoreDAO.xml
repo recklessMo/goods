@@ -32,6 +32,7 @@
               and cid = #{classId}
             </if>
         </where>
+        order by grade_id asc
         limit #{startIndex}, #{count}
     </select>
 

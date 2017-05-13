@@ -24,7 +24,7 @@
                 data: $.param({examId: examId, type: type, templateId:templateId}),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                 method: "POST",
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -33,7 +33,7 @@
                 url: "/v1/analyse/trend",
                 data: data,
                 method: "POST",
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -43,7 +43,7 @@
                 data: $.param({examId: examId, templateId: templateId}),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                 method: "POST",
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -53,7 +53,7 @@
                 data: $.param({examId: examId, templateId: templateId}),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                 method: "POST",
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -62,7 +62,7 @@
                 url: "/v1/score/list",
                 data: data,
                 method: "POST",
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -71,7 +71,7 @@
                 url: "/v1/analyse/self",
                 data: data,
                 method: "POST",
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -80,7 +80,7 @@
                 url: "/v1/analyse/rankchange",
                 data: data,
                 method: "POST",
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -89,7 +89,7 @@
                 url: "/v1/analyse/absense",
                 data: data,
                 method: "POST",
-                timeout: 5000
+                timeout: 10000
             });
         }
 

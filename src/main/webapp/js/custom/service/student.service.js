@@ -21,7 +21,7 @@
                 method: "POST",
                 url: "/v1/student/list",
                 data: data,
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -31,7 +31,7 @@
                 url : "/v1/student/scoreList",
                 headers: {'Content-Type': 'text/plain'},
                 data:data,
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -41,7 +41,7 @@
                 method: "POST",
                 url : "/v1/student/save",
                 data:data,
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -50,7 +50,7 @@
                 method: "POST",
                 url : "/v1/student/get",
                 data:data,
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -59,7 +59,7 @@
                 method: "POST",
                 url : "/v1/student/searchByExam",
                 data:data,
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -68,7 +68,7 @@
                     method: "POST",
                     url: "/v1/student/add",
                     data: data,
-                    timeout: 5000
+                    timeout: 10000
             });
         }
 

@@ -15,7 +15,7 @@
             return $http({
                 method: "POST",
                 url : "/v1/class/schedule/list",
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -24,7 +24,7 @@
                 method: "POST",
                 data: data,
                 url : "/v1/class/schedule/save",
-                timeout: 5000
+                timeout: 10000
             });
         }
 

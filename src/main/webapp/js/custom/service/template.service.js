@@ -16,7 +16,7 @@
             return $http({
                 method: "POST",
                 data: data,
-                timeout: 5000,
+                timeout: 10000,
                 url: "/v1/template/add"
             });
         }
@@ -25,7 +25,7 @@
             return $http({
                 method: "POST",
                 data: data,
-                timeout: 5000,
+                timeout: 10000,
                 url: "/v1/template/delete"
             });
         }
@@ -34,7 +34,7 @@
             return $http({
                 method : "POST",
                 data: data,
-                timeout: 5000,
+                timeout: 10000,
                 url: "/v1/template/list"
             });
         }

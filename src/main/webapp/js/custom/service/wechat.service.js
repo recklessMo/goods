@@ -19,7 +19,7 @@
                 method: "POST",
                 data: data,
                 url: "/v1/wechat/user/recent/list",
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -28,7 +28,7 @@
                 method: "POST",
                 data: data,
                 url: "/v1/wechat/user/all/list",
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -37,7 +37,7 @@
                 method: "POST",
                 data: data,
                 url: "/v1/wechat/message/list",
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -46,7 +46,7 @@
                 method: "POST",
                 data: data,
                 url: "/v1/wechat/message/add",
-                timeout: 5000
+                timeout: 10000
             });
         }
 

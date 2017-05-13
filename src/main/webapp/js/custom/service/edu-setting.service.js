@@ -58,7 +58,7 @@
             return $http({
                 method: "POST",
                 url: "/v1/setting/schedule/save",
-                timeout: 5000,
+                timeout: 10000,
                 data: data
             });
         }
@@ -67,7 +67,7 @@
             return $http({
                 method: "POST",
                 url: "/v1/setting/schedule/list",
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -76,7 +76,7 @@
                 method: "POST",
                 url: "/v1/setting/job/list",
                 data: data,
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -85,7 +85,7 @@
                 method: "POST",
                 url: "/v1/setting/job/add",
                 data: data,
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -94,7 +94,7 @@
                 method: "POST",
                 url: "/v1/setting/job/delete",
                 data: id,
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -104,7 +104,7 @@
                 method: "POST",
                 url: "/v1/setting/grade/add",
                 data: data,
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -114,7 +114,7 @@
                 method: "POST",
                 url: "/v1/setting/class/add",
                 data: data,
-                timeout: 5000
+                timeout: 10000
             })
         }
 
@@ -123,7 +123,7 @@
                 method: "POST",
                 url: "/v1/setting/grade/delete",
                 data: data,
-                timeout: 5000
+                timeout: 10000
             })
         }
 
@@ -132,7 +132,7 @@
                 method: "POST",
                 url: "/v1/setting/class/delete",
                 data: data,
-                timeout: 5000
+                timeout: 10000
             })
         }
 
@@ -141,7 +141,7 @@
                 method: "POST",
                 url: "/v1/setting/grade/update",
                 data: data,
-                timeout: 5000
+                timeout: 10000
             })
         }
 
@@ -150,7 +150,7 @@
                 method: "POST",
                 url: "/v1/setting/class/update",
                 data: data,
-                timeout: 5000
+                timeout: 10000
             })
         }
 
@@ -160,7 +160,7 @@
                 method: "POST",
                 url: "/v1/setting/grade/list",
                 data: data,
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -169,7 +169,7 @@
                 method: "POST",
                 url: "/v1/setting/class/list",
                 data: gradeId,
-                timeout: 5000
+                timeout: 10000
             })
         }
 
@@ -178,7 +178,7 @@
                 method: "POST",
                 url: "/v1/setting/year/add",
                 data: year,
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -187,7 +187,7 @@
                 method: "POST",
                 url: "/v1/setting/term/add",
                 data: term,
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -196,7 +196,7 @@
                 method: "POST",
                 url: "/v1/setting/year/update",
                 data: year,
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -205,7 +205,7 @@
                 method: "POST",
                 url: "/v1/setting/term/update",
                 data: term,
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -214,7 +214,7 @@
                 method: "POST",
                 url: "/v1/setting/year/list",
                 data: data,
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -223,7 +223,7 @@
                 method: "POST",
                 url: "/v1/setting/term/list",
                 data: data,
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -232,7 +232,7 @@
                 method: "POST",
                 url: "/v1/setting/term/setcurrent",
                 data: data,
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -242,7 +242,7 @@
                 method : "POST",
                 url: "/v1/setting/course/add",
                 data: data,
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -251,7 +251,7 @@
                 method : "POST",
                 url: "/v1/setting/course/import",
                 data: data,
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -260,7 +260,7 @@
                 method : "POST",
                 url: "/v1/setting/course/update",
                 data: data,
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -269,7 +269,7 @@
                 method : "POST",
                 url: "/v1/setting/course/list",
                 data: data,
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -278,7 +278,7 @@
                 method : "POST",
                 url: "/v1/setting/course/listStandard",
                 data: data,
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -287,7 +287,7 @@
                 method : "POST",
                 url: "/v1/setting/course/delete",
                 data: data,
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -296,7 +296,7 @@
                 method: "POST",
                 url: "/v1/setting/classlevel/list",
                 data: data,
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -305,7 +305,7 @@
                 method: "POST",
                 url: "/v1/setting/classlevel/add",
                 data: data,
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -317,7 +317,7 @@
                 method: "POST",
                 url: "/v1/setting/classlevel/delete",
                 data: JSON.stringify(data),
-                timeout: 5000
+                timeout: 10000
             });
         }
 
