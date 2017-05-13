@@ -194,7 +194,7 @@ public class ScoreService {
         scoreList.sort((a, b) -> {
             CourseScore acs = a.getCourseScoreList().get(a.getCourseScoreList().size() - 1);
             CourseScore bcs = b.getCourseScoreList().get(b.getCourseScoreList().size() - 1);
-            return Double.compare(acs.getScore(), bcs.getScore());
+            return Double.compare(bcs.getScore(), acs.getScore());
         });
 
         //计算名次
