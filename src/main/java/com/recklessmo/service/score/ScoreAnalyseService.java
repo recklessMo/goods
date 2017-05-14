@@ -1,6 +1,8 @@
 package com.recklessmo.service.score;
 
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.asm.Label;
+import com.recklessmo.model.common.Pair;
 import com.recklessmo.model.dynamicTable.DynamicTable;
 import com.recklessmo.model.dynamicTable.TableColumn;
 import com.recklessmo.model.score.CourseScore;
@@ -22,13 +24,12 @@ import com.recklessmo.model.score.result.self.ScoreSelfInner;
 import com.recklessmo.model.score.result.total.ClassTotal;
 import com.recklessmo.model.score.result.total.CourseTotal;
 import com.recklessmo.model.score.result.total.TotalInner;
-import com.recklessmo.model.setting.Course;
-import com.recklessmo.model.setting.Group;
 import com.recklessmo.model.student.StudentInfo;
 import com.recklessmo.service.setting.CourseSettingService;
 import com.recklessmo.service.student.StudentService;
-import com.recklessmo.web.webmodel.model.TrendModel;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
+
 import javax.annotation.Resource;
 import java.util.*;
 import java.util.function.Function;
@@ -77,13 +78,13 @@ public class ScoreAnalyseService {
                 //单独分析一个班，每个班有自己的id
                 singleClass(score, classTotal, scoreTemplate);
                 //文科，文科-1，
-                if(score.getClassType().equals("文科班")){
+                if (score.getClassType().equals("文科班")) {
                     ClassTotal wenke = result.getOrDefault(-1L, new ClassTotal(-1L, "文科班"));
                     result.put(-1L, wenke);
                     singleClass(score, wenke, scoreTemplate);
                 }
                 //理科，理科-2
-                if(score.getClassType().equals("理科班")){
+                if (score.getClassType().equals("理科班")) {
                     ClassTotal like = result.getOrDefault(-2L, new ClassTotal(-2L, "理科班"));
                     result.put(-2l, like);
                     singleClass(score, like, scoreTemplate);
@@ -110,10 +111,10 @@ public class ScoreAnalyseService {
                     //然后全年级的
                     singleCourse("全年级", -3L, courseScore, courseTotal, scoreTemplate);
                     //然后文理分科
-                    if(newScore.getClassType().equals("文科班")){
+                    if (newScore.getClassType().equals("文科班")) {
                         singleCourse("文科班", -1L, courseScore, courseTotal, scoreTemplate);
                     }
-                    if(newScore.getClassType().equals("理科班")){
+                    if (newScore.getClassType().equals("理科班")) {
                         singleCourse("理科班", -2L, courseScore, courseTotal, scoreTemplate);
                     }
                 });
@@ -142,7 +143,7 @@ public class ScoreAnalyseService {
         });
     }
 
-    private void singleCourse(String className, long classId, CourseScore courseScore, CourseTotal courseTotal, ScoreTemplate scoreTemplate){
+    private void singleCourse(String className, long classId, CourseScore courseScore, CourseTotal courseTotal, ScoreTemplate scoreTemplate) {
         TotalInner selfInner;
         Optional<TotalInner> selfInnerOptional = courseTotal.getClassTotalList().stream().filter(m -> m.getName().equals(className)).findAny();
         if (selfInnerOptional.isPresent()) {
@@ -235,7 +236,7 @@ public class ScoreAnalyseService {
         return values;
     }
 
-    private void singleGap(CourseGap gap, Score score, CourseScore courseScore){
+    private void singleGap(CourseGap gap, Score score, CourseScore courseScore) {
         GapInner gapInner;
         Optional<GapInner> temp = gap.getGapInnerList().stream().filter(m -> m.getCid() == score.getClassId()).findAny();
         if (temp.isPresent()) {
@@ -255,15 +256,15 @@ public class ScoreAnalyseService {
         }
     }
 
-    private Map<String, List<ScoreGap>> getScoreGapMap(ScoreTemplate scoreTemplate){
+    private Map<String, List<ScoreGap>> getScoreGapMap(ScoreTemplate scoreTemplate) {
         Map<String, List<ScoreGap>> result = new HashMap<>();
         Map<String, String> scoreGapMap = scoreTemplate.getCourseGapSettingMap();
         scoreGapMap.entrySet().stream().forEach(item -> {
             String str = item.getValue();
             String[] scoreGapArray = str.trim().split("\\s+");
-            for(String single : scoreGapArray){
+            for (String single : scoreGapArray) {
                 String[] temp = single.trim().split("-");
-                if(temp.length == 2){
+                if (temp.length == 2) {
                     double start = Double.parseDouble(temp[0]);
                     double end = Double.parseDouble(temp[1]);
                     ScoreGap scoreGap = new ScoreGap(start, end);
@@ -308,7 +309,7 @@ public class ScoreAnalyseService {
         return values;
     }
 
-    private void singleRank(CourseRank rank, Score score, CourseScore courseScore){
+    private void singleRank(CourseRank rank, Score score, CourseScore courseScore) {
         RankInner rankInner;
         Optional<RankInner> temp = rank.getGapInnerList().stream().filter(m -> m.getCid() == score.getClassId()).findAny();
         if (temp.isPresent()) {
@@ -334,15 +335,15 @@ public class ScoreAnalyseService {
         rankGapMap.entrySet().stream().forEach(item -> {
             String str = item.getValue();
             String[] scoreGapArray = str.trim().split("\\s+");
-            for(String single : scoreGapArray){
+            for (String single : scoreGapArray) {
                 String[] temp = single.trim().split("-");
-                if(temp.length == 2){
+                if (temp.length == 2) {
                     double start = Double.parseDouble(temp[0]);
                     double end = Double.parseDouble(temp[1]);
                     ScoreGap scoreGap = new ScoreGap(start, end);
                     List<RankGap> singleValue = result.getOrDefault(item.getKey(), new LinkedList<>());
                     result.put(item.getKey(), singleValue);
-                    singleValue.add(new RankGap((int)start, (int)end));
+                    singleValue.add(new RankGap((int) start, (int) end));
                 }
             }
         });
@@ -470,7 +471,7 @@ public class ScoreAnalyseService {
             singleData.put("gradeName", rankChange.getGradeName());
             singleData.put("className", rankChange.getClassName());
             singleData.put("name", rankChange.getName());
-            if(i == 0){
+            if (i == 0) {
                 labelList.add("sid");
                 labelList.add("gradeName");
                 labelList.add("className");
@@ -497,7 +498,7 @@ public class ScoreAnalyseService {
                 singleData.put(secondRankStr, courseRankChange.getSecondRank());
                 singleData.put(scoreGapStr, courseRankChange.getScoreChange());
                 singleData.put(rankGapStr, courseRankChange.getRankGapNum());
-                if(i == 0){
+                if (i == 0) {
                     labelList.add(firstScoreStr);
                     labelList.add(firstRankStr);
                     labelList.add(secondScoreStr);
@@ -508,7 +509,7 @@ public class ScoreAnalyseService {
                     titleMap.put(firstRankStr, "排名1");
                     titleMap.put(secondScoreStr, courseRankChange.getCourseName() + "2");
                     titleMap.put(secondRankStr, "排名2");
-                    titleMap.put(scoreGapStr,"分数差");
+                    titleMap.put(scoreGapStr, "分数差");
                     titleMap.put(rankGapStr, "排名差");
                 }
             }
@@ -532,22 +533,21 @@ public class ScoreAnalyseService {
     }
 
     /**
-     *
      * 分析缺考信息
      *
      * @param scoreList
      * @return
      */
-    public Object analyseAbsense(long orgId, List<Score> scoreList){
+    public Object analyseAbsense(long orgId, List<Score> scoreList) {
         List<ScoreAbsense> scoreAbsenseList = new LinkedList<>();
         scoreList.stream().forEach(score -> {
             List<CourseScore> courseScoreList = score.getCourseScoreList();
             courseScoreList.stream().forEach(courseScore -> {
-                if(courseScore.getFlag() == 1){
-                    Optional<ScoreAbsense> scoreAbsenseOptional = scoreAbsenseList.stream().filter(o->o.getCourseName().equals(courseScore.getCourseName())).findAny();
-                    if(scoreAbsenseOptional.isPresent()){
+                if (courseScore.getFlag() == 1) {
+                    Optional<ScoreAbsense> scoreAbsenseOptional = scoreAbsenseList.stream().filter(o -> o.getCourseName().equals(courseScore.getCourseName())).findAny();
+                    if (scoreAbsenseOptional.isPresent()) {
                         scoreAbsenseOptional.get().getSidList().add(score.getSid());
-                    }else{
+                    } else {
                         ScoreAbsense scoreAbsense = new ScoreAbsense();
                         scoreAbsense.setCourseName(courseScore.getCourseName());
                         scoreAbsense.getSidList().add(score.getSid());
@@ -571,7 +571,6 @@ public class ScoreAnalyseService {
 
 
     /**
-     *
      * 分析个人成绩趋势
      *
      * @param showType
@@ -579,21 +578,96 @@ public class ScoreAnalyseService {
      * @param scoreList
      * @return
      */
-    public Object analyseTrend(List<String> examTypeList, String showType, List<Score> tempScoreList){
+    public Object analyseTrend(List<String> examTypeList, String showType, List<Score> tempScoreList) {
         //过滤出需要处理的scorelist
+        DynamicTable dynamicTable = new DynamicTable();
         Set<String> examTypeSet = new HashSet<>(examTypeList);
-        List<Score> scoreList = new LinkedList<>();
-        tempScoreList.stream().forEach(item -> {
-            if(examTypeSet.contains(item.getExamType())){
-                scoreList.add(item);
-            }
-        });
+        List<Score> scoreList = tempScoreList.stream().filter(o -> examTypeSet.contains(o.getExamType())).collect(Collectors.toList());
         //开始进行分析
-        if(showType.equals("表格")){
-
+        if (showType.equals("表格")) {
+            List<Pair> courseList = new LinkedList<>();
+            scoreList.stream().forEach(score -> {
+                score.getCourseScoreList().stream().forEach(courseScore -> {
+                    Optional<Pair> pairOptional = courseList.stream().filter(o -> o.getId() == courseScore.getCourseId()).findAny();
+                    if(!pairOptional.isPresent()){
+                        courseList.add(new Pair(courseScore.getCourseId(), courseScore.getCourseName()));
+                    }
+                });
+            });
+            courseList.sort((a, b) -> {
+                return a.getId() >= b.getId() ? ( a.getId() == b.getId() ? 0 : 1) : -1;
+            });
+            List<String> labelList = new LinkedList<>();
+            Map<String, String> nameMap = new HashMap<>();
+            labelList.add("name");
+            labelList.add("sid");
+            labelList.add("gradeName");
+            labelList.add("className");
+            labelList.add("examName");
+            labelList.add("examTime");
+            nameMap.put("name", "姓名");
+            nameMap.put("sid", "学号");
+            nameMap.put("gradeName", "年级");
+            nameMap.put("className", "班级");
+            nameMap.put("examName", "考试名称");
+            nameMap.put("examTime", "考试时间");
+            courseList.stream().forEach(pair -> {
+                String nameKey = "course" + pair.getId();
+                String scoreKey = "score" + pair.getId();
+                String rankKey = "rank" + pair.getId();
+                String classRankKey = "classRank" + pair.getId();
+                labelList.add(nameKey);
+                labelList.add(scoreKey);
+                labelList.add(rankKey);
+                labelList.add(classRankKey);
+                nameMap.put(nameKey, pair.getValue());
+                nameMap.put(scoreKey, "分数");
+                nameMap.put(rankKey, "年级排名");
+                nameMap.put(classRankKey, "班内排名");
+            });
+            List<Map<String, Object>> dataList = new LinkedList<>();
+            for (int i = 0; i < scoreList.size(); i++) {
+                Score score = scoreList.get(i);
+                Map<String, Object> temp = new HashMap<>();
+                temp.put("sid", score.getSid());
+                temp.put("gradeName", score.getGradeName());
+                temp.put("className", score.getClassName());
+                temp.put("examName", score.getExamName());
+                temp.put("examTime", score.getExamTime());
+                courseList.stream().forEach(pair -> {
+                    String nameKey = "course" + pair.getId();
+                    String scoreKey = "score" + pair.getId();
+                    String rankKey = "rank" + pair.getId();
+                    String classRankKey = "classRank" + pair.getId();
+                    Optional<CourseScore> courseScoreOptional = score.getCourseScoreList().stream().filter(o -> o.getCourseId() == pair.getId()).findAny();
+                    if(courseScoreOptional.isPresent()){
+                        CourseScore res = courseScoreOptional.get();
+                        temp.put(nameKey, res.getCourseName());
+                        temp.put(scoreKey, res.getScore());
+                        temp.put(rankKey, res.getRank());
+                        temp.put(classRankKey, res.getClassRank());
+                    }
+                });
+                dataList.add(temp);
+            }
+            //label
+            List<TableColumn> tableColumnList = new LinkedList<>();
+            labelList.stream().forEach(label -> {
+                TableColumn tableColumn = new TableColumn();
+                tableColumn.setField(label);
+                tableColumn.setTitle(nameMap.get(label));
+                tableColumn.setSortable(label);
+                JSONObject obj = new JSONObject();
+                obj.put(label, "text");
+                tableColumn.setFilter(obj);
+                tableColumnList.add(tableColumn);
+            });
+            dynamicTable.setLabelList(tableColumnList);
+            dynamicTable.setDataList(dataList);
+            return dynamicTable;
+        } else {
 
         }
-
         return null;
     }
 

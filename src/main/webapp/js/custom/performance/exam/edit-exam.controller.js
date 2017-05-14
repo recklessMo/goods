@@ -9,7 +9,7 @@
 
         //考试对象
         $scope.exam = {};
-        $scope.examTypeList = ['小测', '周考', '月考', '期中', '期末'];
+        $scope.examTypeList = ['小测', '周考', '月考', '模拟', '期中', '期末'];
 
         $scope.gradeList = [];
         $scope.classList = [];

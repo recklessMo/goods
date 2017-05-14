@@ -193,6 +193,7 @@
                 series: [{
                     name: '预算 vs 开销（Budget vs spending）',
                     type: 'radar',
+                    itemStyle: {normal: {areaStyle: {type: 'default'}}},
                     data : $scope.resultObj.scoreSelfInnerList
                 }]
             };

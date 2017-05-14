@@ -52,19 +52,32 @@
         $scope.showTypeList = ['表格', '直方图', '折线图'];
 
 
-        $scope.analyseParams = {};
+        $scope.analyseParams = {examTypes: [], showType: '表格'};
+
+
+        $scope.labelList = [];
+        $scope.scoreList = [];
+
         $scope.startAnalyse = function(){
             $scope.analyseParams.sid = $scope.choosedStudent.sid;
             if(_.isUndefined($scope.analyseParams.sid)){
-                SweetAlert.error("请选择要查询成绩的学生");
+                SweetAlert.error("请选择要查询成绩的学生!");
+                return;
+            }
+            if($scope.analyseParams.examTypes.length == 0){
+                SweetAlert.error("请选择需要分析的考试类型!");
                 return;
             }
             blockUI.start();
             ScoreService.loadScoreTrend($scope.analyseParams).success(function (data) {
                 blockUI.stop();
                 if (data.status == 200) {
-                    $scope.resultList = data.data;
-                    $scope.show();
+                    if(_.isUndefined(data.data)){
+                        Notify.alert("未找到考试数据!", {status:"success", timeout: 3000});
+                    }
+                    $scope.labelList = data.data.labelList;
+                    $scope.scoreList = data.data.dataList;
+                    $scope.showTables();
                 } else {
                     SweetAlert.error("加载成绩列表发生了错误! 请刷新页面!");
                 }
@@ -74,9 +87,13 @@
             });
         }
 
-        //根据不同的type显示不同的内容
-        $scope.show = function(type){
-
+        $scope.showTables = function(){
+            $scope.scoreListTableParams = new NgTableParams({page: 1, count: 10},
+                {
+                    counts: [],
+                    dataset: $scope.scoreList
+                }
+            );
         }
 
     }

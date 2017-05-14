@@ -54,16 +54,19 @@ public class ScoreController {
             dataMap.put("level", item.getClassLevel());
             dataMap.put("classname", item.getClassName());
             dataMap.put("classid", item.getClassId());
+            dataMap.put("sid", item.getSid());
             dataMap.put("name", item.getName());
             if(pos == 0) {
                 nameMap.put("type", "类型");//文科理科全科
                 nameMap.put("level", "类别");//重点 普通 平行
                 nameMap.put("classname", "名称");
+                nameMap.put("sid", "学号");
                 nameMap.put("name", "姓名");
                 labelList.add("type");
                 labelList.add("level");
                 labelList.add("classname");
                 labelList.add("name");
+                labelList.add("sid");
             }
             CourseScore totalCourseScore = item.getCourseScoreList().get(item.getCourseScoreList().size() - 1);
             for (int i = 0; i < item.getCourseScoreList().size(); i++) {

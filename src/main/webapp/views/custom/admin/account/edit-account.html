@@ -109,7 +109,7 @@
                 </label>
             </div>
             <div class="col-md-12">
-                <ui-select multiple ng-model="user.authorities" theme="bootstrap" close-on-select="false" title="选择权限" remove-selected="false">
+                <ui-select multiple ng-model="user.authorities" theme="bootstrap" close-on-select="false" title="选择权限">
                     <ui-select-match placeholder="选择权限">{{$item.name}};</ui-select-match>
                     <ui-select-choices repeat="permission.id as permission in permissionList">
                         <div ng-bind-html="permission.name"></div>

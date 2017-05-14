@@ -133,6 +133,9 @@ public class ScoreService {
      * @param scoreList
      */
     private void composeGradeInfo(long orgId, List<Score> scoreList){
+        if(scoreList.size() == 0 ){
+            return;
+        }
         List<Grade>  gradeList = gradeSettingService.listAllGrade(orgId);
         Map<Long, Grade> gradeMap = new HashMap<>();
         Map<Long, Group> groupMap = new HashMap<>();
@@ -159,6 +162,7 @@ public class ScoreService {
             score.setClassLevel(group.getClassLevel());
             score.setClassType(group.getClassType());
             score.setName(stuMap.get(score.getSid()).getName());
+            score.setExamTime(examMap.get(score.getExamId()).getExamTime());
             score.setExamName(examMap.get(score.getExamId()).getExamName());
             score.setExamType(examMap.get(score.getExamId()).getExamType());
         });

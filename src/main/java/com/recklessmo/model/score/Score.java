@@ -20,6 +20,7 @@ public class Score {
     private long examId;
     private String examName;
     private String examType;
+    private String examTime;
     private Date created;
     //json存储每次考试对应的成绩详情
     private String detail;
@@ -44,6 +45,14 @@ public class Score {
         if(StringUtils.isNotEmpty(detail)) {
             courseScoreList = JSON.parseObject(detail, new TypeReference<List<CourseScore>>(){});
         }
+    }
+
+    public String getExamTime() {
+        return examTime;
+    }
+
+    public void setExamTime(String examTime) {
+        this.examTime = examTime;
     }
 
     public Date getCreated() {

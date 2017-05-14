@@ -59,16 +59,6 @@
                 if (data.status == 200) {
                     $scope.labelList = data.data.labelList;
                     $scope.scoreList = data.data.dataList;
-                    var hash = {};
-                    var tempList = [];
-                    _.forEach($scope.scoreList, function(item){
-                        if(!hash[item.classid]){
-                            hash[item.classid] = true;
-                            tempList.push({classId: item.classid, className: item.classname});
-                        }
-                    });
-                    $scope.classList = _.sortBy(tempList, ['className']);
-                    $scope.classList.unshift({classId:0, className:"全部"});
                     $scope.showTables();
                 } else {
                     SweetAlert.error("发生了错误! 请刷新页面!");
@@ -78,8 +68,6 @@
             });
         }
 
-
-        //后续需要加上排序以及过滤的一系列逻辑.
         $scope.showTables = function(){
             $scope.scoreListTableParams = new NgTableParams({page: 1, count: 10},
                 {
