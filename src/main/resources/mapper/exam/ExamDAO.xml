@@ -64,7 +64,7 @@
     </update>
 
     <update id="deleteExam">
-        update exam set deleted = 1 where exam_id = #{id}
+        update exam set deleted = 1 where exam_id = #{id} and org_id = #{orgId}
     </update>
 
     <select id="getExamById" resultType="com.recklessmo.model.exam.Exam">

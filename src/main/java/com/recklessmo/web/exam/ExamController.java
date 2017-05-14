@@ -4,6 +4,7 @@ import com.recklessmo.model.exam.Exam;
 import com.recklessmo.model.security.DefaultUserDetails;
 import com.recklessmo.response.JsonResponse;
 import com.recklessmo.service.exam.ExamService;
+import com.recklessmo.service.score.ScoreService;
 import com.recklessmo.util.ContextUtils;
 import com.recklessmo.web.webmodel.page.ExamListPage;
 import com.recklessmo.web.webmodel.page.Page;
@@ -23,6 +24,9 @@ public class ExamController {
 
     @Resource
     private ExamService examService;
+
+    @Resource
+    private ScoreService scoreService;
 
     @ResponseBody
     @RequestMapping(value = "/list", method = RequestMethod.POST)
@@ -62,7 +66,9 @@ public class ExamController {
     @ResponseBody
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public JsonResponse deleteExam(@RequestBody long id){
-        examService.deleteExam(id);
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
+        examService.deleteExam(userDetails.getOrgId(), id);
+        scoreService.removeScoreList(userDetails.getOrgId(), id);
         return new JsonResponse(200, null, null);
     }
 

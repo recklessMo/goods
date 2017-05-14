@@ -61,8 +61,8 @@ public class ExamService {
         return examDAO.getExamByIdList(orgId, idList);
     }
 
-    public void deleteExam(long id){
-        examDAO.deleteExam(id);
+    public void deleteExam(long orgId, long id){
+        examDAO.deleteExam(orgId, id);
     }
 
     private void compose(Exam exam, long orgId){

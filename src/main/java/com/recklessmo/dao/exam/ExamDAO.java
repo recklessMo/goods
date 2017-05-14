@@ -23,6 +23,6 @@ public interface ExamDAO {
 
     List<Exam> getExamByIdList(@Param("orgId")long orgId, @Param("idList")List<Long> idList);
 
-    void deleteExam(@Param("id")long id);
+    void deleteExam(@Param("orgId")long orgId, @Param("id")long id);
 
 }

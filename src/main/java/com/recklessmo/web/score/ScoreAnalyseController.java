@@ -175,8 +175,8 @@ public class ScoreAnalyseController {
     public JsonResponse analyzeTrend(@RequestBody TrendModel trendModel){
         DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
         List<Score> scoreList = scoreService.getScoreListBySid(userDetails.getOrgId(), trendModel.getSid());
-
-        return new JsonResponse(200, null, null);
+        Object result = scoreAnalyseService.analyseTrend(trendModel.getExamTypes(), trendModel.getShowType(), scoreList);
+        return new JsonResponse(200, result, null);
     }
 
 
