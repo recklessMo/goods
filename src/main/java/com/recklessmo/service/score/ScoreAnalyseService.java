@@ -612,16 +612,13 @@ public class ScoreAnalyseService {
             nameMap.put("examName", "考试名称");
             nameMap.put("examTime", "考试时间");
             courseList.stream().forEach(pair -> {
-                String nameKey = "course" + pair.getId();
                 String scoreKey = "score" + pair.getId();
                 String rankKey = "rank" + pair.getId();
                 String classRankKey = "classRank" + pair.getId();
-                labelList.add(nameKey);
                 labelList.add(scoreKey);
                 labelList.add(rankKey);
                 labelList.add(classRankKey);
-                nameMap.put(nameKey, pair.getValue());
-                nameMap.put(scoreKey, "分数");
+                nameMap.put(scoreKey, pair.getValue() + "分数");
                 nameMap.put(rankKey, "年级排名");
                 nameMap.put(classRankKey, "班内排名");
             });
@@ -630,19 +627,18 @@ public class ScoreAnalyseService {
                 Score score = scoreList.get(i);
                 Map<String, Object> temp = new HashMap<>();
                 temp.put("sid", score.getSid());
+                temp.put("name", score.getName());
                 temp.put("gradeName", score.getGradeName());
                 temp.put("className", score.getClassName());
                 temp.put("examName", score.getExamName());
                 temp.put("examTime", score.getExamTime());
                 courseList.stream().forEach(pair -> {
-                    String nameKey = "course" + pair.getId();
                     String scoreKey = "score" + pair.getId();
                     String rankKey = "rank" + pair.getId();
                     String classRankKey = "classRank" + pair.getId();
                     Optional<CourseScore> courseScoreOptional = score.getCourseScoreList().stream().filter(o -> o.getCourseId() == pair.getId()).findAny();
                     if(courseScoreOptional.isPresent()){
                         CourseScore res = courseScoreOptional.get();
-                        temp.put(nameKey, res.getCourseName());
                         temp.put(scoreKey, res.getScore());
                         temp.put(rankKey, res.getRank());
                         temp.put(classRankKey, res.getClassRank());
