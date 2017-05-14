@@ -44,6 +44,7 @@ public class ScoreService {
      */
     public void insertScoreList(List<Score> scoreList){
         if(scoreList != null && scoreList.size() != 0) {
+            computeRank(scoreList);
             scoreDAO.insertList(scoreList);
         }
     }
@@ -68,7 +69,7 @@ public class ScoreService {
     public List<Score> loadScoreList(ScoreListPage page){
         List<Score> scoreList = scoreDAO.getList(page);
         composeGradeInfo(page.getOrgId(), scoreList);
-        computeRank(scoreList);
+        sortByTotal(scoreList);
         return scoreList;
     }
 
@@ -83,7 +84,7 @@ public class ScoreService {
     public List<Score> loadScoreByExamId(long orgId, long examId){
         List<Score> scoreList = scoreDAO.getScoreListByExamId(examId);
         composeGradeInfo(orgId, scoreList);
-        computeRank(scoreList);
+        sortByTotal(scoreList);
         return scoreList;
     }
 
@@ -168,6 +169,19 @@ public class ScoreService {
         });
     }
 
+    /**
+     * 按照总分排序
+     * @param scoreList
+     */
+    private void sortByTotal(List<Score> scoreList){
+        //进行排序
+        scoreList.sort((a, b) -> {
+            CourseScore acs = a.getCourseScoreList().get(a.getCourseScoreList().size() - 1);
+            CourseScore bcs = b.getCourseScoreList().get(b.getCourseScoreList().size() - 1);
+            return Double.compare(bcs.getScore(), acs.getScore());
+        });
+    }
+
 
     /**
      * 计算排名
@@ -194,13 +208,6 @@ public class ScoreService {
             });
         });
 
-        //进行排序
-        scoreList.sort((a, b) -> {
-            CourseScore acs = a.getCourseScoreList().get(a.getCourseScoreList().size() - 1);
-            CourseScore bcs = b.getCourseScoreList().get(b.getCourseScoreList().size() - 1);
-            return Double.compare(bcs.getScore(), acs.getScore());
-        });
-
         //计算名次
         resultMap.values().stream().forEach(courseScoreMap -> {
             //计算总名次
@@ -216,6 +223,7 @@ public class ScoreService {
                     }
                 }
             });
+            //计算总分名次
             totalList.sort((o1, o2) -> {return o1.getScore() >= o2.getScore() ? (o1.getScore() == o2.getScore() ? 0 : -1) : 1;});
             for(int i = 0; i < totalList.size(); i++){
                 totalList.get(i).setRank(i + 1);

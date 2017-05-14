@@ -72,8 +72,9 @@
             ScoreService.loadScoreTrend($scope.analyseParams).success(function (data) {
                 blockUI.stop();
                 if (data.status == 200) {
-                    if(_.isUndefined(data.data)){
+                    if(_.isUndefined(data.data.dataList) || data.data.dataList.length == 0){
                         Notify.alert("未找到考试数据!", {status:"success", timeout: 3000});
+                        return;
                     }
                     $scope.labelList = data.data.labelList;
                     $scope.scoreList = data.data.dataList;
