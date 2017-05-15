@@ -125,6 +125,12 @@ public class ScoreAnalyseService {
             Collections.sort(values, (a, b) -> {
                 return a.getCourseId() >= b.getCourseId() ? (a.getCourseId() == b.getCourseId() ? 0 : 1) : -1;
             });
+            values.stream().forEach(item -> {
+                TotalInner allInner = item.getClassTotalList().get(0);
+                item.getClassTotalList().stream().forEach(single -> {
+                    single.setAvgGap(single.getAvg() - allInner.getAvg());
+                });
+            });
             return values;
         }
         return null;

@@ -68,6 +68,8 @@
                     </span>
                 </td>
                 <td data-title="'上传成绩'" style="text-align: center;">{{item.uploadStatus == 0 ? '未上传' : '已上传'}}</td>
+                <td ng-if="item.uploadStatus != 0" data-title="'最后上传时间'" style="text-align: center;">{{item.lastUpdateTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                <td ng-if="item.uploadStatus == 0" data-title="'最后上传时间'" style="text-align: center;">-</td>
                 <td data-title="'操作'" style="text-align: center">
                     <button class="btn btn-info" ng-click="uploadScore(item)">{{item.uploadStatus == 0 ? '上传成绩' : '重新上传'}}</button>
                     <button class="btn btn-danger" ng-click="delete(item.examId)">删除</button>

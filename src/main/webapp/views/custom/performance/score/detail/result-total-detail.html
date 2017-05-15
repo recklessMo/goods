@@ -76,6 +76,7 @@
                     <th>最高分</th>
                     <th>最低分</th>
                     <th>平均分</th>
+                    <th>与年级均分差</th>
                     <th>标准差</th>
                     <th>满分(人)</th>
                     <th>满分率</th>
@@ -92,6 +93,8 @@
                     <td data-title="'最高分'" style="text-align: center;">{{item.max}}</td>
                     <td data-title="'最低分'" style="text-align: center;">{{item.min}}</td>
                     <td data-title="'平均分'" style="text-align: center;">{{item.avg | number : 2}}</td>
+                    <td data-title="'与年级均分差'" style="text-align: center;color:red" ng-if="item.avgGap < 0">{{item.avgGap | number : 2}}</td>
+                    <td data-title="'与年级均分差'" style="text-align: center;color:green" ng-if="item.avgGap >= 0">{{item.avgGap | number : 2}}</td>
                     <td data-title="'标准差'" style="text-align: center;">{{item.stdDev | number : 2}}</td>
                     <td data-title="'满分(人)'" style="text-align: center">{{item.full}}</td>
                     <td data-title="'满分率'" style="text-align: center;">{{(item.full/item.totalCount * 100) | number : 2  }}%</td>

@@ -41,6 +41,16 @@ public class Exam {
     private String courseStr;
     private int deleted;
 
+    private Date lastUpdateTime;
+
+    public Date getLastUpdateTime() {
+        return lastUpdateTime;
+    }
+
+    public void setLastUpdateTime(Date lastUpdateTime) {
+        this.lastUpdateTime = lastUpdateTime;
+    }
+
     public String getCourseStr() {
         return JSON.toJSONString(courseList);
     }

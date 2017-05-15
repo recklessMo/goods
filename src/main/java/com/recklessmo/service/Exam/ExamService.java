@@ -11,10 +11,7 @@ import com.recklessmo.web.webmodel.page.Page;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -47,8 +44,8 @@ public class ExamService {
         examDAO.addExam(exam);
     }
 
-    public void updateExamStatus(long examId, int status){
-        examDAO.updateExamStatus(examId, status);
+    public void updateExamStatus(long examId, int status, Date time){
+        examDAO.updateExamStatus(examId, status, time);
     }
 
     public Exam getExamById(long id){

@@ -4,7 +4,7 @@
 <mapper namespace="com.recklessmo.dao.exam.ExamDAO">
 
     <sql id="examColumns">
-        exam_id, exam_name, exam_time, grade_id, class_id, exam_type, upload_status, course_str, deleted
+        exam_id, exam_name, exam_time, grade_id, class_id, exam_type, last_update_time, upload_status, course_str, deleted
     </sql>
 
     <select id="listExam" resultType="com.recklessmo.model.exam.Exam">
@@ -60,7 +60,7 @@
     </insert>
 
     <update id="updateExamStatus">
-        update exam set upload_status = #{status} where exam_id = #{id}
+        update exam set upload_status = #{status}, last_update_time = #{time} where exam_id = #{id}
     </update>
 
     <update id="deleteExam">

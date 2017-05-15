@@ -100,7 +100,7 @@ public class FileUploadController {
             preProcessData(examId, userDetails.getOrgId(), data);
             scoreService.removeScoreList(userDetails.getOrgId(), examId);
             scoreService.insertScoreList(data);
-            examService.updateExamStatus(examId, Exam.EXAM_UPLOADED);
+            examService.updateExamStatus(examId, Exam.EXAM_UPLOADED, new Date());
             return new JsonResponse(200, null, null);
         }
     }

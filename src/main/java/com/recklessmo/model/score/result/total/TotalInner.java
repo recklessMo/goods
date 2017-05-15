@@ -23,6 +23,7 @@ public class TotalInner {
 
     private double sum = 0.0;
     private double avg = 0.0;
+    private double avgGap = 0.0;
     private double stdDev = 0.0;
 
     //用于计算标准差
@@ -36,6 +37,14 @@ public class TotalInner {
     public TotalInner(String name, long id) {
         this.name = name;
         this.id = id;
+    }
+
+    public double getAvgGap() {
+        return avgGap;
+    }
+
+    public void setAvgGap(double avgGap) {
+        this.avgGap = avgGap;
     }
 
     public long getId() {

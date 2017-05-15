@@ -4,6 +4,7 @@ import com.recklessmo.model.exam.Exam;
 import com.recklessmo.web.webmodel.page.Page;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,7 +18,7 @@ public interface ExamDAO {
 
     void addExam(Exam exam);
 
-    void updateExamStatus(@Param("id") long id, @Param("status")int status);
+    void updateExamStatus(@Param("id") long id, @Param("status")int status, @Param("time")Date time);
 
     Exam getExamById(@Param("id")long id);
 
