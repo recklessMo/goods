@@ -535,6 +535,12 @@ public class ScoreAnalyseService {
             }
         });
 
+        rankChangeList.sort((a, b) -> {
+            CourseRankChange achange = a.getCourseRankChangeList().get(a.getCourseRankChangeList().size() - 1);
+            CourseRankChange bchange = b.getCourseRankChangeList().get(b.getCourseRankChangeList().size() - 1);
+            return achange.getRankGapNum() <= bchange.getRankGapNum() ? (achange.getRankGapNum() == bchange.getRankGapNum() ? 0 : 1) : -1;
+        });
+
         DynamicTable dynamicTable = new DynamicTable();
 
         List<String> labelList = new LinkedList<>();

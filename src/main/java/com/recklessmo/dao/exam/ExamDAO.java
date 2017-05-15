@@ -20,7 +20,7 @@ public interface ExamDAO {
 
     void updateExamStatus(@Param("id") long id, @Param("status")int status, @Param("time")Date time);
 
-    Exam getExamById(@Param("id")long id);
+    Exam getExamById(@Param("orgId")long orgId, @Param("id")long id);
 
     List<Exam> getExamByIdList(@Param("orgId")long orgId, @Param("idList")List<Long> idList);
 

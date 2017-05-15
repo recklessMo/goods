@@ -88,7 +88,7 @@ public class FileDownloadController {
     public void scoreFileDownload(@RequestParam("examId")long examId,  HttpServletResponse response) throws Exception{
         DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
         //根据考试所选定的科目来进行模板表格
-        Exam exam = examService.getExamById(examId);
+        Exam exam = examService.getExamById(userDetails.getOrgId(), examId);
         Map<String, Object> beans = new HashMap<>();
         beans.put("columns", exam.getCourseNameList());
         //根据考试选定的年级范围, 来将学生的学号姓名等自动导出
@@ -119,7 +119,7 @@ public class FileDownloadController {
     public void scoreExport(@RequestParam("examId")long examId, @RequestParam("classId")long classId, HttpServletResponse response) throws Exception {
         DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
         //根据考试所选定的科目来进行模板表格
-        Exam exam = examService.getExamById(examId);
+        Exam exam = examService.getExamById(userDetails.getOrgId(), examId);
         //表头
         List<String> labelList = new LinkedList<>();
         labelList.add("班级类型");
@@ -182,6 +182,9 @@ public class FileDownloadController {
     @RequestMapping(value = "/rankchange/export", method = {RequestMethod.POST, RequestMethod.GET})
     public void rankchangeExport(@RequestParam("first")long firstExamId, @RequestParam("second")long secondExamId, HttpServletResponse response) throws Exception {
         DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
+        Exam firstExam = examService.getExamById(userDetails.getOrgId(), firstExamId);
+        Exam secondExam = examService.getExamById(userDetails.getOrgId(), secondExamId);
+
         //根据考试所选定的科目来进行模板表格
         List<Score> firstList = scoreService.loadScoreByExamId(userDetails.getOrgId(), firstExamId);
         List<Score> secondList = scoreService.loadScoreByExamId(userDetails.getOrgId(), secondExamId);
@@ -200,6 +203,8 @@ public class FileDownloadController {
         Map<String, Object> beans = new HashMap<>();
         beans.put("labelList", labelList);
         beans.put("dataList", dataList);
+        beans.put("examName1", firstExam.getExamName());
+        beans.put("examName2", secondExam.getExamName());
         returnFile(beans, response, "进退步分析", "rank_change_export", ".xlsx");
     }
 

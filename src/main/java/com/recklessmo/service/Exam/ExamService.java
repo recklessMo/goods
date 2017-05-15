@@ -48,8 +48,8 @@ public class ExamService {
         examDAO.updateExamStatus(examId, status, time);
     }
 
-    public Exam getExamById(long id){
-        Exam exam =  examDAO.getExamById(id);
+    public Exam getExamById(long orgId, long id){
+        Exam exam =  examDAO.getExamById(orgId, id);
         compose(exam, exam.getOrgId());
         return exam;
     }

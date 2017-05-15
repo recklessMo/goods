@@ -71,7 +71,7 @@
         select
         <include refid="examColumns"/>
         from exam
-        where exam_id = #{id}
+        where exam_id = #{id} and org_id = #{orgId}
     </select>
     
     <select id="getExamByIdList" resultType="com.recklessmo.model.exam.Exam">
