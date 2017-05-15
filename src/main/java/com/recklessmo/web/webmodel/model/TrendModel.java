@@ -9,7 +9,7 @@ public class TrendModel {
 
     private List<String> examTypes;
     private String sid;
-    private String showType;
+    private int showType;
 
     public List<String> getExamTypes() {
         return examTypes;
@@ -27,11 +27,11 @@ public class TrendModel {
         this.sid = sid;
     }
 
-    public String getShowType() {
+    public int getShowType() {
         return showType;
     }
 
-    public void setShowType(String showType) {
+    public void setShowType(int showType) {
         this.showType = showType;
     }
 }

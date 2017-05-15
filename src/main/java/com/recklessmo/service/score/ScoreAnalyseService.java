@@ -3,6 +3,7 @@ package com.recklessmo.service.score;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.asm.Label;
 import com.recklessmo.model.common.Pair;
+import com.recklessmo.model.dynamicTable.DynamicChart;
 import com.recklessmo.model.dynamicTable.DynamicTable;
 import com.recklessmo.model.dynamicTable.TableColumn;
 import com.recklessmo.model.score.CourseScore;
@@ -578,25 +579,26 @@ public class ScoreAnalyseService {
      * @param scoreList
      * @return
      */
-    public Object analyseTrend(List<String> examTypeList, String showType, List<Score> tempScoreList) {
+    public Object analyseTrend(List<String> examTypeList, int showType, List<Score> tempScoreList) {
         //过滤出需要处理的scorelist
-        DynamicTable dynamicTable = new DynamicTable();
         Set<String> examTypeSet = new HashSet<>(examTypeList);
         List<Score> scoreList = tempScoreList.stream().filter(o -> examTypeSet.contains(o.getExamType())).collect(Collectors.toList());
+        scoreList.sort((a, b) -> a.getExamTime().compareTo(b.getExamTime()));
+        List<Pair> courseList = new LinkedList<>();
+        scoreList.stream().forEach(score -> {
+            score.getCourseScoreList().stream().forEach(courseScore -> {
+                Optional<Pair> pairOptional = courseList.stream().filter(o -> o.getId() == courseScore.getCourseId()).findAny();
+                if(!pairOptional.isPresent()){
+                    courseList.add(new Pair(courseScore.getCourseId(), courseScore.getCourseName()));
+                }
+            });
+        });
+        courseList.sort((a, b) -> {
+            return a.getId() >= b.getId() ? ( a.getId() == b.getId() ? 0 : 1) : -1;
+        });
         //开始进行分析
-        if (showType.equals("表格")) {
-            List<Pair> courseList = new LinkedList<>();
-            scoreList.stream().forEach(score -> {
-                score.getCourseScoreList().stream().forEach(courseScore -> {
-                    Optional<Pair> pairOptional = courseList.stream().filter(o -> o.getId() == courseScore.getCourseId()).findAny();
-                    if(!pairOptional.isPresent()){
-                        courseList.add(new Pair(courseScore.getCourseId(), courseScore.getCourseName()));
-                    }
-                });
-            });
-            courseList.sort((a, b) -> {
-                return a.getId() >= b.getId() ? ( a.getId() == b.getId() ? 0 : 1) : -1;
-            });
+        if (showType == 1) {
+            DynamicTable dynamicTable = new DynamicTable();
             List<String> labelList = new LinkedList<>();
             Map<String, String> nameMap = new HashMap<>();
             labelList.add("name");
@@ -662,9 +664,31 @@ public class ScoreAnalyseService {
             dynamicTable.setDataList(dataList);
             return dynamicTable;
         } else {
-
+            //折线图
+            DynamicChart dynamicChart = new DynamicChart();
+            List<String> typeList = courseList.stream().map(o->o.getValue()).collect(Collectors.toList());
+            List<String> xList = scoreList.stream().map(o->o.getExamName()).collect(Collectors.toList());
+            List<List<Double>> resultList = new LinkedList<>();
+            courseList.stream().forEach(type -> {
+                List<Double> tempList = new LinkedList<Double>();
+                scoreList.stream().forEach(score -> {
+                    List<CourseScore> courseScoreList = score.getCourseScoreList();
+                    Optional<CourseScore> courseScoreOptional = courseScoreList.stream().filter(o -> o.getCourseId() == type.getId()).findAny();
+                    if(showType == 2) {
+                        tempList.add(courseScoreOptional.isPresent() ? courseScoreOptional.get().getScore() : 0d);
+                    }else if(showType == 3){
+                        tempList.add(courseScoreOptional.isPresent() ? courseScoreOptional.get().getRank() : 0d);
+                    }else if(showType == 4){
+                        tempList.add(courseScoreOptional.isPresent() ? courseScoreOptional.get().getClassRank() : 0d);
+                    }
+                });
+                resultList.add(tempList);
+            });
+            dynamicChart.setTypeList(typeList);
+            dynamicChart.setxList(xList);
+            dynamicChart.setDataList(resultList);
+            return dynamicChart;
         }
-        return null;
     }
 
     public static void main(String[] args) {
