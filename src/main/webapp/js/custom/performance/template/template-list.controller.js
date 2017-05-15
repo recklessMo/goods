@@ -11,17 +11,19 @@
 
         $scope.tableParams = {page: 1, count: 10, type: 1, searchStr: null};
 
+        var block = blockUI.instances.get("template-list");
+
         $scope.activate = function () {
             $scope.templateTableParams = new NgTableParams({}, {
                 counts: [],
                 getData: function (params) {
-                    blockUI.start();
+                    block.start();
                     return TemplateService.loadTemplates({
                         page: params.page(),
                         count: params.count(),
                         type: $scope.type
                     }).then(function (data) {
-                        blockUI.stop();
+                        block.stop();
                         var result = data.data;
                         if (result.status == 200) {
                             params.total(result.totalCount);
@@ -31,7 +33,7 @@
                         }
                     }, function () {
                         SweetAlert.error("网络问题,请稍后重试!");
-                        blockUI.stop();
+                        block.stop();
                     });
                 }
             });
@@ -55,13 +57,13 @@
                     //这里可以进行调试,查看$scope,因为table会创建一个子scope
                     //然后子scope里面就不能用this了,因为this就指向了子scope,
                     //实际上在table的每一行里面的点击是调用了父scope的delete方法
-                    blockUI.start();
+                    block.start();
                     TemplateService.deleteTemplate(id).success(function () {
                         Notify.alert("删除成功!", {status: "success", timeout: 3000});
                         $scope.templateTableParams.reload();
-                        blockUI.stop();
+                        block.stop();
                     }).error(function () {
-                        blockUI.stop();
+                        block.stop();
                         SweetAlert.error("网络问题,请稍后重试!");
                     });
                 }

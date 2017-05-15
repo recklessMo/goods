@@ -9,6 +9,7 @@ import com.recklessmo.service.setting.GradeSettingService;
 import com.recklessmo.web.webmodel.page.StudentPage;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
+import javax.swing.*;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -126,6 +127,9 @@ public class StudentService {
      * @return
      */
     public List<StudentInfo> getStudentInfoBySidList(long orgId, List<String> sidList){
+        if(sidList == null || sidList.size() == 0){
+            return new LinkedList<>();
+        }
         return studentDAO.getStudentInfoBySidList(orgId, sidList);
     }
 

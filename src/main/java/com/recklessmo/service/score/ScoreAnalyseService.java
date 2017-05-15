@@ -449,7 +449,7 @@ public class ScoreAnalyseService {
                         courseRankChange.setSecondScore(tempCourseScore.getScore());
                         courseRankChange.setSecondRank(tempCourseScore.getRank());
                         courseRankChange.setScoreChange(tempCourseScore.getScore() - courseScore.getScore());
-                        courseRankChange.setRankGapNum(tempCourseScore.getRank() - courseScore.getRank());
+                        courseRankChange.setRankGapNum(courseScore.getRank() - tempCourseScore.getRank());
                         courseRankChangeList.add(courseRankChange);
                     }
                 });
@@ -552,19 +552,13 @@ public class ScoreAnalyseService {
                         ScoreAbsense scoreAbsense = new ScoreAbsense();
                         scoreAbsense.setCourseName(courseScore.getCourseName());
                         scoreAbsense.getSidList().add(score.getSid());
+                        scoreAbsense.getNameList().add(score.getName());
                         scoreAbsenseList.add(scoreAbsense);
                     }
                 }
             });
         });
-        Set<String> sidSet = new HashSet<>();
-        scoreAbsenseList.stream().forEach(scoreAbsense -> sidSet.addAll(scoreAbsense.getSidList()));
-        List<StudentInfo> studentBaseInfoList = studentService.getStudentInfoBySidList(orgId, new LinkedList<>(sidSet));
-        Map<String, StudentInfo> nameMap = studentBaseInfoList.stream().collect(Collectors.toMap(StudentInfo::getSid, Function.identity()));
         scoreAbsenseList.stream().forEach(scoreAbsense -> {
-            scoreAbsense.getSidList().stream().forEach(sid -> {
-                scoreAbsense.getNameList().add(nameMap.get(sid).getName());
-            });
             scoreAbsense.setTotalCount(scoreAbsense.getNameList().size());
         });
         return scoreAbsenseList;

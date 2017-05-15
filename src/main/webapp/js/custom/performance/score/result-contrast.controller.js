@@ -48,8 +48,12 @@
 
         $scope.addStudent = function (data) {
             if (!_.find($scope.studentChooseList, data)) {
-                $scope.studentChooseList.push(data);
-                $scope.startAnalyse(1);
+                if($scope.studentChooseList.length >= 5){
+                    Notify.alert("最多支持5位学生进行对比！", {status: "success", timeout: 3000});
+                }else {
+                    $scope.studentChooseList.push(data);
+                    $scope.startAnalyse(1);
+                }
             }
         }
 
