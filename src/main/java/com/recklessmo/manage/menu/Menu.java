@@ -33,16 +33,16 @@ public class Menu{
             new Menu(201, "成绩站", "考试设置", "icon-plus", "app.exam"),//done
 //            new Menu(202, "成绩站", "分析模版", "icon-plus", "app.analyze-template"),
             //成绩单点击可以写评语. 评语跟随成绩
-            new Menu(203, "成绩站", "成绩单", "icon-plus", "app.result-list"),//half-done
+            new Menu(203, "成绩站", "成绩单生成", "icon-plus", "app.result-list"),//half-done
             //雷达图
-            new Menu(204, "成绩站", "成绩趋势", "icon-user-follow", "app.result-trend"),
-            new Menu(205, "成绩站", "个人综合", "icon-plus", "app.result-self"),
-            new Menu(206, "成绩站", "综合对比", "icon-plus", "app.result-contrast"),
-            new Menu(207, "成绩站", "整体分析", "icon-plus", "app.result-total"),//done
-            new Menu(208, "成绩站", "分数段分析", "icon-plus", "app.result-gap"),//done
-            new Menu(209, "成绩站", "名次分析", "icon-plus", "app.result-rank"),//done
-            new Menu(210, "成绩站", "进退步分析", "icon-plus", "app.result-rankchange"),
-            new Menu(211, "成绩站", "缺考统计", "icon-plus", "app.result-absense"),
+            new Menu(204, "成绩站", "整体情况分析", "icon-plus", "app.result-total"),//done
+            new Menu(205, "成绩站", "分数段分析", "icon-plus", "app.result-gap"),//done
+            new Menu(206, "成绩站", "名次构成分析", "icon-plus", "app.result-rank"),//done
+            new Menu(207, "成绩站", "进退步分析", "icon-plus", "app.result-rankchange"),
+            new Menu(208, "成绩站", "成绩趋势分析", "icon-user-follow", "app.result-trend"),
+            new Menu(209, "成绩站", "单次成绩对比", "icon-plus", "app.result-self"),
+            new Menu(210, "成绩站", "综合成绩对比", "icon-plus", "app.result-contrast"),
+            new Menu(211, "成绩站", "缺考人员统计", "icon-plus", "app.result-absense"),
 //            new Menu(301, "统计站", "财务统计", "icon-wallet", "app.payStat"),
 //            new Menu(302, "统计站", "学生统计", "icon-wallet", "app.payStat"),
 //            new Menu(303, "统计站", "微信统计", "icon-wallet", "app.wechatStat"),
