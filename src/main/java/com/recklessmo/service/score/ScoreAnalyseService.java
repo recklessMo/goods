@@ -724,7 +724,7 @@ public class ScoreAnalyseService {
                 if (course.getId() != 0) {
                     RadarChartDimen radarChartDimen = new RadarChartDimen();
                     radarChartDimen.setName(course.getValue());
-                    radarChartDimen.setMax(150);
+                    radarChartDimen.setMax(100);
                     radarChartDimen.setId(course.getId());
                     typeList.add(radarChartDimen);
                 }

@@ -7,6 +7,37 @@
 
     function ScoreContrastController($scope, ExamService, ScoreService, StudentService, DicService, SweetAlert, NgTableParams, blockUI, Notify) {
 
+
+        $scope.gradeList = [];
+        $scope.classList = [];
+
+        //初始化选择器列表
+        function initSelector(){
+            blockUI.start();
+            DicService.loadAllGrade().success(function(data){
+                if(data.status == 200){
+                    $scope.gradeList = data.data;
+                    //添加全部，因为bootstrap引用出了问题
+                    _.forEach($scope.gradeList, function(item){
+                        item.classList.unshift({classId: 0, className:'全部'});
+                    });
+                    $scope.gradeList.unshift({gradeId: 0, gradeName:'全部', classList:[]});
+                }
+                blockUI.stop();
+            }).error(function(){
+                SweetAlert.error("网络异常, 请稍后重试!");
+                blockUI.stop();
+            });
+
+            $scope.selectGrade = function(data){
+                $scope.classList = data.classList;
+                $scope.tableParams.classId = 0;
+            }
+        }
+
+        initSelector();
+
+
         //控制左边栏是否显示
         $scope.showLeftWindow = true;
         $scope.showOrHideLeftWindow = function () {
@@ -145,7 +176,6 @@
                     indicator: $scope.result.typeList
                 },
                 series: [{
-                    name: '预算 vs 开销（Budget vs spending）',
                     type: 'radar',
                     itemStyle: {normal: {areaStyle: {type: 'default'}}},
                     data : $scope.result.dataList
