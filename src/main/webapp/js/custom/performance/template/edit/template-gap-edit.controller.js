@@ -5,8 +5,8 @@
         .module('custom')
         .controller('TemplateGapEditController', TemplateGapEditController);
 
-    TemplateGapEditController.$inject = ['$scope', 'TemplateService', '$timeout', '$resource', 'blockUI', 'SweetAlert'];
-    function TemplateGapEditController($scope,TemplateService, $timeout, $resource, blockUI, SweetAlert) {
+    TemplateGapEditController.$inject = ['$scope', 'TemplateService', '$timeout', '$resource', 'blockUI', 'SweetAlert', 'Notify'];
+    function TemplateGapEditController($scope,TemplateService, $timeout, $resource, blockUI, SweetAlert, Notify) {
         //type
         $scope.type = $scope.ngDialogData.type;
         //分数模板
@@ -18,7 +18,7 @@
             $scope.scoreTemplate.type = 2;
             TemplateService.addTemplate($scope.scoreTemplate).success(function(data){
                 if(data.status == 200){
-                    SweetAlert.success("成功!");
+                    Notify.alert("保存成功!", {status: "success", timeout: 3000});
                     $scope.closeThisDialog('reload');
                     blockUI.stop();
                 }

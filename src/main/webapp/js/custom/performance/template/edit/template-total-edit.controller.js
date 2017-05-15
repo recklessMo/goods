@@ -5,8 +5,8 @@
         .module('custom')
         .controller('TemplateTotalEditController', TemplateTotalEditController);
 
-    TemplateTotalEditController.$inject = ['$scope', 'TemplateService', '$timeout', '$resource', 'blockUI', 'SweetAlert'];
-    function TemplateTotalEditController($scope,TemplateService, $timeout, $resource, blockUI, SweetAlert) {
+    TemplateTotalEditController.$inject = ['$scope', 'TemplateService', '$timeout', '$resource', 'blockUI', 'SweetAlert', 'Notify'];
+    function TemplateTotalEditController($scope,TemplateService, $timeout, $resource, blockUI, SweetAlert, Notify) {
         //type
         $scope.type = $scope.ngDialogData.type;
         //分数模板
@@ -19,7 +19,7 @@
             $scope.scoreTemplate.detail = JSON.stringify($scope.scoreTemplate.courseTotalSettingMap);
             TemplateService.addTemplate($scope.scoreTemplate).success(function(data){
                 if(data.status == 200){
-                    SweetAlert.success("成功!");
+                    Notify.alert("保存成功!", {status: "success", timeout: 3000});
                     $scope.closeThisDialog('reload');
                     blockUI.stop();
                 }
