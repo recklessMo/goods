@@ -23,6 +23,8 @@ public interface ScoreDAO {
 
     List<Score> getScoreListBySid(@Param("orgId")long orgId, @Param("sid")String sid);
 
+    List<Score> getScoreListBySidList(@Param("orgId")long orgId, @Param("sidList")List<String> sidList);
+
     List<Score> getScoreByExamIdAndSidList(@Param("examId")long examId, @Param("sidList")List<String> sidList);
 
     List<String> searchSidByExamId(@Param("orgId") long orgId, @Param("examId")long examId);

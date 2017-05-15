@@ -2,10 +2,9 @@ package com.recklessmo.service.score;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.asm.Label;
+import com.recklessmo.model.common.AvgPair;
 import com.recklessmo.model.common.Pair;
-import com.recklessmo.model.dynamicTable.DynamicChart;
-import com.recklessmo.model.dynamicTable.DynamicTable;
-import com.recklessmo.model.dynamicTable.TableColumn;
+import com.recklessmo.model.dynamicTable.*;
 import com.recklessmo.model.score.CourseScore;
 import com.recklessmo.model.score.Score;
 import com.recklessmo.model.score.ScoreTemplate;
@@ -25,6 +24,7 @@ import com.recklessmo.model.score.result.self.ScoreSelfInner;
 import com.recklessmo.model.score.result.total.ClassTotal;
 import com.recklessmo.model.score.result.total.CourseTotal;
 import com.recklessmo.model.score.result.total.TotalInner;
+import com.recklessmo.model.setting.Grade;
 import com.recklessmo.model.student.StudentInfo;
 import com.recklessmo.service.setting.CourseSettingService;
 import com.recklessmo.service.student.StudentService;
@@ -688,6 +688,130 @@ public class ScoreAnalyseService {
             dynamicChart.setxList(xList);
             dynamicChart.setDataList(resultList);
             return dynamicChart;
+        }
+    }
+
+
+    /**
+     * 分析个人多场考试对比
+     *
+     * @param showType
+     * @param examType
+     * @param scoreList
+     * @return
+     */
+    public Object analyseContrast(List<String> examTypeList, int showType, List<Score> tempScoreList) {
+        //过滤出需要处理的scorelist
+        Set<String> examTypeSet = new HashSet<>(examTypeList);
+        List<Score> scoreList = tempScoreList.stream().filter(o -> examTypeSet.contains(o.getExamType())).collect(Collectors.toList());
+        //获取科目并集
+        List<Pair> courseList = new LinkedList<>();
+        scoreList.stream().forEach(score -> {
+            score.getCourseScoreList().stream().forEach(courseScore -> {
+                Optional<Pair> pairOptional = courseList.stream().filter(o -> o.getId() == courseScore.getCourseId()).findAny();
+                if(!pairOptional.isPresent()){
+                    courseList.add(new Pair(courseScore.getCourseId(), courseScore.getCourseName()));
+                }
+            });
+        });
+        courseList.sort((a, b) -> {
+            return a.getId() >= b.getId() ? ( a.getId() == b.getId() ? 0 : 1) : -1;
+        });
+        //每个人的考试成绩列表
+        Map<String, List<Score>> resultMap = scoreList.stream().collect(Collectors.groupingBy(o->{
+            return o.getSid()+ "-" + o.getName();
+        }));
+        //开始进行图表的展示
+        if(showType == 2) {
+            RadarChart radarChart = new RadarChart();
+            List<String> nameList = new LinkedList<>(resultMap.keySet());
+            List<RadarChartDimen> typeList = new LinkedList<>();
+            courseList.stream().forEach(course -> {
+                if (course.getId() != 0) {
+                    RadarChartDimen radarChartDimen = new RadarChartDimen();
+                    radarChartDimen.setName(course.getValue());
+                    radarChartDimen.setMax(150);
+                    radarChartDimen.setId(course.getId());
+                    typeList.add(radarChartDimen);
+                }
+            });
+            List<RadarChartInner> dataList = new LinkedList<>();
+            nameList.stream().forEach(name -> {
+                List<Score> singleScoreList = resultMap.get(name);
+                RadarChartInner radarChartInner = new RadarChartInner();
+                radarChartInner.setName(name);
+                List<Double> valueList = new LinkedList<Double>();
+                typeList.stream().forEach(type -> {
+                    AvgPair temp = new AvgPair();
+                    singleScoreList.stream().forEach(singleScore -> {
+                        singleScore.getCourseScoreList().stream().forEach(courseScore -> {
+                            if (courseScore.getCourseId() == type.getId()) {
+                                temp.setTotal(temp.getTotal() + courseScore.getScore());
+                                temp.setCount(temp.getCount() + 1);
+                            }
+                        });
+                    });
+                    //统计完毕
+                    valueList.add(temp.getCount() == 0 ? 0 : ((temp.getTotal() / temp.getCount()) * 100 / 100.0));
+                });
+                radarChartInner.setValue(valueList);
+                dataList.add(radarChartInner);
+            });
+            radarChart.setNameList(nameList);
+            radarChart.setTypeList(typeList);
+            radarChart.setDataList(dataList);
+            return radarChart;
+        }else{
+            DynamicTable dynamicTable = new DynamicTable();
+            List<String> labelList = new LinkedList<>();
+            Map<String, String> nameMap = new HashMap<>();
+            List<Map<String, Object>> dataList = new LinkedList<>();
+            labelList.add("sid");
+            labelList.add("name");
+            nameMap.put("sid", "学号");
+            nameMap.put("name", "姓名");
+            courseList.stream().forEach(course -> {
+                labelList.add("course" + course.getId());
+                nameMap.put("course" + course.getId(), course.getValue());
+            });
+            resultMap.entrySet().forEach(entry -> {
+                Map<String, Object> temp = new HashMap<String, Object>();
+                String sidName = entry.getKey();
+                List<Score> singleScoreList = entry.getValue();
+                String[] array = sidName.split("-");
+                temp.put("sid", array[0]);
+                temp.put("name", array[1]);
+                List<Score> valueList = entry.getValue();
+                courseList.stream().forEach(course -> {
+                    AvgPair avgPair = new AvgPair();
+                    singleScoreList.stream().forEach(singleScore -> {
+                        singleScore.getCourseScoreList().stream().forEach(courseScore -> {
+                            if (courseScore.getCourseId() == course.getId()) {
+                                avgPair.setTotal(avgPair.getTotal() + courseScore.getScore());
+                                avgPair.setCount(avgPair.getCount() + 1);
+                            }
+                        });
+                    });
+                    temp.put("course" + course.getId(), avgPair.getCount() == 0 ? 0 : ((avgPair.getTotal() / avgPair.getCount()) * 100 / 100.0));
+                });
+                dataList.add(temp);
+            });
+
+            //处理labelList
+            List<TableColumn> tableColumnList = new LinkedList<>();
+            labelList.stream().forEach(label -> {
+                TableColumn tableColumn = new TableColumn();
+                tableColumn.setField(label);
+                tableColumn.setTitle(nameMap.get(label));
+                tableColumn.setSortable(label);
+                JSONObject obj = new JSONObject();
+                obj.put(label, "text");
+                tableColumn.setFilter(obj);
+                tableColumnList.add(tableColumn);
+            });
+            dynamicTable.setDataList(dataList);
+            dynamicTable.setLabelList(tableColumnList);
+            return dynamicTable;
         }
     }
 

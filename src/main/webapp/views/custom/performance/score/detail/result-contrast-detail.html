@@ -1,0 +1,59 @@
+<div class="panel" style="height: 100%;box-shadow: 0 0 1px;">
+
+    <!--顶层选项-->
+    <div class="row" style="padding-top:5px;margin-left:0px;height: 50px;">
+        <div class="col-xs-5">
+            <div style="height: 82px;border:1px solid rgba(211,211,211,.58);border-radius: 5px;padding:5px;">
+                <span data-ng-repeat="student in studentChooseList"
+                      style="padding: 4px;border-radius: 5px;box-shadow: inset 0 0 1px;margin-right: 5px;display: inline-flex;margin-bottom: 5px;align-items: center;font-size: 14px;color: #111b34;">
+                    {{student.name}}
+                   <i class="fa fa-times" aria-hidden="true"
+                      ng-click="deleteStudent(student)"></i>
+                </span>
+            </div>
+        </div>
+        <div class="col-xs-3 btn-group pull-right">
+            <button class="btn btn-default" ng-class="{active:flag.show == 1}" ng-click="startAnalyse(1)">表格</button>
+            <button class="btn btn-default" ng-class="{active:flag.show == 2}" ng-click="startAnalyse(2)">对比图</button>
+        </div>
+        <div class="col-xs-4">
+            <ui-select multiple ng-model="analyseParams.examTypes" theme="bootstrap" close-on-select="false"
+                       title="选择考试类型"
+                       class="text-left" style="width:100%;height: 82px;">
+                <ui-select-match placeholder="选择考试类型">{{$item}};</ui-select-match>
+                <ui-select-choices repeat="examType in examTypeList">
+                    <div ng-bind-html="examType"></div>
+                </ui-select-choices>
+            </ui-select>
+        </div>
+    </div>
+
+    <div ng-show="flag.show == 1" style="overflow:auto;height: calc(100% - 80px);width: 100%;margin-top:20px;">
+        <table ng-table-dynamic="scoreListTableParams with labelList" show-filter="true"
+               class="table table-bordered table-hover table-condensed table-responsive fixed-table"
+               style="border:1px solid #eeeeee;table-layout: fixed;">
+            <tr ng-repeat="item in $data" ng-dblclick="show(item.id)">
+                <td data-ng-repeat="column in $columns">{{::item[column.field]}}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div ng-show="flag.show == 1" style="overflow:auto;height: calc(100% - 80px);width: 100%;margin-top:50px;">
+        <table ng-table-dynamic="scoreListTableParams with labelList" show-filter="true"
+               class="table table-bordered table-hover table-condensed table-responsive fixed-table"
+               style="border:1px solid #eeeeee;table-layout: fixed;">
+            <tr ng-repeat="item in $data" ng-dblclick="show(item.id)">
+                <td data-ng-repeat="column in $columns">{{::item[column.field]}}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div style="overflow:auto;height: calc(100% - 80px);width: 100%;margin-top:20px;">
+        <!--对比雷达图-->
+        <div style="padding-top:50px;text-align: center;"
+             ng-show="flag.show == 2">
+            <div id="chart2" style="height: 400px; width: 1100px;margin:auto;"></div>
+        </div>
+    </div>
+
+</div>

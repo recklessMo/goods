@@ -48,6 +48,16 @@
         where org_id = #{orgId} and sid = #{sid}
     </select>
 
+    <select id="getScoreListBySidList" resultType="com.recklessmo.model.score.Score">
+        SELECT
+        <include refid="columns"/>
+        from score
+        where org_id = #{orgId} and sid in
+        <foreach collection="sidList" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
+
     <select id="getScoreByExamIdAndSidList" resultType="com.recklessmo.model.score.Score">
         select
         <include refid="columns"/>

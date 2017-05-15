@@ -16,6 +16,7 @@
         this.loadScoreRankChange = loadScoreRankChange;
         this.loadScoreAbsense = loadScoreAbsense;
         this.loadScoreTrend = loadScoreTrend;
+        this.loadScoreContrast = loadScoreContrast;
 
         //type代表分析的维度, 学科维度或者班级维度
         function loadScoreTotalResult(examId, type, templateId){
@@ -23,6 +24,15 @@
                 url: "/v1/analyse/total",
                 data: $.param({examId: examId, type: type, templateId:templateId}),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                method: "POST",
+                timeout: 10000
+            });
+        }
+
+        function loadScoreContrast(data){
+            return $http({
+                url: "/v1/analyse/contrast",
+                data: data,
                 method: "POST",
                 timeout: 10000
             });

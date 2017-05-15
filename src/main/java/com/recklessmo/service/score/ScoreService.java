@@ -126,6 +126,18 @@ public class ScoreService {
         return scoreList;
     }
 
+    /**
+     * 根据sid获取scoreList
+     * @param orgId
+     * @param sid
+     * @return
+     */
+    public List<Score> getScoreListBySidList(long orgId, List<String> sidList){
+        List<Score> scoreList =  scoreDAO.getScoreListBySidList(orgId, sidList);
+        composeGradeInfo(orgId, scoreList);
+        return scoreList;
+    }
+
 
     /**
      *

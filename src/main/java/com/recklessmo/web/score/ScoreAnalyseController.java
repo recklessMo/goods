@@ -7,6 +7,7 @@ import com.recklessmo.response.JsonResponse;
 import com.recklessmo.service.score.ScoreAnalyseService;
 import com.recklessmo.service.score.ScoreService;
 import com.recklessmo.util.ContextUtils;
+import com.recklessmo.web.webmodel.model.ContrastModel;
 import com.recklessmo.web.webmodel.model.SelfModel;
 import com.recklessmo.web.webmodel.model.TrendModel;
 import org.springframework.stereotype.Controller;
@@ -176,6 +177,26 @@ public class ScoreAnalyseController {
         DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
         List<Score> scoreList = scoreService.getScoreListBySid(userDetails.getOrgId(), trendModel.getSid());
         Object result = scoreAnalyseService.analyseTrend(trendModel.getExamTypes(), trendModel.getShowType(), scoreList);
+        return new JsonResponse(200, result, null);
+    }
+
+
+    /**
+     *
+     * 个人综合对比
+     *
+     * @param trendModel
+     * @return
+     */
+    @RequestMapping(value = "/contrast", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public JsonResponse analyzeContrast(@RequestBody ContrastModel contrastModel){
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
+        if(contrastModel.getSidList().size() == 0){
+            return new JsonResponse(200, null, null);
+        }
+        List<Score> scoreList = scoreService.getScoreListBySidList(userDetails.getOrgId(), contrastModel.getSidList());
+        Object result = scoreAnalyseService.analyseContrast(contrastModel.getExamTypes(), contrastModel.getShowType(), scoreList);
         return new JsonResponse(200, result, null);
     }
 

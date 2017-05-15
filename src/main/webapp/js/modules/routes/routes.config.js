@@ -98,6 +98,11 @@
                 title: '个人综合',
                 templateUrl: helper.basepath('custom/performance/score/result-self.html')
             })
+            .state('app.result-contrast', {
+                url: '/result-contrast',
+                title: '综合对比',
+                templateUrl: helper.basepath('custom/performance/score/result-contrast.html')
+            })
             .state('app.result-total', {
                 url: '/result-total',
                 title: '整体分析',
