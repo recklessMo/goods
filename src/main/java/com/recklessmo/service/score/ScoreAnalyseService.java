@@ -752,7 +752,7 @@ public class ScoreAnalyseService {
                         });
                     });
                     //统计完毕
-                    valueList.add(temp.getCount() == 0 ? 0 : ((temp.getTotal() / temp.getCount()) * 100 / 100.0));
+                    valueList.add(temp.getCount() == 0 ? 0 : (((int)(temp.getTotal() / temp.getCount() * 100)) / 100.0));
                 });
                 radarChartInner.setValue(valueList);
                 dataList.add(radarChartInner);
@@ -792,7 +792,7 @@ public class ScoreAnalyseService {
                             }
                         });
                     });
-                    temp.put("course" + course.getId(), avgPair.getCount() == 0 ? 0 : ((avgPair.getTotal() / avgPair.getCount()) * 100 / 100.0));
+                    temp.put("course" + course.getId(), avgPair.getCount() == 0 ? 0 : (((int)(avgPair.getTotal() / avgPair.getCount() * 100)) / 100.0));
                 });
                 dataList.add(temp);
             });

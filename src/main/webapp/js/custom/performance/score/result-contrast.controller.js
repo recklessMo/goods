@@ -49,6 +49,7 @@
         $scope.addStudent = function (data) {
             if (!_.find($scope.studentChooseList, data)) {
                 $scope.studentChooseList.push(data);
+                $scope.startAnalyse(1);
             }
         }
 
@@ -94,7 +95,7 @@
                         if(type == 1) {
                             $scope.labelList = data.data.labelList;
                             $scope.scoreList = data.data.dataList;
-                            $scope.showTable();
+                            $scope.showTables();
                         }else if(type == 2){
                             $scope.result = data.data;
                             $scope.showCharts(type);

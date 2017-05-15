@@ -28,17 +28,7 @@
         </div>
     </div>
 
-    <div ng-show="flag.show == 1" style="overflow:auto;height: calc(100% - 80px);width: 100%;margin-top:20px;">
-        <table ng-table-dynamic="scoreListTableParams with labelList" show-filter="true"
-               class="table table-bordered table-hover table-condensed table-responsive fixed-table"
-               style="border:1px solid #eeeeee;table-layout: fixed;">
-            <tr ng-repeat="item in $data" ng-dblclick="show(item.id)">
-                <td data-ng-repeat="column in $columns">{{::item[column.field]}}</td>
-            </tr>
-        </table>
-    </div>
-
-    <div ng-show="flag.show == 1" style="overflow:auto;height: calc(100% - 80px);width: 100%;margin-top:50px;">
+    <div ng-show="flag.show == 1" style="overflow:auto;height: calc(100% - 80px);width: 100%;margin-top:80px;">
         <table ng-table-dynamic="scoreListTableParams with labelList" show-filter="true"
                class="table table-bordered table-hover table-condensed table-responsive fixed-table"
                style="border:1px solid #eeeeee;table-layout: fixed;">
