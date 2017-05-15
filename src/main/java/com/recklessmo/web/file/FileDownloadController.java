@@ -160,6 +160,8 @@ public class FileDownloadController {
         Map<String, Object> beans = new HashMap<>();
         beans.put("labelList", labelList);
         beans.put("dataList", dataList);
+        beans.put("examName", exam.getExamName());
+        beans.put("examTime", exam.getExamTime());
         returnFile(beans, response, "成绩单导出", "score_export", ".xlsx");
     }
 
