@@ -53,39 +53,49 @@
         }
 
         $scope.deleteExam = function (row) {
-            $scope.examChooseList = _.without($scope.examChooseList, row);}
+            $scope.examChooseList = _.without($scope.examChooseList, row);
+        }
 
 
-        $scope.startAnalyse = function(){
-            if($scope.examChooseList.length != 2){
+        $scope.startAnalyse = function () {
+            if ($scope.examChooseList.length != 2) {
                 SweetAlert.error("请选择两场考试进行对比分析!");
                 return;
             }
             blockUI.start();
             var params = [$scope.examChooseList[0].examId, $scope.examChooseList[1].examId];
-            ScoreService.loadScoreRankChange(params).success(function(data){
+            ScoreService.loadScoreRankChange(params).success(function (data) {
                 blockUI.stop();
-                if(data.status == 200){
+                if (data.status == 200) {
                     $scope.labelList = data.data.labelList;
                     $scope.dataList = data.data.dataList;
                     $scope.showTables();
-                }else{
+                } else {
                     SweetAlert.error("服务器内部错误, 请联系客服!");
                 }
-            }).error(function(){
+            }).error(function () {
                 SweetAlert.error("网络问题,请稍后重试!");
                 blockUI.stop();
             });
         }
 
         //后续需要加上排序以及过滤的一系列逻辑.
-        $scope.showTables = function(){
+        $scope.showTables = function () {
             $scope.rankListTableParams = new NgTableParams({page: 1, count: 10},
                 {
                     counts: [],
                     dataset: $scope.dataList
                 }
             );
+        }
+
+        $scope.export = function () {
+            if ($scope.examChooseList.length != 2) {
+                SweetAlert.error("请选择两场考试进行对比分析!");
+                return;
+            }
+            window.open("/common/file/rankchange/export?first=" + $scope.examChooseList[0].examId + "&second=" + $scope.examChooseList[1].examId);
+
         }
 
     }

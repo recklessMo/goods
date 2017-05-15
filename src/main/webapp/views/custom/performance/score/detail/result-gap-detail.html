@@ -29,12 +29,12 @@
 
         <!--分数段柱状图, 根据科目分为多个图形-->
         <div ng-repeat="table in resultList" style="padding-top:50px;text-align: center;" ng-show="flag.show == 2">
-            <div id="{{'chart' + table.name}}" style="height: 400px; width: 1000px;margin:auto;"></div>
+            <div id="{{'chart' + table.name}}" style="height: 400px; width: 1200px;margin:auto;"></div>
         </div>
 
         <!--分数段折线图, 根据科目分为多个图形-->
         <div ng-repeat="table in resultList" style="padding-top:50px;text-align: center;" ng-show="flag.show == 3">
-            <div id="{{'chart1' + table.name}}" style="height: 400px; width: 1000px;margin:auto;"></div>
+            <div id="{{'chart1' + table.name}}" style="height: 400px; width: 1200px;margin:auto;"></div>
         </div>
     </div>
 

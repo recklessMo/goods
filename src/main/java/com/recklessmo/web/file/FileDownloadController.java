@@ -1,6 +1,7 @@
 package com.recklessmo.web.file;
 
 import com.google.common.collect.Maps;
+import com.recklessmo.model.dynamicTable.DynamicTable;
 import com.recklessmo.model.exam.Exam;
 import com.recklessmo.model.excel.StudentExcelModel;
 import com.recklessmo.model.score.CourseScore;
@@ -13,6 +14,7 @@ import com.recklessmo.model.setting.Group;
 import com.recklessmo.model.student.StudentInfo;
 import com.recklessmo.model.system.Org;
 import com.recklessmo.service.exam.ExamService;
+import com.recklessmo.service.score.ScoreAnalyseService;
 import com.recklessmo.service.score.ScoreService;
 import com.recklessmo.service.setting.CourseSettingService;
 import com.recklessmo.service.setting.GradeSettingService;
@@ -70,6 +72,9 @@ public class FileDownloadController {
 
     @Resource
     private ScoreService scoreService;
+
+    @Resource
+    private ScoreAnalyseService scoreAnalyseService;
 
 
     /**
@@ -163,6 +168,39 @@ public class FileDownloadController {
         beans.put("examName", exam.getExamName());
         beans.put("examTime", exam.getExamTime());
         returnFile(beans, response, "成绩单导出", "score_export", ".xlsx");
+    }
+
+    /**
+     *
+     * 导出进退步分析
+     *
+     * @param firstExamId
+     * @param secondExamId
+     * @param response
+     * @throws Exception
+     */
+    @RequestMapping(value = "/rankchange/export", method = {RequestMethod.POST, RequestMethod.GET})
+    public void rankchangeExport(@RequestParam("first")long firstExamId, @RequestParam("second")long secondExamId, HttpServletResponse response) throws Exception {
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
+        //根据考试所选定的科目来进行模板表格
+        List<Score> firstList = scoreService.loadScoreByExamId(userDetails.getOrgId(), firstExamId);
+        List<Score> secondList = scoreService.loadScoreByExamId(userDetails.getOrgId(), secondExamId);
+        DynamicTable dynamicTable = (DynamicTable)scoreAnalyseService.analyseRankChange(firstList, secondList);
+        //表头
+        List<String> labelList = dynamicTable.getLabelList().stream().map(o->o.getTitle()).collect(Collectors.toList());
+        //数据
+        List<List<String>> dataList = new LinkedList<>();
+        dynamicTable.getDataList().stream().forEach(single -> {
+            List<String> temp = new LinkedList<String>();
+            dynamicTable.getLabelList().stream().forEach(label -> {
+                temp.add(String.valueOf(single.get(label.getField())));
+            });
+            dataList.add(temp);
+        });
+        Map<String, Object> beans = new HashMap<>();
+        beans.put("labelList", labelList);
+        beans.put("dataList", dataList);
+        returnFile(beans, response, "进退步分析", "rank_change_export", ".xlsx");
     }
 
     /**
