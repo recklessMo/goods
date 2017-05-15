@@ -37,9 +37,9 @@
         </div>
     </div>
 
-    <div style="margin-top: 10px;">
+    <div style="margin-top: 10px;overflow: auto;">
         <table ng-table="studentTableParams"
-               class="table table-bordered table-hover table-condensed editable-table table-min">
+               class="table table-bordered table-hover table-condensed editable-table table-min" style="width:2000px;">
             <tr ng-repeat="item in $data">
                 <td data-title="'学号'" style="text-align: center">{{item.sid}}</td>
                 <td data-title="'年级'" style="text-align: center">{{item.gradeName}}</td>

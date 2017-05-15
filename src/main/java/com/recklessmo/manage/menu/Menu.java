@@ -26,8 +26,8 @@ public class Menu{
             new Menu(103, "教务站", "录入导出", "icon-user-follow", "app.student-add-worktable"),
 //            new Menu(103, "教务站", "奖惩录入", "icon-user-follow", "app.student-reward"),
 //            new Menu(104, "教务站", "毕业去向", "icon-user-follow", "app.student-graduate"),
-            new Menu(105, "教务站", "任课设置", "icon-user-follow", "app.student-teacher"),
-            new Menu(106, "教务站", "课表编排", "icon-user-follow", "app.class-schedule"),
+//            new Menu(105, "教务站", "任课设置", "icon-user-follow", "app.student-teacher"),
+//            new Menu(106, "教务站", "课表编排", "icon-user-follow", "app.class-schedule"),
 
 
             new Menu(201, "成绩站", "考试设置", "icon-plus", "app.exam"),//done
