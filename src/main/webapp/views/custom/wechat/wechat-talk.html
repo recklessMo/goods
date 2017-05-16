@@ -30,7 +30,36 @@
                         <uib-tab-heading>
                             全部用户
                         </uib-tab-heading>
-                        <table ng-table="wechatAllUserTableParams"
+                        <div style="width: 100%;margin-top:5px;">
+                            <ui-select ng-model="tableParams.gradeId" theme="bootstrap"
+                                       class="text-left" style="width:100%;" on-select="selectGrade($item)">
+                                <ui-select-match placeholder="选择年级">{{$select.selected.gradeName}}
+                                </ui-select-match>
+                                <ui-select-choices repeat="grade.gradeId as grade in gradeList">
+                                    <span ng-bind-html="grade.gradeName"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                        <div style="width: 100%;margin-top:5px;">
+                            <ui-select ng-model="tableParams.classId" theme="bootstrap"
+                                       class="text-left" style="width:100%;">
+                                <ui-select-match placeholder="选择班级">{{$select.selected.className}}
+                                </ui-select-match>
+                                <ui-select-choices repeat="class.classId as class in classList">
+                                    <span ng-bind-html="class.className"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                        <input type="text" placeholder="输入姓名,学号进行查询" class="form-control"
+                               ng-model="tableParams.searchStr"
+                               style="margin-top:5px;display: inline-block;width: calc( 100% - 70px);"/>
+                        <button class="btn btn-info" ng-click="searchStudent()">查询</button>
+
+                        <div style="text-align: center;font-weight: bold;padding-top:15px;padding-bottom: 10px;">
+                            <span>共查询到{{obj.totalCount}}条记录</span>
+                        </div>
+
+                        <table ng-table="studentTableParams"
                                class="table table-bordered table-hover">
                             <tr ng-repeat="user in $data">
                                 <td ng-click="clickUser(user)">
@@ -52,16 +81,19 @@
                 </uib-tabset>
             </div>
         </div>
-        <div class="col-xs-9" style="padding-left:0px;height: 100%;" ng-show="chooseUser">
+        <div class="col-xs-9" style="padding-left:0px;height: 100%;" ng-show="chooseUserFlag">
             <uib-tabset justified="true" style="height: 100%;border:1px;padding-left: 0;padding-right: 0;"
                         class="col-xs-12 tab-full-content panel panel-default">
                 <uib-tab select="" style="text-align: center;height: 100%;">
                     <uib-tab-heading>
                         咨询对话框
                     </uib-tab-heading>
-                    <div style="height: 100%;">
-                        <div ng-controller="WechatMsgDialogController"
-                             ng-include="'app/views/custom/wechat/wechat-msg-dialog.html'" style="height: 100%;"></div>
+                    <!--<div style="height: 100%;">-->
+                        <!--<div ng-controller="WechatMsgDialogController"-->
+                             <!--ng-include="'app/views/custom/wechat/wechat-msg-dialog.html'" style="height: 100%;"></div>-->
+                    <!--</div>-->
+                    <div ng-show="chooseUser.wechatId == ''" style="height:100%;display: flex;align-items: center;justify-content: center;">
+                        未绑定, 请家长关注公众号后进行自助绑定！
                     </div>
                 </uib-tab>
                 <uib-tab select="" style="text-align: center;height: 100%;">

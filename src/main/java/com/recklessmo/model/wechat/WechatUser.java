@@ -10,12 +10,14 @@ public class WechatUser {
     private long id;
     private long orgId;
     private String sid;
+    private String openId;
+
+    //补充
     private String name;
     private long gradeId;
     private String gradeName;
     private long classId;
     private String className;
-    private String openId;
 
     private String headUrl;
     private String lastMessage;
