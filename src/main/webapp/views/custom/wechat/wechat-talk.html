@@ -86,19 +86,19 @@
                         class="col-xs-12 tab-full-content panel panel-default">
                 <uib-tab select="" style="text-align: center;height: 100%;">
                     <uib-tab-heading>
-                        咨询对话框
+                        与<{{chooseUser.name}}的家长>对话中！
                     </uib-tab-heading>
                     <!--<div style="height: 100%;">-->
                         <!--<div ng-controller="WechatMsgDialogController"-->
                              <!--ng-include="'app/views/custom/wechat/wechat-msg-dialog.html'" style="height: 100%;"></div>-->
                     <!--</div>-->
                     <div ng-show="chooseUser.wechatId == ''" style="height:100%;display: flex;align-items: center;justify-content: center;">
-                        未绑定, 请家长关注公众号后进行自助绑定！
+                        <{{chooseUser.name}}的家长>还未绑定公众号, 请家长关注公众号后进行自助绑定！
                     </div>
                 </uib-tab>
                 <uib-tab select="" style="text-align: center;height: 100%;">
                     <uib-tab-heading>
-                        基本资料
+                        {{chooseUser.name}}资料
                     </uib-tab-heading>
                     <div style="height: 100%;">
                         <div ng-include="'app/views/custom/student/student-info.html'"></div>

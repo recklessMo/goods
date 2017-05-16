@@ -176,12 +176,15 @@ public class WechatCallbackController {
     @RequestMapping(value = "/callback", method = RequestMethod.GET)
     public void clickMenuCallback(@RequestParam("code") String code, @RequestParam("state") int state, HttpServletResponse response) throws Exception{
         String openId = wechatNetworkService.getBrowerOpenId(code);
+        LOGGER.info(openId);
         //根据state来进行回调判断
         StringBuilder sb = new StringBuilder();
         sb.append(WechatConstants.domainName + "/public/wechat/page?type=");
         sb.append(state);
+        LOGGER.info(sb.toString());
         Cookie cookie = new Cookie("token", "s" + openId + "e");
-        cookie.setPath("/");
+        LOGGER.info(cookie.getName());
+        cookie.setPath("/public/wechat/");
         cookie.setSecure(false);
         cookie.setHttpOnly(true);
         response.addCookie(cookie);
