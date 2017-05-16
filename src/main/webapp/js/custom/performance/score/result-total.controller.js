@@ -366,7 +366,10 @@
                             saveAsImage: {show: true}
                         }
                     },
-                    tooltip: {},
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b} : {c} ({d}%)"
+                    },
                     legend: {
                         orient: 'vertical',
                         left: 'left',
