@@ -179,7 +179,7 @@ public class WechatCallbackController {
         LOGGER.info(openId);
         //根据state来进行回调判断
         StringBuilder sb = new StringBuilder();
-        sb.append(WechatConstants.domainName + "/public/wechat/page?type=");
+        sb.append(WechatConstants.domainName + "/public/wechat/page/");
         sb.append(state);
         LOGGER.info(sb.toString());
         Cookie cookie = new Cookie("token", "s" + openId + "e");
@@ -198,8 +198,8 @@ public class WechatCallbackController {
      *
      * @return
      */
-    @RequestMapping(value = "/page", method = RequestMethod.GET)
-    public String page(@RequestParam("type") int type, Model model, HttpServletRequest request, HttpServletResponse response)throws  Exception {
+    @RequestMapping(value = "/page/{type}", method = RequestMethod.GET)
+    public String page(@PathVariable("type") int type, Model model, HttpServletRequest request, HttpServletResponse response)throws  Exception {
         String openId = WechatCookieUtils.getOpenIdByCookie(request.getCookies());
         if(openId == null){
             //如果没有cookie的话就去走认证的流程来获取cookie

@@ -32,7 +32,7 @@ public class WechatCookieUtils {
                 }
             }
         }
-        return null;
+        return openId;
     }
 
 

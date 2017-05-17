@@ -19,7 +19,6 @@ public class WechatUser {
     private long classId;
     private String className;
 
-    private String headUrl;
     private String lastMessage;
     private Date updated;
     private int deleted;
@@ -94,14 +93,6 @@ public class WechatUser {
 
     public void setOpenId(String openId) {
         this.openId = openId;
-    }
-
-    public String getHeadUrl() {
-        return headUrl;
-    }
-
-    public void setHeadUrl(String headUrl) {
-        this.headUrl = headUrl;
     }
 
     public String getLastMessage() {
