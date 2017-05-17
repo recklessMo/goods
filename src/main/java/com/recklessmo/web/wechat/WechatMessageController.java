@@ -2,15 +2,14 @@ package com.recklessmo.web.wechat;
 
 import com.recklessmo.model.security.DefaultUserDetails;
 import com.recklessmo.model.wechat.WechatMessage;
+import com.recklessmo.model.wechat.WechatTemplateMessage;
+import com.recklessmo.model.wechat.page.WechatTemplateMsgModel;
 import com.recklessmo.response.JsonResponse;
 import com.recklessmo.service.wechat.WechatMessageService;
 import com.recklessmo.util.ContextUtils;
 import com.recklessmo.web.webmodel.page.WechatMsgPage;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -50,9 +49,16 @@ public class WechatMessageController {
         wechatMessage.setUserId(defaultUserDetails.getId());
         wechatMessage.setUserName(defaultUserDetails.getUsername());
         wechatMessage.setType(WechatMessage.MSG_TYPE_TEXT);
-        boolean result = wechatMessageService.sendMessage(wechatMessage);
+        boolean result = wechatMessageService.sendMessage(wechatMessage, true);
         return new JsonResponse(200, result, null);
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/addTemplateMsg", method = RequestMethod.POST)
+    public JsonResponse addTemplateMsg(@RequestBody WechatTemplateMsgModel wechatTemplateMsgModel){
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
+        wechatMessageService.sendTemplateMessage(userDetails.getOrgId(), wechatTemplateMsgModel);
+        return new JsonResponse(200, null, null);
+    }
 
 }

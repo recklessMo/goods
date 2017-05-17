@@ -102,7 +102,8 @@ public class WechatCallbackController {
                         wechatMessageService.sendAutoMessage("subscribe", wechatTicket.getOrgId(), wechatUser.getOpenId(), wechatUser.getSid());
                     }
                 } else {
-                    //直接扫描公众号二维码关注. 暂时无法做任何事
+                    //直接扫描公众号二维码关注. 暂时无法做任何事, 就发送一条欢迎消息
+                    wechatMessageService.sendUnsubscribeMessage(wechatCallbackMsg.getFromUserName());
                 }
             } else if (wechatCallbackMsg.getEvent().equals("unsubscribe")) {
                 //解绑openId, 标记为删除

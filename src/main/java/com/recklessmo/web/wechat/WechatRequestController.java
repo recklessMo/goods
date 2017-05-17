@@ -148,11 +148,12 @@ public class WechatRequestController {
         }
         StudentInfo studentInfo = studentService.getStudentInfoByWechatId(openId);
         response.addHeader("Access-Control-Allow-Origin", "*");
-
-        ExamListPage examListPage = new ExamListPage();
-        examListPage.setClassId(studentInfo.getClassId());
-        List<Exam> examList = examService.listExam(examListPage);
-        return new JsonResponse(200, examList, null);
+        //查询考试列表
+        List<Score> scoreList = scoreService.getScoreListBySid(studentInfo.getOrgId(), studentInfo.getSid());
+        scoreList.sort((a, b)->{
+            return b.getExamTime().compareTo(a.getExamTime());
+        });
+        return new JsonResponse(200, scoreList, null);
     }
 
 
@@ -174,6 +175,7 @@ public class WechatRequestController {
         StudentInfo studentInfo = studentService.getStudentInfoByWechatId(openId);
         response.addHeader("Access-Control-Allow-Origin", "*");
 
+        Score score = scoreService.getScoreByExamIdAndSid(eid, studentInfo.getSid());
 //        ScoreListPage scoreListPage = new ScoreListPage();
 //        scoreListPage.setExamId(eid);
 //        scoreListPage.setSid(studentAllInfo.getSid());
@@ -182,7 +184,7 @@ public class WechatRequestController {
 //        List<Score> scores = scoreService.loadScoreList(scoreListPage);
 //        List<NewScore> newScores = ScoreUtils.changeScoreToNewScore(scores);
 //        return new JsonResponse(200, newScores.get(0), null);
-        return null;
+        return new JsonResponse(200, score, null);
     }
 
     /**

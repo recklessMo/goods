@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Strings;
 import com.recklessmo.constant.WechatConstants;
 import com.recklessmo.model.setting.Schedule;
+import com.recklessmo.model.wechat.WechatTemplateMessage;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpEntity;
@@ -180,6 +181,44 @@ public class WechatNetworkService {
                 JSONObject obj = new JSONObject();
                 obj.put("content", content);
                 object.put("text", obj);
+                StringEntity stringEntity = new StringEntity(object.toJSONString(), "UTF-8");
+                stringEntity.setContentType("application/json");
+                httpPost.setEntity(stringEntity);
+                response = httpclient.execute(httpPost);
+                StatusLine status = response.getStatusLine();
+                return status.getStatusCode();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                response.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return 500;
+    }
+
+
+    /**
+     *
+     * 发送模板消息到微信
+     *
+     * 暂时只支持文本消息
+     *
+     */
+    public int sendTemplateMsgToWechat(WechatTemplateMessage wechatTemplateMessage){
+        CloseableHttpResponse response = null;
+        try {
+            String accessToken = getAccessToken();
+            if (accessToken != null) {
+                HttpPost httpPost = new HttpPost(WechatConstants.SEND_TEMPLATE_MSG_URL + accessToken);
+                JSONObject object = new JSONObject();
+                object.put("touser", wechatTemplateMessage.getOpenId());
+                object.put("template_id", wechatTemplateMessage.getTemplateId());
+                object.put("url", wechatTemplateMessage.getUrl());
+                object.put("data", wechatTemplateMessage.getData());
                 StringEntity stringEntity = new StringEntity(object.toJSONString(), "UTF-8");
                 stringEntity.setContentType("application/json");
                 httpPost.setEntity(stringEntity);

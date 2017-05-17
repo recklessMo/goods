@@ -68,7 +68,7 @@ public class ScoreService {
      */
     public List<Score> loadScoreList(ScoreListPage page){
         List<Score> scoreList = scoreDAO.getList(page);
-        composeGradeInfo(page.getOrgId(), scoreList);
+        composeGradeInfoAndExamInfo(page.getOrgId(), scoreList);
         sortByTotal(scoreList);
         return scoreList;
     }
@@ -83,7 +83,7 @@ public class ScoreService {
      */
     public List<Score> loadScoreByExamId(long orgId, long examId){
         List<Score> scoreList = scoreDAO.getScoreListByExamId(examId);
-        composeGradeInfo(orgId, scoreList);
+        composeGradeInfoAndExamInfo(orgId, scoreList);
         sortByTotal(scoreList);
         return scoreList;
     }
@@ -122,7 +122,7 @@ public class ScoreService {
      */
     public List<Score> getScoreListBySid(long orgId, String sid){
         List<Score> scoreList =  scoreDAO.getScoreListBySid(orgId, sid);
-        composeGradeInfo(orgId, scoreList);
+        composeGradeInfoAndExamInfo(orgId, scoreList);
         return scoreList;
     }
 
@@ -134,7 +134,7 @@ public class ScoreService {
      */
     public List<Score> getScoreListBySidList(long orgId, List<String> sidList){
         List<Score> scoreList =  scoreDAO.getScoreListBySidList(orgId, sidList);
-        composeGradeInfo(orgId, scoreList);
+        composeGradeInfoAndExamInfo(orgId, scoreList);
         return scoreList;
     }
 
@@ -145,7 +145,7 @@ public class ScoreService {
      *
      * @param scoreList
      */
-    private void composeGradeInfo(long orgId, List<Score> scoreList){
+    private void composeGradeInfoAndExamInfo(long orgId, List<Score> scoreList){
         if(scoreList.size() == 0 ){
             return;
         }

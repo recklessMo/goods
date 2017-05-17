@@ -53,6 +53,7 @@ public class Menu{
 
             new Menu(501, "微信站", "微信咨询", "icon-wrench", "app.wechat-talk"),
             new Menu(502, "微信站", "微信通知", "icon-wrench", "app.wechat-notice"),
+            new Menu(503, "微信站", "作业布置", "icon-wrench", "app.work-notice"),
 
 //            new Menu(601, "财务站", "学生财务", "icon-info", "app.todo"),
 
