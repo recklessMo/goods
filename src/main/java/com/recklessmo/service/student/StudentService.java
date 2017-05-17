@@ -102,7 +102,9 @@ public class StudentService {
      * @return
      */
     public StudentInfo getStudentInfoByWechatId(String wechatId){
-        return studentDAO.getStudentInfoByWechatId(wechatId);
+        StudentInfo studentInfo =  studentDAO.getStudentInfoByWechatId(wechatId);
+        compose(studentInfo, studentInfo.getOrgId());
+        return studentInfo;
     }
 
     /**

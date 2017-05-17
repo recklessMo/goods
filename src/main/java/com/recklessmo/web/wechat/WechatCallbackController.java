@@ -39,9 +39,6 @@ public class WechatCallbackController {
     private WechatNetworkService wechatNetworkService;
 
     @Resource
-    private WechatCallbackService wechatCallbackService;
-
-    @Resource
     private WechatMessageService wechatMessageService;
 
     @Resource
@@ -217,7 +214,7 @@ public class WechatCallbackController {
         }
 
         //如果没有绑定的话就进行绑定
-        StudentInfo studentInfo = wechatCallbackService.getStudentInfoByWechatId(openId);
+        StudentInfo studentInfo = studentService.getStudentInfoByWechatId(openId);
         if(studentInfo == null){
             return "bind";
         }
