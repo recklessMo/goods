@@ -6,6 +6,10 @@
         id,org_id,open_id,sid,updated,last_message,deleted
     </sql>
 
+    <insert id="insertUser" parameterType="com.recklessmo.model.wechat.WechatUser">
+      replace into wechat_user(org_id,open_id,sid,updated,last_message,deleted)
+      values(#{orgId}, #{openId}, #{sid}, #{updated}, #{lastMessage}, #{deleted})
+    </insert>
 
     <select id="getRecentListByOrgId" resultType="com.recklessmo.model.wechat.WechatUser">
         select

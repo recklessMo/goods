@@ -74,7 +74,8 @@ public class WechatUserService {
 
     /*************************微信用户 绑定和解绑定*****************************/
     public void insertUser(WechatUser user){
-
+        wechatUserDAO.insertUser(user);
+        studentService.updateWechatIdBySid(user.getSid(), user.getOpenId());
     }
 
     public void releaseUserByOpenId(String openId){
@@ -82,6 +83,10 @@ public class WechatUserService {
     }
 
     public void releaseUserBySid(String sid){
+
+    }
+
+    public void updateWechatUserLastMessage(){
 
     }
 

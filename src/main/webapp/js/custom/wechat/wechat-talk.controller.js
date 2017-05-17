@@ -120,7 +120,7 @@
         $scope.clickUser = function(user){
             $scope.chooseUserFlag = true;
             $scope.chooseUser = user;
-            var data = {openId: user.openId};
+            var data = {openId: user.openId, sid: user.sid};
             if(user.openId && user.openId.length > 0){
                 data.type = 'bind';
             }

@@ -151,6 +151,17 @@ public class StudentService {
 
     /**
      *
+     * 更新wechatid
+     *
+     * @param sid
+     * @param openId
+     */
+    public void updateWechatIdBySid(String sid, String openId){
+        studentDAO.updateWechatIdBySid(sid, openId);
+    }
+
+    /**
+     *
      * 根据examid查询学生信息
      *
      * 用于进行个人综合分析页面的实现

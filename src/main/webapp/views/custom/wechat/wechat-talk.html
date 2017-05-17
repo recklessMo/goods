@@ -88,11 +88,11 @@
                     <uib-tab-heading>
                         与<{{chooseUser.name}}的家长>对话中！
                     </uib-tab-heading>
-                    <!--<div style="height: 100%;">-->
-                        <!--<div ng-controller="WechatMsgDialogController"-->
-                             <!--ng-include="'app/views/custom/wechat/wechat-msg-dialog.html'" style="height: 100%;"></div>-->
-                    <!--</div>-->
-                    <div ng-show="chooseUser.wechatId == ''" style="height:100%;display: flex;align-items: center;justify-content: center;">
+                    <div ng-show="chooseUser.openId != ''" style="height: 100%;">
+                        <div ng-controller="WechatMsgDialogController"
+                             ng-include="'app/views/custom/wechat/wechat-msg-dialog.html'" style="height: 100%;"></div>
+                    </div>
+                    <div ng-show="chooseUser.openId == ''" style="height:100%;display: flex;align-items: center;justify-content: center;">
                         <{{chooseUser.name}}的家长>还未绑定公众号, 请家长关注公众号后进行自助绑定！
                     </div>
                 </uib-tab>

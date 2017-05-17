@@ -11,6 +11,9 @@ import java.util.List;
  */
 public interface WechatUserDAO {
 
+    //创建新用户
+    void insertUser(WechatUser wechatUser);
+
     //获取最近咨询的微信用户
     List<WechatUser> getRecentListByOrgId(Page page);
     int getRecentCountByOrgId(Page page);

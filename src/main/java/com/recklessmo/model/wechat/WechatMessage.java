@@ -15,7 +15,7 @@ public class WechatMessage {
     private long id;
     private long orgId;
     private String openId;
-    private String openName = "";
+    private String sid;
     private long userId = 0;
     private String userName = "";
 
@@ -23,14 +23,6 @@ public class WechatMessage {
     private int messageType;
     private String message;
     private Date created;
-
-    public String getOpenName() {
-        return openName;
-    }
-
-    public void setOpenName(String openName) {
-        this.openName = openName;
-    }
 
     public String getUserName() {
         return userName;
@@ -102,5 +94,13 @@ public class WechatMessage {
 
     public void setCreated(Date created) {
         this.created = created;
+    }
+
+    public String getSid() {
+        return sid;
+    }
+
+    public void setSid(String sid) {
+        this.sid = sid;
     }
 }

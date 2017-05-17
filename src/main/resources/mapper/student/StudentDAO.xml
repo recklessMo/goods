@@ -112,4 +112,8 @@
         </if>
     </select>
 
+    <update id="updateWechatIdBySid">
+        update student set wechat_id = #{wechatId} where sid = #{sid}
+    </update>
+
 </mapper>

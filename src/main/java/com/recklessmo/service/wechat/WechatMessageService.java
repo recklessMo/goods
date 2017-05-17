@@ -52,6 +52,7 @@ public class WechatMessageService {
         //然后插入数据库中进行记录
         if (status == 200) {
             wechatMessageDAO.insertMessage(wechatMessage);
+
             return true;
         }
         return false;
@@ -64,9 +65,11 @@ public class WechatMessageService {
      * @param wechatMessage
      * @return
      */
-    public boolean sendAutoMessage(String type, long orgId){
+    public boolean sendAutoMessage(String type, long orgId, String openId, String sid){
         WechatMessage wechatMessage = new WechatMessage();
         wechatMessage.setOrgId(orgId);
+        wechatMessage.setOpenId(openId);
+        wechatMessage.setSid(sid);
         wechatMessage.setCreated(new Date());
         wechatMessage.setMessageType(WechatMessage.MSG_DIRECTION_SEND);
         wechatMessage.setUserId(0);

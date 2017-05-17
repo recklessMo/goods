@@ -33,6 +33,8 @@ public class WechatMessageController {
     @ResponseBody
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     public JsonResponse listMessage(@RequestBody WechatMsgPage page){
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
+        page.setOrgId(userDetails.getOrgId());
         List<WechatMessage> wechatMessages = wechatMessageService.getMessageList(page);
         int totalCount = wechatMessageService.getMessageListCount(page);
         return new JsonResponse(200, wechatMessages, totalCount);
@@ -51,9 +53,6 @@ public class WechatMessageController {
         boolean result = wechatMessageService.sendMessage(wechatMessage);
         return new JsonResponse(200, result, null);
     }
-
-
-
 
 
 }

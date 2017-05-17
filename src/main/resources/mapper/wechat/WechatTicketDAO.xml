@@ -11,7 +11,7 @@
     </sql>
 
     <insert id="insertTicket" parameterType="com.recklessmo.model.wechat.WechatTicket">
-        insert into wechat_ticket
+        replace into wechat_ticket
         (
         <include refid="columnsWithoutId"/>
         )

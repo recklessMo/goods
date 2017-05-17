@@ -12,6 +12,7 @@
             console.log(data);
             if(data.type == 'bind') {
                 $scope.openId = data.openId;
+                $scope.sid = data.sid;
                 $scope.fetchMessages(1);
             }
         });
@@ -59,7 +60,8 @@
             var params = {
                 page: currentPage || 1,
                 count: $scope.itemsPerPage,
-                openId: _.get($scope, "openId", "")
+                openId: _.get($scope, "openId", ""),
+                sid: _.get($scope, "sid", "")
             };
             blockUI.start();
             WechatService.loadWechatMsg(params).success(function (data) {
@@ -89,6 +91,7 @@
                 return;
             }
             $scope.message.openId = $scope.openId;
+            $scope.message.sid = $scope.sid;
             $scope.message.message = $scope.msgTextarea.content;
             $scope.msgTextarea = {};
             // 医生发送消息
