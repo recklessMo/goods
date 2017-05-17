@@ -9,8 +9,8 @@ import java.util.Date;
  */
 public class WechatTemplateMessage {
 
-    public static int TYPE_WORKNOTICE = 1;
-    public static String WORKNOTICE = "goqxAPYZbTnvUaPBRH19higWrfdxkqy6rtNGhn4xNKQ";
+    public static int TYPE_ASSIGNMENTNOTICE = 1;
+    public static String ASSIGNMENTNOTICE = "goqxAPYZbTnvUaPBRH19higWrfdxkqy6rtNGhn4xNKQ";
 
     private long orgId;
     private String sid;

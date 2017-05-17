@@ -125,7 +125,7 @@ public class WechatMessageService {
      * 发送模板消息
      *
      * @param orgId
-     * @param wechatTemplateMsgModel
+     * @param wechatTemplateMsgMode
      * @return
      */
     public boolean sendTemplateMessage(long orgId, WechatTemplateMsgModel wechatTemplateMsgModel){
@@ -139,7 +139,7 @@ public class WechatMessageService {
             sidSet.addAll(sidTempList);
         });
 
-        if(wechatTemplateMsgModel.getType() == WechatTemplateMessage.TYPE_WORKNOTICE){
+        if(wechatTemplateMsgModel.getType() == WechatTemplateMessage.TYPE_ASSIGNMENTNOTICE){
 
         }
         return true;
@@ -156,12 +156,12 @@ public class WechatMessageService {
      * @param remark
      * @return
      */
-    private boolean sendWorkTemplateMessage(long orgId, String openId, String sid, String first, String name, String subject, String content, String remark){
+    private boolean sendAssignmentTemplateMessage(long orgId, String openId, String sid, String first, String name, String subject, String content, String remark){
         WechatTemplateMessage wechatTemplateMessage = new WechatTemplateMessage();
         wechatTemplateMessage.setOpenId(openId);
         wechatTemplateMessage.setOrgId(orgId);
         wechatTemplateMessage.setSid(sid);
-        wechatTemplateMessage.setTemplateId(WechatTemplateMessage.WORKNOTICE);
+        wechatTemplateMessage.setTemplateId(WechatTemplateMessage.ASSIGNMENTNOTICE);
         wechatTemplateMessage.setUrl("www.baidu.com");
         JSONObject obj = new JSONObject();
         obj.put("first", getJsonObject(first));

@@ -145,8 +145,13 @@
             })
             .state('app.wechat-notice', {
                 url: '/wechat-notice',
-                title: '微信咨询',
+                title: '微信通知',
                 templateUrl: helper.basepath('custom/wechat/wechat-notice.html')
+            })
+            .state('app.assignment', {
+                url: '/assignment',
+                title: '作业布置',
+                templateUrl: helper.basepath('custom/wechat/assignment-list.html')
             })
             .state('app.todo', {
                 url: '/todo',
