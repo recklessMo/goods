@@ -102,7 +102,7 @@ public class WechatCallbackController {
                         wechatUser.setUpdated(new Date());
                         wechatUser.setDeleted(0);
                         wechatUserService.insertUser(wechatUser);
-                        wechatMessageService.sendAutoMessage("subscribe", wechatTicket.getOrgId(), wechatUser.getOpenId());
+                        wechatMessageService.sendAutoMessage("subscribe", wechatTicket.getOrgId(), wechatUser.getOpenId(), wechatUser.getSid());
                     }
                 } else {
                     //直接扫描公众号二维码关注. 暂时无法做任何事
@@ -126,6 +126,7 @@ public class WechatCallbackController {
             //文本消息
             WechatMessage wechatMessage = new WechatMessage();
             wechatMessage.setOrgId(studentInfo.getOrgId());
+            wechatMessage.setSid(studentInfo.getSid());
             wechatMessage.setType(WechatMessage.MSG_DIRECTION_RECEIVE);//接收
             wechatMessage.setMessageType(WechatMessage.MSG_TYPE_TEXT);//文本
             wechatMessage.setMessage(wechatCallbackMsg.getContent());

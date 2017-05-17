@@ -86,8 +86,8 @@ public class WechatUserService {
 
     }
 
-    public void updateWechatUserLastMessage(){
-
+    public void updateWechatUserLastMessage(String message, long orgId, String openId, String sid){
+        wechatUserDAO.updateWechatUserLastMessage(message, orgId, openId, sid);
     }
 
 }

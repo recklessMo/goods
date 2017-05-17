@@ -30,6 +30,9 @@ public class WechatMessageService {
     private WechatNetworkService wechatNetworkService;
 
     @Resource
+    private WechatUserService wechatUserService;
+
+    @Resource
     private WechatMessageDAO wechatMessageDAO;
 
     /*************************微信消息***********************************/
@@ -52,7 +55,7 @@ public class WechatMessageService {
         //然后插入数据库中进行记录
         if (status == 200) {
             wechatMessageDAO.insertMessage(wechatMessage);
-
+            wechatUserService.updateWechatUserLastMessage(wechatMessage.getMessage(), wechatMessage.getOrgId(), wechatMessage.getOpenId(), wechatMessage.getSid());
             return true;
         }
         return false;
@@ -95,6 +98,7 @@ public class WechatMessageService {
     public void receiveMessage(WechatMessage wechatMessage) {
         //插入数据库中进行记录
         wechatMessageDAO.insertMessage(wechatMessage);
+        wechatUserService.updateWechatUserLastMessage(wechatMessage.getMessage(), wechatMessage.getOrgId(), wechatMessage.getOpenId(), wechatMessage.getSid());
     }
 
 }

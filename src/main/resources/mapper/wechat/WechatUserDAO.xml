@@ -47,4 +47,9 @@
         from wechat_user where open_id = #{openId}
     </select>
 
+    <update id="updateWechatUserLastMessage">
+        update wechat_user set last_message = #{lastMessage}
+        where org_id = #{orgId} and open_id = #{openId} and sid = #{sid}
+    </update>
+
 </mapper>

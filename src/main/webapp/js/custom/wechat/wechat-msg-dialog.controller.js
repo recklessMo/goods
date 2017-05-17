@@ -75,6 +75,7 @@
                     $timeout(function () {
                         $scope.scrollToBottom();
                     }, 200);
+                    $scope.$emit('refresh', '');
                 }else{
                     SweetAlert.error("服务器异常!");
                 }

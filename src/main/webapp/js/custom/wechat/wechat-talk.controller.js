@@ -129,5 +129,10 @@
             $scope.$broadcast('chooseSid', user.sid);
         }
 
+
+        $scope.$on('refresh', function(event,data) {
+            $scope.wechatRecentUserTableParams.reload();
+        });
+
     }
 })();
