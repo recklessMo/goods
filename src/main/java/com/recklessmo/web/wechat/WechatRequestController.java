@@ -6,6 +6,7 @@ import com.recklessmo.model.score.result.total.ClassTotal;
 import com.recklessmo.model.setting.Grade;
 import com.recklessmo.model.setting.Group;
 import com.recklessmo.model.student.StudentInfo;
+import com.recklessmo.model.system.Org;
 import com.recklessmo.model.wechat.page.WechatIndexModel;
 import com.recklessmo.response.JsonResponse;
 import com.recklessmo.service.exam.ExamService;
@@ -70,9 +71,6 @@ public class WechatRequestController {
     @ResponseBody
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public JsonResponse bindInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-//        delay(5000);
-
         String openId = WechatCookieUtils.getOpenIdByCookie(request.getCookies());
         if(openId == null){
             openId = "o2mBHwqHpFzTcZXVvAmmBTjazR_k";
@@ -80,27 +78,32 @@ public class WechatRequestController {
         StudentInfo studentInfo = studentService.getStudentInfoByWechatId(openId);
         response.addHeader("Access-Control-Allow-Origin", "*");
         Page page = new Page();
-        page.setPage(1);
-        page.setCount(100);
-        int gradeCount = gradeSettingService.listGradeCount(page);
-        Grade grade = gradeSettingService.getSingleGrade(studentInfo.getGradeId());
+        List<Grade> gradeList = gradeSettingService.listAllGrade(studentInfo.getOrgId());
+        Optional<Grade> gradeOptional = gradeList.stream().filter(o->o.getGradeId() == studentInfo.getGradeId()).findAny();
+        Grade grade = null;
+        if(gradeOptional.isPresent()){
+            grade = gradeOptional.get();
+        }
         Optional<Group> groupOptional = grade.getClassList().stream().filter(o->o.getClassId() == studentInfo.getClassId()).findAny();
         Group group = null;
         if(groupOptional.isPresent()) {
             group = groupOptional.get();
         }
-//        Org org = orgService.getOrg();
+        int totalGradeCount = gradeList.size();
+        int totalClassCount = gradeList.stream().mapToInt(o->o.getClassList().size()).sum();
+        long orgId = studentInfo.getOrgId();
+        Org org = orgService.getOrg(orgId);
         WechatIndexModel wechatIndexModel = new WechatIndexModel();
-        wechatIndexModel.setOrgName("湖北省公安县第一中学");
-        wechatIndexModel.setOrgAge(3);
-        wechatIndexModel.setOrgCount(4);
-        wechatIndexModel.setTotalGradeCount(gradeCount);
-        wechatIndexModel.setTotalClassCount(gradeCount);
+        wechatIndexModel.setOrgName(org.getOrgName());
+        wechatIndexModel.setPrincipal(org.getAdminName());
+        wechatIndexModel.setCreated(org.getCreated());
+        wechatIndexModel.setTotalGradeCount(totalGradeCount);
+        wechatIndexModel.setTotalClassCount(totalClassCount);
         wechatIndexModel.setGradeClassCount(grade.getClassList().size());
         wechatIndexModel.setGradeName(grade.getGradeName());
         wechatIndexModel.setGradeCharger(grade.getCharger());
         wechatIndexModel.setGradePhone(grade.getPhone());
-        wechatIndexModel.setClassTotalCount(45);
+        wechatIndexModel.setClassTotalCount(studentService.getStudentListCountByGradeIdAndClassId(studentInfo.getOrgId(), studentInfo.getGradeId(), studentInfo.getClassId()));
         wechatIndexModel.setClassName(group.getClassName());
         wechatIndexModel.setClassCharger(group.getCharger());
         wechatIndexModel.setClassPhone(group.getPhone());
@@ -130,7 +133,7 @@ public class WechatRequestController {
 
     /**
      *
-     * 获取基本info
+     * 获取考试列表
      *
      * @param response
      * @return

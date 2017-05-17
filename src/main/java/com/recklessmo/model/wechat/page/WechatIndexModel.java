@@ -9,8 +9,8 @@ public class WechatIndexModel {
 
     private int totalGradeCount;
     private int totalClassCount;
-    private int orgCount;
-    private int orgAge;
+    private String principal;
+    private String created;
 
     private String gradeName;
     private int gradeClassCount;
@@ -21,6 +21,22 @@ public class WechatIndexModel {
     private int classTotalCount;
     private String classCharger;
     private String classPhone;
+
+    public String getPrincipal() {
+        return principal;
+    }
+
+    public void setPrincipal(String principal) {
+        this.principal = principal;
+    }
+
+    public String getCreated() {
+        return created;
+    }
+
+    public void setCreated(String created) {
+        this.created = created;
+    }
 
     public int getClassTotalCount() {
         return classTotalCount;
@@ -54,21 +70,6 @@ public class WechatIndexModel {
         this.totalClassCount = totalClassCount;
     }
 
-    public int getOrgCount() {
-        return orgCount;
-    }
-
-    public void setOrgCount(int orgCount) {
-        this.orgCount = orgCount;
-    }
-
-    public int getOrgAge() {
-        return orgAge;
-    }
-
-    public void setOrgAge(int orgAge) {
-        this.orgAge = orgAge;
-    }
 
     public String getGradeName() {
         return gradeName;

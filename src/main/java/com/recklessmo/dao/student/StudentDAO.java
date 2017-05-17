@@ -23,6 +23,6 @@ public interface StudentDAO {
     StudentInfo getStudentInfoBySid(@Param("orgId")long orgId, @Param("sid")String sid);
     List<StudentInfo> getStudentInfoBySidList(@Param("orgId")long orgId, @Param("sidList")List<String> sidList);
     List<StudentInfo> getStudentListByGradeIdAndClassId(@Param("orgId")long orgId, @Param("gradeId")long gradeId, @Param("classId")long classId);
-
+    int getStudentListCountByGradeIdAndClassId(@Param("orgId")long orgId, @Param("gradeId")long gradeId, @Param("classId")long classId);
 }
 

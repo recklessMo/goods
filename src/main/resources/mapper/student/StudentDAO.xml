@@ -112,6 +112,16 @@
         </if>
     </select>
 
+    <select id="getStudentListCountByGradeIdAndClassId" resultType="java.lang.Integer">
+        select
+        count(1)
+        from student
+        where org_id = #{orgId} and grade_id = #{gradeId}
+        <if test="classId != 0">
+            and class_id = #{classId}
+        </if>
+    </select>
+
     <update id="updateWechatIdBySid">
         update student set wechat_id = #{wechatId} where sid = #{sid}
     </update>

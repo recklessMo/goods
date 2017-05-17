@@ -58,6 +58,7 @@ public class GradeSettingService {
         return gradeSettingDAO.listClassCount(page);
     }
 
+
     public List<Grade> listAllGrade(long orgId){
         return gradeSettingDAO.listAllGrade(orgId);
     }

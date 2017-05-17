@@ -7,11 +7,20 @@ public class Org {
 
     private long orgId;
     private String orgName;
+    private String created;
     private String adminName;
     private String adminPhone;
     private int type;
     private int wechatStatus;
 
+
+    public String getCreated() {
+        return created;
+    }
+
+    public void setCreated(String created) {
+        this.created = created;
+    }
 
     public long getOrgId() {
         return orgId;

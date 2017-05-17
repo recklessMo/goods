@@ -150,6 +150,10 @@ public class StudentService {
         return studentInfoList;
     }
 
+    public int getStudentListCountByGradeIdAndClassId(long orgId, long gradeId, long classId){
+        return studentDAO.getStudentListCountByGradeIdAndClassId(orgId, gradeId, classId);
+    }
+
 
     /**
      *

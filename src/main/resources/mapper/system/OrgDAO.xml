@@ -4,7 +4,7 @@
 <mapper namespace="com.recklessmo.dao.system.OrgDAO">
 
     <sql id = "columns">
-        org_id, org_name, admin_name, admin_phone, wechat_status, type
+        org_id, org_name, admin_name, created, admin_phone, wechat_status, type
     </sql>
 
     <select id="listOrg" resultType="com.recklessmo.model.system.Org">
