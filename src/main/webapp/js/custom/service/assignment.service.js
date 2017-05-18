@@ -10,6 +10,7 @@
 
         this.listAssignments = listAssignments;
         this.addAssignment = addAssignment;
+        this.deleteAssignment = deleteAssignment;
 
         function listAssignments(data){
             return $http({
@@ -25,6 +26,15 @@
                 method: "POST",
                 url : "/v1/assignment/add",
                 data:data,
+                timeout: 10000
+            });
+        }
+
+        function deleteAssignment(id){
+            return $http({
+                method: "POST",
+                url : "/v1/assignment/delete",
+                data:id,
                 timeout: 10000
             });
         }

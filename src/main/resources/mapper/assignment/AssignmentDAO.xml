@@ -35,4 +35,9 @@
         from assignment
         where grade_id = #{gradeId} and class_id = #{classId}
     </select>
+
+    <delete id="deleteAssignment">
+        delete from assignment where id = #{id} and org_id = #{orgId}
+    </delete>
+
 </mapper>

@@ -46,6 +46,10 @@ public class AssignmentService {
         assignmentDAO.addAssignment(assignment);
     }
 
+    public void deleteAssignment(long orgId, long id){
+        assignmentDAO.deleteAssignment(orgId, id);
+    }
+
 
     private void composeAssignment(List<Assignment> assignments, long orgId){
         List<Grade> gradeList = gradeSettingService.listAllGrade(orgId);

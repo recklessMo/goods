@@ -21,9 +21,9 @@
                 <td data-title="'创建人'" style="text-align: center">{{item.opName}}</td>
                 <td data-title="'学生总数'" style="text-align: center;">{{item.totalCount}}</td>
                 <td data-title="'操作'" style="text-align: center">
-                    <button class="btn btn-info" ng-click="uploadScore(item)">查看作业内容</button>
-                    <button class="btn btn-info" ng-click="uploadScore(item)">查看完成情况</button>
-                    <button class="btn btn-danger" ng-click="delete(item.examId)">删除</button>
+                    <button class="btn btn-info" ng-click="uploadScore(item)">查看</button>
+                    <button class="btn btn-info" ng-click="uploadScore(item)">完成情况</button>
+                    <button class="btn btn-danger" ng-click="delete(item.id)">删除</button>
                 </td>
             </tr>
         </table>

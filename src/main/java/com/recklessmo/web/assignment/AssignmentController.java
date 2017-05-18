@@ -50,5 +50,13 @@ public class AssignmentController {
         return new JsonResponse(200, null, null);
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public JsonResponse deleteExam(@RequestBody long id){
+        DefaultUserDetails defaultUserDetails = ContextUtils.getLoginUserDetail();
+        assignmentService.deleteAssignment(defaultUserDetails.getOrgId(), id);
+        return new JsonResponse(200, null, null);
+    }
+
 
 }
