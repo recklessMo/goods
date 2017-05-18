@@ -42,6 +42,8 @@ public class AssignmentController {
     public JsonResponse addExam(@RequestBody Assignment assignment){
         DefaultUserDetails defaultUserDetails = ContextUtils.getLoginUserDetail();
         assignment.setOrgId(defaultUserDetails.getOrgId());
+        assignment.setOpId(defaultUserDetails.getId());
+        assignment.setOpName(defaultUserDetails.getName());
         assignmentService.addAssignment(assignment);
         return new JsonResponse(200, null, null);
     }

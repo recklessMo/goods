@@ -28,6 +28,7 @@ public class DefaultUserDetails implements UserDetails{
         this.id = id;
         this.orgId = orgId;
         this.userName = userName;
+        this.name = name;
         this.pwd = pwd;
         this.accountNonExpired = accountNonExpired;
         this.accountNonLocked = accountNonLocked;

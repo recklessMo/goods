@@ -37,15 +37,15 @@
 
         $scope.add = function(userId) {
             var dialog= ngDialog.open({
-                template: 'app/views/custom/performance/exam/edit-exam.html',
-                controller: 'EditExamController',
+                template: 'app/views/custom/assignment/edit-assignment.html',
+                controller: 'EditAssignmentController',
                 className: 'ngdialog-theme-default custom-width-800',
             });
             dialog.closePromise.then(function(data){
                 if(data.value != 'reload'){
                     return;
                 }
-                $scope.examTableParams.reload();
+                $scope.assignmentTableParams.reload();
             });
         }
 

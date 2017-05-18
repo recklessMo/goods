@@ -14,6 +14,7 @@ public class Assignment {
     private long orgId;
     private long opId;
     private String opName;
+    private String name;
     private String courseName;
     private long courseId;
     private long gradeId;
@@ -25,6 +26,14 @@ public class Assignment {
     private Date created;//创建时间
     private Date submit;//截止时间
     private int totalCount;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getGradeName() {
         return gradeName;

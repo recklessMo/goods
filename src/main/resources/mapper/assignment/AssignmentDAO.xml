@@ -4,14 +4,14 @@
 <mapper namespace="com.recklessmo.dao.assignment.AssignmentDAO">
 
     <sql id="assignmentColumns">
-        id, org_id, op_id, op_name, course_name, course_id, grade_id, class_id, content, created, submit, total_count
+        id, org_id, op_id, op_name, name, course_name, course_id, grade_id, class_id, content, created, submit, total_count
     </sql>
 
     <insert id="addAssignment" parameterType="com.recklessmo.model.assignment.Assignment">
         insert into assignment
-        (org_id, op_id, op_name, course_name, course_id, grade_id, class_id, content, created, submit, total_count)
+        (org_id, op_id, op_name, name, course_name, course_id, grade_id, class_id, content, created, submit, total_count)
         values(
-        #{orgId}, #{opId}, #{opName}, #{courseName}, #{courseId}, #{gradeId}, #{classId}, #{content}, #{created}, #{submit}, #{totalCount}
+        #{orgId}, #{opId}, #{opName}, #{name}, #{courseName}, #{courseId}, #{gradeId}, #{classId}, #{content}, #{created}, #{submit}, #{totalCount}
         )
     </insert>
 
@@ -19,7 +19,13 @@
         select
         <include refid="assignmentColumns"/>
         from assignment
-        where grade_id = #{gradeId} and class_id = #{classId}
+        where org_id = #{orgId}
+        <if test="gradeId != null and gradeId != 0">
+            and grade_id = #{gradeId}
+        </if>
+        <if test="classId != null and classId != 0">
+            and class_id = #{classId}
+        </if>
         order by created desc
         limit #{startIndex}, #{count}
     </select>

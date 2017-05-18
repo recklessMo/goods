@@ -24,7 +24,7 @@
             return $http({
                 method: "POST",
                 url : "/v1/assignment/add",
-                data:obj,
+                data:data,
                 timeout: 10000
             });
         }
