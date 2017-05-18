@@ -189,6 +189,12 @@
                 title: '管理机构',
                 templateUrl: helper.basepath('custom/system/org-list.html'),
             })
+            .state('app.test', {
+                url: '/test',
+                title: '管理机构',
+                templateUrl: helper.basepath('custom/test/test.html'),
+            })
+
 
       //
       // Single Page Routes

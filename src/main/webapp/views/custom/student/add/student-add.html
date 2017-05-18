@@ -38,7 +38,14 @@
 
                             <label class="col-md-1 control-label">出生年月</label>
                             <div class="col-md-2" style="padding-left: 0px">
-                                <input type="text" class="form-control" ng-model="student.birth"/>
+                                <!--<input type="text" class="form-control" ng-model="student.birth"/>-->
+                                <!--<div uib-datepicker ng-model="dt" class="well well-sm" datepicker-options="options"></div>-->
+                                <p class="input-group">
+                                    <input type="text" class="form-control" uib-datepicker-popup ng-model="dt" is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+                                </p>
                             </div>
                         </div>
 

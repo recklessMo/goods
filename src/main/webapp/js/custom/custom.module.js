@@ -6,7 +6,7 @@
             'angular-ladda',
             'blockUI',
             'ngTable',
-            'angucomplete-alt',
+            'angucomplete-alt'
         ])
         .config(
             function (blockUIConfig) {
