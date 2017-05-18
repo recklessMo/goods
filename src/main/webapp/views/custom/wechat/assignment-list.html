@@ -8,14 +8,13 @@
     </div>
 
     <div style="margin-top: 10px;">
-        <table ng-table="assginTableParams" class="table table-bordered table-hover table-condensed editable-table table-min">
+        <table ng-table="assignmentTableParams" class="table table-bordered table-hover table-condensed editable-table table-min">
             <tr ng-repeat="item in $data" ng-dblclick="show(item.id)">
                 <td data-title="'科目'" style="text-align: center">{{item.courseName}}</td>
                 <td data-title="'创建时间'" style="text-align: center">{{item.created | date:'yyyy-MM-dd'}}</td>
                 <td data-title="'所属年级'" style="text-align: center">{{item.gradeName}}</td>
                 <td data-title="'所属班级'" style="text-align: center">{{item.className}}</td>
                 <td data-title="'创建人'" style="text-align: center">{{item.opName}}</td>
-                <td data-title="'内容'" style="text-align: center">{{item.content}}</td>
                 <td data-title="'学生总数'" style="text-align: center;">{{item.totalCount}}</td>
                 <td data-title="'操作'" style="text-align: center">
                     <button class="btn btn-info" ng-click="uploadScore(item)">{{item.uploadStatus == 0 ? '上传成绩' : '重新上传'}}</button>

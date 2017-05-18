@@ -15,7 +15,7 @@
             return $http({
                 method: "POST",
                 url : "/v1/assignment/list",
-                data:obj,
+                data: data,
                 timeout: 10000
             });
         }

@@ -17,11 +17,38 @@ public class Assignment {
     private String courseName;
     private long courseId;
     private long gradeId;
+    private String gradeName;
+    private String gradeOtherName;
     private long classId;
+    private String className;
     private String content;
     private Date created;//创建时间
     private Date submit;//截止时间
     private int totalCount;
+
+    public String getGradeName() {
+        return gradeName;
+    }
+
+    public void setGradeName(String gradeName) {
+        this.gradeName = gradeName;
+    }
+
+    public String getGradeOtherName() {
+        return gradeOtherName;
+    }
+
+    public void setGradeOtherName(String gradeOtherName) {
+        this.gradeOtherName = gradeOtherName;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
+    }
 
     public long getGradeId() {
         return gradeId;

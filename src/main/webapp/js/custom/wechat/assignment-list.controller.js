@@ -13,7 +13,7 @@
             $scope.assignmentTableParams = new NgTableParams({}, {
                 getData: function (params) {
                     blockUI.start();
-                    $scope.tableParams.page = paramsgu.page();
+                    $scope.tableParams.page = params.page();
                     $scope.tableParams.count = params.count();
                     return AssignmentService.listAssignments($scope.tableParams).then(function (data) {
                         blockUI.stop();
