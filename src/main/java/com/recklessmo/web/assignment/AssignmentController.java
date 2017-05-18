@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -44,6 +45,7 @@ public class AssignmentController {
         assignment.setOrgId(defaultUserDetails.getOrgId());
         assignment.setOpId(defaultUserDetails.getId());
         assignment.setOpName(defaultUserDetails.getName());
+        assignment.setCreated(new Date());
         assignmentService.addAssignment(assignment);
         return new JsonResponse(200, null, null);
     }
