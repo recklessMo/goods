@@ -40,6 +40,22 @@
                 template: 'app/views/custom/assignment/edit-assignment.html',
                 controller: 'EditAssignmentController',
                 className: 'ngdialog-theme-default custom-width-800',
+                data : {type:'add'}
+            });
+            dialog.closePromise.then(function(data){
+                if(data.value != 'reload'){
+                    return;
+                }
+                $scope.assignmentTableParams.reload();
+            });
+        }
+
+        $scope.show = function(item) {
+            var dialog= ngDialog.open({
+                template: 'app/views/custom/assignment/edit-assignment.html',
+                controller: 'EditAssignmentController',
+                className: 'ngdialog-theme-default custom-width-800',
+                data : {assignment:item, type:0}
             });
             dialog.closePromise.then(function(data){
                 if(data.value != 'reload'){

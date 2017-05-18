@@ -18,5 +18,6 @@ public interface AssignmentDAO {
     int listAssignmentCount(AssignmentListPage page);
     void addAssignment(Assignment assignment);
     void deleteAssignment(@Param("orgId")long orgId, @Param("id")long id);
+    Assignment getAssignment(@Param("orgId")long orgId, @Param("id")long id);
 
 }

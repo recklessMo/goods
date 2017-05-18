@@ -7,7 +7,8 @@
 
     function EditAssignmentController($scope, AssignmentService, DicService, SweetAlert, NgTableParams, ngDialog, blockUI, Notify) {
 
-        $scope.assignment = {};
+        $scope.type = $scope.ngDialogData.type;
+        $scope.assignment = $scope.type == 'add'? {} : $scope.ngDialogData.assignment;
 
         $scope.gradeList = [];
         $scope.classList = [];

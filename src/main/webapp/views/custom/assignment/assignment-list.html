@@ -12,7 +12,7 @@
 
     <div style="margin-top: 10px;">
         <table ng-table="assignmentTableParams" class="table table-bordered table-hover table-condensed editable-table table-min">
-            <tr ng-repeat="item in $data" ng-dblclick="show(item.id)">
+            <tr ng-repeat="item in $data" ng-dblclick="show(item)">
                 <td data-title="'作业名称'" style="text-align: center">{{item.name}}</td>
                 <td data-title="'科目'" style="text-align: center">{{item.courseName}}</td>
                 <td data-title="'创建时间'" style="text-align: center">{{item.created | date:'yyyy-MM-dd'}}</td>
@@ -21,8 +21,8 @@
                 <td data-title="'创建人'" style="text-align: center">{{item.opName}}</td>
                 <td data-title="'学生总数'" style="text-align: center;">{{item.totalCount}}</td>
                 <td data-title="'操作'" style="text-align: center">
-                    <button class="btn btn-info" ng-click="uploadScore(item)">查看</button>
-                    <button class="btn btn-info" ng-click="uploadScore(item)">完成情况</button>
+                    <button class="btn btn-info" ng-click="show(item)">查看内容</button>
+                    <button class="btn btn-info" ng-click="showComplete(item)">完成情况</button>
                     <button class="btn btn-danger" ng-click="delete(item.id)">删除</button>
                 </td>
             </tr>

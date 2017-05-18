@@ -30,6 +30,13 @@
         limit #{startIndex}, #{count}
     </select>
 
+    <select id="getAssignment" resultType="com.recklessmo.model.assignment.Assignment">
+        SELECT
+        <include refid="assignmentColumns"/>
+        from assignment
+        where id = #{id} and org_id = #{orgId}
+    </select>
+
     <select id="listAssignmentCount" resultType="java.lang.Integer">
         select count(1)
         from assignment
@@ -39,5 +46,6 @@
     <delete id="deleteAssignment">
         delete from assignment where id = #{id} and org_id = #{orgId}
     </delete>
+
 
 </mapper>

@@ -1,5 +1,6 @@
 package com.recklessmo.web.wechat;
 
+import com.recklessmo.model.assignment.Assignment;
 import com.recklessmo.model.exam.Exam;
 import com.recklessmo.model.score.Score;
 import com.recklessmo.model.score.result.total.ClassTotal;
@@ -9,6 +10,7 @@ import com.recklessmo.model.student.StudentInfo;
 import com.recklessmo.model.system.Org;
 import com.recklessmo.model.wechat.page.WechatIndexModel;
 import com.recklessmo.response.JsonResponse;
+import com.recklessmo.service.assignment.AssignmentService;
 import com.recklessmo.service.exam.ExamService;
 import com.recklessmo.service.score.ScoreAnalyseService;
 import com.recklessmo.service.score.ScoreService;
@@ -17,6 +19,7 @@ import com.recklessmo.service.student.StudentService;
 import com.recklessmo.service.system.OrgService;
 import com.recklessmo.util.score.ScoreUtils;
 import com.recklessmo.util.wechat.WechatCookieUtils;
+import com.recklessmo.web.webmodel.page.AssignmentListPage;
 import com.recklessmo.web.webmodel.page.ExamListPage;
 import com.recklessmo.web.webmodel.page.Page;
 import com.recklessmo.web.webmodel.page.ScoreListPage;
@@ -47,6 +50,9 @@ public class WechatRequestController {
 
     @Resource
     private GradeSettingService gradeSettingService;
+
+    @Resource
+    private AssignmentService assignmentService;
 
     @Resource
     private OrgService orgService;
@@ -156,6 +162,24 @@ public class WechatRequestController {
         return new JsonResponse(200, scoreList, null);
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/assignmentList", method = RequestMethod.GET)
+    public JsonResponse assignmentList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String openId = WechatCookieUtils.getOpenIdByCookie(request.getCookies());
+        if(openId == null){
+            openId = "o2mBHwqHpFzTcZXVvAmmBTjazR_k";
+        }
+        StudentInfo studentInfo = studentService.getStudentInfoByWechatId(openId);
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        //查询考试列表
+        AssignmentListPage page = new AssignmentListPage();
+        page.setOrgId(studentInfo.getOrgId());
+        page.setGradeId(studentInfo.getGradeId());
+        page.setClassId(studentInfo.getClassId());
+        List<Assignment> assignmentList = assignmentService.listAssignment(page);
+        return new JsonResponse(200, assignmentList, null);
+    }
+
 
     /**
      *
@@ -185,6 +209,27 @@ public class WechatRequestController {
 //        List<NewScore> newScores = ScoreUtils.changeScoreToNewScore(scores);
 //        return new JsonResponse(200, newScores.get(0), null);
         return new JsonResponse(200, score, null);
+    }
+
+    /**
+     *
+     * 获取成绩单
+     *
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @ResponseBody
+    @RequestMapping(value = "/assignment", method = RequestMethod.GET)
+    public JsonResponse assignment(@Param("id") long id,  HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String openId = WechatCookieUtils.getOpenIdByCookie(request.getCookies());
+        if(openId == null){
+            openId = "o2mBHwqHpFzTcZXVvAmmBTjazR_k";
+        }
+        StudentInfo studentInfo = studentService.getStudentInfoByWechatId(openId);
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        Assignment assignment = assignmentService.getAssignment(studentInfo.getOrgId(), id);
+        return new JsonResponse(200, assignment, null);
     }
 
     /**
