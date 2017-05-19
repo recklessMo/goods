@@ -59,7 +59,12 @@
         <div class="col-md-6">
             <div class="input-group">
                 <span class="input-group-addon" style="color:red">考试时间</span>
-                <input type="text" class="form-control" placeholder="yyyy-MM-dd" ng-model="exam.examTime"/>
+                <input type="text" class="form-control" uib-datepicker-popup ng-model="exam.examTime"
+                       is-open="popup.opened" ng-required="true" close-text="Close"/>
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="open()"><i
+                            class="fa fa-calendar"></i></button>
+                </span>
             </div>
         </div>
     </div>
@@ -88,7 +93,7 @@
         </div>
         <div class="col-md-12">
             <ui-select multiple ng-model="exam.courseList" theme="bootstrap" close-on-select="false" title="选择科目"
-                       remove-selected="false">
+                       remove-selected="true">
                 <ui-select-match placeholder="选择科目">{{$item.courseName}};</ui-select-match>
                 <ui-select-choices repeat="course.courseId as course in courseList">
                     <div ng-bind-html="course.courseName"></div>

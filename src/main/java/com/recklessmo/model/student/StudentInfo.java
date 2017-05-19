@@ -24,6 +24,7 @@ public class StudentInfo {
     private String scn="";
     private int gender;
     private Date birth;
+    private String birthStr;
     private String homeTown = "";
     private String people = "";
     private String birthTown = "";
@@ -167,6 +168,14 @@ public class StudentInfo {
 
     public void setBirth(Date birth) {
         this.birth = birth;
+    }
+
+    public String getBirthStr() {
+        return birthStr;
+    }
+
+    public void setBirthStr(String birthStr) {
+        this.birthStr = birthStr;
     }
 
     public String getHomeTown() {

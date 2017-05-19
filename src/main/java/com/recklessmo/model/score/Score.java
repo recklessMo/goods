@@ -20,7 +20,7 @@ public class Score {
     private long examId;
     private String examName;
     private String examType;
-    private String examTime;
+    private Date examTime;
     private Date created;
     //json存储每次考试对应的成绩详情
     private String detail;
@@ -47,11 +47,11 @@ public class Score {
         }
     }
 
-    public String getExamTime() {
+    public Date getExamTime() {
         return examTime;
     }
 
-    public void setExamTime(String examTime) {
+    public void setExamTime(Date examTime) {
         this.examTime = examTime;
     }
 

@@ -237,7 +237,11 @@ public class FileDownloadController {
         studentPage.setClassId(classId);
         studentPage.setPage(1);
         studentPage.setCount(10000);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         List<StudentInfo> studentAllInfoList = studentService.getStudentInfo(studentPage);
+        studentAllInfoList.stream().forEach(studentInfo -> {
+            studentInfo.setBirthStr(sdf.format(studentInfo.getBirth()));
+        });
         Map<String, Object> beans = Maps.newHashMap();
         beans.put("dataList", studentAllInfoList);
         returnFile(beans, response, "学生信息导出", "student_export", ".xlsx");

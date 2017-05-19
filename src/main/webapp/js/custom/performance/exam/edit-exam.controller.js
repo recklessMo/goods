@@ -52,7 +52,7 @@
         $scope.save = function(exam){
             ExamService.saveExam(exam).success(function(data){
                 if(data.status == 200){
-                    SweetAlert.success("添加成功!");
+                    Notify.alert("添加成功!", {status:"success", timeout: 3000});
                     $scope.closeThisDialog('reload');
                 }
                 blockUI.stop();
@@ -61,6 +61,23 @@
                 blockUI.stop();
             })
         }
+
+        //日期
+        $scope.today = function() {
+            $scope.dt = new Date();
+        };
+
+        $scope.clear = function() {
+            $scope.dt = null;
+        };
+
+        $scope.open = function() {
+            $scope.popup.opened = true;
+        };
+
+        $scope.popup = {
+            opened: false
+        };
 
     }
 })();
