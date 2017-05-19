@@ -27,7 +27,7 @@ import java.util.*;
  * Created by hpf on 2/9/17.
  */
 @Service
-public class SmsService {
+public class SmsNetworkService {
 
     @Resource
     private RemoteHttpService remoteHttpService;
@@ -36,21 +36,21 @@ public class SmsService {
     private SmsCodeService smsCodeService;
 
     //公共参数
-    public static String APPKEY = "23629911";
-    public static String APPSECRET = "394939089b0a4db334cf68c1e3ad2681";
+    public static String APPKEY = "23839745";
+    public static String APPSECRET = "eddf9162eb59766350443261d4f5d793";
     public static String HTTPURL = "http://gw.api.taobao.com/router/rest";
     public static String HTTPSURL = "https://eco.taobao.com/router/rest";
-    public static String SIGN = "米粒儿";
+    public static String SIGN = "立体校园云平台";
     //发送
     public static String APINAME = "alibaba.aliqin.fc.sms.num.send";
     //短信模板
-    public static String CODETEMPLATEID = "SMS_46745005";
+    public static String CODETEMPLATEID = "SMS_67585036";
     //返回结果
     public static String RETURNOK = "alibaba_aliqin_fc_sms_num_send_response";
 
     private CloseableHttpClient httpClient = null;
 
-    public SmsService(){
+    public SmsNetworkService(){
         httpClient = HttpClients.createDefault();
     }
 
@@ -63,9 +63,8 @@ public class SmsService {
      * @return
      * @throws Exception
      */
-    public SmsCode sendSmsCode(String phone){
+    public int sendSmsCode(String phone, String code){
         try {
-            String code = SmsCodeUtils.generateCode(4);
             Map<String, String> params = new HashMap<>();
             //公共参数
             putPublicParams(params);
@@ -74,7 +73,7 @@ public class SmsService {
             params.put("sms_free_sign_name", SIGN);
             //验证码参数
             StringBuilder sb = new StringBuilder();
-            sb.append("{\"number\":\"");
+            sb.append("{\"code\":\"");
             sb.append(code);
             sb.append("\"}");
             params.put("sms_param", sb.toString());
@@ -87,13 +86,13 @@ public class SmsService {
             JSONObject object = JSON.parseObject(result);
             if (object.containsKey(RETURNOK)) {
                 //成功
-                return smsCodeService.addSmsCode(code);
+                return 200;
             }
         }catch(Exception e){
             //异常处理
             e.printStackTrace();
         }
-        return null;
+        return 500;
     }
 
     /**
@@ -131,16 +130,6 @@ public class SmsService {
         });
         sb.append(APPSECRET);
         params.put("sign", EncryptUtils.getMd5Hex(sb.toString()).toUpperCase());
-    }
-
-
-    public static void main(String[] args){
-        SmsService smsService = new SmsService();
-        try {
-            smsService.sendSmsCode("13088063013");
-        }catch(Exception e){
-            e.printStackTrace();
-        }
     }
 
 }

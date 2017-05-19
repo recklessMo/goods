@@ -7,10 +7,12 @@ import java.util.Date;
  */
 public class SmsCode {
 
-    public static long DEFAULT_GAP = 60 * 60 * 1000;
+    public static long DEFAULT_GAP = 30 * 60 * 1000;
 
-    //id
-    private long id;
+    //姓名
+    private String name;
+    //电话
+    private String phone;
     //验证码
     private String code;
     //生成时间
@@ -18,13 +20,20 @@ public class SmsCode {
     //过期时间
     private Date expire;
 
-
-    public long getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getCode() {

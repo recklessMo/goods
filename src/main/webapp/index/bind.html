@@ -56,7 +56,7 @@
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">验证码</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" type="number" placeholder="请输入验证码">
+                    <input class="weui-input" type="number" placeholder="请输入验证码" v-model="smsCode">
                 </div>
             </div>
         </div>
@@ -64,13 +64,6 @@
             <a class="weui-btn weui-btn_primary" href="javascript:" id="showTooltips">提交</a>
         </div>
     </form>
-
-    <!--<div class="weui-footer weui-footer_fixed-bottom">-->
-        <!--<p class="weui-footer__links">-->
-            <!--<a href="javascript:home();" class="weui-footer__link">了解我们</a>-->
-        <!--</p>-->
-        <!--<p class="weui-footer__text">Copyright © 2016-2017 云校园科技平台</p>-->
-    <!--</div>-->
 </div>
 
 <script src="https://cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
@@ -80,7 +73,6 @@
     new Vue({
         el: '#register',
         data: {
-            patientId: '',
             name: '',
             phone: '',
             smsCode: ''
@@ -104,58 +96,31 @@
                     }
                 }, 1000);
                 jQuery.ajax({
-                    url: "/public/wechat/sendSmsCode?wechatId=$wechatId&orgId=$orgId&name=" + me.username + "&phone=" + me.phone,
+                    url: "/public/wechat/sendSmsCode?name=" + me.name + "&phone=" + me.phone,
                     method: "get"
                 }).done(function (data) {
                     if (data.status != 200) {
-                        me.returnText = data.errorMsg;
-                        setTimeout(function () {
-                            me.returnText = "";
-                        }, 2000);
                     } else {
                         me.patientId = data.data;
                     }
                 }).fail(function (error) {
-                    me.returnText = "网络错误";
-                    setTimeout(function () {
-                        me.returnText = "";
-                    }, 2000);
                 });
             },
 
             //提交
             onSubmit: function () {
                 var me = this;
-                if (!me.patientId) {
-                    me.returnText = "验证码失效,请重新获取";
-                    setTimeout(function () {
-                        me.returnText = "";
-                    }, 2000);
-                    return;
-                }
                 //绑定操作
                 jQuery.ajax({
-                    url: "/public/wechat/selfBind?patientId=" + me.patientId + "&smsCode=" + me.smsCode,
+                    url: "/public/wechat/selfBind?name=" + me.name + "&phone=" + me.phone + "&smsCode=" + me.smsCode,
                     method: "post"
                 }).done(function (data) {
                     if (data.status != 200) {
-                        me.returnText = data.errorMsg;
-                        setTimeout(function () {
-                            me.returnText = "";
-                        }, 2000);
+
                     } else {
-                        //在这里跳转新页面
-                        if(isGeruilai){
-                            window.location.href = "/public/wechat/menu/13700/4";
-                        } else{
-                            window.location.href = "/public/wechat/redirectCourse?patientId=" + data.data;
-                        }
+                        window.location.href = "/public/wechat/menu/13700/4";
                     }
                 }).fail(function (error) {
-                    me.returnText = "网络错误";
-                    setTimeout(function () {
-                        me.returnText = "";
-                    }, 2000);
                 });
             }
         }

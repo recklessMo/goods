@@ -10,6 +10,6 @@ import org.apache.ibatis.annotations.Param;
 public interface SmsCodeDAO {
 
     void addSmsCode(SmsCode smsCode);
-    SmsCode getSmsCodeById(@Param("id")long id);
+    SmsCode getSmsCodeByNameAndPhone(@Param("name")String name, @Param("phone")String phone);
 
 }

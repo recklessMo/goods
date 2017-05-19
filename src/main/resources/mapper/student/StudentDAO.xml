@@ -84,6 +84,14 @@
         limit 1
     </select>
 
+    <select id="getStudentInfoByNameAndPhone" resultType="com.recklessmo.model.student.StudentInfo">
+        select
+        <include refid="studentColumns"/>
+        from student
+        where name = #{name} and phone = #{phone}
+        limit 1
+    </select>
+
     <select id="getStudentInfoBySid" resultType="com.recklessmo.model.student.StudentInfo">
         select
         <include refid="studentColumns"/>
@@ -123,7 +131,7 @@
     </select>
 
     <update id="updateWechatIdBySid">
-        update student set wechat_id = #{wechatId} where sid = #{sid}
+        update student set wechat_id = #{wechatId} where org_id = #{orgId} and sid = #{sid}
     </update>
 
 </mapper>

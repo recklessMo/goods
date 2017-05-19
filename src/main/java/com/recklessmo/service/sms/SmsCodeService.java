@@ -23,15 +23,13 @@ public class SmsCodeService {
     @Resource
     private SmsCodeDAO smsCodeDAO;
 
-    public SmsCode addSmsCode(String code){
-        SmsCode smsCode = new SmsCode();
-        DateTime dateTime = new DateTime();
-        smsCode.setTime(dateTime.toDate());
-        smsCode.setCode(code);
-        Period period = new Period().withMillis((int)SmsCode.DEFAULT_GAP);
-        smsCode.setExpire(dateTime.plus(period).toDate());
-        smsCodeDAO.addSmsCode(smsCode);
-        return smsCode;
+    public SmsCode addSmsCode(SmsCode code){
+        smsCodeDAO.addSmsCode(code);
+        return code;
+    }
+
+    public SmsCode getSmsCodeByNameAndPhone(String name, String phone){
+        return smsCodeDAO.getSmsCodeByNameAndPhone(name, phone);
     }
 
 }

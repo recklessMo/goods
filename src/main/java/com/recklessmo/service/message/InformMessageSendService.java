@@ -1,15 +1,10 @@
 package com.recklessmo.service.message;
 
-import com.recklessmo.dao.message.InformMessageDAO;
 import com.recklessmo.model.message.InformMessage;
-import com.recklessmo.model.sms.SmsCode;
-import com.recklessmo.service.sms.SmsService;
-import com.recklessmo.web.webmodel.page.Page;
-import org.apache.ibatis.annotations.Case;
+import com.recklessmo.service.sms.SmsNetworkService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * created by hpf 02/12/2017
@@ -18,7 +13,7 @@ import java.util.List;
 public class InformMessageSendService {
 
     @Resource
-    private SmsService smsService;
+    private SmsNetworkService smsNetworkService;
 
 
     /**

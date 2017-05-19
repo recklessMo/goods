@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +34,9 @@ public class WechatUserService {
 
     @Resource
     private StudentService studentService;
+
+    @Resource
+    private WechatMessageService wechatMessageService;
 
     private void composeWechatUserInfo(long orgId, List<WechatUser> wechatUserList){
         List<String> sidList = wechatUserList.stream().map(o -> o.getSid()).collect(Collectors.toList());
@@ -75,7 +79,7 @@ public class WechatUserService {
     /*************************微信用户 绑定和解绑定*****************************/
     public void insertUser(WechatUser user){
         wechatUserDAO.insertUser(user);
-        studentService.updateWechatIdBySid(user.getSid(), user.getOpenId());
+        studentService.updateWechatIdBySid(user.getOrgId(), user.getSid(), user.getOpenId());
     }
 
     public void releaseUserByOpenId(String openId){
@@ -88,6 +92,19 @@ public class WechatUserService {
 
     public void updateWechatUserLastMessage(String message, long orgId, String openId, String sid){
         wechatUserDAO.updateWechatUserLastMessage(message, orgId, openId, sid);
+    }
+
+
+    public void bindUser(long orgId, String sid, String openId){
+        WechatUser wechatUser = new WechatUser();
+        wechatUser.setSid(sid);
+        wechatUser.setOrgId(orgId);
+        wechatUser.setOpenId(openId);
+        wechatUser.setLastMessage("");
+        wechatUser.setUpdated(new Date());
+        wechatUser.setDeleted(0);
+        insertUser(wechatUser);
+        wechatMessageService.sendAutoMessage("subscribe", orgId, wechatUser.getOpenId(), wechatUser.getSid());
     }
 
 }

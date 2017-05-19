@@ -68,7 +68,7 @@ public class WechatRequestController {
 
     /**
      *
-     * 获取绑定的学生信息
+     * 获取绑定的学生个人主页
      *
      * @param response
      * @return
@@ -171,7 +171,7 @@ public class WechatRequestController {
         }
         StudentInfo studentInfo = studentService.getStudentInfoByWechatId(openId);
         response.addHeader("Access-Control-Allow-Origin", "*");
-        //查询考试列表
+        //查询z
         AssignmentListPage page = new AssignmentListPage();
         page.setOrgId(studentInfo.getOrgId());
         page.setGradeId(studentInfo.getGradeId());
@@ -198,16 +198,7 @@ public class WechatRequestController {
         }
         StudentInfo studentInfo = studentService.getStudentInfoByWechatId(openId);
         response.addHeader("Access-Control-Allow-Origin", "*");
-
         Score score = scoreService.getScoreByExamIdAndSid(eid, studentInfo.getSid());
-//        ScoreListPage scoreListPage = new ScoreListPage();
-//        scoreListPage.setExamId(eid);
-//        scoreListPage.setSid(studentAllInfo.getSid());
-//        scoreListPage.setPage(1);
-//        scoreListPage.setCount(1);
-//        List<Score> scores = scoreService.loadScoreList(scoreListPage);
-//        List<NewScore> newScores = ScoreUtils.changeScoreToNewScore(scores);
-//        return new JsonResponse(200, newScores.get(0), null);
         return new JsonResponse(200, score, null);
     }
 
@@ -231,75 +222,5 @@ public class WechatRequestController {
         Assignment assignment = assignmentService.getAssignment(studentInfo.getOrgId(), id);
         return new JsonResponse(200, assignment, null);
     }
-
-    /**
-     *
-     * 获取整体班级分析结果
-     *
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    @ResponseBody
-    @RequestMapping(value = "/score/totalClass", method = RequestMethod.GET)
-    public JsonResponse scoreTotalClass(@Param("eid") long eid,  HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String openId = WechatCookieUtils.getOpenIdByCookie(request.getCookies());
-        if(openId == null){
-            openId = "o2mBHwqHpFzTcZXVvAmmBTjazR_k";
-        }
-        StudentInfo studentInfo = studentService.getStudentInfoByWechatId(openId);
-        response.addHeader("Access-Control-Allow-Origin", "*");
-        ScoreListPage scoreListPage = new ScoreListPage();
-        scoreListPage.setExamId(eid);
-        scoreListPage.setPage(1);
-        scoreListPage.setCount(1000);
-//        List<Score> scores = scoreService.loadScoreList(scoreListPage);
-//        List<NewScore> newScores = ScoreUtils.changeScoreToNewScore(scores);
-//        Object result = scoreAnalyseService.analyseTotal(newScores, 1, 7);
-//        return new JsonResponse(200, result, null);
-        return null;
-    }
-
-
-    /**
-     *
-     * 获取整体年级分析结果
-     *
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    @ResponseBody
-    @RequestMapping(value = "/score/totalGrade", method = RequestMethod.GET)
-    public JsonResponse scoreTotalGrade(@Param("eid") long eid,  HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String openId = WechatCookieUtils.getOpenIdByCookie(request.getCookies());
-        if(openId == null){
-            openId = "o2mBHwqHpFzTcZXVvAmmBTjazR_k";
-        }
-        StudentInfo studentInfo = studentService.getStudentInfoByWechatId(openId);
-        response.addHeader("Access-Control-Allow-Origin", "*");
-//        ScoreListPage scoreListPage = new ScoreListPage();
-//        scoreListPage.setExamId(eid);
-//        scoreListPage.setPage(1);
-//        scoreListPage.setCount(10000);
-//        List<Score> scores = scoreService.loadScoreList(scoreListPage);
-//        List<NewScore> newScores = ScoreUtils.changeScoreToNewScore(scores);
-//        Object result = scoreAnalyseService.analyseTotal(newScores, 1, 7);
-//        Collection<ClassTotal> classTotalList = (Collection<ClassTotal>)result;
-//        Optional<ClassTotal> classTotal = classTotalList.stream().filter(o->o.getClassId() == -3).findAny();
-//        if(classTotal.isPresent()){
-//            return new JsonResponse(200, classTotal.get(), null);
-//        }
-//        return new JsonResponse(200, null, null);
-        return null;
-    }
-
-
-    private void delay(long time) throws  Exception{
-        Thread.sleep(time);
-    }
-
-
-
 
 }

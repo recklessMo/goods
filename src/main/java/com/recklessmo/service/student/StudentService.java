@@ -122,6 +122,19 @@ public class StudentService {
 
     /**
      *
+     * 通过姓名和电话来获取学生信息
+     *
+     * @param name
+     * @param phone
+     * @return
+     */
+    public StudentInfo getStudentInfoByNameAndPhone(String name, String phone){
+        return studentDAO.getStudentInfoByNameAndPhone(name, phone);
+    }
+
+
+    /**
+     *
      * 根据学号列表获取学生信息
      *
      * @param orgId
@@ -162,8 +175,8 @@ public class StudentService {
      * @param sid
      * @param openId
      */
-    public void updateWechatIdBySid(String sid, String openId){
-        studentDAO.updateWechatIdBySid(sid, openId);
+    public void updateWechatIdBySid(long orgId, String sid, String openId){
+        studentDAO.updateWechatIdBySid(orgId, sid, openId);
     }
 
     /**
@@ -181,7 +194,6 @@ public class StudentService {
         compose(studentInfoList, page.getOrgId());
         return studentInfoList;
     }
-
 
     private void compose(StudentInfo studentInfo, long orgId){
         List<StudentInfo> studentInfoList = new LinkedList<>();

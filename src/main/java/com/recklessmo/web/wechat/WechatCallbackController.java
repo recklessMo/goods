@@ -91,15 +91,7 @@ public class WechatCallbackController {
                     String ticket = wechatCallbackMsg.getTicket();
                     WechatTicket wechatTicket = wechatTicketService.getTicketByTicket(ticket);
                     if(wechatTicket != null){
-                        WechatUser wechatUser = new WechatUser();
-                        wechatUser.setSid(wechatTicket.getSid());
-                        wechatUser.setOrgId(wechatTicket.getOrgId());
-                        wechatUser.setOpenId(wechatCallbackMsg.getFromUserName());
-                        wechatUser.setLastMessage("");
-                        wechatUser.setUpdated(new Date());
-                        wechatUser.setDeleted(0);
-                        wechatUserService.insertUser(wechatUser);
-                        wechatMessageService.sendAutoMessage("subscribe", wechatTicket.getOrgId(), wechatUser.getOpenId(), wechatUser.getSid());
+                        wechatUserService.bindUser(wechatTicket.getOrgId(), wechatTicket.getSid(), wechatCallbackMsg.getFromUserName());
                     }
                 } else {
                     //直接扫描公众号二维码关注. 暂时无法做任何事, 就发送一条欢迎消息
