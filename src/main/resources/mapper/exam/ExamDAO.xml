@@ -4,7 +4,7 @@
 <mapper namespace="com.recklessmo.dao.exam.ExamDAO">
 
     <sql id="examColumns">
-        exam_id, exam_name, exam_time, grade_id, class_id, exam_type, last_update_time, upload_status, course_str, deleted
+        exam_id, exam_name, exam_time, grade_id, class_id, exam_type, last_update_time, upload_status, course_str, op_id, op_name, deleted
     </sql>
 
     <select id="listExam" resultType="com.recklessmo.model.exam.Exam">
@@ -52,10 +52,10 @@
     <insert id="addExam" parameterType="com.recklessmo.model.exam.Exam">
         insert into exam
         (
-          org_id, exam_name, exam_time, grade_id, class_id, exam_type, upload_status, course_str, deleted
+          org_id, exam_name, exam_time, grade_id, class_id, exam_type, upload_status, course_str, op_id, op_name, deleted
         )
         values(
-          #{orgId}, #{examName}, #{examTime}, #{gradeId}, #{classId}, #{examType}, #{uploadStatus}, #{courseStr}, #{deleted}
+          #{orgId}, #{examName}, #{examTime}, #{gradeId}, #{classId}, #{examType}, #{uploadStatus}, #{courseStr}, #{opId}, #{opName}, #{deleted}
         )
     </insert>
 

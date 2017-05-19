@@ -39,6 +39,10 @@ public class Exam {
     private List<Long> courseList = new LinkedList<>();
     private List<String> courseNameList = new LinkedList<>();
     private String courseStr;
+
+    private long opId;
+    private String opName;
+
     private int deleted;
 
     private Date lastUpdateTime;
@@ -164,5 +168,21 @@ public class Exam {
 
     public void setDeleted(int deleted) {
         this.deleted = deleted;
+    }
+
+    public long getOpId() {
+        return opId;
+    }
+
+    public void setOpId(long opId) {
+        this.opId = opId;
+    }
+
+    public String getOpName() {
+        return opName;
+    }
+
+    public void setOpName(String opName) {
+        this.opName = opName;
     }
 }

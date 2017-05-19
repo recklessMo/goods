@@ -97,6 +97,22 @@
             return true;
         }
 
+        //日期
+        $scope.today = function() {
+            $scope.dt = new Date();
+        };
+
+        $scope.clear = function() {
+            $scope.dt = null;
+        };
+
+        $scope.open = function() {
+            $scope.popup.opened = true;
+        };
+
+        $scope.popup = {
+            opened: false
+        };
 
 
     }

@@ -58,6 +58,8 @@ public class ExamController {
             exam.setOrgId(defaultUserDetails.getOrgId());
             exam.setUploadStatus(Exam.EXAM_UN_UPLOADED);
             exam.getCourseList().sort((a, b) -> a.compareTo(b));
+            exam.setOpId(defaultUserDetails.getId());
+            exam.setOpName(defaultUserDetails.getName());
             examService.addExam(exam);
         }
         return new JsonResponse(200, null, null);
