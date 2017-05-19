@@ -23,7 +23,7 @@ public class StudentInfo {
     private String phone="";
     private String scn="";
     private int gender;
-    private String birth = "";
+    private Date birth;
     private String homeTown = "";
     private String people = "";
     private String birthTown = "";
@@ -161,11 +161,11 @@ public class StudentInfo {
         this.gender = gender;
     }
 
-    public String getBirth() {
+    public Date getBirth() {
         return birth;
     }
 
-    public void setBirth(String birth) {
+    public void setBirth(Date birth) {
         this.birth = birth;
     }
 

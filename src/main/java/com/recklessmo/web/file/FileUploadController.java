@@ -194,6 +194,7 @@ public class FileUploadController {
     public JsonResponse studentFileUpload(@RequestParam("file") MultipartFile multipartFile) throws Exception {
         //处理excel文件
         DefaultUserDetails defaultUserDetails = ContextUtils.getLoginUserDetail();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         InputStream inputStream = multipartFile.getInputStream();
         DataFormatter dataFormatter = new DataFormatter();
         Workbook workbook = WorkbookFactory.create(inputStream);
@@ -208,7 +209,6 @@ public class FileUploadController {
                     continue;
                 }
                 StudentInfo studentInfo = new StudentInfo();
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 int colNums = row.getLastCellNum();
                 for (int j = row.getFirstCellNum(); j < colNums; j++) {
                     Cell cell = row.getCell(j, Row.RETURN_BLANK_AS_NULL);
@@ -261,7 +261,7 @@ public class FileUploadController {
                             studentInfo.setGender("男".equals(value) ? 0 : 1);
                             break;
                         case 9:
-                            studentInfo.setBirth(value);
+                            studentInfo.setBirth(sdf.parse(value));
                             break;
                         case 10:
                             studentInfo.setBirthTown(value);
