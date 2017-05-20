@@ -176,6 +176,8 @@ public class StudentService {
      * @param openId
      */
     public void updateWechatIdBySid(long orgId, String sid, String openId){
+        //首先取关以前的那个
+        studentDAO.clearWechatId(openId);
         studentDAO.updateWechatIdBySid(orgId, sid, openId);
     }
 

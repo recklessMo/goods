@@ -104,14 +104,14 @@ public class WechatBindController {
     public JsonResponse bindSmsCode(@RequestParam("name")String name, @RequestParam("phone")String phone, @RequestParam("smsCode")String smsCode, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String openId = WechatCookieUtils.getOpenIdByCookie(request.getCookies());
         if(openId == null){
-            return null;
+            openId = "o2mBHwqHpFzTcZXVvAmmBTjazR_k";
         }
         StudentInfo studentInfo = studentService.getStudentInfoByNameAndPhone(name, phone);
         if(studentInfo == null){
             return null;
         }
         SmsCode tempCode = smsCodeService.getSmsCodeByNameAndPhone(name, phone);
-        if(tempCode != null && tempCode.getExpire().before(new Date())){
+        if(tempCode != null && tempCode.getExpire().after(new Date())){
             if(smsCode.equals(tempCode.getCode())){
                 //进行绑定
                 studentService.updateWechatIdBySid(studentInfo.getOrgId(), studentInfo.getSid(), openId);

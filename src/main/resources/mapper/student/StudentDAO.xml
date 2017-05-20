@@ -134,4 +134,8 @@
         update student set wechat_id = #{wechatId} where org_id = #{orgId} and sid = #{sid}
     </update>
 
+    <update id="clearWechatId">
+        update student set wechat_id = "" where wechat_id = #{wechatId}
+    </update>
+
 </mapper>

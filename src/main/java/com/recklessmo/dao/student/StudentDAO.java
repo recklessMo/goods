@@ -15,6 +15,7 @@ public interface StudentDAO {
     void insertStudentList(@Param("list") List<StudentInfo> studentInfoList);
     void updateStudentInfo(StudentInfo studentInfo);
     void updateWechatIdBySid(@Param("orgId")long orgId, @Param("sid")String sid, @Param("wechatId")String wechatId);
+    void clearWechatId(@Param("wechatId")String wechatId);
 
     List<StudentInfo> getStudentInfoList(StudentPage page);
     int getStudentInfoListTotalCount(StudentPage page);
