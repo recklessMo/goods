@@ -301,7 +301,7 @@ public class ScoreAnalyseService {
         Map<String, List<ScoreGap>> scoreGapMap = getScoreGapMap(scoreTemplate);
         scoreList.stream().forEach(score -> {
             score.getCourseScoreList().stream().forEach(courseScore -> {
-                CourseGap gap = gapMap.getOrDefault(courseScore.getCourseName(), new CourseGap(courseScore.getCourseName(), scoreGapMap.getOrDefault(courseScore.getCourseName(), new LinkedList<>())));
+                CourseGap gap = gapMap.getOrDefault(courseScore.getCourseName(), new CourseGap(courseScore.getCourseId(), courseScore.getCourseName(), scoreGapMap.getOrDefault(courseScore.getCourseName(), new LinkedList<>())));
                 gapMap.put(courseScore.getCourseName(), gap);
                 singleGap(gap, score.getClassId(), score.getClassName(), courseScore);
                 singleGap(gap, -3L, "全年级", courseScore);
@@ -373,7 +373,7 @@ public class ScoreAnalyseService {
         scoreList.stream().forEach(score -> {
             double total = 0;
             for (CourseScore courseScore : score.getCourseScoreList()) {
-                CourseRank rank = rankMap.getOrDefault(courseScore.getCourseName(), new CourseRank(0L, courseScore.getCourseName(), courseRankGapMap.getOrDefault(courseScore.getCourseName(), new LinkedList<>())));
+                CourseRank rank = rankMap.getOrDefault(courseScore.getCourseName(), new CourseRank(courseScore.getCourseId(), courseScore.getCourseName(), courseRankGapMap.getOrDefault(courseScore.getCourseName(), new LinkedList<>())));
                 rankMap.put(courseScore.getCourseName(), rank);
                 singleRank(rank, score, courseScore);
                 total += courseScore.getScore();
@@ -397,6 +397,7 @@ public class ScoreAnalyseService {
             rankInner.setCid(score.getClassId());
             rankInner.setCname(score.getClassName());
             rank.getGapInnerList().add(rankInner);
+            Collections.sort(rank.getGapInnerList(), (o1, o2) -> o1.getCname().compareTo(o2.getCname()));
         }
 
         for (int i = 0; i < rank.getGapList().size(); i++) {

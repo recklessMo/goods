@@ -56,4 +56,15 @@
                 }
             }
         })
+        .filter('templateTypeFilter', function(){
+            return function(type){
+                if(type == 1){
+                    return "整体分析模板";
+                }else if(type == 2){
+                    return "分数段分析模板";
+                }else{
+                    return "名次段分析模板";
+                }
+            }
+        })
 })();

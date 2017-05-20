@@ -23,6 +23,10 @@ public class ScoreTemplate {
     public static int TEMPLATE_TYPE_SCORE_GAP = 2;
     public static int TEMPLATE_TYPE_SCORE_RANK = 3;
 
+
+    public static int STATUS_NORMAL = 0;
+    public static int STATUS_DEFAULT = 1;
+
     /**
      * 数据库字段
      */
@@ -31,6 +35,7 @@ public class ScoreTemplate {
     private String name = "default";
     //代表是哪种分析的模板
     private int type = 0;
+    private int status = 0;
     private Date created;
     private Date updated;
 
@@ -141,5 +146,13 @@ public class ScoreTemplate {
 
     public void setCourseRankSettingMap(Map<String, String> courseRankSettingMap) {
         this.courseRankSettingMap = courseRankSettingMap;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

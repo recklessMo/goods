@@ -23,7 +23,7 @@
     </insert>
 
     <update id="updateTemplate" parameterType="com.recklessmo.model.score.ScoreTemplate">
-        update score_template set name = #{name}, detail = #{detail}, type=#{type} where id = #{id}
+        update score_template set name = #{name}, detail = #{detail}, type=#{type}, updated = #{updated} where id = #{id}
     </update>
 
     <select id="getList" resultType="com.recklessmo.model.score.ScoreTemplate">
@@ -43,5 +43,12 @@
         delete from score_template where id = #{id}
     </update>
 
+    <update id="cancelDefault">
+        update score_template set status = 0 where type = #{type}
+    </update>
+
+    <update id="makeDefault">
+        update score_template set status = 1 where id = #{id}
+    </update>
 
 </mapper>

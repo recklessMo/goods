@@ -11,6 +11,17 @@
         this.addTemplate = addTemplate;
         this.deleteTemplate = deleteTemplate;
         this.loadTemplates = loadTemplates;
+        this.makeDefaultTemplate = makeDefaultTemplate;
+
+        function makeDefaultTemplate(id, type){
+            return $http({
+                method: "POST",
+                data: $.param({id: id, type: type}),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                timeout: 10000,
+                url: "/v1/template/makeDefault"
+            });
+        }
 
         function addTemplate(data){
             return $http({

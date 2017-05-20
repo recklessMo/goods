@@ -3,9 +3,38 @@
     angular
         .module('custom')
         .controller('ResultTotalController', ResultTotalController);
-    ResultTotalController.$inject = ['$scope', 'ScoreService', 'ExamService', 'SweetAlert', 'NgTableParams', 'ngDialog', 'blockUI', 'Notify'];
+    ResultTotalController.$inject = ['$scope', 'ScoreService', 'DicService', 'ExamService', 'SweetAlert', 'NgTableParams', 'ngDialog', 'blockUI', 'Notify'];
 
-    function ResultTotalController($scope, ScoreService, ExamService, SweetAlert, NgTableParams, ngDialog, blockUI, Notify) {
+    function ResultTotalController($scope, ScoreService, DicService, ExamService, SweetAlert, NgTableParams, ngDialog, blockUI, Notify) {
+
+        $scope.examTypeList = ['全部', '小测', '周考', '月考', '期中', '期末'];
+
+        $scope.gradeList = [];
+        $scope.classList = [];
+
+        //初始化选择器列表
+        function initSelector(){
+            blockUI.start();
+            DicService.loadAllGrade().success(function(data){
+                if(data.status == 200){
+                    $scope.gradeList = data.data;
+                    _.forEach($scope.gradeList, function(item){
+                        item.classList.unshift({classId: 0, className:'全部'});
+                    });
+                }
+                blockUI.stop();
+            }).error(function(){
+                SweetAlert.error("网络异常, 请稍后重试!");
+                blockUI.stop();
+            });
+
+            $scope.selectGrade = function(data){
+                $scope.classList = data.classList;
+                $scope.tableParams.classId = 0;
+            }
+        }
+
+        initSelector();
 
         //data
         $scope.courseList = [];
@@ -47,10 +76,6 @@
 
         $scope.searchExam();
 
-        $scope.use = function(item){
-            $scope.selectedExam = item;
-        }
-
         //控制右上角的班级列表, 文科班,理科班,单独班级,全年级等可以一起进行分析
         //控制左边栏参数填写
         //加载默认模板
@@ -74,9 +99,13 @@
         //show 代表显示类型, type代表分析类型
         $scope.flag = {show: 1, type: 1};
 
+        $scope.use = function(row){
+            $scope.selectedExam = row;
+        }
+
         //开始分析
         $scope.startAnalyse = function () {
-            //判断模板是否选择, 以及考试是否选择
+
             if(angular.isUndefined($scope.selectedExam)){
                 SweetAlert.error("请选择考试!");
                 return;

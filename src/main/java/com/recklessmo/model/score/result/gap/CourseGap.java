@@ -20,7 +20,8 @@ public class CourseGap {
 
     }
 
-    public CourseGap(String name, List<ScoreGap> gapList){
+    public CourseGap(long courseId, String name, List<ScoreGap> gapList){
+        this.courseId = courseId;
         this.name = name;
         this.gapList = gapList;
         this.gapInnerList = new LinkedList<>();

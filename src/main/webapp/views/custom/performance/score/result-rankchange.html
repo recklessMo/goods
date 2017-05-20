@@ -10,8 +10,38 @@
                         <span>选择考试: </span>
                         <span>{{selectedExam.examName}}</span>
                     </div>
-                    <div style="padding:2px 10px;" class="form-inline">
-                        <input type="text" placeholder="输入考试名称进行查询" class="form-control"
+                    <div style="width: 100%;">
+                        <ui-select ng-model="tableParams.gradeId" theme="bootstrap"
+                                   class="text-left" style="width:100%;" on-select="selectGrade($item)">
+                            <ui-select-match placeholder="选择年级">{{$select.selected.gradeName}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="grade.gradeId as grade in gradeList">
+                                <span ng-bind-html="grade.gradeName"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <div style="width: 100%;margin-top:5px;">
+                        <ui-select ng-model="tableParams.classId" theme="bootstrap"
+                                   class="text-left" style="width:100%;">
+                            <ui-select-match placeholder="选择班级">{{$select.selected.className}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="class.classId as class in classList">
+                                <span ng-bind-html="class.className"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <div style="width: 100%;margin-top:5px;">
+                        <ui-select ng-model="tableParams.examType" theme="bootstrap"
+                                   class="text-left" style="width:100%;">
+                            <ui-select-match placeholder="选择考试类型">{{$select.selected}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="examType in examTypeList">
+                                <span ng-bind-html="examType"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <div style="width: 100%;margin-top:5px;" class="form-inline">
+                        <input type="text" placeholder="输入考试名称进行查询" class="form-control" ng-model="tableParams.searchStr"
                                style="display: inline-block;width: calc( 100% - 70px);"/>
                         <button class="btn btn-info" ng-click="searchExam()">查询</button>
                     </div>

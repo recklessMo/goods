@@ -142,5 +142,17 @@
             $scope.closeThisDialog(result);
         }
 
+        //设置成默认
+        $scope.make = function (item) {
+            TemplateService.makeDefaultTemplate(item.id, item.type).success(function () {
+                Notify.alert("设置成功!", {status: "success", timeout: 3000});
+                $scope.templateTableParams.reload();
+                block.stop();
+            }).error(function () {
+                block.stop();
+                SweetAlert.error("网络问题,请稍后重试!");
+            });
+        }
+
     }
 })();
