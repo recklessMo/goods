@@ -169,20 +169,6 @@ public class StudentService {
         return studentDAO.getStudentListCountByGradeIdAndClassId(orgId, gradeId, classId);
     }
 
-
-    /**
-     *
-     * 更新wechatid
-     *
-     * @param sid
-     * @param openId
-     */
-    public void updateWechatIdBySid(long orgId, String sid, String openId){
-        //首先取关以前的那个
-        studentDAO.clearWechatId(openId);
-        studentDAO.updateWechatIdBySid(orgId, sid, openId);
-    }
-
     /**
      *
      * 根据examid查询学生信息
@@ -198,6 +184,29 @@ public class StudentService {
         compose(studentInfoList, page.getOrgId());
         return studentInfoList;
     }
+
+
+    /**
+     * 取消wechatid
+     * @param openId
+     */
+    public void clearWechatId(String openId){
+        studentDAO.clearWechatId(openId);
+    }
+
+    /**
+     *
+     * 更新wechatid
+     *
+     * @param sid
+     * @param openId
+     */
+    public void updateWechatIdBySid(long orgId, String sid, String openId){
+        //首先取关以前的那个
+        studentDAO.clearWechatId(openId);
+        studentDAO.updateWechatIdBySid(orgId, sid, openId);
+    }
+
 
     private void compose(StudentInfo studentInfo, long orgId){
         if(studentInfo == null){

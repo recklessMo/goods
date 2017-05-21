@@ -80,6 +80,18 @@ public class WechatMessageService {
 
     /**
      *
+     * 收到消息
+     *
+     * @param wechatMessage
+     */
+    public void receiveMessage(WechatMessage wechatMessage) {
+        //插入数据库中进行记录
+        wechatMessageDAO.insertMessage(wechatMessage);
+        wechatUserService.updateWechatUserLastMessage(wechatMessage.getMessage(), wechatMessage.getOrgId(), wechatMessage.getOpenId(), wechatMessage.getSid());
+    }
+
+    /**
+     *
      * 发送自动回复消息
      *
      * @param wechatMessage
@@ -108,12 +120,12 @@ public class WechatMessageService {
 
     /**
      *
-     * 未关注的时候发送一条消息
+     * 发送自定义消息
      *
      * @param openId
      * @return
      */
-    public boolean sendUnsubscribeMessage(String openId, String message){
+    public boolean sendCustomMessage(String openId, String message){
         WechatMessage wechatMessage = new WechatMessage();
         wechatMessage.setOpenId(openId);
         wechatMessage.setMessage(message);
@@ -184,16 +196,5 @@ public class WechatMessageService {
         return temp;
     }
 
-    /**
-     *
-     * 收到消息
-     *
-     * @param wechatMessage
-     */
-    public void receiveMessage(WechatMessage wechatMessage) {
-        //插入数据库中进行记录
-        wechatMessageDAO.insertMessage(wechatMessage);
-        wechatUserService.updateWechatUserLastMessage(wechatMessage.getMessage(), wechatMessage.getOrgId(), wechatMessage.getOpenId(), wechatMessage.getSid());
-    }
 
 }

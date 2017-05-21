@@ -38,20 +38,32 @@ public class WechatUserService {
     @Resource
     private WechatMessageService wechatMessageService;
 
-    private void composeWechatUserInfo(long orgId, List<WechatUser> wechatUserList){
-        List<String> sidList = wechatUserList.stream().map(o -> o.getSid()).collect(Collectors.toList());
-        List<StudentInfo> studentInfoList = studentService.getStudentInfoBySidList(orgId, sidList);
-        Map<String, StudentInfo> studentInfoMap = studentInfoList.stream().collect(Collectors.toMap(StudentInfo::getSid, Function.identity()));
-        wechatUserList.stream().forEach(wechatUser -> {
-            StudentInfo studentInfo = studentInfoMap.get(wechatUser.getSid());
-            if(studentInfo != null) {
-                wechatUser.setName(studentInfo.getName());
-                wechatUser.setGradeId(studentInfo.getGradeId());
-                wechatUser.setGradeName(studentInfo.getGradeName());
-                wechatUser.setClassId(studentInfo.getClassId());
-                wechatUser.setClassName(studentInfo.getClassName());
-            }
-        });
+    /**
+     * 绑定user， 增加
+     * @param orgId
+     * @param sid
+     * @param openId
+     */
+    public void bindUser(long orgId, String sid, String openId){
+        WechatUser wechatUser = new WechatUser();
+        wechatUser.setSid(sid);
+        wechatUser.setOrgId(orgId);
+        wechatUser.setOpenId(openId);
+        wechatUser.setLastMessage("");
+        wechatUser.setUpdated(new Date());
+        wechatUser.setDeleted(0);
+        wechatUserDAO.insertUser(wechatUser);
+        studentService.updateWechatIdBySid(wechatUser.getOrgId(), wechatUser.getSid(), wechatUser.getOpenId());
+        wechatMessageService.sendAutoMessage("subscribe", orgId, wechatUser.getOpenId(), wechatUser.getSid());
+    }
+
+    /**
+     * 通过openId进行解绑
+     * @param openId
+     */
+    public void releaseUserByOpenId(String openId){
+        wechatUserDAO.releaseUserByOpenId(openId);
+        studentService.clearWechatId(openId);
     }
 
     /*************************微信用户 前端展示*****************************/
@@ -77,34 +89,37 @@ public class WechatUserService {
 
 
     /*************************微信用户 绑定和解绑定*****************************/
-    public void insertUser(WechatUser user){
-        wechatUserDAO.insertUser(user);
-        studentService.updateWechatIdBySid(user.getOrgId(), user.getSid(), user.getOpenId());
-    }
 
-    public void releaseUserByOpenId(String openId){
 
-    }
 
-    public void releaseUserBySid(String sid){
-
-    }
-
+    /**
+     * 更新最新的一条内容
+     * @param message
+     * @param orgId
+     * @param openId
+     * @param sid
+     */
     public void updateWechatUserLastMessage(String message, long orgId, String openId, String sid){
         wechatUserDAO.updateWechatUserLastMessage(message, orgId, openId, sid);
     }
 
 
-    public void bindUser(long orgId, String sid, String openId){
-        WechatUser wechatUser = new WechatUser();
-        wechatUser.setSid(sid);
-        wechatUser.setOrgId(orgId);
-        wechatUser.setOpenId(openId);
-        wechatUser.setLastMessage("");
-        wechatUser.setUpdated(new Date());
-        wechatUser.setDeleted(0);
-        insertUser(wechatUser);
-        wechatMessageService.sendAutoMessage("subscribe", orgId, wechatUser.getOpenId(), wechatUser.getSid());
+
+    private void composeWechatUserInfo(long orgId, List<WechatUser> wechatUserList){
+        List<String> sidList = wechatUserList.stream().map(o -> o.getSid()).collect(Collectors.toList());
+        List<StudentInfo> studentInfoList = studentService.getStudentInfoBySidList(orgId, sidList);
+        Map<String, StudentInfo> studentInfoMap = studentInfoList.stream().collect(Collectors.toMap(StudentInfo::getSid, Function.identity()));
+        wechatUserList.stream().forEach(wechatUser -> {
+            StudentInfo studentInfo = studentInfoMap.get(wechatUser.getSid());
+            if(studentInfo != null) {
+                wechatUser.setName(studentInfo.getName());
+                wechatUser.setGradeId(studentInfo.getGradeId());
+                wechatUser.setGradeName(studentInfo.getGradeName());
+                wechatUser.setClassId(studentInfo.getClassId());
+                wechatUser.setClassName(studentInfo.getClassName());
+            }
+        });
     }
+
 
 }

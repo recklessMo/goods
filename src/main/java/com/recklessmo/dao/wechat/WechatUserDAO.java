@@ -28,5 +28,6 @@ public interface WechatUserDAO {
 
     WechatUser getByOpenId(@Param("openId")String openId);
 
+    void releaseUserByOpenId(@Param("openId")String openId);
 
 }

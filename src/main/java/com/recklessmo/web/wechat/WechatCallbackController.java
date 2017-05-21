@@ -80,7 +80,6 @@ public class WechatCallbackController {
             return encryptData.equals(signature) ? echostr : "";
         }
         //否则就走正常的业务逻辑
-        LOGGER.info("content" + content);
         WechatCallbackMsg wechatCallbackMsg = (WechatCallbackMsg) WechatUtils.fromXml(content, WechatCallbackMsg.class);
         LOGGER.info(JSON.toJSONString(wechatCallbackMsg));
         if (wechatCallbackMsg.getMsgType().equals("event")) {
@@ -95,10 +94,10 @@ public class WechatCallbackController {
                     }
                 } else {
                     //直接扫描公众号二维码关注. 暂时无法做任何事, 就发送一条欢迎消息
-                    wechatMessageService.sendUnsubscribeMessage(wechatCallbackMsg.getFromUserName(), WechatConstants.WELCOME_DEFAULT);
+                    wechatMessageService.sendCustomMessage(wechatCallbackMsg.getFromUserName(), WechatConstants.WELCOME_DEFAULT);
                 }
             } else if (wechatCallbackMsg.getEvent().equals("unsubscribe")) {
-                //解绑openId, 标记为删除
+                //解绑所有的openId, 标记为删除
                 wechatUserService.releaseUserByOpenId(wechatCallbackMsg.getFromUserName());
             } else if (wechatCallbackMsg.getEvent().equals("SCAN")) {
                 //用户关注之后再进行扫码
@@ -107,14 +106,19 @@ public class WechatCallbackController {
                     String ticket = wechatCallbackMsg.getTicket();
                     WechatTicket wechatTicket = wechatTicketService.getTicketByTicket(ticket);
                     if(wechatTicket != null){
-                        ;
+                        //标记以前的都删除
+                        wechatUserService.releaseUserByOpenId(wechatCallbackMsg.getFromUserName());
+                        //创建新的user
+                        wechatUserService.bindUser(wechatTicket.getOrgId(), wechatTicket.getSid(), wechatCallbackMsg.getFromUserName());
                     }
+                }else{
+                    ;
                 }
             }
         } else if (wechatCallbackMsg.getMsgType().equals("text")){
             StudentInfo studentInfo = studentService.getStudentInfoByWechatId(wechatCallbackMsg.getFromUserName());
             if(studentInfo == null){
-                wechatMessageService.sendUnsubscribeMessage(wechatCallbackMsg.getFromUserName(), WechatConstants.UNBIND_RETURN);
+                wechatMessageService.sendCustomMessage(wechatCallbackMsg.getFromUserName(), WechatConstants.UNBIND_RETURN);
                 return "";
             }
             //文本消息
@@ -135,6 +139,7 @@ public class WechatCallbackController {
         } else if (wechatCallbackMsg.getMsgType().equals("image")
                 || wechatCallbackMsg.getMsgType().equals("voice") || wechatCallbackMsg.getMsgType().equals("video") || wechatCallbackMsg.getMsgType().equals("shortvideo")) {
             //暂时不支持这种类型的消息.
+            wechatMessageService.sendCustomMessage(wechatCallbackMsg.getFromUserName(), WechatConstants.UNSUPPORTED_MESSAGE);
         }
         return "";
     }
@@ -174,14 +179,11 @@ public class WechatCallbackController {
     @RequestMapping(value = "/callback", method = RequestMethod.GET)
     public void clickMenuCallback(@RequestParam("code") String code, @RequestParam("state") int state, HttpServletResponse response) throws Exception{
         String openId = wechatNetworkService.getBrowerOpenId(code);
-        LOGGER.info(openId);
         //根据state来进行回调判断
         StringBuilder sb = new StringBuilder();
         sb.append(WechatConstants.domainName + "/public/wechat/page/");
         sb.append(state);
-        LOGGER.info(sb.toString());
         Cookie cookie = new Cookie("token", "s" + openId + "e");
-        LOGGER.info(cookie.getName());
         cookie.setPath("/public/wechat/");
         cookie.setSecure(false);
         cookie.setHttpOnly(true);

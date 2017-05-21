@@ -52,4 +52,8 @@
         where org_id = #{orgId} and open_id = #{openId} and sid = #{sid}
     </update>
 
+    <update id="releaseUserByOpenId">
+        update wechat_user set deleted = 1 where open_id = #{openId}
+    </update>
+
 </mapper>
