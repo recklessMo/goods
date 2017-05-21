@@ -1,11 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <title>自助绑定</title>
     <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.0/style/weui.min.css">
     <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            background: #F4F4F4;
+            overflow-y: auto;
+        }
+
+        form {
+            padding: 10px 18px;
+            max-width: 400px;
+            margin: 0 auto;
+            box-sizing: border-box;
+        }
+
         .page__hd {
             padding: 40px
         }
@@ -22,62 +36,159 @@
             text-align: left;
             font-size: 14px
         }
+
+        .describe-text {
+            font-family: PingFangSC-Light;
+            font-size: 15px;
+            color: #9b9b9b;
+            letter-spacing: -0.37px;
+            margin: 15px 0;
+        }
+
+        .item-field {
+            position: relative;
+            padding-bottom: 16px;
+            white-space: nowrap;
+        }
+
+        .item-field input {
+            height: 44px;
+            border: none;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px 16px;
+            background: #FFF;
+            border-radius: 5px;
+            font-family: PingFangSC-Light;
+            font-size: 17px;
+            color: grey;
+            letter-spacing: -0.41px;
+        }
+
+        .item-field .smsCode-input {
+            width: 68%;
+            margin-right: 2%;
+        }
+
+        .item-field .smsCode-button {
+            box-sizing: border-box;
+            width: 30%;
+            margin-left: -1px;
+            border: none;
+            padding: 8px 0;
+            color: #fff;
+            outline: none;
+            border-radius: 5px;
+            font-size: 15px;
+            height: 44px;
+        }
+
+        .errors {
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .errors p {
+            font-family: PingFangSC-Light;
+            font-size: 15px;
+            color: #D0021B;
+            letter-spacing: -0.37px;
+            text-align: center;
+            line-height: 18px;
+            width: 100%;
+            min-height: 18px;
+        }
+
+        .button {
+            width: 100%;
+            border-radius: 5px;
+            border: none;
+            padding: 7px 0;
+            outline: none;
+            font-family: PingFangSC-Regular;
+            font-size: 17px;
+            color: #FFFFFF;
+            letter-spacing: -0.41px;
+            margin-top: 10px;
+            height: 44px;
+        }
+
+        /* 默认样式 ----------------------------------------- */
+        .theme-default .item-field .smsCode-button,
+        .theme-default .button {
+            background: #4598F8;
+        }
+
+        .theme-default .item-field .smsCode-button[disabled],
+        .theme-default .button[disabled] {
+            background: darkgray;
+        }
+
     </style>
 </head>
 <body>
 
-<div id="register">
-    <div class="page__hd">
-        <h1 class="page__title">绑定提示</h1>
-        <p class="page__desc">请使用学生姓名和在学校登记的家长手机号码进行自助绑定，如果提示手机号码未登记，请联系老师进行登记！</p>
-    </div>
-    <form novalidate v-on:submit.prevent="onSubmit">
-        <div class="weui-cells weui-cells_form">
-            <div class="weui-cell">
-                <div class="weui-cell__hd">
-                    <label class="weui-label">姓名</label>
-                </div>
-                <div class="weui-cell__bd">
-                    <input class="weui-input" type="text" placeholder="请输入姓名" v-model="name">
-                </div>
-            </div>
-            <div class="weui-cell weui-cell_vcode">
-                <div class="weui-cell__hd">
-                    <label class="weui-label">手机号</label>
-                </div>
-                <div class="weui-cell__bd">
-                    <input class="weui-input" type="tel" placeholder="请输入手机号" v-model="phone">
-                </div>
-                <div class="weui-cell__ft">
-                    <button class="weui-vcode-btn" @click="getSmsCode">获取验证码</button>
-                </div>
-            </div>
-            <div class="weui-cell">
-                <div class="weui-cell__hd"><label class="weui-label">验证码</label></div>
-                <div class="weui-cell__bd">
-                    <input class="weui-input" type="number" placeholder="请输入验证码" v-model="smsCode">
-                </div>
-            </div>
+<div id="register" class="theme-default">
+    <validator name="validation">
+        <div class="page__hd">
+            <h1 class="page__title">绑定提示</h1>
+
+            <p class="page__desc">请使用学生姓名和在学校登记的家长手机号码进行自助绑定，如果提示手机号码未登记，请联系老师进行登记！</p>
         </div>
-        <div class="weui-btn-area">
-            <a class="weui-btn weui-btn_primary" href="javascript:" id="showTooltips">提交</a>
-        </div>
-    </form>
+        <form novalidate v-on:submit.prevent="onSubmit">
+            <div class="item-field">
+                <input id="username" type="text" v-validate:name="['required']" v-model="name"
+                       @click="canShowVerify.name = true" placeholder="姓名">
+            </div>
+
+            <div class="item-field">
+                <input id="phone" type="tel" v-validate:phone="['phone']" v-model="phone"
+                       @click="canShowVerify.phone = true" placeholder="手机号">
+            </div>
+
+            <div class="item-field">
+                <input id="smscode" type="text" v-validate:smscode="['required']" v-model="smsCode"
+                       class="smsCode-input"
+                       @click="canShowVerify.code = true" placeholder="输入验证码">
+                <button @click="getSmsCode"
+                        :disabled="codeButtonDisable || $validation.phone.phone || $validation.name.required"
+                        v-html="buttonText" class="smsCode-button"></button>
+            </div>
+            <input type="submit" value="发送" class="button" :disabled="!$validation.valid">
+
+            <div class="errors">
+                <p v-html="returnText"></p>
+            </div>
+        </form>
+    </validator>
 </div>
 
 <script src="https://cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/vue/1.0.26/vue.min.js"></script>
+<script src="https://cdn.bootcss.com/vue-validator/2.1.6/vue-validator.min.js"></script>
 
 <script type="text/javascript">
+    //电话号码的验证
+    Vue.validator('phone', function (val) {
+        return /^1[3|4|5|7|8][0-9]\d{8}$/.test(val)
+    });
+
     new Vue({
         el: '#register',
         data: {
+            buttonText: '获取验证码',
+            returnText: '',
+            codeButtonDisable: false,
             name: '',
             phone: '',
-            smsCode: ''
+            smsCode: '',
+            canShowVerify: {
+                name: false,
+                phone: false,
+                code: false
+            }
         },
         methods: {
-            //获取验证码
             getSmsCode: function () {
                 //时间限制
                 var timeNumber = 60;
@@ -94,18 +205,27 @@
                         me.buttonText = timeNumber + 's后重发';
                     }
                 }, 1000);
+
+                //发送验证码
                 jQuery.ajax({
                     url: "/public/wechat/sendSmsCode?name=" + me.name + "&phone=" + me.phone,
                     method: "get"
                 }).done(function (data) {
                     if (data.status != 200) {
+                        me.returnText = data.data;
+                        setTimeout(function () {
+                            me.returnText = "";
+                        }, 2000);
                     } else {
                     }
                 }).fail(function (error) {
+                    me.returnText = "网络错误";
+                    setTimeout(function () {
+                        me.returnText = "";
+                    }, 2000);
                 });
             },
 
-            //提交
             onSubmit: function () {
                 var me = this;
                 //绑定操作
@@ -114,11 +234,18 @@
                     method: "get"
                 }).done(function (data) {
                     if (data.status != 200) {
-
+                        me.returnText = data.data;
+                        setTimeout(function () {
+                            me.returnText = "";
+                        }, 2000);
                     } else {
                         window.location.href = "/public/wechat/menu/1";
                     }
                 }).fail(function (error) {
+                    me.returnText = "网络错误";
+                    setTimeout(function () {
+                        me.returnText = "";
+                    }, 2000);
                 });
             }
         }
