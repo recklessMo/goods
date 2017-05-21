@@ -114,7 +114,7 @@ public class WechatCallbackController {
         } else if (wechatCallbackMsg.getMsgType().equals("text")){
             StudentInfo studentInfo = studentService.getStudentInfoByWechatId(wechatCallbackMsg.getFromUserName());
             if(studentInfo == null){
-                wechatMessageService.sendUnsubscribeMessage(wechatCallbackMsg.getFromUserName(), WechatConstants.WELCOME_DEFAULT);
+                wechatMessageService.sendUnsubscribeMessage(wechatCallbackMsg.getFromUserName(), WechatConstants.UNBIND_RETURN);
                 return "";
             }
             //文本消息
