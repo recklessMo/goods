@@ -198,12 +198,18 @@ public class StudentService {
     }
 
     private void compose(StudentInfo studentInfo, long orgId){
+        if(studentInfo == null){
+            return;
+        }
         List<StudentInfo> studentInfoList = new LinkedList<>();
         studentInfoList.add(studentInfo);
         compose(studentInfoList, orgId);
     }
 
     private void compose(List<StudentInfo> studentInfoList, long orgId){
+        if(studentInfoList.size() == 0){
+            return;
+        }
         List<Grade> gradeList = gradeSettingService.listAllGrade(orgId);
         Map<Long, Grade> gradeMap = new HashMap<>();
         Map<Long, Group> classMap = new HashMap<>();

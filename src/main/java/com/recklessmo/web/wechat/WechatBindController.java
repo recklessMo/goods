@@ -100,7 +100,7 @@ public class WechatBindController {
 
 
     @ResponseBody
-    @RequestMapping(value = "/bind", method = RequestMethod.GET)
+    @RequestMapping(value = "/selfBind", method = RequestMethod.GET)
     public JsonResponse bindSmsCode(@RequestParam("name")String name, @RequestParam("phone")String phone, @RequestParam("smsCode")String smsCode, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String openId = WechatCookieUtils.getOpenIdByCookie(request.getCookies());
         if(openId == null){

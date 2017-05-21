@@ -27,7 +27,6 @@
 <body>
 
 <div id="register">
-
     <div class="page__hd">
         <h1 class="page__title">绑定提示</h1>
         <p class="page__desc">请使用学生姓名和在学校登记的家长手机号码进行自助绑定，如果提示手机号码未登记，请联系老师进行登记！</p>
@@ -101,7 +100,6 @@
                 }).done(function (data) {
                     if (data.status != 200) {
                     } else {
-                        me.patientId = data.data;
                     }
                 }).fail(function (error) {
                 });
@@ -113,12 +111,12 @@
                 //绑定操作
                 jQuery.ajax({
                     url: "/public/wechat/selfBind?name=" + me.name + "&phone=" + me.phone + "&smsCode=" + me.smsCode,
-                    method: "post"
+                    method: "get"
                 }).done(function (data) {
                     if (data.status != 200) {
 
                     } else {
-                        window.location.href = "/public/wechat/menu/13700/4";
+                        window.location.href = "/public/wechat/menu/1";
                     }
                 }).fail(function (error) {
                 });

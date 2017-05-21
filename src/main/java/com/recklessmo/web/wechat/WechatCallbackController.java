@@ -95,7 +95,7 @@ public class WechatCallbackController {
                     }
                 } else {
                     //直接扫描公众号二维码关注. 暂时无法做任何事, 就发送一条欢迎消息
-                    wechatMessageService.sendUnsubscribeMessage(wechatCallbackMsg.getFromUserName());
+                    wechatMessageService.sendUnsubscribeMessage(wechatCallbackMsg.getFromUserName(), WechatConstants.WELCOME_DEFAULT);
                 }
             } else if (wechatCallbackMsg.getEvent().equals("unsubscribe")) {
                 //解绑openId, 标记为删除
@@ -113,6 +113,10 @@ public class WechatCallbackController {
             }
         } else if (wechatCallbackMsg.getMsgType().equals("text")){
             StudentInfo studentInfo = studentService.getStudentInfoByWechatId(wechatCallbackMsg.getFromUserName());
+            if(studentInfo == null){
+                wechatMessageService.sendUnsubscribeMessage(wechatCallbackMsg.getFromUserName(), WechatConstants.WELCOME_DEFAULT);
+                return "";
+            }
             //文本消息
             WechatMessage wechatMessage = new WechatMessage();
             wechatMessage.setOrgId(studentInfo.getOrgId());

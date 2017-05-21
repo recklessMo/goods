@@ -113,10 +113,10 @@ public class WechatMessageService {
      * @param openId
      * @return
      */
-    public boolean sendUnsubscribeMessage(String openId){
+    public boolean sendUnsubscribeMessage(String openId, String message){
         WechatMessage wechatMessage = new WechatMessage();
         wechatMessage.setOpenId(openId);
-        wechatMessage.setMessage(WechatConstants.WELCOME_DEFAULT);
+        wechatMessage.setMessage(message);
         return sendMessage(wechatMessage, false);
     }
 

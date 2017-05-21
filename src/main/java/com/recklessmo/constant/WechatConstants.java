@@ -16,6 +16,7 @@ public class WechatConstants {
 
     /*message for user*/
     public static String WELCOME_DEFAULT = "您好, 感谢您的关注!";
+    public static String UNBIND_RETURN = "您好，您还未进行绑定，系统无法处理您的消息! 请点击菜单栏进行绑定！";
     public static String BIND_SUCCESS = "您好，感谢您的关注；您可以发送文字咨询老师，或者点击菜单查看学生信息和成绩!。";
 
     public static String GET_TOKEN_URL = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s";
