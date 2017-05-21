@@ -44,7 +44,7 @@ public class SmsNetworkService {
     //发送
     public static String APINAME = "alibaba.aliqin.fc.sms.num.send";
     //短信模板
-    public static String CODETEMPLATEID = "SMS_67585036";
+    public static String CODETEMPLATEID = "SMS_67565021";
     //返回结果
     public static String RETURNOK = "alibaba_aliqin_fc_sms_num_send_response";
 
