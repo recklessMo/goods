@@ -22,7 +22,7 @@ import java.util.List;
  */
 @RequestMapping("/v1/assignment")
 @Controller
-public class AssignmentController {
+public class AssignmentController{
 
     @Resource
     private AssignmentService assignmentService;

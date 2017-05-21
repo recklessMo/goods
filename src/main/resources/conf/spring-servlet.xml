@@ -54,6 +54,10 @@
         <property name="maxUploadSize" value="1000000"/>
     </bean>
 
+    <bean id="exceptionResolver"
+          class="com.recklessmo.web.handler.BethuneMappingExceptionResolver">
+    </bean>
+
     <security:global-method-security pre-post-annotations="enabled"/>
 
 </beans>
