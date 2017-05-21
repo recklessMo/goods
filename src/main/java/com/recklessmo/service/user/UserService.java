@@ -28,6 +28,10 @@ public class UserService {
         return userDAO.getUser(id);
     }
 
+    public User getUserByUserName(String userName){
+        return userDAO.getUserByUserName(userName);
+    }
+
     public void delete(long id){
         userDAO.deleteUser(id);
     }
@@ -40,9 +44,13 @@ public class UserService {
         userDAO.updateUser(user);
     }
 
-
     public void updatePwd(long id, String pwd){
         userDAO.updatePwd(id, pwd);
+    }
+
+    public boolean existUser(String userName){
+        User user = getUserByUserName(userName);
+        return user != null;
     }
 
 }

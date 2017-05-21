@@ -12,6 +12,18 @@
                 return '未知';
             };
         })
+        .filter('orgTypeFilter', function () {
+            return function (type) {
+                if (type == 0) {
+                    return '小学';
+                }else if(type == 1){
+                    return '初中';
+                }else if(type == 2){
+                    return '高中';
+                }
+                return '未知';
+            };
+        })
         .filter('yearFilter', function(){
             return function(status){
                 if (status == 0){

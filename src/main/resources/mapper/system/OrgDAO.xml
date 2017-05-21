@@ -4,8 +4,16 @@
 <mapper namespace="com.recklessmo.dao.system.OrgDAO">
 
     <sql id = "columns">
-        org_id, org_name, admin_name, created, admin_phone, wechat_status, type
+        org_id, org_name, admin_name, created, admin_phone, user_name, type
     </sql>
+
+    <insert id="addOrg" parameterType="com.recklessmo.model.system.Org">
+        insert into org
+        (org_id, org_name, admin_name, created, admin_phone, type)
+        values(
+          #{orgId}, #{orgName}, #{adminName}, #{created}, #{adminPhone}, #{userName}, #{type}
+        )
+    </insert>
 
     <select id="listOrg" resultType="com.recklessmo.model.system.Org">
       select
@@ -14,12 +22,13 @@
       <if test="null != searchStr and '' != searchStr">
         where org_name like "%"#{searchStr}"%"
       </if>
+      order by org_id desc
       limit #{startIndex}, #{count}
     </select>
 
     <select id="listOrgCount" resultType="java.lang.Integer">
         select count(1)
-        from exam
+        from org
         <if test="null != searchStr and '' != searchStr">
             where org_name like "%"#{searchStr}"%"
         </if>
@@ -32,5 +41,9 @@
         where org_id = #{orgId}
     </select>
 
+    <select id="getMaxOrgId" resultType="java.lang.Long">
+        select max(org_id)
+        from org
+    </select>
 
 </mapper>

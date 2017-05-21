@@ -29,4 +29,12 @@ public class OrgService {
         return orgDAO.getOrg(orgId);
     }
 
+    public void addOrg(Org org){
+        orgDAO.addOrg(org);
+    }
+
+    public long getMaxOrgId(){
+        return orgDAO.getMaxOrgId();
+    }
+
 }

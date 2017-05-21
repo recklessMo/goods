@@ -1,0 +1,38 @@
+<div ng-controller="OrgListController"
+     style="background: #fff;overflow: auto;height:100%;padding: 15px;border: 1px solid #cfdbe2;">
+    <div class="row">
+        <div class="col-xs-1 pull-left">
+            <button class="btn btn-info" ng-click="add(-1)">
+                添加新的机构
+            </button>
+        </div>
+
+        <div class="col-xs-4 col-xs-offset-6">
+            <input type="text"
+                   ng-model="tableParams.searchStr"
+                   placeholder="输入机构名称进行查找"
+                   class="form-control"/>
+        </div>
+        <div class="col-xs-1">
+            <button class="btn btn-info" ng-click="activate()">
+                查询
+            </button>
+        </div>
+    </div>
+
+    <div style="margin-top: 10px;">
+        <table ng-table="orgTableParams"
+               class="table table-bordered table-hover table-condensed editable-table table-min">
+            <tr ng-repeat="item in $data" ng-dblclick="show(item.id)">
+                <td data-title="'机构ID'" style="text-align: center">{{item.orgId}}</td>
+                <td data-title="'机构名称'" style="text-align: center">{{item.orgName | date:'yyyy-MM-dd'}}</td>
+                <td data-title="'机构类型'" style="text-align: center">{{item.type | orgTypeFilter}}</td>
+                <td data-title="'创建时间'" style="text-align: center">{{item.created | date:'yyyy-MM-dd'}}</td>
+                <td data-title="'联系人姓名'" style="text-align: center">{{item.adminName}}</td>
+                <td data-title="'联系人电话'" style="text-align: center">{{item.adminPhone}}</td>
+                <td data-title="'账号'" style="text-align: center">{{item.userName}}</td>
+            </tr>
+        </table>
+    </div>
+
+</div>

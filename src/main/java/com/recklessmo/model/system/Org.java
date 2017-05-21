@@ -1,5 +1,9 @@
 package com.recklessmo.model.system;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
+import java.util.Date;
+
 /**
  * Created by hpf on 2/20/17.
  */
@@ -7,18 +11,20 @@ public class Org {
 
     private long orgId;
     private String orgName;
-    private String created;
+    private Date created;
     private String adminName;
     private String adminPhone;
-    private int type;
-    private int wechatStatus;
+    private String userName;
+    private int type;//小学，初中，高中
 
+    @JSONField(serialize = false)
+    private String pwd;
 
-    public String getCreated() {
+    public Date getCreated() {
         return created;
     }
 
-    public void setCreated(String created) {
+    public void setCreated(Date created) {
         this.created = created;
     }
 
@@ -62,12 +68,19 @@ public class Org {
         this.type = type;
     }
 
-    public int getWechatStatus() {
-        return wechatStatus;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setWechatStatus(int wechatStatus) {
-        this.wechatStatus = wechatStatus;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
+    public String getPwd() {
+        return pwd;
+    }
+
+    public void setPwd(String pwd) {
+        this.pwd = pwd;
+    }
 }

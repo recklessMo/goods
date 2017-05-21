@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -99,10 +100,11 @@ public class WechatRequestController {
         int totalClassCount = gradeList.stream().mapToInt(o->o.getClassList().size()).sum();
         long orgId = studentInfo.getOrgId();
         Org org = orgService.getOrg(orgId);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
         WechatIndexModel wechatIndexModel = new WechatIndexModel();
         wechatIndexModel.setOrgName(org.getOrgName());
         wechatIndexModel.setPrincipal(org.getAdminName());
-        wechatIndexModel.setCreated(org.getCreated());
+        wechatIndexModel.setCreated(sdf.format(org.getCreated()) + "年");
         wechatIndexModel.setTotalGradeCount(totalGradeCount);
         wechatIndexModel.setTotalClassCount(totalClassCount);
         wechatIndexModel.setGradeClassCount(grade.getClassList().size());

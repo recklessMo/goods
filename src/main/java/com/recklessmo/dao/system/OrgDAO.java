@@ -18,5 +18,6 @@ public interface OrgDAO {
     void addOrg(Org org);
     Org getOrg(@Param("orgId") long orgId);
 
+    long getMaxOrgId();
 
 }

@@ -60,4 +60,5 @@
     <update id="updatePwd">
         update user set pwd = #{pwd} where id = #{id}
     </update>
+
 </mapper>

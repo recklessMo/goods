@@ -187,7 +187,7 @@
             .state('app.org-list', {
                 url: '/org-list',
                 title: '管理机构',
-                templateUrl: helper.basepath('custom/system/org-list.html'),
+                templateUrl: helper.basepath('custom/org/org-list.html'),
             })
             .state('app.test', {
                 url: '/test',
