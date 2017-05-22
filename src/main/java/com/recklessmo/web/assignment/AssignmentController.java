@@ -43,6 +43,9 @@ public class AssignmentController{
         page.setOrgId(userDetails.getOrgId());
         List<Assignment> assignmentList = assignmentService.listAssignment(page);
         int count = assignmentService.listAssignmentCount(page);
+        assignmentList.stream().forEach(assignment -> {
+            assignment.setDoneCount(assignmentStatusService.getAssignmentStatusList(assignment.getId()).size());
+        });
         return new JsonResponse(200, assignmentList, count);
     }
 

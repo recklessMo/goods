@@ -11,6 +11,7 @@
 
         $scope.activate = function() {
             $scope.assignmentTableParams = new NgTableParams({}, {
+                counts: [10],
                 getData: function (params) {
                     blockUI.start();
                     $scope.tableParams.page = params.page();

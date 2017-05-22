@@ -20,9 +20,10 @@
                 <td data-title="'所属班级'" style="text-align: center">{{item.className}}</td>
                 <td data-title="'创建人'" style="text-align: center">{{item.opName}}</td>
                 <td data-title="'学生总数'" style="text-align: center;">{{item.totalCount}}</td>
+                <td data-title="'已完成人数'" style="text-align: center;">{{item.doneCount}}</td>
                 <td data-title="'操作'" style="text-align: center">
-                    <button class="btn btn-info" ng-click="show(item)">查看内容</button>
-                    <button class="btn btn-info" ng-click="showComplete(item)">完成情况</button>
+                    <button class="btn btn-info" ng-click="show(item)">查看详细</button>
+                    <!--<button class="btn btn-info" ng-click="showComplete(item)">完成情况</button>-->
                     <button class="btn btn-danger" ng-click="delete(item.id)">删除</button>
                 </td>
             </tr>

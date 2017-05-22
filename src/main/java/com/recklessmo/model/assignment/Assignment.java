@@ -25,10 +25,20 @@ public class Assignment {
     private String content;
     private Date created;//创建时间
     private Date submit;//截止时间
+
     private int totalCount;
+    private int doneCount;
 
     //用于微信端的一个字段
     private boolean status;
+
+    public int getDoneCount() {
+        return doneCount;
+    }
+
+    public void setDoneCount(int doneCount) {
+        this.doneCount = doneCount;
+    }
 
     public boolean isStatus() {
         return status;
