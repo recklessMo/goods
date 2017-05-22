@@ -12,12 +12,12 @@
             <li ng-repeat="msg in message.messageList" style="width: calc(100% - 10px);">
                 <div ng-if="msg.type === 2" style="text-align: left;">
                     <div style="display: inline-block;">
-                        <div style="text-align:left;padding: 10px 0 3px 20px;font-size: 12px;"
-                             ng-if="msg.created < todayTime">{{msg.openName}}{{msg.created | date:'yyyy-MM-dd hh:mm'}}
+                        <div style="text-align:left;padding: 10px 0 3px 20px;font-size: 12px;">
+                            {{msg.created | date:'yyyy-MM-dd HH:mm:ss'}}
                         </div>
-                        <div style="text-align:left;padding: 10px 0 3px 20px;font-size: 12px;"
-                             ng-if="msg.created >= todayTime">{{msg.openName}}{{msg.created | date:'hh:mm'}}
-                        </div>
+                        <!--<div style="text-align:left;padding: 10px 0 3px 20px;font-size: 12px;"-->
+                             <!--ng-if="msg.created >= todayTime">{{msg.created | date:'hh:mm'}}-->
+                        <!--</div>-->
                         <div class="bubble-left-content">
                             <span>{{msg.message}}</span>
                         </div>
@@ -26,12 +26,12 @@
 
                 <div ng-if="msg.type === 1" style="text-align: right;">
                     <div style="display: inline-block;">
-                        <div style="text-align:left;padding: 10px 0 3px 10px;" class="description_text_lightgrey"
-                             ng-if="msg.created < todayTime">{{msg.userName}} {{msg.created | date:'yyyy-MM-dd HH:mm'}}
+                        <div style="text-align:left;padding: 10px 0 3px 10px;" class="description_text_lightgrey">
+                            {{msg.created | date:'yyyy-MM-dd HH:mm:ss'}}
                         </div>
-                        <div style="text-align:left;padding: 10px 0 3px 10px;" class="description_text_lightgrey"
-                             ng-if="msg.created >= todayTime">{{msg.userName}} {{msg.created | date:'HH:mm'}}
-                        </div>
+                        <!--<div style="text-align:left;padding: 10px 0 3px 10px;" class="description_text_lightgrey"-->
+                             <!--ng-if="msg.created >= todayTime">{{msg.created | date:'HH:mm'}}-->
+                        <!--</div>-->
                         <div class="bubble-right-content">
                             <span>{{msg.message}}</span>
                         </div>
