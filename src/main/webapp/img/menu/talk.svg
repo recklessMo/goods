@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 43.2 (39069) - http://www.bohemiancoding.com/sketch -->
+    <title>微信咨询</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="3" y="20" width="3.63914482" height="6.10395875" rx="1.81957241"></rect>
+        <rect id="path-2" x="34" y="20" width="3.63914482" height="6.10395875" rx="1.81957241"></rect>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="微信咨询">
+            <path d="M36.1753406,20.3795823 C36.1753406,11.8856736 29.1965029,5 20.5876703,5 C11.9788377,5 5,11.8856736 5,20.3795823" id="耳麦" stroke="#2CB5DF" stroke-linecap="round"></path>
+            <g id="耳麦左">
+                <use fill="#2CB5DF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                <rect stroke="#2CB5DF" stroke-width="1" x="3.5" y="20.5" width="2.63914482" height="5.10395875" rx="1.31957241"></rect>
+            </g>
+            <g id="耳麦右">
+                <use fill="#2CB5DF" fill-rule="evenodd" xlink:href="#path-2"></use>
+                <rect stroke="#2CB5DF" stroke-width="1" x="34.5" y="20.5" width="2.63914482" height="5.10395875" rx="1.31957241"></rect>
+            </g>
+            <polyline id="话筒" stroke="#2CB5DF" stroke-width="1.5" points="36.1549505 25 29.0927351 36.6702679 26 36.6702679"></polyline>
+            <ellipse id="客服脑袋" stroke="#2CB5DF" fill="#2CB5DF" cx="20.4633062" cy="20.3102765" rx="11.4633062" ry="11.3102765"></ellipse>
+            <text id="?" font-family="PingFangSC-Medium, PingFang SC" font-size="18" font-weight="400" fill="#FFFFFF">
+                <tspan x="16" y="27">?</tspan>
+            </text>
+        </g>
+    </g>
+</svg>

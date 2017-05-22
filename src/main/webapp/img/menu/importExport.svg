@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 43.2 (39069) - http://www.bohemiancoding.com/sketch -->
+    <title>导入导出</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <ellipse id="path-1" cx="18.413718" cy="10.1810498" rx="8.19295455" ry="8.18104982"></ellipse>
+        <polygon id="path-2" points="18.3776978 20.535191 21.0299908 23.6039971 18.3041546 30.4627142 15.7254048 23.6039971"></polygon>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="导入导出">
+            <path d="M32.1786377,25.5205182 C30.5738367,21.8363041 27.9379483,19.0632838 24.4734531,17.5951262 C22.7837035,19.0543726 20.6581155,19.9448544 18.3809642,19.9448544 C16.103813,19.9448544 13.9782249,19.0543726 12.2884753,17.5951262 C6.15029203,20.1963191 2.61315612,26.8935561 2.80318354,35.4974083 L20.8460014,35.4974083 L20.8460014,26.5142535 C20.8460014,25.9654287 21.2872736,25.5205182 21.8424187,25.5205182 L32.1786378,25.5205182 Z" id="Combined-Shape" stroke="#2CB5DF" fill="#2CB5DF"></path>
+            <g id="头部">
+                <use fill="#2CB5DF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                <ellipse stroke="#2CB5DF" stroke-width="1" cx="18.413718" cy="10.1810498" rx="7.69295455" ry="7.68104982"></ellipse>
+            </g>
+            <g id="红领巾">
+                <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-2"></use>
+                <path stroke="#FFFFFF" stroke-width="1" d="M18.3776978,21.2998378 L20.4532618,23.701346 L18.3170862,29.076366 L16.2979841,23.7061473 L18.3776978,21.2998378 Z"></path>
+            </g>
+            <rect id="黑板" stroke="#FFFFFF" fill="#2CB5DF" x="20.8460014" y="25.5205182" width="17.1539986" height="12.3994036" rx="1"></rect>
+            <path d="M26.5983221,30 L34.5983221,30" id="Line" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="square"></path>
+            <path d="M24.5983221,33.75 L32.5983221,33.75" id="Line" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="square"></path>
+            <polygon id="Triangle" stroke="#FFFFFF" fill="#FFFFFF" transform="translate(25.000000, 30.000000) rotate(-90.000000) translate(-25.000000, -30.000000) " points="25 29 26 31 24 31"></polygon>
+            <polygon id="Triangle" stroke="#FFFFFF" fill="#FFFFFF" transform="translate(34.000000, 33.750000) rotate(90.000000) translate(-34.000000, -33.750000) " points="34 32.75 35 34.75 33 34.75"></polygon>
+        </g>
+    </g>
+</svg>

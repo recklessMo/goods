@@ -197,6 +197,42 @@ gulp.task('styles:pages', function () {
         .pipe($.if(isProduction,gulp.dest(build.pages)));
 });
 
+//将某些文件夹中的所有svg文件打包为symbol-sprite.svg
+var svgstore = require('gulp-svgstore');
+var svgmin = require('gulp-svgmin');
+gulp.task('svg-sprite', function () {
+    return [
+        {
+            //symbol标签的id前缀
+            prefix: '',
+            //输出的文件名
+            dest: 'menu-icon-symbol-sprite.svg',
+            //源文件
+            source: paths.img + 'menu/*.svg'
+        }
+    ].map(function (obj) {
+        return gulp
+            .src(obj.source)
+            //.pipe($.rename({prefix: obj.prefix}))
+            .pipe(svgmin(function getOptions(file) {
+                var prefix = path.basename(file.relative, path.extname(file.relative));
+                return {
+                    plugins: [
+                        {
+                            //每个svg的文件的id可能重复，这里生成生成不重复的id
+                            cleanupIDs: {
+                                prefix: prefix + '-',
+                                minify: true
+                            }
+                        }]
+                }
+            }))
+            .pipe(svgstore())
+            .pipe($.rename(obj.dest))
+            .pipe(gulp.dest(build.images));
+    });
+})
+
 
 //LESS相关
 gulp.task('styles:themes', function() {
@@ -302,6 +338,7 @@ gulp.task('assets',[
           'styles:app',
           'styles:img',
           'styles:pages',
+          'svg-sprite',
           'styles:themes'
         ]);
 
