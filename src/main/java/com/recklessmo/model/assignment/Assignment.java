@@ -27,6 +27,7 @@ public class Assignment {
     private Date submit;//截止时间
     private int totalCount;
 
+    //用于微信端的一个字段
     private boolean status;
 
     public boolean isStatus() {

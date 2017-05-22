@@ -4,7 +4,12 @@
 
         <div class="row">
             <div class="col-md-12">
-                <h5 style="margin-top: 0;">
+                <h5 style="margin-top: 0;" ng-if="type != 'add'">
+                    <span class="icon-user"/>
+                    查看作业
+                </h5>
+
+                <h5 style="margin-top: 0;" ng-if="type == 'add'">
                     <span class="icon-user"/>
                     添加作业
                 </h5>
@@ -23,7 +28,7 @@
             <div class="col-md-6">
                 <div class="input-group">
                     <span class="input-group-addon" style="color:red">所属年级</span>
-                    <ui-select ng-model="assignment.gradeId" theme="bootstrap"
+                    <ui-select ng-if="type == 'add'" ng-model="assignment.gradeId" theme="bootstrap"
                                class="text-left" style="width:100%;" on-select="selectGrade($item)">
                         <ui-select-match placeholder="选择年级">{{$select.selected.gradeName}}
                         </ui-select-match>
@@ -31,13 +36,15 @@
                             <span ng-bind-html="grade.gradeName"></span>
                         </ui-select-choices>
                     </ui-select>
+                    <input ng-if="type != 'add'" type="text" class="form-control"
+                           ng-model="assignment.gradeName">
                 </div>
             </div>
 
             <div class="col-md-6">
                 <div class="input-group">
                     <span class="input-group-addon" style="color:red">所属班级</span>
-                    <ui-select ng-if="type=='add'" ng-model="assignment.classId" theme="bootstrap"
+                    <ui-select ng-if="type == 'add'" ng-model="assignment.classId" theme="bootstrap"
                                class="text-left" style="width:100%;">
                         <ui-select-match placeholder="选择班级">{{$select.selected.className}}
                         </ui-select-match>
@@ -45,6 +52,8 @@
                             <span ng-bind-html="class.className"></span>
                         </ui-select-choices>
                     </ui-select>
+                    <input ng-if="type != 'add'" type="text" class="form-control"
+                           ng-model="assignment.className">
                 </div>
             </div>
         </div>
@@ -61,7 +70,12 @@
             <div class="col-md-6">
                 <div class="input-group">
                     <span class="input-group-addon" style="color:red">截止时间</span>
-                    <input type="text" class="form-control" placeholder="yyyy-MM-dd" ng-model="assignment.submit"/>
+                    <div class="input-group">
+                        <input type="text" class="form-control" uib-datepicker-popup ng-model="assignment.submit" is-open="popup.opened" ng-required="true" close-text="Close" />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="open()"><i class="fa fa-calendar"></i></button>
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -70,7 +84,7 @@
             <div class="col-md-6">
                 <div class="input-group">
                     <span class="input-group-addon" style="color:red">所属课程</span>
-                    <ui-select ng-model="assignment.courseId" theme="bootstrap" on-select="selectCourse($item)"
+                    <ui-select ng-if="type == 'add'" ng-model="assignment.courseId" theme="bootstrap" on-select="selectCourse($item)"
                                class="text-left" style="width:100%;">
                         <ui-select-match placeholder="选择课程">{{$select.selected.courseName}}
                         </ui-select-match>
@@ -78,6 +92,8 @@
                             <span ng-bind-html="course.courseName"></span>
                         </ui-select-choices>
                     </ui-select>
+                    <input ng-if="type != 'add'" type="text" class="form-control"
+                           ng-model="assignment.courseName">
                 </div>
             </div>
         </div>
