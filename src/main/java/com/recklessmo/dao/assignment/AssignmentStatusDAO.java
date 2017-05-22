@@ -14,5 +14,6 @@ public interface AssignmentStatusDAO {
 
     void addAssignmentStatus(AssignmentStatus assignmentStatus);
     AssignmentStatus getAssignmentStatus(@Param("orgId") long orgId, @Param("sid")String sid, @Param("id") long id);
+    List<AssignmentStatus> getAssignmentStatusList(@Param("id")long id);
 
 }

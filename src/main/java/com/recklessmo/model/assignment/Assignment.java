@@ -27,6 +27,16 @@ public class Assignment {
     private Date submit;//截止时间
     private int totalCount;
 
+    private boolean status;
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
     public String getName() {
         return name;
     }

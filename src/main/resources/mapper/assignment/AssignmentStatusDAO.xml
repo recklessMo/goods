@@ -22,4 +22,11 @@
         where org_id = #{orgId} and sid = #{sid} and assignment_id = #{id}
     </select>
 
+    <select id="getAssignmentStatusList" resultType="com.recklessmo.model.assignment.AssignmentStatus">
+        select
+        <include refid="assignmentStatusColumns"/>
+        from assignment_status
+        where assignment_id = #{id}
+    </select>
+
 </mapper>

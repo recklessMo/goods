@@ -227,6 +227,8 @@ public class WechatRequestController {
         StudentInfo studentInfo = studentService.getStudentInfoByWechatId(openId);
         response.addHeader("Access-Control-Allow-Origin", "*");
         Assignment assignment = assignmentService.getAssignment(studentInfo.getOrgId(), id);
+        AssignmentStatus assignmentStatus = assignmentStatusService.getAssignmentStatus(studentInfo.getOrgId(), studentInfo.getSid(), assignment.getId());
+        assignment.setStatus(assignmentStatus != null);
         return new JsonResponse(200, assignment, null);
     }
 

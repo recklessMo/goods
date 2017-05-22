@@ -33,4 +33,8 @@ public class AssignmentStatusService {
         return assignmentStatusDAO.getAssignmentStatus(orgId, sid, id);
     }
 
+    public List<AssignmentStatus> getAssignmentStatusList(long id){
+        return assignmentStatusDAO.getAssignmentStatusList(id);
+    }
+
 }

@@ -1,12 +1,15 @@
 package com.recklessmo.web.assignment;
 
 import com.recklessmo.model.assignment.Assignment;
+import com.recklessmo.model.assignment.AssignmentStatus;
 import com.recklessmo.model.exam.Exam;
 import com.recklessmo.model.security.DefaultUserDetails;
 import com.recklessmo.response.JsonResponse;
 import com.recklessmo.service.assignment.AssignmentService;
+import com.recklessmo.service.assignment.AssignmentStatusService;
 import com.recklessmo.service.exam.ExamService;
 import com.recklessmo.service.score.ScoreService;
+import com.recklessmo.service.student.StudentService;
 import com.recklessmo.util.ContextUtils;
 import com.recklessmo.web.webmodel.page.AssignmentListPage;
 import com.recklessmo.web.webmodel.page.ExamListPage;
@@ -27,6 +30,12 @@ public class AssignmentController{
     @Resource
     private AssignmentService assignmentService;
 
+    @Resource
+    private AssignmentStatusService assignmentStatusService;
+
+    @Resource
+    private StudentService studentService;
+
     @ResponseBody
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     public JsonResponse listExam(@RequestBody AssignmentListPage page){
@@ -46,6 +55,7 @@ public class AssignmentController{
         assignment.setOpId(defaultUserDetails.getId());
         assignment.setOpName(defaultUserDetails.getName());
         assignment.setCreated(new Date());
+        assignment.setTotalCount(studentService.getStudentListCountByGradeIdAndClassId(defaultUserDetails.getOrgId(), assignment.getGradeId(), assignment.getClassId()));
         assignmentService.addAssignment(assignment);
         return new JsonResponse(200, null, null);
     }
@@ -57,6 +67,16 @@ public class AssignmentController{
         assignmentService.deleteAssignment(defaultUserDetails.getOrgId(), id);
         return new JsonResponse(200, null, null);
     }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/completeStatus", method = RequestMethod.POST)
+    public JsonResponse completeStatus(@RequestBody long id){
+        DefaultUserDetails defaultUserDetails = ContextUtils.getLoginUserDetail();
+        List<AssignmentStatus> assignmentStatusList = assignmentStatusService.getAssignmentStatusList(id);
+        return new JsonResponse(200, assignmentStatusList.size(), null);
+    }
+
 
 
 
