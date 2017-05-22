@@ -1,6 +1,7 @@
 package com.recklessmo.web.wechat;
 
 import com.recklessmo.model.assignment.Assignment;
+import com.recklessmo.model.assignment.AssignmentStatus;
 import com.recklessmo.model.exam.Exam;
 import com.recklessmo.model.score.Score;
 import com.recklessmo.model.score.result.total.ClassTotal;
@@ -11,6 +12,7 @@ import com.recklessmo.model.system.Org;
 import com.recklessmo.model.wechat.page.WechatIndexModel;
 import com.recklessmo.response.JsonResponse;
 import com.recklessmo.service.assignment.AssignmentService;
+import com.recklessmo.service.assignment.AssignmentStatusService;
 import com.recklessmo.service.exam.ExamService;
 import com.recklessmo.service.score.ScoreAnalyseService;
 import com.recklessmo.service.score.ScoreService;
@@ -54,6 +56,9 @@ public class WechatRequestController {
 
     @Resource
     private AssignmentService assignmentService;
+
+    @Resource
+    private AssignmentStatusService assignmentStatusService;
 
     @Resource
     private OrgService orgService;
@@ -224,5 +229,35 @@ public class WechatRequestController {
         Assignment assignment = assignmentService.getAssignment(studentInfo.getOrgId(), id);
         return new JsonResponse(200, assignment, null);
     }
+
+
+
+    /**
+     *
+     * 获取成绩单
+     *
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @ResponseBody
+    @RequestMapping(value = "/completeAssignment", method = RequestMethod.GET)
+    public JsonResponse completeAssignment(@Param("id") long id,  HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String openId = WechatCookieUtils.getOpenIdByCookie(request.getCookies());
+        if(openId == null){
+            openId = "o2mBHwqHpFzTcZXVvAmmBTjazR_k";
+        }
+        StudentInfo studentInfo = studentService.getStudentInfoByWechatId(openId);
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        Assignment assignment = assignmentService.getAssignment(studentInfo.getOrgId(), id);
+        AssignmentStatus assignmentStatus = new AssignmentStatus();
+        assignmentStatus.setOrgId(studentInfo.getOrgId());
+        assignmentStatus.setSid(studentInfo.getSid());
+        assignmentStatus.setAssignmentId(assignment.getId());
+        assignmentStatus.setCreated(new Date());
+        assignmentStatusService.addAssignmentStatus(assignmentStatus);
+        return new JsonResponse(200, null, null);
+    }
+
 
 }

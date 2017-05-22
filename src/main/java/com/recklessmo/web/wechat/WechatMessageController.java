@@ -53,12 +53,12 @@ public class WechatMessageController {
         return new JsonResponse(200, result, null);
     }
 
-    @ResponseBody
-    @RequestMapping(value = "/addTemplateMsg", method = RequestMethod.POST)
-    public JsonResponse addTemplateMsg(@RequestBody WechatTemplateMsgModel wechatTemplateMsgModel){
-        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
-        wechatMessageService.sendTemplateMessage(userDetails.getOrgId(), wechatTemplateMsgModel);
-        return new JsonResponse(200, null, null);
-    }
+//    @ResponseBody
+//    @RequestMapping(value = "/addTemplateMsg", method = RequestMethod.POST)
+//    public JsonResponse addTemplateMsg(@RequestBody WechatTemplateMsgModel wechatTemplateMsgModel){
+//        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
+//        wechatMessageService.sendTemplateMessage(userDetails.getOrgId(), wechatTemplateMsgModel);
+//        return new JsonResponse(200, null, null);
+//    }
 
 }

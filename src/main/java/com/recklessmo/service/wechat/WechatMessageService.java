@@ -4,12 +4,14 @@ import com.alibaba.fastjson.JSONObject;
 import com.recklessmo.constant.WechatConstants;
 import com.recklessmo.dao.wechat.WechatMessageDAO;
 import com.recklessmo.dao.wechat.WechatUserDAO;
+import com.recklessmo.model.assignment.Assignment;
 import com.recklessmo.model.student.StudentInfo;
 import com.recklessmo.model.wechat.WechatMessage;
 import com.recklessmo.model.wechat.WechatTemplateMessage;
 import com.recklessmo.model.wechat.WechatUser;
 import com.recklessmo.model.wechat.page.GradePair;
 import com.recklessmo.model.wechat.page.WechatTemplateMsgModel;
+import com.recklessmo.service.assignment.AssignmentService;
 import com.recklessmo.service.student.StudentService;
 import com.recklessmo.web.webmodel.page.Page;
 import com.recklessmo.web.webmodel.page.WechatMsgPage;
@@ -38,6 +40,9 @@ public class WechatMessageService {
 
     @Resource
     private StudentService studentService;
+
+    @Resource
+    private AssignmentService assignmentService;
 
     @Resource
     private WechatMessageDAO wechatMessageDAO;
@@ -143,17 +148,37 @@ public class WechatMessageService {
     public boolean sendTemplateMessage(long orgId, WechatTemplateMsgModel wechatTemplateMsgModel){
         List<GradePair> gradePairList = wechatTemplateMsgModel.getGradePairList();
         List<String> sidList = wechatTemplateMsgModel.getSidList();
-        Set<String> sidSet = new HashSet<>();
-        sidSet.addAll(sidList);
-        gradePairList.stream().forEach(gradePair -> {
-            List<StudentInfo> studentInfoList = studentService.getStudentListByGradeIdAndClassId(orgId, gradePair.getGradeId(), gradePair.getClassId());
-            List<String> sidTempList = studentInfoList.stream().map(o -> o.getSid()).collect(Collectors.toList());
-            sidSet.addAll(sidTempList);
-        });
 
-        if(wechatTemplateMsgModel.getType() == WechatTemplateMessage.TYPE_ASSIGNMENTNOTICE){
+        /**
+         * 对于每种不同的消息，需要根据该消息类型做统一的特殊文案处理，比如 xxx的家长
+         */
+        if(wechatTemplateMsgModel.getType() == WechatTemplateMessage.TYPE_ASSIGNMENTNOTICE) {
+            Assignment assignment = assignmentService.getAssignment(orgId, wechatTemplateMsgModel.getWorkId());
+            if(assignment != null) {
+                Map<String, StudentInfo> studentInfoMap = new HashMap<>();
+                gradePairList.stream().forEach(gradePair -> {
+                    List<StudentInfo> studentInfoList = studentService.getStudentListByGradeIdAndClassId(orgId, gradePair.getGradeId(), gradePair.getClassId());
+                    studentInfoList.stream().forEach(studentInfo -> {
+                        studentInfoMap.put(studentInfo.getSid(), studentInfo);
+                    });
+                });
+                List<StudentInfo> studentInfos = studentService.getStudentInfoBySidList(orgId, sidList);
+                studentInfos.stream().forEach(studentInfo -> {
+                    studentInfoMap.put(studentInfo.getSid(), studentInfo);
+                });
 
+                studentInfoMap.values().stream().filter(o -> o.getWechatId().length() > 0).forEach(studentInfo -> {
+                    String first = "";
+                    String name = "";
+                    String subject = "";
+                    String object = "";
+                    String content = "";
+                    String remark = "";
+                    sendAssignmentTemplateMessage(studentInfo.getOrgId(), studentInfo.getSid(), studentInfo.getWechatId(), first, name, subject, content, remark);
+                });
+            }
         }
+
         return true;
     }
 
@@ -168,7 +193,7 @@ public class WechatMessageService {
      * @param remark
      * @return
      */
-    private boolean sendAssignmentTemplateMessage(long orgId, String openId, String sid, String first, String name, String subject, String content, String remark){
+    private boolean sendAssignmentTemplateMessage(long orgId,  String sid, String openId, String first, String name, String subject, String content, String remark){
         WechatTemplateMessage wechatTemplateMessage = new WechatTemplateMessage();
         wechatTemplateMessage.setOpenId(openId);
         wechatTemplateMessage.setOrgId(orgId);

@@ -13,6 +13,13 @@ public class WechatTemplateMsgModel {
     private int type;
     private long workId;
 
+    public long getWorkId() {
+        return workId;
+    }
+
+    public void setWorkId(long workId) {
+        this.workId = workId;
+    }
 
     public List<GradePair> getGradePairList() {
         return gradePairList;
