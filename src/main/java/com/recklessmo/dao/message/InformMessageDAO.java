@@ -2,6 +2,7 @@ package com.recklessmo.dao.message;
 
 import com.recklessmo.model.message.InformMessage;
 import com.recklessmo.web.webmodel.page.Page;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -13,5 +14,6 @@ public interface InformMessageDAO {
     void addInformMessage(InformMessage message);
     List<InformMessage> getInformMessageList(Page page);
     int getInformMessageCount(Page page);
+    void deleteInformMessage(@Param("orgId")long orgId, @Param("id")long id);
 
 }

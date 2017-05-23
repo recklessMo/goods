@@ -30,6 +30,7 @@ public class IndexController {
     public String index_login(Model model){
         model.addAttribute("current", 0);
         model.addAttribute("orgId", 0);
+        model.addAttribute("orgName", "立体校园云平台");
         return "index";
     }
 

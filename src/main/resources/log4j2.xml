@@ -15,6 +15,6 @@
             <appender-ref ref="Console"/>
             <appender-ref ref="RollingFile"/>
         </root>
-        <!--<logger name="com.recklessmo.dao" level="DEBUG"></logger>-->
+        <logger name="com.recklessmo.dao" level="DEBUG"></logger>
     </loggers>
 </configuration>

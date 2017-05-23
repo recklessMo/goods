@@ -30,5 +30,8 @@ public class InformMessageService {
         informMessageDAO.addInformMessage(informMessage);
     }
 
+    public void deleteInformMessage(long orgId, long id){
+        informMessageDAO.deleteInformMessage(orgId, id);
+    }
 
 }

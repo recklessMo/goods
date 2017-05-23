@@ -14,13 +14,14 @@ public class InformMessage {
     private long orgId;
     private long gradeId;
     private long classId;
-    private int type;//通知类型
+    private String type;//通知类型
     private String name;//通知名称
     private String text;//具体内容
     private Date created;
     private long opId;
     private String opName;
     private int deleted;
+    private int status;//发送状态， 是否已经进行推送了
 
     public String getName() {
         return name;
@@ -62,20 +63,20 @@ public class InformMessage {
         this.classId = classId;
     }
 
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
-    }
-
     public String getText() {
         return text;
     }
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public Date getCreated() {

@@ -1,0 +1,110 @@
+<div block-ui="edit-inform" class="container-fluid">
+
+    <fieldset ng-disabled="type!='add'">
+
+        <div class="row">
+            <div class="col-md-12">
+                <h5 style="margin-top: 0;" ng-if="type != 'add'">
+                    <span class="icon-user"/>
+                    查看通知
+                </h5>
+
+                <h5 style="margin-top: 0;" ng-if="type == 'add'">
+                    <span class="icon-user"/>
+                    添加通知
+                </h5>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <label class="text-info">
+                    <span>I 基本属性</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 30px;">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-addon" style="color:red">所属年级</span>
+                    <ui-select ng-if="type == 'add'" ng-model="informMessage.gradeId" theme="bootstrap"
+                               class="text-left" style="width:100%;" on-select="selectGrade($item)">
+                        <ui-select-match placeholder="选择年级">{{$select.selected.gradeName}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="grade.gradeId as grade in gradeList">
+                            <span ng-bind-html="grade.gradeName"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                    <input ng-if="type != 'add'" type="text" class="form-control"
+                           ng-model="informMessage.gradeName">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-addon" style="color:red">所属班级</span>
+                    <ui-select ng-if="type == 'add'" ng-model="informMessage.classId" theme="bootstrap"
+                               class="text-left" style="width:100%;">
+                        <ui-select-match placeholder="选择班级">{{$select.selected.className}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="class.classId as class in classList">
+                            <span ng-bind-html="class.className"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                    <input ng-if="type != 'add'" type="text" class="form-control"
+                           ng-model="informMessage.className">
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-addon" style="color:red">通知名称</span>
+                    <input type="text" class="form-control"
+                           ng-model="informMessage.name">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-addon" style="color:red">通知类型</span>
+                    <ui-select ng-if="type == 'add'" ng-model="informMessage.type" theme="bootstrap"
+                               class="text-left" style="width:100%;">
+                        <ui-select-match placeholder="选择通知类型">{{$select.selected}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="informType in informTypeList">
+                            <span ng-bind-html="informType"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                    <input ng-if="type != 'add'" type="text" class="form-control"
+                           ng-model="informMessage.type">
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-md-12">
+                <label class="text-info">
+                    <span>II 通知具体内容</span>
+                </label>
+            </div>
+            <div class="col-md-12">
+                <textarea ng-model="informMessage.detail" class="form-control" rows="10"></textarea>
+            </div>
+        </div>
+
+        <div class="row" style="text-align: center;margin-top:50px;">
+            <div class="col-md-12" style="text-align: center;">
+                <button data-style="expand-left" ladda="loading" class="btn btn-primary" ng-click="save(informMessage)">
+                    保存
+                </button>
+                <button class="btn btn-primary" ng-click="closeThisDialog('reload')">取消</button>
+            </div>
+        </div>
+
+    </fieldset>
+
+</div>

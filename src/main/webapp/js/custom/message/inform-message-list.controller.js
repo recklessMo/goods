@@ -3,9 +3,9 @@
     angular
         .module('custom')
         .controller('InformMessageListController', InformMessageListController);
-    InformMessageListController.$inject = ['$scope', 'InformService', 'DicService', 'SweetAlert', 'NgTableParams', 'ngDialog', 'blockUI', 'Notify'];
+    InformMessageListController.$inject = ['$scope', 'InformMessageService', 'DicService', 'SweetAlert', 'NgTableParams', 'ngDialog', 'blockUI', 'Notify'];
 
-    function InformMessageListController($scope, InformService, DicService, SweetAlert, NgTableParams, ngDialog, blockUI, Notify) {
+    function InformMessageListController($scope, InformMessageService, DicService, SweetAlert, NgTableParams, ngDialog, blockUI, Notify) {
 
         $scope.tableParams = {page : 1, count : 10, searchStr: ""};
 
@@ -16,7 +16,7 @@
                     blockUI.start();
                     $scope.tableParams.page = params.page();
                     $scope.tableParams.count = params.count();
-                    return InformService.listInforms($scope.tableParams).then(function (data) {
+                    return InformMessageService.listInformMessage($scope.tableParams).then(function (data) {
                         blockUI.stop();
                         var result = data.data;
                         if (result.status == 200) {
@@ -38,8 +38,8 @@
 
         $scope.add = function(userId) {
             var dialog= ngDialog.open({
-                template: 'app/views/custom/assignment/edit-assignment.html',
-                controller: 'EditAssignmentController',
+                template: 'app/views/custom/message/edit-inform-message.html',
+                controller: 'EditInformMessageController',
                 className: 'ngdialog-theme-default custom-width-800',
                 data : {type:'add'}
             });
@@ -47,22 +47,22 @@
                 if(data.value != 'reload'){
                     return;
                 }
-                $scope.assignmentTableParams.reload();
+                $scope.informTableParams.reload();
             });
         }
 
         $scope.show = function(item) {
             var dialog= ngDialog.open({
-                template: 'app/views/custom/assignment/edit-assignment.html',
-                controller: 'EditAssignmentController',
+                template: 'app/views/custom/message/edit-inform-message.html',
+                controller: 'EditInformMessageController',
                 className: 'ngdialog-theme-default custom-width-800',
-                data : {assignment:item, type:0}
+                data : {informMessage:item, type:'show'}
             });
             dialog.closePromise.then(function(data){
                 if(data.value != 'reload'){
                     return;
                 }
-                $scope.assignmentTableParams.reload();
+                $scope.informTableParams.reload();
             });
         }
 
@@ -83,9 +83,9 @@
                     //然后子scope里面就不能用this了,因为this就指向了子scope,
                     //实际上在table的每一行里面的点击是调用了父scope的delete方法
                     blockUI.start();
-                    AssignmentService.deleteAssignment(id).success(function () {
+                    InformMessageService.deleteInformMessage(id).success(function () {
                         Notify.alert("删除成功!", {status:"success", timeout: 3000});
-                        $scope.assignmentTableParams.reload();
+                        $scope.informTableParams.reload();
                         blockUI.stop();
                     }).error(function(){
                         blockUI.stop();

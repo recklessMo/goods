@@ -31,4 +31,8 @@
         )
     </insert>
 
+    <update id="deleteInformMessage">
+        delete from inform_message where org_id = #{orgId} and id = #{id}
+    </update>
+
 </mapper>

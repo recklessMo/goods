@@ -36,6 +36,7 @@ public class InformMessageController {
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     public JsonResponse listInformMessage(@RequestBody Page page){
         DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
+        page.setOrgId(userDetails.getOrgId());
         List<InformMessage> messageList = informMessageService.getInformMessageList(page);
         int count = informMessageService.getInformMessageListCount(page);
         return new JsonResponse(200, messageList, count);
@@ -56,6 +57,20 @@ public class InformMessageController {
         informMessage.setOpId(userDetails.getId());
         informMessage.setOpName(userDetails.getName());
         informMessageService.addInformMessage(informMessage);
+        return new JsonResponse(200, null, null);
+    }
+
+
+    /**
+     * 删除消息
+     * @param id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public JsonResponse deleteInformMessage(@RequestBody long id){
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
+        informMessageService.deleteInformMessage(userDetails.getOrgId(), id);
         return new JsonResponse(200, null, null);
     }
 
