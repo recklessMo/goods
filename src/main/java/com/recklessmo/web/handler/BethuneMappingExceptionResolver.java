@@ -30,13 +30,19 @@ public class BethuneMappingExceptionResolver extends SimpleMappingExceptionResol
                                               HttpServletResponse response, Object handler,
                                               Exception ex) {
         try {
-            logger.error("用户访问" + request.getRequestURI() + "失败," + ex.getMessage(), ex);
-            response.setCharacterEncoding("UTF-8");
-            response.setContentType("text/plain");
-            JsonResponse jsonResponse = new JsonResponse();
-            jsonResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            jsonResponse.setData("服务异常，我们正在抓紧修改，请耐心等候");
-            response.getWriter().write(JSON.toJSONString(jsonResponse));
+            //json请求就返回异常
+            if(request.getRequestURI().startsWith("/v1")) {
+                logger.error("用户访问" + request.getRequestURI() + "失败," + ex.getMessage(), ex);
+                response.setCharacterEncoding("UTF-8");
+                response.setContentType("text/plain");
+                JsonResponse jsonResponse = new JsonResponse();
+                jsonResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                jsonResponse.setData("服务异常，我们正在抓紧修改，请耐心等候");
+                response.getWriter().write(JSON.toJSONString(jsonResponse));
+            }else{
+                //页面请求不返回内容
+                return null;
+            }
         } catch (IOException e) {
             logger.error(e.getMessage(), e);
         }

@@ -17,7 +17,7 @@
 
     <select id="listAttendance" resultType="com.recklessmo.model.attendance.Attendance">
         select
-        <include refid="assignmentColumns"/>
+        <include refid="attendanceColumns"/>
         from attendance
         where org_id = #{orgId} and sid = #{sid}
         order by created desc
