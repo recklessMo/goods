@@ -10,9 +10,37 @@ public class Attendance {
     private long id;
     private long orgId;
     private String sid;
+    private String studentName;
 
     private Date created;
     private String detail;
+
+    private long opId;
+    private String opName;
+
+    public String getStudentName() {
+        return studentName;
+    }
+
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
+    }
+
+    public long getOpId() {
+        return opId;
+    }
+
+    public void setOpId(long opId) {
+        this.opId = opId;
+    }
+
+    public String getOpName() {
+        return opName;
+    }
+
+    public void setOpName(String opName) {
+        this.opName = opName;
+    }
 
     public long getId() {
         return id;

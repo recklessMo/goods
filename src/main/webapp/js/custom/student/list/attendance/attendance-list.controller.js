@@ -42,8 +42,8 @@
         $scope.edit = function (item, type) {
             item['sid'] = $scope.sid;
             var dialog = ngDialog.open({
-                template: 'app/views/custom/student/list/graduate/student-graduate-add.html',
-                controller: 'StudentGraduateAddController',
+                template: 'app/views/custom/student/list/attendance/edit-attendance.html',
+                controller: 'EditAttendanceController',
                 className: 'ngdialog-theme-default custom-width-800',
                 data: {data: item, type: type}
             });
@@ -72,7 +72,7 @@
                     //然后子scope里面就不能用this了,因为this就指向了子scope,
                     //实际上在table的每一行里面的点击是调用了父scope的delete方法
                     blockUI.start();
-                    GraduateService.deleteGraduate(id).success(function () {
+                    AttendanceService.deleteAttendance(id).success(function () {
                         Notify.alert("删除成功!", {status:"success", timeout: 3000});
                         $scope.activate();
                         blockUI.stop();

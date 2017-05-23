@@ -4,14 +4,14 @@
 <mapper namespace="com.recklessmo.dao.attendance.AttendanceDAO">
 
     <sql id="attendanceColumns">
-        id, org_id, sid, detail, created
+        id, org_id, sid, detail, created, op_id, op_name
     </sql>
 
     <insert id="addAttendance" parameterType="com.recklessmo.model.attendance.Attendance">
         insert into attendance
-        (org_id, sid, detail, created)
+        (org_id, sid, detail, created, op_id, op_name)
         values(
-        #{orgId}, #{sid}, #{detail}, #{created}
+        #{orgId}, #{sid}, #{detail}, #{created}, #{opId}, #{opName}
         )
     </insert>
 

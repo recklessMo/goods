@@ -51,6 +51,9 @@ public class AttendanceController {
     public JsonResponse addAttendance(@RequestBody Attendance attendance){
         DefaultUserDetails defaultUserDetails = ContextUtils.getLoginUserDetail();
         attendance.setOrgId(defaultUserDetails.getOrgId());
+        attendance.setCreated(new Date());
+        attendance.setOpId(defaultUserDetails.getId());
+        attendance.setOpName(defaultUserDetails.getName());
         attendanceService.addAttendance(attendance);
         return new JsonResponse(200, null, null);
     }
