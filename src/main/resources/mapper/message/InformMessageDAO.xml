@@ -4,14 +4,14 @@
 <mapper namespace="com.recklessmo.dao.message.InformMessageDAO">
 
     <sql id = "columns">
-        id, org_id, grade_id, class_id, type, name, text, created, op_id, op_name, total_count, deleted
+        id, org_id, grade_id, class_id, type, name, text, created, op_id, op_name, total_count, status, deleted
     </sql>
 
     <select id="getInformMessageList" resultType="com.recklessmo.model.message.InformMessage">
       select
       <include refid="columns"/>
       from inform_message
-      where org_id = #{orgId}
+      where org_id = #{orgId} and deleted = 0
       limit #{startIndex}, #{count}
     </select>
 
@@ -19,15 +19,15 @@
         select
         count(1)
         from inform_message
-        where org_id = #{orgId}
+        where org_id = #{orgId} and deleted = 0
     </select>
 
     <insert id="addInformMessage" parameterType="com.recklessmo.model.message.InformMessage">
         insert into inform_message(
-          org_id, grade_id, class_id, type, name, text, created, op_id, op_name, total_count, deleted
+          org_id, grade_id, class_id, type, name, text, created, op_id, op_name, total_count, status, deleted
         )
         values(
-            #{orgId}, #{gradeId}, #{classId}, #{type}, #{name}, #{text}, #{created}, #{opId}, #{opName}, #{totalCount}, #{deleted}
+            #{orgId}, #{gradeId}, #{classId}, #{type}, #{name}, #{text}, #{created}, #{opId}, #{opName}, #{totalCount}, #{status}, #{deleted}
         )
     </insert>
 
