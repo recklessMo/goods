@@ -35,4 +35,11 @@
         update inform_message set deleted = 1 where org_id = #{orgId} and id = #{id}
     </update>
 
+    <select id="getInformMessageListByGrade" resultType="com.recklessmo.model.message.InformMessage">
+        SELECT
+        <include refid="columns"/>
+        from inform_message
+        where org_id = #{orgId} and (grade_id = 0 or (grade_id = #{gradeId} and (class_id = #{classId} or class_id = 0)))
+    </select>
+
 </mapper>

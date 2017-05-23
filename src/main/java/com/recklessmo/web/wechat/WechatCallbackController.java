@@ -220,15 +220,7 @@ public class WechatCallbackController {
 
         //找到了cookie并且绑定了, 就进去主页面
         if(type == 1){
-            //基本信息
-            model.addAttribute("studentInfo", JSON.toJSONString(studentInfo));
-            return "info";
-        }else if(type == 2){
-            //成绩分析
-            return "score";
-        }else if(type == 3){
-            //校内通知
-            return "message";
+            return "self";
         }
         return "";
     }

@@ -23,7 +23,8 @@
                 <td data-title="'状态'"  style="text-align: center;">{{item.status == 0 ? '未发送' : '已发送'}}</td>
                 <td data-title="'操作'" style="text-align: center">
                     <button class="btn btn-info" ng-click="show(item)">查看详细内容</button>
-                    <button class="btn btn-info" ng-click="showComplete(item)">查看发送情况</button>
+                    <button class="btn btn-info" ng-if="item.status == 1" ng-click="showComplete(item)">查看发送情况</button>
+                    <button class="btn btn-info" ng-if="item.status == 0" ng-click="send(item)">发送微信提醒</button>
                     <button class="btn btn-danger" ng-click="delete(item.id)">删除</button>
                 </td>
             </tr>

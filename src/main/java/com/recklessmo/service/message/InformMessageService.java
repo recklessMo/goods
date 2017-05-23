@@ -6,6 +6,7 @@ import com.recklessmo.model.setting.Grade;
 import com.recklessmo.model.setting.Group;
 import com.recklessmo.service.setting.GradeSettingService;
 import com.recklessmo.service.sms.SmsNetworkService;
+import com.recklessmo.web.webmodel.page.InformListPage;
 import com.recklessmo.web.webmodel.page.Page;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +45,11 @@ public class InformMessageService {
         informMessageDAO.deleteInformMessage(orgId, id);
     }
 
+    public List<InformMessage> getInformMessageListByGrade(InformListPage page){
+        List<InformMessage> informMessageList = informMessageDAO.getInformMessageListByGrade(page);
+        compose(page.getOrgId(), informMessageList);
+        return informMessageList;
+    }
 
     private void compose(long orgId, List<InformMessage> informMessageList){
         List<Grade> gradeList = gradeSettingService.listAllGrade(orgId);
