@@ -30,6 +30,7 @@
     window.__current = $!current;
     window.__orgId = $!orgId;
     window.__orgName = '$!orgName';
+    window.__name = '$!name';
 </script>
 
 <div style="display:none" class="sidebar-menu-svg-sprite">

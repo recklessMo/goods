@@ -19,6 +19,7 @@
                     $rootScope.userId = window.__current;
                     $rootScope.orgId = window.__orgId;
                     $rootScope.orgName = window.__orgName;
+                    $rootScope.name = window.__name;
                     NotifyService.initialize();
                 }
             }]

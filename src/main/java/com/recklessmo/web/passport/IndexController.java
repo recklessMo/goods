@@ -22,6 +22,7 @@ public class IndexController {
         model.addAttribute("current", userDetails.getId());
         model.addAttribute("orgId", userDetails.getOrgId());
         model.addAttribute("orgName", "大庆市铁人学校");
+        model.addAttribute("name", userDetails.getName());
         return "index";
     }
 

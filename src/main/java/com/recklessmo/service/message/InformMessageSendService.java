@@ -27,21 +27,6 @@ public class InformMessageSendService {
      * @param informMessage
      */
     public void sendMessage(InformMessage informMessage){
-        //处理, 获取所有的待发送对象
-
-        //发送短信
-        if(informMessage.getSendType() == InformMessage.SEND_TYPE_SMS){
-
-        }else if(informMessage.getSendType() == InformMessage.SEND_TYPE_WECHAT){
-            //todo 目前先只支持微信发送
-
-
-
-        }else if(informMessage.getSendType() == InformMessage.SEND_TYPE_WECHAT_AND_SMS){
-
-        }else if(informMessage.getSendType() == InformMessage.SEND_TYPE_WECHAT_BEFORE_SMS){
-
-        }
 
 
     }

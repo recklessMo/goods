@@ -10,29 +10,16 @@ import java.util.Date;
  */
 public class InformMessage {
 
-    // 1. 纯微信
-    // 2. 纯短信
-    // 3. 微信和短信同时发送
-    // 4. 先尝试发微信, 微信发送失败则发送短信
-    public static int SEND_TYPE_WECHAT = 1;
-    public static int SEND_TYPE_SMS = 2;
-    public static int SEND_TYPE_WECHAT_AND_SMS = 3;
-    public static int SEND_TYPE_WECHAT_BEFORE_SMS = 4;
-
     private long id;
-    //通知内容
-    private String text;
-    //消息发送类型
-    private int sendType;
-    //创建时间
+    private long orgId;
+    private long gradeId;
+    private long classId;
+    private int type;//通知类型
+    private String text;//具体内容
     private Date created;
-    //创建人
-    private long create_user;
-    //是否删除
+    private long opId;
+    private String opName;
     private int deleted;
-    //发送范围
-
-
 
     public long getId() {
         return id;
@@ -40,6 +27,38 @@ public class InformMessage {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public long getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(long orgId) {
+        this.orgId = orgId;
+    }
+
+    public long getGradeId() {
+        return gradeId;
+    }
+
+    public void setGradeId(long gradeId) {
+        this.gradeId = gradeId;
+    }
+
+    public long getClassId() {
+        return classId;
+    }
+
+    public void setClassId(long classId) {
+        this.classId = classId;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     public String getText() {
@@ -50,14 +69,6 @@ public class InformMessage {
         this.text = text;
     }
 
-    public int getSendType() {
-        return sendType;
-    }
-
-    public void setSendType(int sendType) {
-        this.sendType = sendType;
-    }
-
     public Date getCreated() {
         return created;
     }
@@ -66,12 +77,20 @@ public class InformMessage {
         this.created = created;
     }
 
-    public long getCreate_user() {
-        return create_user;
+    public long getOpId() {
+        return opId;
     }
 
-    public void setCreate_user(long create_user) {
-        this.create_user = create_user;
+    public void setOpId(long opId) {
+        this.opId = opId;
+    }
+
+    public String getOpName() {
+        return opName;
+    }
+
+    public void setOpName(String opName) {
+        this.opName = opName;
     }
 
     public int getDeleted() {
