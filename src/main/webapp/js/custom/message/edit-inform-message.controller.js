@@ -24,6 +24,11 @@
             DicService.loadAllGrade().success(function(data){
                 if(data.status == 200){
                     $scope.gradeList = data.data;
+                    //添加全部，因为bootstrap引用出了问题
+                    _.forEach($scope.gradeList, function(item){
+                        item.classList.unshift({classId: 0, className:'全部'});
+                    });
+                    $scope.gradeList.unshift({gradeId: 0, gradeName:'全部', classList:[]});
                 }
                 block.stop();
             }).error(function(){
@@ -41,15 +46,14 @@
 
         $scope.save = function(informMessage){
 
-            if(assignment.gradeId == 0 || assignment.classId == 0 ||
-                _.isEmpty(assignment.content) || _.isEmpty(assignment.name)
-            || _.isEmpty(assignment.submit) || assignment.courseId == 0){
+            if(_.isEmpty(informMessage.text) || _.isEmpty(informMessage.name)
+            || _.isEmpty(informMessage.type)){
                 SweetAlert.error("请填写必填字段！");
                 return;
             }
 
             block.start();
-            AssignmentService.addAssignment(assignment).success(function(data){
+            InformMessageService.addInformMessage(informMessage).success(function(data){
                 if(data.status == 200){
                     Notify.alert("保存成功!", {status:"success", timeout: 3000});
                     $scope.closeThisDialog('reload');

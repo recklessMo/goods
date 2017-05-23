@@ -4,6 +4,7 @@ import com.recklessmo.model.message.InformMessage;
 import com.recklessmo.model.security.DefaultUserDetails;
 import com.recklessmo.response.JsonResponse;
 import com.recklessmo.service.message.InformMessageService;
+import com.recklessmo.service.student.StudentService;
 import com.recklessmo.util.ContextUtils;
 import com.recklessmo.web.webmodel.page.Page;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,9 @@ public class InformMessageController {
 
     @Resource
     private InformMessageService informMessageService;
+
+    @Resource
+    private StudentService studentService;
 
     /**
      * list 消息
@@ -56,6 +60,8 @@ public class InformMessageController {
         informMessage.setCreated(new Date());
         informMessage.setOpId(userDetails.getId());
         informMessage.setOpName(userDetails.getName());
+        informMessage.setStatus(InformMessage.STATUS_INIT);
+        informMessage.setTotalCount(studentService.getStudentListCountByGradeIdAndClassId(userDetails.getOrgId(), informMessage.getGradeId(), informMessage.getClassId()));
         informMessageService.addInformMessage(informMessage);
         return new JsonResponse(200, null, null);
     }

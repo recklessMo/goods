@@ -32,7 +32,7 @@
     </insert>
 
     <update id="deleteInformMessage">
-        delete from inform_message where org_id = #{orgId} and id = #{id}
+        update inform_message set deleted = 1 where org_id = #{orgId} and id = #{id}
     </update>
 
 </mapper>

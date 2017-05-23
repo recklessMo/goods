@@ -124,7 +124,10 @@
         select
         count(1)
         from student
-        where org_id = #{orgId} and grade_id = #{gradeId}
+        where org_id = #{orgId}
+        <if test="gradeId != 0">
+            and grade_id = #{gradeId}
+        </if>
         <if test="classId != 0">
             and class_id = #{classId}
         </if>

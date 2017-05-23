@@ -10,6 +10,9 @@ import java.util.Date;
  */
 public class InformMessage {
 
+    public static int STATUS_INIT = 0;
+    public static int STATUS_SEND = 1;
+
     private long id;
     private long orgId;
     private long gradeId;
@@ -21,7 +24,24 @@ public class InformMessage {
     private long opId;
     private String opName;
     private int deleted;
+    private int totalCount;
     private int status;//发送状态， 是否已经进行推送了
+
+    public int getTotalCount() {
+        return totalCount;
+    }
+
+    public void setTotalCount(int totalCount) {
+        this.totalCount = totalCount;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
 
     public String getName() {
         return name;
