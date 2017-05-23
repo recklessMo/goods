@@ -1,0 +1,30 @@
+<div ng-controller="AttendanceListController" style="overflow: auto;padding:20px;">
+
+    <div class="row">
+        <div class="col-md-12 pull-left">
+            <button class="btn btn-info" ng-click="edit({}, 2)">
+                添加新的考勤记录
+            </button>
+            <button class="btn btn-info" ng-click="activate()">
+                刷新
+            </button>
+        </div>
+    </div>
+
+    <div style="margin-top: 20px;">
+        <table ng-table="attendanceTableParams"
+               class="table table-bordered table-hover table-condensed editable-table table-min"
+               style="border:1px solid #eeeeee;">
+            <tr ng-repeat="item in $data">
+                <td data-title="'姓名'" style="text-align: center;">{{item.name}}</td>
+                <td data-title="'考勤明细'" style="text-align: center;">{{item.detail}}</td>
+                <td data-title="'记录人'" style="text-align: center;">{{item.opName}}</td>
+                <td data-title="'记录时间'" style="text-align: center;">{{item.created | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
+                <td data-title="'操作'" style="text-align: center;">
+                    <button class="btn btn-info" ng-click="edit(item, 1)">编辑</button>
+                    <button class="btn btn-danger" ng-click="delete(item.id)">删除</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
