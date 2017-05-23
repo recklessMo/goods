@@ -146,7 +146,7 @@
             .state('app.wechat-notice', {
                 url: '/wechat-notice',
                 title: '微信通知',
-                templateUrl: helper.basepath('custom/wechat/wechat-notice.html')
+                templateUrl: helper.basepath('custom/message/inform-message-list.html')
             })
             .state('app.assignment', {
                 url: '/assignment',

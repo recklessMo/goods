@@ -4,30 +4,31 @@
 <mapper namespace="com.recklessmo.dao.message.InformMessageDAO">
 
     <sql id = "columns">
-        id, text, send_type, create_user, created, updated, deleted
+        id, org_id, grade_id, class_id, type, name, text, created, op_id, op_name, deleted
     </sql>
 
     <select id="getInformMessageList" resultType="com.recklessmo.model.message.InformMessage">
       select
       <include refid="columns"/>
       from inform_message
+      where org_id = #{orgId}
       limit #{startIndex}, #{count}
     </select>
 
-    <select id="getInformMessageCount" resultType="com.recklessmo.model.message.InformMessage">
+    <select id="getInformMessageCount" resultType="java.lang.Integer">
         select
         count(1)
         from inform_message
+        where org_id = #{orgId}
     </select>
 
     <insert id="addInformMessage" parameterType="com.recklessmo.model.message.InformMessage">
-        insert into inform_message(text, send_type, create_user, created, deleted)
-        values(
-            #{text}, #{sendType}, #{createUser}, #{created}, #{deleted}
+        insert into inform_message(
+          org_id, grade_id, class_id, type, name, text, created, op_id, op_name, deleted
         )
-        <selectKey keyProperty="id" resultType="long">
-            <![CDATA[SELECT LAST_INSERT_ID() AS id ]]>
-        </selectKey>
+        values(
+            #{orgId}, #{gradeId}, #{classId}, #{type}, #{name}, #{text}, #{created}, #{opId}, #{opName}, #{deleted}
+        )
     </insert>
 
 </mapper>

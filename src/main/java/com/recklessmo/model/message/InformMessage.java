@@ -15,11 +15,20 @@ public class InformMessage {
     private long gradeId;
     private long classId;
     private int type;//通知类型
+    private String name;//通知名称
     private String text;//具体内容
     private Date created;
     private long opId;
     private String opName;
     private int deleted;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public long getId() {
         return id;
