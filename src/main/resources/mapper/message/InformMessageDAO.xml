@@ -4,7 +4,7 @@
 <mapper namespace="com.recklessmo.dao.message.InformMessageDAO">
 
     <sql id = "columns">
-        id, org_id, grade_id, class_id, type, name, text, created, op_id, op_name, deleted
+        id, org_id, grade_id, class_id, type, name, text, created, op_id, op_name, total_count, deleted
     </sql>
 
     <select id="getInformMessageList" resultType="com.recklessmo.model.message.InformMessage">
@@ -24,10 +24,10 @@
 
     <insert id="addInformMessage" parameterType="com.recklessmo.model.message.InformMessage">
         insert into inform_message(
-          org_id, grade_id, class_id, type, name, text, created, op_id, op_name, deleted
+          org_id, grade_id, class_id, type, name, text, created, op_id, op_name, total_count, deleted
         )
         values(
-            #{orgId}, #{gradeId}, #{classId}, #{type}, #{name}, #{text}, #{created}, #{opId}, #{opName}, #{deleted}
+            #{orgId}, #{gradeId}, #{classId}, #{type}, #{name}, #{text}, #{created}, #{opId}, #{opName}, #{totalCount}, #{deleted}
         )
     </insert>
 

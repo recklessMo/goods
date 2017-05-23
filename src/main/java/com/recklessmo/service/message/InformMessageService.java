@@ -2,12 +2,17 @@ package com.recklessmo.service.message;
 
 import com.recklessmo.dao.message.InformMessageDAO;
 import com.recklessmo.model.message.InformMessage;
+import com.recklessmo.model.setting.Grade;
+import com.recklessmo.model.setting.Group;
+import com.recklessmo.service.setting.GradeSettingService;
 import com.recklessmo.service.sms.SmsNetworkService;
 import com.recklessmo.web.webmodel.page.Page;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * created by hpf 02/12/2017
@@ -16,10 +21,15 @@ import java.util.List;
 public class InformMessageService {
 
     @Resource
+    private GradeSettingService gradeSettingService;
+
+    @Resource
     private InformMessageDAO informMessageDAO;
 
     public List<InformMessage> getInformMessageList(Page page){
-        return informMessageDAO.getInformMessageList(page);
+        List<InformMessage> informMessageList = informMessageDAO.getInformMessageList(page);
+        compose(page.getOrgId(), informMessageList);
+        return informMessageList;
     }
 
     public int getInformMessageListCount(Page page){
@@ -32,6 +42,36 @@ public class InformMessageService {
 
     public void deleteInformMessage(long orgId, long id){
         informMessageDAO.deleteInformMessage(orgId, id);
+    }
+
+
+    private void compose(long orgId, List<InformMessage> informMessageList){
+        List<Grade> gradeList = gradeSettingService.listAllGrade(orgId);
+        Map<Long, Grade> gradeMap = new HashMap<>();
+        Map<Long, Group> classMap = new HashMap<>();
+        gradeList.stream().forEach(grade-> {
+            gradeMap.put(grade.getGradeId(), grade);
+            grade.getClassList().stream().forEach(group -> {
+                classMap.put(group.getClassId(), group);
+            });
+        });
+
+        informMessageList.stream().forEach(informMessage -> {
+            Grade grade = gradeMap.get(informMessage.getGradeId());
+            if(grade != null){
+                informMessage.setGradeName(grade.getGradeName());
+                informMessage.setGradeOtherName(grade.getOtherName());
+            }else{
+                informMessage.setGradeName("全部");
+                informMessage.setGradeOtherName("全部");
+            }
+            Group group = classMap.get(informMessage.getClassId());
+            if(group != null){
+                informMessage.setClassName(group.getClassName());
+            }else{
+                informMessage.setClassName("全部");
+            }
+        });
     }
 
 }

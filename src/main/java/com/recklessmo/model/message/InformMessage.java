@@ -16,7 +16,10 @@ public class InformMessage {
     private long id;
     private long orgId;
     private long gradeId;
+    private String gradeName;
+    private String gradeOtherName;
     private long classId;
+    private String className;
     private String type;//通知类型
     private String name;//通知名称
     private String text;//具体内容
@@ -26,6 +29,30 @@ public class InformMessage {
     private int deleted;
     private int totalCount;
     private int status;//发送状态， 是否已经进行推送了
+
+    public String getGradeName() {
+        return gradeName;
+    }
+
+    public void setGradeName(String gradeName) {
+        this.gradeName = gradeName;
+    }
+
+    public String getGradeOtherName() {
+        return gradeOtherName;
+    }
+
+    public void setGradeOtherName(String gradeOtherName) {
+        this.gradeOtherName = gradeOtherName;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
+    }
 
     public int getTotalCount() {
         return totalCount;
