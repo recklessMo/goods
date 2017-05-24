@@ -19,5 +19,5 @@ public interface InformMessageDAO {
     void deleteInformMessage(@Param("orgId")long orgId, @Param("id")long id);
 
     List<InformMessage> getInformMessageListByGrade(InformListPage page);
-
+    InformMessage getInformMessageById(@Param("orgId")long orgId, @Param("id")long id);
 }

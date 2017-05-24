@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -41,6 +42,12 @@ public class InformMessageService {
         informMessageDAO.addInformMessage(informMessage);
     }
 
+    public InformMessage getInformMessageById(long orgId, long id){
+        InformMessage informMessage = informMessageDAO.getInformMessageById(orgId, id);
+        compose(orgId, informMessage);
+        return informMessage;
+    }
+
     public void deleteInformMessage(long orgId, long id){
         informMessageDAO.deleteInformMessage(orgId, id);
     }
@@ -51,7 +58,16 @@ public class InformMessageService {
         return informMessageList;
     }
 
+    private void compose(long orgId, InformMessage informMessage){
+        List<InformMessage> informMessageList = new LinkedList<>();
+        informMessageList.add(informMessage);
+        compose(orgId, informMessageList);
+    }
+
     private void compose(long orgId, List<InformMessage> informMessageList){
+        if(informMessageList.size() == 0){
+            return;
+        }
         List<Grade> gradeList = gradeSettingService.listAllGrade(orgId);
         Map<Long, Grade> gradeMap = new HashMap<>();
         Map<Long, Group> classMap = new HashMap<>();

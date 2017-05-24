@@ -291,4 +291,27 @@ public class WechatRequestController {
     }
 
 
+    /**
+     *
+     * 获取通知消息
+     *
+     * @param id
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @ResponseBody
+    @RequestMapping(value = "/informMessage", method = RequestMethod.GET)
+    public JsonResponse informMessage(@Param("id") long id,  HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String openId = WechatCookieUtils.getOpenIdByCookie(request.getCookies());
+        if(openId == null){
+            openId = "o2mBHwqHpFzTcZXVvAmmBTjazR_k";
+        }
+        StudentInfo studentInfo = studentService.getStudentInfoByWechatId(openId);
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        InformMessage informMessage = informMessageService.getInformMessageById(studentInfo.getOrgId(), id);
+        return new JsonResponse(200, informMessage, null);
+    }
+
 }
