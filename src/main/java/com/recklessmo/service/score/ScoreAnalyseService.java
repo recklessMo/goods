@@ -32,6 +32,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -660,6 +661,7 @@ public class ScoreAnalyseService {
     public Object analyseTrend(List<String> examTypeList, int showType, List<Score> tempScoreList) {
         //过滤出需要处理的scorelist
         Set<String> examTypeSet = new HashSet<>(examTypeList);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         List<Score> scoreList = tempScoreList.stream().filter(o -> examTypeSet.contains(o.getExamType())).collect(Collectors.toList());
         scoreList.sort((a, b) -> a.getExamTime().compareTo(b.getExamTime()));
         List<Pair> courseList = new LinkedList<>();
@@ -711,7 +713,7 @@ public class ScoreAnalyseService {
                 temp.put("gradeName", score.getGradeName());
                 temp.put("className", score.getClassName());
                 temp.put("examName", score.getExamName());
-                temp.put("examTime", score.getExamTime());
+                temp.put("examTime",sdf.format(score.getExamTime()));
                 courseList.stream().forEach(pair -> {
                     String scoreKey = "score" + pair.getId();
                     String rankKey = "rank" + pair.getId();

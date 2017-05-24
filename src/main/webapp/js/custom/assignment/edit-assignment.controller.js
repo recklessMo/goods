@@ -52,13 +52,13 @@
         initSelector();
 
         $scope.save = function(assignment){
-
-            if(assignment.gradeId == 0 || assignment.classId == 0 ||
-                _.isEmpty(assignment.content) || _.isEmpty(assignment.name)
-            || _.isEmpty(assignment.submit) || assignment.courseId == 0){
-                SweetAlert.error("请填写必填字段！");
-                return;
-            }
+            //
+            //if(assignment.gradeId == 0 || assignment.classId == 0 ||
+            //    _.isEmpty(assignment.content) || _.isEmpty(assignment.name)
+            //|| assignment.courseId == 0){
+            //    SweetAlert.error("请填写必填字段！");
+            //    return;
+            //}
 
             block.start();
             AssignmentService.addAssignment(assignment).success(function(data){
