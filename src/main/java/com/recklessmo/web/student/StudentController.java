@@ -46,7 +46,12 @@ public class StudentController {
         //TODO 可能需要做一些字段的校验,可以考虑写个annotation来进行校验
         DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
         studentInfo.setOrgId(userDetails.getOrgId());
-        studentService.insertStudentAddInfo(studentInfo);
+        try {
+            studentService.insertStudentAddInfo(studentInfo);
+        }catch (Exception e){
+            LOGGER.error(e.getMessage());
+            return new JsonResponse(301, "修改数据失败，学号重复！", null);
+        }
         return new JsonResponse(200, null, null);
     }
 

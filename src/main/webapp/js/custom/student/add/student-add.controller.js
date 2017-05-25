@@ -49,8 +49,6 @@
                     SweetAlert.success("添加成功!");
                     //清空输入部分
                     $scope.student = {};
-                }else{
-                    SweetAlert.error("服务器异常, 请稍后重试!");
                 }
             }).error(function(){
                 blockUI.stop();
@@ -58,9 +56,11 @@
             });
         }
 
+
+        //校验必填信息
         $scope.validate = function(student){
             if(!_.isString(student.name) || _.isEmpty(student.name)
-                || !_.isString(student.gender) || _.isEmpty(student.gender)
+                || !_.isNumber(student.gender)
                 || !_.isString(student.phone) || _.isEmpty(student.phone)
                 || !_.isString(student.sid) || _.isEmpty(student.sid)
                 || !student.gradeId
@@ -71,7 +71,6 @@
             }
             return true;
         }
-
         //日期
         $scope.today = function() {
             $scope.dt = new Date();
