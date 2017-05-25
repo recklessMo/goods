@@ -8,11 +8,14 @@ import com.recklessmo.service.score.ScoreService;
 import com.recklessmo.service.student.StudentService;
 import com.recklessmo.util.ContextUtils;
 import com.recklessmo.web.webmodel.page.StudentPage;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Created by hpf on 7/23/16.
@@ -27,6 +30,8 @@ public class StudentController {
 
     @Resource
     private ScoreService scoreService;
+
+    private static final Log LOGGER = LogFactory.getLog(StudentController.class);
 
     /**
      *
@@ -105,7 +110,12 @@ public class StudentController {
     public JsonResponse saveStudentAllInfo(@RequestBody StudentInfo studentInfo){
         DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
         studentInfo.setOrgId(userDetails.getOrgId());
-        studentService.updateStudentInfo(studentInfo);
+        try {
+            studentService.updateStudentInfo(studentInfo);
+        }catch (Exception e){
+            LOGGER.error(e.getMessage());
+            return new JsonResponse(301, "修改数据失败，学号重复！", null);
+        }
         return new JsonResponse(200, null, null);
     }
 
