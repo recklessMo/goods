@@ -36,7 +36,7 @@
         //保存学生信息
         $scope.save = function(){
             //校验
-            if(!$scope.validate()){
+            if(!$scope.validate($scope.student)){
                 //给个对话框提示
                 return;
             }
@@ -58,14 +58,13 @@
             });
         }
 
-        //校验必填信息
-        $scope.validate = function(){
-            if(_.isNil($scope.student.name)
-                || _.isNil($scope.student.gender)
-                || _.isNil($scope.student.phone)
-                || _.isNil($scope.student.sid)
-                || _.isNil($scope.student.gradeId)
-                || _.isNil($scope.student.classId)
+        $scope.validate = function(student){
+            if(!_.isString(student.name) || _.isEmpty(student.name)
+                || !_.isString(student.gender) || _.isEmpty(student.gender)
+                || !_.isString(student.phone) || _.isEmpty(student.phone)
+                || !_.isString(student.sid) || _.isEmpty(student.sid)
+                || !student.gradeId
+                || !student.classId
             ) {
                 SweetAlert.error("（姓名，性别，监护人电话，学号，年级，班级）为必填内容！");
                 return false;

@@ -41,6 +41,7 @@
             $scope.activate();
         });
 
+
         $scope.activate = function() {
             blockUI.start();
             StudentService.getSingleStudentInfo($scope.sid).success(function(data){
@@ -48,8 +49,6 @@
                 if(data.status == 200){
                     $scope.offlineInfo = data.data;
                     $scope.isEdit = false;
-                }else{
-                    SweetAlert.error("服务器内部错误, 请联系客服!");
                 }
             }).error(function(){
                 SweetAlert.error("网络问题,请稍后重试!");
@@ -62,14 +61,17 @@
                 $scope.save();
             } else {
                 $scope.isEdit = true;
+                var grade = _.find($scope.gradeList, function(item){
+                    return item.gradeId == $scope.offlineInfo.gradeId;
+                });
+                $scope.classList = grade.classList;
             }
         }
 
 
         //保存
         $scope.save = function(){
-            if(!$scope.isValid($scope.offlineInfo)){
-                SweetAlert.error("数据不合理!");
+            if(!$scope.validate($scope.offlineInfo)){
                 return;
             }
 
@@ -79,8 +81,6 @@
                 if(data.status == 200){
                     $scope.isEdit = false;
                     $scope.activate();
-                }else{
-                    SweetAlert.error("服务器内部错误, 请联系客服!");
                 }
             }).error(function(){
                 SweetAlert.error("网络问题,请稍后重试!");
@@ -93,9 +93,21 @@
             $scope.activate();
         }
 
-        $scope.isValid = function(data){
+        //校验必填信息
+        $scope.validate = function(student){
+            if(!_.isString(student.name) || _.isEmpty(student.name)
+                || !_.isNumber(student.gender)
+                || !_.isString(student.phone) || _.isEmpty(student.phone)
+                || !_.isString(student.sid) || _.isEmpty(student.sid)
+                || !student.gradeId
+                || !student.classId
+            ) {
+                SweetAlert.error("（姓名，性别，监护人电话，学号，年级，班级）为必填内容！");
+                return false;
+            }
             return true;
         }
+
 
         //日期
         $scope.today = function() {

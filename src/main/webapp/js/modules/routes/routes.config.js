@@ -4,7 +4,7 @@
  =========================================================*/
 
 
-(function() {
+(function () {
     'use strict';
 
     angular
@@ -12,7 +12,7 @@
         .config(routesConfig);
 
     routesConfig.$inject = ['$stateProvider', '$locationProvider', '$urlRouterProvider', 'RouteHelpersProvider'];
-    function routesConfig($stateProvider, $locationProvider, $urlRouterProvider, helper){
+    function routesConfig($stateProvider, $locationProvider, $urlRouterProvider, helper) {
 
         // Set the following to true to enable the HTML5 Mode
         // You may have to set <base> tag in index and a routing configuration in your server
@@ -27,26 +27,27 @@
 
         //下面两个state用于负责主页的内容,主要包括左边栏,上边栏等.
         $stateProvider
-          .state('app', {
-              url: '/app',
-              templateUrl: helper.basepath('app.html'),
-              resolve: helper.resolveFor('angularFileUpload', 'filestyle', 'fastclick', 'modernizr', 'ui.select', 'icons', 'screenfull', 'animo', 'sparklines', 'slimscroll', 'classyloader', 'toaster', 'whirl', 'oitozero.ngSweetAlert', 'ngDialog')
-          })
-          .state('app.admission', {
-              url: '/admission',
-              title: 'admission',
-              templateUrl: helper.basepath('custom/admission/admission-worktable.html')
-          })
+            .state('app', {
+                url: '/app',
+                controller: 'RootController',
+                templateUrl: helper.basepath('app.html'),
+                resolve: helper.resolveFor('angularFileUpload', 'filestyle', 'fastclick', 'modernizr', 'ui.select', 'icons', 'screenfull', 'animo', 'sparklines', 'slimscroll', 'classyloader', 'toaster', 'whirl', 'oitozero.ngSweetAlert', 'ngDialog')
+            })
+            .state('app.admission', {
+                url: '/admission',
+                title: 'admission',
+                templateUrl: helper.basepath('custom/admission/admission-worktable.html')
+            })
             .state('app.admission-manage', {
-            url: '/admission-manage',
-            title: 'admission-manage',
-            templateUrl: helper.basepath('custom/admission/admission-manage.html')
-          })
-          .state('app.student-view-worktable', {
-              url: '/student-view-worktable',
-              title: '学生管理',
-              templateUrl: helper.basepath('custom/student/list/student-view-worktable.html')
-          })
+                url: '/admission-manage',
+                title: 'admission-manage',
+                templateUrl: helper.basepath('custom/admission/admission-manage.html')
+            })
+            .state('app.student-view-worktable', {
+                url: '/student-view-worktable',
+                title: '学生管理',
+                templateUrl: helper.basepath('custom/student/list/student-view-worktable.html')
+            })
             .state('app.student-add-worktable', {
                 url: '/student-add-worktable',
                 title: '学生录入',
@@ -57,22 +58,22 @@
                 title: '物资',
                 templateUrl: helper.basepath('custom/stock/goods/goods-list.html')
             })
-          .state('app.stock-worktable', {
-             url: '/stock-worktable',
-             title: '库存',
-             templateUrl: helper.basepath('custom/stock/stock-worktable.html')
-          })
-              .state('app.student-add', {
-                    url: '/student-add',
-                    title: '学生导入',
-                    controller: 'StudentAddController',
-                    templateUrl: helper.basepath('custom/student/student-add.html')
-              })
-              .state('app.account', {
-                  url: '/account',
-                  title: '帐号管理',
-                  templateUrl: helper.basepath('custom/admin/account/account.html')
-              })
+            .state('app.stock-worktable', {
+                url: '/stock-worktable',
+                title: '库存',
+                templateUrl: helper.basepath('custom/stock/stock-worktable.html')
+            })
+            .state('app.student-add', {
+                url: '/student-add',
+                title: '学生导入',
+                controller: 'StudentAddController',
+                templateUrl: helper.basepath('custom/student/student-add.html')
+            })
+            .state('app.account', {
+                url: '/account',
+                title: '帐号管理',
+                templateUrl: helper.basepath('custom/admin/account/account.html')
+            })
             .state('app.role', {
                 url: '/role',
                 title: '角色管理',
@@ -196,22 +197,22 @@
             })
 
 
-      //
-      // Single Page Routes
-      // -----------------------------------
-      .state('page', {
-          url: '/page',
-          templateUrl: helper.basepath('page.html'),
-         // resolve: helper.resolveFor('icons'),
-          controller: ['$rootScope', function($rootScope) {
-              $rootScope.app.layout.isBoxed = false;
-          }]
-      })
-      .state('page.login', {
-          url: '/login',
-          title: 'Login',
-          templateUrl: helper.basepath('login.html')
-      });
+            //
+            // Single Page Routes
+            // -----------------------------------
+            .state('page', {
+                url: '/page',
+                templateUrl: helper.basepath('page.html'),
+                // resolve: helper.resolveFor('icons'),
+                controller: ['$rootScope', function ($rootScope) {
+                    $rootScope.app.layout.isBoxed = false;
+                }]
+            })
+            .state('page.login', {
+                url: '/login',
+                title: 'Login',
+                templateUrl: helper.basepath('login.html')
+            });
 
     } // routesConfig
 
