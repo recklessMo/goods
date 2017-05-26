@@ -1,0 +1,85 @@
+<div block-ui="edit-org" class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-12">
+                <h5 style="margin-top: 0;">
+                    <span class="icon-user"/>
+                    添加机构
+                </h5>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <label class="text-info">
+                    <span>I 基本属性  (红色为必填)</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 30px;">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-addon" style="color:red">机构名称</span>
+                    <input ng-class="!user.userName?'field-dirty' : ''" type="text" class="form-control" ng-model="org.orgName"/>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-addon" style="color:red">机构类型</span>
+                    <ui-select ng-model="org.type" theme="bootstrap"
+                               class="text-left" style="width:100%;">
+                        <ui-select-match placeholder="选择类型">{{$select.selected}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="type in typeList">
+                            <span ng-bind-html="type"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-addon" style="color:red">联系人姓名</span>
+                    <input type="text" class="form-control" ng-model="org.adminName">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-addon" style="color:red">联系人电话</span>
+                    <input type="text" class="form-control" ng-model="org.adminPhone">
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-addon" style="color:red;">管理员账号</span>
+                    <input type="email" class="form-control" ng-model="org.userName">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-addon" style="color:red">账号密码</span>
+                    <input type="password" class="form-control" ng-model="org.pwd">
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row" style="text-align: center;margin-top:50px;">
+            <div class="col-md-12" style="text-align: center;">
+                    <button data-style="expand-left" ladda="loading" class="btn btn-primary" ng-click="save(org)">保存</button>
+                    <button class="btn btn-primary" ng-click="closeThisDialog('cancel')">取消</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+

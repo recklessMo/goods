@@ -36,17 +36,17 @@
         $scope.activate();
 
 
-        $scope.add = function(userId) {
+        $scope.add = function() {
             var dialog= ngDialog.open({
-                template: 'app/views/custom/performance/exam/edit-exam.html',
-                controller: 'EditExamController',
+                template: 'app/views/custom/org/edit-org.html',
+                controller: 'EditOrgController',
                 className: 'ngdialog-theme-default custom-width-800',
             });
             dialog.closePromise.then(function(data){
                 if(data.value != 'reload'){
                     return;
                 }
-                $scope.examTableParams.reload();
+                $scope.orgTableParams.reload();
             });
         }
 
