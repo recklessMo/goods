@@ -3,9 +3,9 @@
     angular
         .module('custom')
         .controller('UploadStudentFileController', UploadStudentFileController);
-    UploadStudentFileController.$inject = ['FileUploader', 'SweetAlert'];
+    UploadStudentFileController.$inject = ['FileUploader', 'SweetAlert', 'Notify'];
 
-    function UploadStudentFileController(FileUploader, SweetAlert) {
+    function UploadStudentFileController(FileUploader, SweetAlert, Notify) {
 
         var vm = this;
 
@@ -47,6 +47,10 @@
             };
             uploader.onSuccessItem = function(fileItem, response, status, headers) {
                 console.info('onSuccessItem', fileItem, response, status, headers);
+                if(response.status != 200){
+                    fileItem.remove();
+                    Notify.alert(response.data, {status: 'danger', pos: 'top-center', timeout: 3000});
+                }
             };
             uploader.onErrorItem = function(fileItem, response, status, headers) {
                 console.info('onErrorItem', fileItem, response, status, headers);
@@ -59,7 +63,6 @@
             };
             uploader.onCompleteAll = function() {
                 console.info('onCompleteAll');
-                SweetAlert.success("上传成功!");
             };
 
             console.info('uploader', uploader);

@@ -22,6 +22,12 @@
                 </div>
                 <div ng-controller="UploadStudentFileController as form" style="padding-top:10px;">
                     <input filestyle="" type="file" data-button-text="选择学生导入文件" data-class-button="btn btn-default" data-classinput="form-control inline" nv-file-select="" uploader="form.uploader" class="form-control" ng-disabled="form.uploader.queue.length >= 1" />
+                    <!--<div>-->
+                        <!--<input class="filename" type="text"  readonly="readonly" />-->
+                        <!--<a href="javascript:;" name="file">-->
+                            <!--<input type="file" name="key" nv-file-select uploader="form.uploader"/>浏览-->
+                        <!--</a>-->
+                    <!--</div>-->
                     <div ng-if="form.uploader.queue.length">
                         <table ng-if="form.uploader.queue.length" class="table">
                             <thead>
@@ -69,11 +75,6 @@
                     </div>
                 </div>
             </div>
-
-
-            <!--<button class="btn btn-info" style="margin-top:30px;">-->
-                <!--开始分析并上传-->
-            <!--</button>-->
         </div>
     </div>
 </div>

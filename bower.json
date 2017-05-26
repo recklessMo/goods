@@ -79,7 +79,7 @@
     "nestable": "*",
     "html.sortable": "0.3.0",
     "angular-xeditable": "0.1.9",
-    "angular-file-upload": "2.2.0",
+    "angular-file-upload": "2.5.0",
     "ng-img-crop": "0.3.2",
     "angular-ui-select": "^0.19.6",
     "angular-ui-codemirror": "0.3.0",

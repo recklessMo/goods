@@ -31,7 +31,8 @@ public class BethuneMappingExceptionResolver extends SimpleMappingExceptionResol
                                               Exception ex) {
         try {
             //json请求就返回异常
-            if(request.getRequestURI().startsWith("/v1")) {
+            String url = request.getRequestURI();
+            if(url.startsWith("/v1") || url.startsWith("/common") || url.startsWith("/public")) {
                 logger.error("用户访问" + request.getRequestURI() + "失败," + ex.getMessage(), ex);
                 response.setCharacterEncoding("UTF-8");
                 response.setContentType("text/plain");
