@@ -7,7 +7,10 @@
 
     function EditOrgController($scope, OrgService, DicService,SweetAlert, blockUI, ngDialog) {
 
-        var block = blockUI.instances.get("edit-account");
+        $scope.org = {};
+        $scope.typeList = ["小学", "初中", "高中"];
+
+        var block = blockUI.instances.get("edit-org");
 
         function validate(user){
             var err = [];
@@ -30,6 +33,11 @@
                 err.push("性别");
             }
             return err;
+        }
+
+
+        $scope.save = function(org){
+            
         }
 
     }
