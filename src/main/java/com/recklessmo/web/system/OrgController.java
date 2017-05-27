@@ -53,14 +53,20 @@ public class OrgController {
         if(exist){
             return new JsonResponse(301, "账户名已经存在！", null);
         }
+        Date now = new Date();
         long maxOrgId = orgService.getMaxOrgId();
         long groupId = maxOrgId / 100;
         long orgId = (groupId + 1) * 100 + 1;
         org.setOrgId(orgId);
+        org.setCreated(now);
         orgService.addOrg(org);
         User user = new User();
+        user.setName(org.getAdminName());
+        user.setPhone(org.getAdminPhone());
         user.setOrgId(orgId);
-        user.setCreated(new Date());
+        user.setCreated(now);
+        user.setUserName(org.getUserName());
+        user.setPwd(org.getPwd());
         //初始化只增加一个账号设置权限
         user.setAuthorities("801");
         userService.add(user);

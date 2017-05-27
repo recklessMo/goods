@@ -17,7 +17,7 @@ public class User {
     private String name;
     private String phone;
     private String email = "";
-    private int gender;
+    private int gender = 0;
     private String job = "";
     private String authorities = "";
     private Date created;

@@ -15,8 +15,7 @@ public class Org {
     private String adminName;
     private String adminPhone;
     private String userName;
-    private int type;//小学，初中，高中
-
+    private String type;//小学，初中，高中
     @JSONField(serialize = false)
     private String pwd;
 
@@ -60,11 +59,11 @@ public class Org {
         this.adminPhone = adminPhone;
     }
 
-    public int getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(String type) {
         this.type = type;
     }
 

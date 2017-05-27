@@ -25,8 +25,8 @@
                class="table table-bordered table-hover table-condensed editable-table table-min">
             <tr ng-repeat="item in $data" ng-dblclick="show(item.id)">
                 <td data-title="'机构ID'" style="text-align: center">{{item.orgId}}</td>
-                <td data-title="'机构名称'" style="text-align: center">{{item.orgName | date:'yyyy-MM-dd'}}</td>
-                <td data-title="'机构类型'" style="text-align: center">{{item.type | orgTypeFilter}}</td>
+                <td data-title="'机构名称'" style="text-align: center">{{item.orgName}}</td>
+                <td data-title="'机构类型'" style="text-align: center">{{item.type}}</td>
                 <td data-title="'创建时间'" style="text-align: center">{{item.created | date:'yyyy-MM-dd'}}</td>
                 <td data-title="'联系人姓名'" style="text-align: center">{{item.adminName}}</td>
                 <td data-title="'联系人电话'" style="text-align: center">{{item.adminPhone}}</td>

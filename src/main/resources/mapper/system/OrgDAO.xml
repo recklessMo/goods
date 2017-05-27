@@ -9,7 +9,7 @@
 
     <insert id="addOrg" parameterType="com.recklessmo.model.system.Org">
         insert into org
-        (org_id, org_name, admin_name, created, admin_phone, type)
+        (org_id, org_name, admin_name, created, admin_phone, user_name,type)
         values(
           #{orgId}, #{orgName}, #{adminName}, #{created}, #{adminPhone}, #{userName}, #{type}
         )

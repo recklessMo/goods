@@ -35,6 +35,7 @@
             block.start();
             OrgService.addOrg(org).success(function(data){
                 if(data.status == 200){
+                    $scope.closeThisDialog("reload");
                     Notify.alert("保存成功!", {status:"success", timeout: 3000});
                 }
                 block.stop();
