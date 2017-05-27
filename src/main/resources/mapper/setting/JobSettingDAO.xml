@@ -15,6 +15,7 @@
         select
         <include refid="columns"/>
         from job
+        where org_id = #{orgId}
         limit #{startIndex}, #{count}
     </select>
 
@@ -22,6 +23,7 @@
         select
         count(1)
         from job
+        where org_id = #{orgId}
     </select>
 
     <delete id="deleteJob">
