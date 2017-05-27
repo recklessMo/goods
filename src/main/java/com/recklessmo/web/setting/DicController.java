@@ -70,6 +70,8 @@ public class DicController {
     @RequestMapping(value = "/job/list", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public JsonResponse listJob(@RequestBody Page page){
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
+        page.setOrgId(userDetails.getOrgId());
         List<Job> jobs = jobSettingService.listJob(page);
         return new JsonResponse(200, jobs, null);
     }
