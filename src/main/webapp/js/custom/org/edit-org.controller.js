@@ -12,32 +12,37 @@
 
         var block = blockUI.instances.get("edit-org");
 
-        function validate(user){
+        function validate(org){
             var err = [];
-            if(!_.isString(user.userName) || _.isEmpty(user.userName)){
-                err.push("用户名");
+            if(!_.isString(org.orgName) || _.isEmpty(org.orgName)
+                || !_.isString(org.type) || _.isEmpty(org.type)
+                || !_.isString(org.adminName) || _.isEmpty(org.adminName)
+                || !_.isString(org.adminPhone) || _.isEmpty(org.adminPhone)
+                || !_.isString(org.userName) || _.isEmpty(org.userName)
+                || !_.isString(org.pwd) || _.isEmpty(org.pwd)){
+                return false;
             }
-            if(!_.isString(user.pwd) || _.isEmpty(user.pwd)){
-                err.push("密码");
-            }
-            if(!_.isString(user.name) || _.isEmpty(user.name)){
-                err.push("姓名");
-            }
-            if(!_.isString(user.phone) || _.isEmpty(user.phone)){
-                err.push("电话号码");
-            }
-            if(!_.isString(user.job) || _.isEmpty(user.job)){
-                err.push("职业");
-            }
-            if(_.isUndefined(user.gender)){
-                err.push("性别");
-            }
-            return err;
+            return true;
         }
 
 
         $scope.save = function(org){
-            
+            if(!validate(org)){
+                SweetAlert.error("数据填写不正确！");
+                return;
+            }
+
+            block.start();
+            OrgService.addOrg(org).success(function(data){
+                if(data.status == 200){
+                    Notify.alert("保存成功!", {status:"success", timeout: 3000});
+                }
+                block.stop();
+            }).error(function(){
+                SweetAlert.error("网络异常, 请稍后重试!");
+                block.stop();
+            });
+
         }
 
     }

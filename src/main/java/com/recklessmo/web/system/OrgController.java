@@ -51,7 +51,7 @@ public class OrgController {
     public JsonResponse addOrg(@RequestBody Org org){
         boolean exist = userService.existUser(org.getUserName());
         if(exist){
-            return new JsonResponse(301, null, null);
+            return new JsonResponse(301, "账户名已经存在！", null);
         }
         long maxOrgId = orgService.getMaxOrgId();
         long groupId = maxOrgId / 100;
