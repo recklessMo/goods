@@ -143,9 +143,6 @@
             if(!_.isString(user.phone) || _.isEmpty(user.phone)){
                 err.push("电话号码");
             }
-            if(!_.isString(user.job) || _.isEmpty(user.job)){
-                err.push("职业");
-            }
             if(_.isUndefined(user.gender)){
                 err.push("性别");
             }
