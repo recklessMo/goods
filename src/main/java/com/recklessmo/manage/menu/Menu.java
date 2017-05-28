@@ -36,13 +36,15 @@ public class Menu{
             new Menu(203, "成绩分析", "成绩单生成", "#score", "app.result-list"),//half-done
             //雷达图
             new Menu(204, "成绩分析", "整体情况分析", "#score", "app.result-total"),//done
-            new Menu(205, "成绩分析", "分数段分析", "#score", "app.result-gap"),//done
-            new Menu(206, "成绩分析", "名次构成分析", "#score", "app.result-rank"),//done
-            new Menu(207, "成绩分析", "进退步分析", "#score", "app.result-rankchange"),
-            new Menu(208, "成绩分析", "成绩趋势分析", "#score", "app.result-trend"),
-            new Menu(209, "成绩分析", "单次成绩对比", "#score", "app.result-self"),
-            new Menu(210, "成绩分析", "综合成绩对比", "#score", "app.result-contrast"),
-            new Menu(211, "成绩分析", "缺考人员统计", "#score", "app.result-absense"),
+            new Menu(205, "成绩分析", "分数点阵图", "#score", "app.result-score-point"),//done
+            new Menu(206, "成绩分析", "名次点阵图", "#score", "app.result-rank-point"),//done
+            new Menu(207, "成绩分析", "分数段分析", "#score", "app.result-gap"),//done
+            new Menu(208, "成绩分析", "名次构成分析", "#score", "app.result-rank"),//done
+            new Menu(209, "成绩分析", "进退步分析", "#score", "app.result-rankchange"),
+            new Menu(210, "成绩分析", "成绩趋势分析", "#score", "app.result-trend"),
+            new Menu(211, "成绩分析", "单次成绩对比", "#score", "app.result-self"),
+            new Menu(212, "成绩分析", "综合成绩对比", "#score", "app.result-contrast"),
+            new Menu(213, "成绩分析", "缺考人员统计", "#score", "app.result-absense"),
 //            new Menu(301, "统计站", "财务统计", "icon-wallet", "app.payStat"),
 //            new Menu(302, "统计站", "学生统计", "icon-wallet", "app.payStat"),
 //            new Menu(303, "统计站", "微信统计", "icon-wallet", "app.wechatStat"),

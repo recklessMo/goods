@@ -109,6 +109,16 @@
                 title: '整体分析',
                 templateUrl: helper.basepath('custom/performance/score/result-total.html')
             })
+            .state('app.result-score-point', {
+                url: '/result-score-point',
+                title: '分数点阵图',
+                templateUrl: helper.basepath('custom/performance/score/result-score-point.html')
+            })
+            .state('app.result-rank-point', {
+                url: '/result-rank-point',
+                title: '名次点阵图',
+                templateUrl: helper.basepath('custom/performance/score/result-rank-point.html')
+            })
             .state('app.result-gap', {
                 url: '/result-gap',
                 title: '分数段分析',
