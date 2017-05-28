@@ -120,7 +120,7 @@
 
 
         $scope.showChart = function(){
-            var = option = {
+            var option = {
                 title : {
                     text: '分数点阵图'
                 },
