@@ -74,7 +74,6 @@
 
 
         /**业务逻辑**/
-        $scope.obj = {classId: 0};
         $scope.scoreList = [];
         $scope.labelList = [];
         $scope.classList = [];
@@ -106,18 +105,6 @@
                 blockUI.stop();
             });
         }
-
-
-        //后续需要加上排序以及过滤的一系列逻辑.
-        $scope.showTables = function(){
-            $scope.scoreListTableParams = new NgTableParams({page: 1, count: 10},
-                {
-                    counts: [],
-                    dataset: $scope.scoreList
-                }
-            );
-        }
-
 
         $scope.showChart = function(){
             var option = {

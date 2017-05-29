@@ -200,5 +200,21 @@ public class ScoreAnalyseController {
         return new JsonResponse(200, result, null);
     }
 
+    /**
+     * 分数点阵图
+     * @param contrastModel
+     * @return
+     */
+    @RequestMapping(value = "/scorePoint", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public JsonResponse analyzeScorePoint(@RequestBody long examId){
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
+        List<Score> scoreList = scoreService.loadScoreByExamId(userDetails.getOrgId(), examId);
+        Object result = null;
+        return new JsonResponse(200, result, null);
+    }
+
+
+
 
 }

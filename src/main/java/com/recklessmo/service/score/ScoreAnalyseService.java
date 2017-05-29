@@ -9,6 +9,7 @@ import com.recklessmo.model.score.CourseScore;
 import com.recklessmo.model.score.Score;
 import com.recklessmo.model.score.ScoreTemplate;
 import com.recklessmo.model.score.inner.CourseTotalSetting;
+import com.recklessmo.model.score.inner.ScorePointInner;
 import com.recklessmo.model.score.result.absense.ScoreAbsense;
 import com.recklessmo.model.score.result.gap.CourseGap;
 import com.recklessmo.model.score.result.gap.GapInner;
@@ -18,12 +19,14 @@ import com.recklessmo.model.score.result.rank.RankGap;
 import com.recklessmo.model.score.result.rank.RankInner;
 import com.recklessmo.model.score.result.rankchange.CourseRankChange;
 import com.recklessmo.model.score.result.rankchange.RankChange;
+import com.recklessmo.model.score.result.scorepoint.ScorePoint;
 import com.recklessmo.model.score.result.self.CourseSelf;
 import com.recklessmo.model.score.result.self.ScoreSelf;
 import com.recklessmo.model.score.result.self.ScoreSelfInner;
 import com.recklessmo.model.score.result.total.ClassTotal;
 import com.recklessmo.model.score.result.total.CourseTotal;
 import com.recklessmo.model.score.result.total.TotalInner;
+import com.recklessmo.model.setting.Course;
 import com.recklessmo.model.setting.Grade;
 import com.recklessmo.model.student.StudentInfo;
 import com.recklessmo.service.setting.CourseSettingService;
@@ -893,6 +896,52 @@ public class ScoreAnalyseService {
             dynamicTable.setLabelList(tableColumnList);
             return dynamicTable;
         }
+    }
+
+
+    /**
+     * 分析分数点阵图
+     * @param orgId
+     * @param scoreList
+     * @return
+     */
+    public Object analyseScorePoint(long orgId, List<Score> scoreList){
+        Map<Long, ScorePoint> scorePointMap = new HashMap<>();
+        scoreList.stream().forEach(score -> {
+            score.getCourseScoreList().stream().forEach(courseScore -> {
+                ScorePoint scorePoint = scorePointMap.getOrDefault(courseScore.getCourseId(), new ScorePoint(courseScore.getCourseId(), courseScore.getCourseName()));
+                scorePointMap.put(courseScore.getCourseId(), scorePoint);
+                //处理本班的
+                singleScorePointInner(score.getClassId(), score.getClassName(), score, courseScore, scorePoint);
+                //再处理全年级的
+                singleScorePointInner(-3L, score.getClassName(), score, courseScore, scorePoint);
+                //如果是文科班
+                if(score.getClassType().equals("文科班")){
+                    singleScorePointInner(-1L, score.getClassName(), score, courseScore, scorePoint);
+                }
+                //如果是理科班
+                if(score.getClassType().equals("理科班")){
+                    singleScorePointInner(-2L, score.getClassName(), score, courseScore, scorePoint);
+                }
+            });
+        });
+        return null;
+    }
+
+    private void singleScorePointInner(long classId, String className, Score score, CourseScore courseScore, ScorePoint scorePoint){
+        //先处理本班的
+        Optional<ScorePointInner> scorePointInnerOptional = scorePoint.getScorePointInnerList().stream().filter(o -> o.getClassId() == classId).findAny();
+        ScorePointInner scorePointInner = null;
+        if(scorePointInnerOptional.isPresent()){
+            scorePointInner = scorePointInnerOptional.get();
+        }else{
+            scorePointInner = new ScorePointInner();
+            scorePointInner.setClassId(classId);
+            scorePointInner.setClassName(className);
+            scorePoint.getScorePointInnerList().add(scorePointInner);
+        }
+        //处理具体的逻辑
+
     }
 
     public static void main(String[] args) {
