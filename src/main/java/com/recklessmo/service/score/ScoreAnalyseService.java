@@ -924,7 +924,7 @@ public class ScoreAnalyseService {
                     singleScorePointInner(-2L, score.getClassName(), score, courseScore, scorePoint);
                 }
                 scorePoint.getScorePointInnerList().stream().forEach(scorePointInner -> {
-                     scorePointInner.setScorePointPaireList(scorePointInner.getScorePointPairMap().entrySet());
+                     scorePointInner.setScorePointPaireList(new LinkedList<>(scorePointInner.getScorePointPairMap().entrySet()));
                     scorePointInner.setScorePointPairMap(null);
                 });
             });
@@ -933,7 +933,6 @@ public class ScoreAnalyseService {
     }
 
     private void singleScorePointInner(long classId, String className, Score score, CourseScore courseScore, ScorePoint scorePoint){
-        //先处理本班的
         Optional<ScorePointInner> scorePointInnerOptional = scorePoint.getScorePointInnerList().stream().filter(o -> o.getClassId() == classId).findAny();
         ScorePointInner scorePointInner = null;
         if(scorePointInnerOptional.isPresent()){
@@ -945,7 +944,7 @@ public class ScoreAnalyseService {
             scorePoint.getScorePointInnerList().add(scorePointInner);
         }
         //处理具体的逻辑
-        Integer cnt = scorePointInner.getScorePointPairMap().getOrDefault(courseScore.getScore(), 0);
+        Integer cnt = scorePointInner.getScorePointPairMap().getOrDefault(courseScore.getScore(), new Integer(0));
         scorePointInner.getScorePointPairMap().put(courseScore.getScore(), cnt + 1);
     }
 

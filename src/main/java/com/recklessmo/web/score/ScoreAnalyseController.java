@@ -207,10 +207,10 @@ public class ScoreAnalyseController {
      */
     @RequestMapping(value = "/scorePoint", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public JsonResponse analyzeScorePoint(@RequestBody long examId){
+    public JsonResponse analyzeScorePoint(@RequestParam("examId") long examId){
         DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
         List<Score> scoreList = scoreService.loadScoreByExamId(userDetails.getOrgId(), examId);
-        Object result = null;
+        Object result = scoreAnalyseService.analyseScorePoint(userDetails.getOrgId(), scoreList);
         return new JsonResponse(200, result, null);
     }
 
