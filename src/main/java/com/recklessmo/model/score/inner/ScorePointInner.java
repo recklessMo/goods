@@ -2,6 +2,8 @@ package com.recklessmo.model.score.inner;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created by hpf on 29/05/2017.
@@ -10,7 +12,7 @@ public class ScorePointInner {
 
     private long classId;
     private String className;
-    private List<ScorePointPair> classInnerList = new LinkedList<>();
+    private Map<Double, Integer> scorePointPairMap = new TreeMap<>();
 
     public ScorePointInner(){
 
@@ -37,11 +39,11 @@ public class ScorePointInner {
         this.className = className;
     }
 
-    public List<ScorePointPair> getClassInnerList() {
-        return classInnerList;
+    public Map<Double, Integer> getScorePointPairMap() {
+        return scorePointPairMap;
     }
 
-    public void setClassInnerList(List<ScorePointPair> classInnerList) {
-        this.classInnerList = classInnerList;
+    public void setScorePointPairMap(Map<Double, Integer> scorePointPairMap) {
+        this.scorePointPairMap = scorePointPairMap;
     }
 }

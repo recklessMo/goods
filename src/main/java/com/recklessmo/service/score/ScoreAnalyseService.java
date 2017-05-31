@@ -914,7 +914,7 @@ public class ScoreAnalyseService {
                 //处理本班的
                 singleScorePointInner(score.getClassId(), score.getClassName(), score, courseScore, scorePoint);
                 //再处理全年级的
-                singleScorePointInner(-3L, score.getClassName(), score, courseScore, scorePoint);
+                singleScorePointInner(-3L, "全年级", score, courseScore, scorePoint);
                 //如果是文科班
                 if(score.getClassType().equals("文科班")){
                     singleScorePointInner(-1L, score.getClassName(), score, courseScore, scorePoint);
@@ -941,7 +941,8 @@ public class ScoreAnalyseService {
             scorePoint.getScorePointInnerList().add(scorePointInner);
         }
         //处理具体的逻辑
-
+        Integer cnt = scorePointInner.getScorePointPairMap().getOrDefault(courseScore.getScore(), 0);
+        scorePointInner.getScorePointPairMap().put(courseScore.getScore(), cnt + 1);
     }
 
     public static void main(String[] args) {
