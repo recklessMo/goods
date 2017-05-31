@@ -923,9 +923,13 @@ public class ScoreAnalyseService {
                 if(score.getClassType().equals("理科班")){
                     singleScorePointInner(-2L, score.getClassName(), score, courseScore, scorePoint);
                 }
+                scorePoint.getScorePointInnerList().stream().forEach(scorePointInner -> {
+                     scorePointInner.setScorePointPaireList(scorePointInner.getScorePointPairMap().entrySet());
+                    scorePointInner.setScorePointPairMap(null);
+                });
             });
         });
-        return null;
+        return scorePointMap.values();
     }
 
     private void singleScorePointInner(long classId, String className, Score score, CourseScore courseScore, ScorePoint scorePoint){

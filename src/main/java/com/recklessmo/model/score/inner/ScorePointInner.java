@@ -13,6 +13,7 @@ public class ScorePointInner {
     private long classId;
     private String className;
     private Map<Double, Integer> scorePointPairMap = new TreeMap<>();
+    private List<Map.Entry<Double, Integer>> scorePointPaireList = null;
 
     public ScorePointInner(){
 
@@ -21,6 +22,14 @@ public class ScorePointInner {
     public ScorePointInner(long id, String name){
         this.classId = id;
         this.className = name;
+    }
+
+    public List<Map.Entry<Double, Integer>> getScorePointPaireList() {
+        return scorePointPaireList;
+    }
+
+    public void setScorePointPaireList(List<Map.Entry<Double, Integer>> scorePointPaireList) {
+        this.scorePointPaireList = scorePointPaireList;
     }
 
     public long getClassId() {
