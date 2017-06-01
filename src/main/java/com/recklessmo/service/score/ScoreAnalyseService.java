@@ -923,16 +923,20 @@ public class ScoreAnalyseService {
                 if(score.getClassType().equals("理科班")){
                     singleScorePointInner(-2L, score.getClassName(), score, courseScore, scorePoint);
                 }
-                scorePoint.getScorePointInnerList().stream().forEach(scorePointInner -> {
-                     scorePointInner.setScorePointPaireList(new LinkedList<>(scorePointInner.getScorePointPairMap().entrySet()));
-                    scorePointInner.setScorePointPairMap(null);
-                });
+            });
+        });
+        Collection<ScorePoint> scorePointCollection = scorePointMap.values();
+        scorePointCollection.stream().forEach(scorePoint -> {
+            scorePoint.getScorePointInnerList().stream().forEach(scorePointInner -> {
+                scorePointInner.setScorePointPairList(new LinkedList<>(scorePointInner.getScorePointPairMap().entrySet()));
+                scorePointInner.setScorePointPairMap(null);
             });
         });
         return scorePointMap.values();
     }
 
     private void singleScorePointInner(long classId, String className, Score score, CourseScore courseScore, ScorePoint scorePoint){
+        System.out.println(score.getSid() + ", " + courseScore.getCourseName());
         Optional<ScorePointInner> scorePointInnerOptional = scorePoint.getScorePointInnerList().stream().filter(o -> o.getClassId() == classId).findAny();
         ScorePointInner scorePointInner = null;
         if(scorePointInnerOptional.isPresent()){

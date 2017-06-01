@@ -214,7 +214,4 @@ public class ScoreAnalyseController {
         return new JsonResponse(200, result, null);
     }
 
-
-
-
 }
