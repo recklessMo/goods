@@ -7,7 +7,7 @@
                 </div>
             </div>
             <div style="overflow:auto;height: calc(100% - 50px);width: 100%;margin-top:20px;">
-                <div id="chart" style="height: 400px; width: 1100px;margin:auto;"></div>
+                <div ng-repeat="scorePoint in scorePointList" id="{{'chart' + scorePoint.courseId}}" style="height: 400px; width: 1100px;margin:auto;"></div>
             </div>
         </div>
     </div>

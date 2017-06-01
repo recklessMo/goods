@@ -917,11 +917,11 @@ public class ScoreAnalyseService {
                 singleScorePointInner(-3L, "全年级", score, courseScore, scorePoint);
                 //如果是文科班
                 if(score.getClassType().equals("文科班")){
-                    singleScorePointInner(-1L, score.getClassName(), score, courseScore, scorePoint);
+                    singleScorePointInner(-1L, "文科班", score, courseScore, scorePoint);
                 }
                 //如果是理科班
                 if(score.getClassType().equals("理科班")){
-                    singleScorePointInner(-2L, score.getClassName(), score, courseScore, scorePoint);
+                    singleScorePointInner(-2L, "理科班", score, courseScore, scorePoint);
                 }
             });
         });
