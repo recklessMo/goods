@@ -10,6 +10,7 @@ import com.recklessmo.model.score.Score;
 import com.recklessmo.model.score.ScoreTemplate;
 import com.recklessmo.model.score.inner.CourseTotalSetting;
 import com.recklessmo.model.score.inner.ScorePointInner;
+import com.recklessmo.model.score.inner.ScorePointPair;
 import com.recklessmo.model.score.result.absense.ScoreAbsense;
 import com.recklessmo.model.score.result.gap.CourseGap;
 import com.recklessmo.model.score.result.gap.GapInner;
@@ -928,6 +929,23 @@ public class ScoreAnalyseService {
         Collection<ScorePoint> scorePointCollection = scorePointMap.values();
         scorePointCollection.stream().forEach(scorePoint -> {
             scorePoint.getScorePointInnerList().stream().forEach(scorePointInner -> {
+//                Map<Double, Integer> scorePointPairMap = scorePointInner.getScorePointPairMap();
+//                List<Double> keyList = new LinkedList<>(scorePointPairMap.keySet());
+//                Double max = Double.MIN_VALUE;
+//                Double min = Double.MAX_VALUE;
+//                for(Double temp : keyList){
+//                    if(temp > max){
+//                        max = temp;
+//                    }
+//                    if(temp < min){
+//                        min = temp;
+//                    }
+//                }
+//                double start = min;
+//                while(start <= max){
+//                    scorePointPairMap.put(start , scorePointPairMap.getOrDefault(start, 0));
+//                    start += 0.5;
+//                }
                 scorePointInner.setScorePointPairList(new LinkedList<>(scorePointInner.getScorePointPairMap().entrySet()));
                 scorePointInner.setScorePointPairMap(null);
             });

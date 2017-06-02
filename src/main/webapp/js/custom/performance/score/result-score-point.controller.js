@@ -124,25 +124,44 @@
                     title: {
                         text: item.courseName
                     },
+                    tooltip : {
+                        trigger: 'axis',
+                        showDelay : 0,
+                        formatter : function (params) {
+                            if (params.value.length > 1) {
+                                return params.seriesName + ' :<br/>'
+                                    + params.value[0] + '分 '
+                                    + params.value[1] + '人';
+                            }
+                        },
+                        axisPointer:{
+                            show: true,
+                            type : 'cross',
+                            lineStyle: {
+                                type : 'dashed',
+                                width : 1
+                            }
+                        }
+                    },
                     legend: {
                         data: legendList,
                         left: 'center'
                     },
-                    xAxis: [
+                    xAxis : [
                         {
-                            type: 'value',
-                            scale: true,
-                            splitLine: {
-                                show: false
+                            type : 'value',
+                            scale:true,
+                            axisLabel : {
+                                formatter: '{value}分'
                             }
                         }
                     ],
-                    yAxis: [
+                    yAxis : [
                         {
-                            type: 'value',
-                            scale: true,
-                            splitLine: {
-                                show: false
+                            type : 'value',
+                            scale:true,
+                            axisLabel : {
+                                formatter: '{value}人'
                             }
                         }
                     ],
