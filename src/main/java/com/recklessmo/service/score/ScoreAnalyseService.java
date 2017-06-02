@@ -946,6 +946,9 @@ public class ScoreAnalyseService {
             scorePointInner.setClassId(classId);
             scorePointInner.setClassName(className);
             scorePoint.getScorePointInnerList().add(scorePointInner);
+            scorePoint.getScorePointInnerList().sort((a, b) -> {
+                return a.getClassId() >= b.getClassId() ? (a.getClassId() == b.getClassId() ? 0 : 1) : -1;
+            });
         }
         //处理具体的逻辑
         Integer cnt = scorePointInner.getScorePointPairMap().getOrDefault(courseScore.getScore(), new Integer(0));

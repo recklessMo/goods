@@ -7,7 +7,18 @@
                 </div>
             </div>
             <div style="overflow:auto;height: calc(100% - 50px);width: 100%;margin-top:20px;">
-                <div ng-repeat="scorePoint in scorePointList" id="{{'chart' + scorePoint.courseId}}" style="height: 400px; width: 1100px;margin:auto;"></div>
+                <!--<div ng-repeat="scorePoint in scorePointList" id="{{'pointChart' + scorePoint.courseId}}" style="height: 400px; width: 1100px;margin:auto;"></div>-->
+                <div id="pointChart0" ng-show="flag['pointChart0']" style="height: 400px; width: 1100px;margin:auto;"></div>
+                <div id="pointChart1" ng-show="flag['pointChart1']" style="height: 400px; width: 1100px;margin:auto;"></div>
+                <div id="pointChart2" ng-show="flag['pointChart2']" style="height: 400px; width: 1100px;margin:auto;"></div>
+                <div id="pointChart3" ng-show="flag['pointChart3']" style="height: 400px; width: 1100px;margin:auto;"></div>
+                <div id="pointChart4" ng-show="flag['pointChart4']" style="height: 400px; width: 1100px;margin:auto;"></div>
+                <div id="pointChart5" ng-show="flag['pointChart5']" style="height: 400px; width: 1100px;margin:auto;"></div>
+                <div id="pointChart6" ng-show="flag['pointChart6']" style="height: 400px; width: 1100px;margin:auto;"></div>
+                <div id="pointChart7" ng-show="flag['pointChart7']" style="height: 400px; width: 1100px;margin:auto;"></div>
+                <div id="pointChart8" ng-show="flag['pointChart8']" style="height: 400px; width: 1100px;margin:auto;"></div>
+                <div id="pointChart9" ng-show="flag['pointChart9']" style="height: 400px; width: 1100px;margin:auto;"></div>
+                <div id="pointChart10" ng-show="flag['pointChart10']" style="height: 400px; width: 1100px;margin:auto;"></div>
             </div>
         </div>
     </div>

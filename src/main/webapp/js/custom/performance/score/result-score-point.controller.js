@@ -95,43 +95,35 @@
             });
         }
 
+        $scope.flag = {};
         $scope.showChart = function () {
-            $scope.scorePointList.forEach(function (item, index) {
+            $scope.scorePointList.forEach(function (item) {
                 var legendList = item.scorePointInnerList.map(
-                    function(temp, pos){
-                       return temp.className;
+                    function (temp, pos) {
+                        return temp.className;
                     }
                 );
-                var dataList = item.scorePointInnerList.map(function(a){
-                    var single = [];
+                var dataList = item.scorePointInnerList.map(function (a) {
+                    var single = {};
                     single.name = a.className;
                     var array = [];
-                    a.scorePointPairList.forEach(function(pair, pos){
+                    a.scorePointPairList.forEach(function (pair) {
                         var temp = [];
                         temp.push(pair.key);
                         temp.push(pair.value);
                         array.push(temp);
-                    })
+                    });
+                    single.type = "scatter";
                     single.data = array;
                     return single;
                 });
-                var myChart = echarts.init(document.getElementById("chart" + item.courseId));
+                var x = "pointChart" + item.courseId;
+                $scope.flag[x] = true;
+                var myChart = echarts.init(document.getElementById(x));
                 var option = {
                     title: {
-                        text: '分数点阵图'
+                        text: item.courseName
                     },
-                    tooltip: {
-                        showDelay: 0
-                    },
-                    toolbox: {
-                        feature: {
-                            dataZoom: {},
-                            brush: {
-                                type: ['rect', 'polygon', 'clear']
-                            }
-                        }
-                    },
-                    brush: {},
                     legend: {
                         data: legendList,
                         left: 'center'
@@ -154,23 +146,7 @@
                             }
                         }
                     ],
-                    series: [
-                        {
-                            name: legendList,
-                            type: 'scatter',
-                            data: dataList
-                        }
-                    ],
-                    markLine: {
-                        lineStyle: {
-                            normal: {
-                                type: 'solid'
-                            }
-                        },
-                        data: [
-                            {xAxis: 160}
-                        ]
-                    }
+                    series: dataList
                 }
                 myChart.setOption(option);
             });
