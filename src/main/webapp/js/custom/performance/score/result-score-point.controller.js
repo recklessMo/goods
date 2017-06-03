@@ -111,6 +111,7 @@
                         var temp = [];
                         temp.push(pair.key);
                         temp.push(pair.value);
+                        temp.push(100000);
                         array.push(temp);
                     });
                     single.type = "scatter";
