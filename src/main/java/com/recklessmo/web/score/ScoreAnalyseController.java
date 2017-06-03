@@ -214,4 +214,18 @@ public class ScoreAnalyseController {
         return new JsonResponse(200, result, null);
     }
 
+    /**
+     * 名次点阵图
+     * @param contrastModel
+     * @return
+     */
+    @RequestMapping(value = "/rankPoint", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public JsonResponse analyzeRankPoint(@RequestBody long examId){
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
+        List<Score> scoreList = scoreService.loadScoreByExamId(userDetails.getOrgId(), examId);
+        Object result = scoreAnalyseService.analyseRankPoint(userDetails.getOrgId(), scoreList);
+        return new JsonResponse(200, result, null);
+    }
+
 }
