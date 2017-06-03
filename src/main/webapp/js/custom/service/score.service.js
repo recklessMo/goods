@@ -18,6 +18,7 @@
         this.loadScoreTrend = loadScoreTrend;
         this.loadScoreContrast = loadScoreContrast;
         this.loadScorePoint = loadScorePoint;
+        this.loadRankPoint = loadRankPoint;
 
         //type代表分析的维度, 学科维度或者班级维度
         function loadScoreTotalResult(examId, type, templateId){
@@ -107,6 +108,15 @@
         function loadScorePoint(data){
             return $http({
                 url: "/v1/analyse/scorePoint",
+                data: data,
+                method: "POST",
+                timeout: 10000
+            });
+        }
+
+        function loadRankPoint(data){
+            return $http({
+                url: "/v1/analyse/rankPoint",
                 data: data,
                 method: "POST",
                 timeout: 10000

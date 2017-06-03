@@ -7,28 +7,29 @@
 
     function RankPointController($scope, ExamService, ScoreService, DicService, SweetAlert, NgTableParams, blockUI, Notify) {
 
+
         $scope.examTypeList = ['全部', '小测', '周考', '月考', '期中', '期末'];
 
         $scope.gradeList = [];
         $scope.classList = [];
 
         //初始化选择器列表
-        function initSelector(){
+        function initSelector() {
             blockUI.start();
-            DicService.loadAllGrade().success(function(data){
-                if(data.status == 200){
+            DicService.loadAllGrade().success(function (data) {
+                if (data.status == 200) {
                     $scope.gradeList = data.data;
-                    _.forEach($scope.gradeList, function(item){
-                        item.classList.unshift({classId: 0, className:'全部'});
+                    _.forEach($scope.gradeList, function (item) {
+                        item.classList.unshift({classId: 0, className: '全部'});
                     });
                 }
                 blockUI.stop();
-            }).error(function(){
+            }).error(function () {
                 SweetAlert.error("网络异常, 请稍后重试!");
                 blockUI.stop();
             });
 
-            $scope.selectGrade = function(data){
+            $scope.selectGrade = function (data) {
                 $scope.classList = data.classList;
                 $scope.tableParams.classId = 0;
             }
@@ -74,58 +75,108 @@
 
 
         /**业务逻辑**/
-        $scope.obj = {classId: 0};
-        $scope.scoreList = [];
-        $scope.labelList = [];
-        $scope.classList = [];
+        $scope.obj = {};
+        $scope.rankPointList = [];
 
-        $scope.search = function(exam){
+        $scope.search = function (exam) {
             blockUI.start();
             $scope.obj.examId = exam.examId;
             $scope.obj.examName = exam.examName;
-            ScoreService.loadScoreList({examId: exam.examId}).success(function (data) {
+            ScoreService.loadRankPoint(exam.examId).success(function (data) {
                 blockUI.stop();
                 if (data.status == 200) {
-                    $scope.labelList = data.data.labelList;
-                    $scope.scoreList = data.data.dataList;
-                    var hash = {};
-                    var tempList = [];
-                    _.forEach($scope.scoreList, function(item){
-                        if(!hash[item.classid]){
-                            hash[item.classid] = true;
-                            tempList.push({classId: item.classid, className: item.classname});
-                        }
-                    });
-                    $scope.classList = _.sortBy(tempList, ['className']);
-                    $scope.classList.unshift({classId:0, className:"全部"});
-                    $scope.showTables();
+                    $scope.rankPointList = data.data;
+                    $scope.showChart();
                 } else {
                     SweetAlert.error("发生了错误! 请刷新页面!");
                 }
             }).error(function () {
                 blockUI.stop();
+                SweetAlert.error("网络异常! 请稍后重试！");
             });
         }
 
-
-        //后续需要加上排序以及过滤的一系列逻辑.
-        $scope.showTables = function(){
-            $scope.scoreListTableParams = new NgTableParams({page: 1, count: 10},
-                {
-                    counts: [],
-                    dataset: $scope.scoreList
+        $scope.flag = {};
+        $scope.showChart = function () {
+            $scope.rankPointList.forEach(function (item) {
+                var legendList = item.rankPointInnerList.map(
+                    function (temp, pos) {
+                        return temp.className;
+                    }
+                );
+                var dataList = item.rankPointInnerList.map(function (a) {
+                    var single = {};
+                    single.name = a.className;
+                    var array = [];
+                    a.rankPointPairList.forEach(function (pair, index) {
+                        var temp = [];
+                        temp.push(index);
+                        temp.push(pair.rank);
+                        temp.push(pair.score);
+                        temp.push(pair.sid);
+                        temp.push(pair.name);
+                        array.push(temp);
+                    });
+                    single.type = "scatter";
+                    single.data = array;
+                    return single;
+                });
+                var x = "pointChart" + item.courseId;
+                $scope.flag[x] = true;
+                var myChart = echarts.init(document.getElementById(x));
+                var option = {
+                    title: {
+                        text: item.courseName
+                    },
+                    tooltip : {
+                        trigger: 'axis',
+                        showDelay : 0,
+                        formatter : function (params) {
+                            if (params.value.length > 1) {
+                                return params.seriesName + ' :<br/>'
+                                    +'名次:' +  params.value[1]
+                                    +'分数:' + params.value[2]
+                                    +'学号:' + params.value[3]
+                                    +'姓名:' + params.value[4];
+                            }
+                        },
+                        axisPointer:{
+                            show: true,
+                            type : 'cross',
+                            lineStyle: {
+                                type : 'dashed',
+                                width : 1
+                            }
+                        }
+                    },
+                    legend: {
+                        data: legendList,
+                        left: 'center'
+                    },
+                    xAxis : [
+                        {
+                            type : 'value',
+                            scale:true,
+                            axisLabel : {
+                                formatter: '{value}'
+                            }
+                        }
+                    ],
+                    yAxis : [
+                        {
+                            type : 'value',
+                            scale:true,
+                            axisLabel : {
+                                formatter: '{value}名'
+                            }
+                        }
+                    ],
+                    series: dataList
                 }
-            );
-        }
+                myChart.setOption(option);
+            });
 
-        $scope.export = function(examId, classId){
-            if(_.isUndefined(classId) || _.isUndefined(examId)){
-                SweetAlert.error("请先选择考试!");
-                return;
-            }
-            window.open("/common/file/score/export?examId=" + examId + "&classId=" + classId);
         }
-
     }
 
 })();
