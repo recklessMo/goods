@@ -35,6 +35,7 @@ import com.recklessmo.model.student.StudentInfo;
 import com.recklessmo.service.setting.CourseSettingService;
 import com.recklessmo.service.student.StudentService;
 import org.apache.ibatis.annotations.Param;
+import org.apache.poi.ss.formula.functions.Rank;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -989,19 +990,25 @@ public class ScoreAnalyseService {
                 rankPointMap.put(courseScore.getCourseId(), rankPoint);
                 //处理本班的
                 singleRankPointInner(score.getClassId(), score.getClassName(), score, courseScore, rankPoint);
-                //再处理全年级的
-                singleRankPointInner(-3L, "全年级", score, courseScore, rankPoint);
-                //如果是文科班
-                if(score.getClassType().equals("文科班")){
-                    singleRankPointInner(-1L, "文科班", score, courseScore, rankPoint);
-                }
-                //如果是理科班
-                if(score.getClassType().equals("理科班")){
-                    singleRankPointInner(-2L, "理科班", score, courseScore, rankPoint);
-                }
+//                //再处理全年级的
+//                singleRankPointInner(-3L, "全年级", score, courseScore, rankPoint);
+//                //如果是文科班
+//                if(score.getClassType().equals("文科班")){
+//                    singleRankPointInner(-1L, "文科班", score, courseScore, rankPoint);
+//                }
+//                //如果是理科班
+//                if(score.getClassType().equals("理科班")){
+//                    singleRankPointInner(-2L, "理科班", score, courseScore, rankPoint);
+//                }
             });
         });
-        return rankPointMap.values();
+        Collection<RankPoint> rankPointCollection = rankPointMap.values();
+        rankPointCollection.stream().forEach(rankPoint -> {
+            rankPoint.getRankPointInnerList().stream().forEach(rankPointInner -> {
+                rankPointInner.getRankPointPairList().sort((a,b)->(a.getRank() >= b.getRank() ? (a.getRank() == b.getRank() ? 0 : 1) : -1));
+            });
+        });
+        return rankPointCollection;
     }
 
 

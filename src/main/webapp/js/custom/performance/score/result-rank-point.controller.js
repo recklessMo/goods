@@ -134,10 +134,10 @@
                         formatter : function (params) {
                             if (params.value.length > 1) {
                                 return params.seriesName + ' :<br/>'
-                                    +'名次:' +  params.value[1]
-                                    +'分数:' + params.value[2]
-                                    +'学号:' + params.value[3]
-                                    +'姓名:' + params.value[4];
+                                    +' 名次:' +  params.value[1]
+                                    +' 分数:' + params.value[2]
+                                    +' 学号:' + params.value[3]
+                                    +' 姓名:' + params.value[4];
                             }
                         },
                         axisPointer:{
