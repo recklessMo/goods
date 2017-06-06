@@ -31,7 +31,7 @@
                 url: '/app',
                 controller: 'RootController',
                 templateUrl: helper.basepath('app.html'),
-                resolve: helper.resolveFor('angularFileUpload', 'filestyle', 'fastclick', 'modernizr', 'ui.select', 'icons', 'screenfull', 'animo', 'sparklines', 'slimscroll', 'classyloader', 'toaster', 'whirl', 'oitozero.ngSweetAlert', 'ngDialog')
+                resolve: helper.resolveFor('angularFileUpload', 'filestyle', 'fastclick', 'modernizr', 'ui.select', 'icons', 'screenfull', 'animo', 'slimscroll', 'toaster', 'whirl', 'oitozero.ngSweetAlert', 'ngDialog')
             })
             .state('app.admission', {
                 url: '/admission',
