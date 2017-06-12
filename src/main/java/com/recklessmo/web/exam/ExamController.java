@@ -69,8 +69,16 @@ public class ExamController {
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public JsonResponse deleteExam(@RequestBody long id){
         DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
-        examService.deleteExam(userDetails.getOrgId(), id);
-        scoreService.removeScoreList(userDetails.getOrgId(), id);
+        Exam exam = examService.getExamById(userDetails.getOrgId(), id);
+        if(exam == null) {
+            return new JsonResponse(300, "考试不存在！", null);
+        }
+        if(exam.getOpId() == userDetails.getId()) {
+            examService.deleteExam(userDetails.getOrgId(), id);
+            scoreService.removeScoreList(userDetails.getOrgId(), id);
+        }else{
+            return new JsonResponse(300, "只能删除自己创建的考试！", null);
+        }
         return new JsonResponse(200, null, null);
     }
 

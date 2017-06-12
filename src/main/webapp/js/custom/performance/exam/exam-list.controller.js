@@ -13,22 +13,22 @@
         $scope.classList = [];
 
         //初始化选择器列表
-        function initSelector(){
+        function initSelector() {
             blockUI.start();
-            DicService.loadAllGrade().success(function(data){
-                if(data.status == 200){
+            DicService.loadAllGrade().success(function (data) {
+                if (data.status == 200) {
                     $scope.gradeList = data.data;
-                    _.forEach($scope.gradeList, function(item){
-                        item.classList.unshift({classId: 0, className:'全部'});
+                    _.forEach($scope.gradeList, function (item) {
+                        item.classList.unshift({classId: 0, className: '全部'});
                     });
                 }
                 blockUI.stop();
-            }).error(function(){
+            }).error(function () {
                 SweetAlert.error("网络异常, 请稍后重试!");
                 blockUI.stop();
             });
 
-            $scope.selectGrade = function(data){
+            $scope.selectGrade = function (data) {
                 $scope.classList = data.classList;
                 $scope.tableParams.classId = 0;
             }
@@ -37,9 +37,9 @@
         initSelector();
 
 
-        $scope.tableParams = {page : 1, count : 10, searchStr: ""};
+        $scope.tableParams = {page: 1, count: 10, searchStr: ""};
 
-        $scope.activate = function() {
+        $scope.activate = function () {
             $scope.examTableParams = new NgTableParams({}, {
                 getData: function (params) {
                     blockUI.start();
@@ -51,7 +51,7 @@
                         if (result.status == 200) {
                             params.total(result.totalCount);
                             return result.data;
-                        }else{
+                        } else {
                             SweetAlert.error("服务器内部错误, 请联系客服!");
                         }
                     }, function () {
@@ -65,7 +65,7 @@
         $scope.activate();
 
         //删除考试
-        $scope.delete = function(id){
+        $scope.delete = function (id) {
             SweetAlert.swal({
                 title: '确认删除?',
                 type: 'warning',
@@ -75,53 +75,54 @@
                 cancelButtonText: '否',
                 closeOnConfirm: true,
                 closeOnCancel: true
-            }, function(isConfirm){
+            }, function (isConfirm) {
                 if (isConfirm) {
                     //这里可以进行调试,查看$scope,因为table会创建一个子scope
                     //然后子scope里面就不能用this了,因为this就指向了子scope,
                     //实际上在table的每一行里面的点击是调用了父scope的delete方法
                     blockUI.start();
-                    ExamService.deleteExam(id).success(function () {
-                        Notify.alert("删除成功!", {status:"success", timeout: 3000});
-                        $scope.examTableParams.reload();
+                    ExamService.deleteExam(id).success(function (response) {
                         blockUI.stop();
-                    }).error(function(){
+                        if (response.status == 200) {
+                            Notify.alert("删除成功!", {status: "success", timeout: 3000});
+                            $scope.examTableParams.reload();
+                        }
+                    }).error(function () {
                         blockUI.stop();
-                        Notify.alert("网络有问题,请稍后重试!", {status:"error", timeout: 3000});
+                        Notify.alert("网络有问题,请稍后重试!", {status: "error", timeout: 3000});
                     });
                 }
             });
         }
 
-        $scope.add = function(userId) {
-            var dialog= ngDialog.open({
+        $scope.add = function (userId) {
+            var dialog = ngDialog.open({
                 template: 'app/views/custom/performance/exam/edit-exam.html',
                 controller: 'EditExamController',
                 className: 'ngdialog-theme-default custom-width-800',
             });
-            dialog.closePromise.then(function(data){
-                if(data.value != 'reload'){
+            dialog.closePromise.then(function (data) {
+                if (data.value != 'reload') {
                     return;
                 }
                 $scope.examTableParams.reload();
             });
         }
 
-        $scope.uploadScore = function(exam){
-            var dialog= ngDialog.open({
+        $scope.uploadScore = function (exam) {
+            var dialog = ngDialog.open({
                 template: 'app/views/custom/performance/exam/edit-exam-score.html',
                 controller: 'EditExamScoreController',
                 className: 'ngdialog-theme-default custom-width-800',
-                data : exam
+                data: exam
             });
-            dialog.closePromise.then(function(data){
-                if(data.value != 'reload'){
+            dialog.closePromise.then(function (data) {
+                if (data.value != 'reload') {
                     return;
                 }
                 $scope.examTableParams.reload();
             });
         }
-
 
 
     }
