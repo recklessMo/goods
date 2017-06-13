@@ -4,6 +4,7 @@ import com.recklessmo.dao.exam.ExamDAO;
 import com.recklessmo.model.exam.Exam;
 import com.recklessmo.model.setting.Course;
 import com.recklessmo.model.setting.Grade;
+import com.recklessmo.model.setting.Group;
 import com.recklessmo.service.setting.CourseSettingService;
 import com.recklessmo.service.setting.GradeSettingService;
 import com.recklessmo.web.webmodel.page.ExamListPage;
@@ -70,12 +71,12 @@ public class ExamService {
 
     private void compose(List<Exam> examList, long orgId){
         List<Grade> gradeList = gradeSettingService.listAllGrade(orgId);
-        Map<Long, String> gradeMap = new HashMap<>();
-        Map<Long, String> classMap = new HashMap<>();
+        Map<Long, Grade> gradeMap = new HashMap<>();
+        Map<Long, Group> classMap = new HashMap<>();
         gradeList.stream().forEach(grade-> {
-            gradeMap.put(grade.getGradeId(), grade.getGradeName());
+            gradeMap.put(grade.getGradeId(), grade);
             grade.getClassList().stream().forEach(group -> {
-                classMap.put(group.getClassId(), group.getClassName());
+                classMap.put(group.getClassId(), group);
             });
         });
         Page coursePage = new Page();
@@ -83,8 +84,16 @@ public class ExamService {
         List<Course> courseList = courseSettingService.listCourse(coursePage);
         Map<Long, String> courseMap = courseList.stream().collect(Collectors.toMap(Course::getCourseId, course -> course.getCourseName()));
         examList.stream().forEach(exam -> {
-            exam.setGradeName(gradeMap.getOrDefault(exam.getGradeId(), "全部"));
-            exam.setClassName(classMap.getOrDefault(exam.getClassId(), "全部"));
+            Grade grade = gradeMap.get(exam.getGradeId());
+            if(grade == null){
+                exam.setGradeName("全部");
+                exam.setGradeOtherName("");
+            }else {
+                exam.setGradeName(grade.getGradeName());
+                exam.setGradeOtherName(grade.getOtherName());
+            }
+            Group group = classMap.get(exam.getClassId());
+            exam.setClassName(group == null ? "全部" : group.getClassName());
             exam.getCourseList().stream().forEach(courseId -> {
                 exam.getCourseNameList().add(courseMap.getOrDefault(courseId, "未知科目"));
             });

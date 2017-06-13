@@ -1,11 +1,11 @@
 <div class="panel" style="height: 100%;">
     <!--顶层选项-->
     <div class="row" style="padding-top:5px;margin-left:0px;height: 50px;">
-        <div class="col-xs-3 btn-group">
+        <div class="col-xs-4 btn-group">
             <button class="btn btn-default" ng-class="{active:flag.type == 1}" ng-click="showClass()">班级维度</button>
             <button class="btn btn-default" ng-class="{active:flag.type == 2}" ng-click="showCourse()">学科维度</button>
         </div>
-        <div class="col-xs-9 btn-group pull-right">
+        <div class="col-xs-8 btn-group pull-right">
             <button class="btn btn-default" ng-class="{active:flag.show == 1}" ng-click="showTables()">表格</button>
             <button class="btn btn-default" ng-class="{active:flag.show == 2}" ng-click="showColCharts()">直方图</button>
             <button class="btn btn-default" ng-show="flag.type == 2" ng-class="{active:flag.show == 3}" ng-click="showPieCharts(3)">满分饼图</button>

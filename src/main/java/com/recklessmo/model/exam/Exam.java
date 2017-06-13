@@ -25,6 +25,7 @@ public class Exam {
     //所属年级
     private long gradeId;
     private String gradeName;
+    private String gradeOtherName;
     //所属班级
     //为0代表所有班级
     private long classId;
@@ -184,5 +185,13 @@ public class Exam {
 
     public void setOpName(String opName) {
         this.opName = opName;
+    }
+
+    public String getGradeOtherName() {
+        return gradeOtherName;
+    }
+
+    public void setGradeOtherName(String gradeOtherName) {
+        this.gradeOtherName = gradeOtherName;
     }
 }
