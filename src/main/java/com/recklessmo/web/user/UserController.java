@@ -95,9 +95,11 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value = "/add", method = {RequestMethod.GET, RequestMethod.POST})
     public JsonResponse add(@RequestBody UserVO user){
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
         try {
             user.getAuthorities().sort((o1,o2)->o1.compareTo(o2));
             User userModel = new User();
+            userModel.setOrgId(userDetails.getOrgId());
             userModel.setAuthorities(StringUtils.join(user.getAuthorities(), ","));
             userModel.setUserName(user.getUserName());
             userModel.setPhone(user.getPhone());
