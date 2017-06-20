@@ -351,6 +351,7 @@ public class FileUploadController {
         DataFormatter dataFormatter = new DataFormatter();
         Workbook workbook = WorkbookFactory.create(inputStream);
         List<User> userList = new LinkedList<>();
+        Date now = new Date();
         int totalSheets = workbook.getNumberOfSheets();
         if (totalSheets != 0) {
             Sheet sheet = workbook.getSheetAt(0);
@@ -402,6 +403,7 @@ public class FileUploadController {
                 user.setAuthorities("110,210,220,230,240,250,260,270,280,310,320,330,410,420,430,510,520,530,540,810,820,830");
                 //密码默认为
                 user.setPwd("yunxiaoyuan");
+                user.setCreated(now);
                 userList.add(user);
             }
         }

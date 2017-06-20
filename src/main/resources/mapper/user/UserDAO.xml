@@ -51,7 +51,7 @@
         insert into user(user_name, pwd, name, phone, email, gender, job, authorities, created, org_id)
         values
         <foreach collection="userList" item="user" separator=",">
-            (#{userName}, #{pwd}, #{name}, #{phone}, #{email}, #{gender}, #{job}, #{authorities}, NOW(), #{orgId})
+            (#{user.userName}, #{user.pwd}, #{user.name}, #{user.phone}, #{user.email}, #{user.gender}, #{user.job}, #{user.authorities}, #{user.created}, #{user.orgId})
         </foreach>
     </insert>
 

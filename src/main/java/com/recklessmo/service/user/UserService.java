@@ -54,7 +54,7 @@ public class UserService {
     }
 
     public void insertUserList(List<User> userList){
-
+        userDAO.insertUserList(userList);
     }
 
 }
