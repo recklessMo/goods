@@ -74,6 +74,11 @@
                 title: '帐号管理',
                 templateUrl: helper.basepath('custom/admin/account/account.html')
             })
+            .state('app.account-import', {
+                url: '/account-import',
+                title: '帐号导入',
+                templateUrl: helper.basepath('custom/admin/account/account-import.html')
+            })
             .state('app.role', {
                 url: '/role',
                 title: '角色管理',
