@@ -47,6 +47,14 @@
          values(#{userName}, #{pwd}, #{name}, #{phone}, #{email}, #{gender}, #{job}, #{authorities}, NOW(), #{orgId})
     </insert>
 
+    <insert id="insertUserList" parameterType="com.recklessmo.model.user.User">
+        insert into user(user_name, pwd, name, phone, email, gender, job, authorities, created, org_id)
+        values
+        <foreach collection="userList" item="user" separator=",">
+            (#{userName}, #{pwd}, #{name}, #{phone}, #{email}, #{gender}, #{job}, #{authorities}, NOW(), #{orgId})
+        </foreach>
+    </insert>
+
     <update id="updateUser" parameterType = "com.recklessmo.model.user.User">
         update user set user_name = #{userName}, name = #{name}, phone=#{phone}
          , email=#{email}, gender=#{gender}, job=#{job}, authorities=#{authorities}

@@ -250,6 +250,18 @@ public class FileDownloadController {
 
     /**
      *
+     * 下载账号信息导入文件
+     *
+     * @param response
+     * @throws Exception
+     */
+    @RequestMapping(value = "/account/downloadExcel", method = {RequestMethod.POST, RequestMethod.GET})
+    public void accountFileDownload(HttpServletResponse response) throws Exception {
+        returnFile(null, response, "账号导入模板", "account_import", ".xlsx");
+    }
+
+    /**
+     *
      * 测试
      *
      * @param response

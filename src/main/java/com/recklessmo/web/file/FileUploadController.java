@@ -8,12 +8,14 @@ import com.recklessmo.model.setting.Course;
 import com.recklessmo.model.setting.Grade;
 import com.recklessmo.model.setting.Group;
 import com.recklessmo.model.student.StudentInfo;
+import com.recklessmo.model.user.User;
 import com.recklessmo.response.JsonResponse;
 import com.recklessmo.service.exam.ExamService;
 import com.recklessmo.service.score.ScoreService;
 import com.recklessmo.service.setting.CourseSettingService;
 import com.recklessmo.service.setting.GradeSettingService;
 import com.recklessmo.service.student.StudentService;
+import com.recklessmo.service.user.UserService;
 import com.recklessmo.util.ContextUtils;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.stereotype.Controller;
@@ -52,6 +54,9 @@ public class FileUploadController {
 
     @Resource
     private ExamService examService;
+
+    @Resource
+    private UserService userService;
 
     /**
      * 上传成绩
@@ -327,4 +332,82 @@ public class FileUploadController {
         return result;
     }
 
+
+    /**
+     * 上传账号信息， 进行批量导入
+     *
+     *
+     * @param multipartFile
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/account/uploadExcel", method = {RequestMethod.POST})
+    @ResponseBody
+    public JsonResponse accountFileUpload(@RequestParam("file") MultipartFile multipartFile) throws Exception {
+        //处理excel文件
+        DefaultUserDetails defaultUserDetails = ContextUtils.getLoginUserDetail();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        InputStream inputStream = multipartFile.getInputStream();
+        DataFormatter dataFormatter = new DataFormatter();
+        Workbook workbook = WorkbookFactory.create(inputStream);
+        List<User> userList = new LinkedList<>();
+        int totalSheets = workbook.getNumberOfSheets();
+        if (totalSheets != 0) {
+            Sheet sheet = workbook.getSheetAt(0);
+            for (Row row : sheet) {
+                if (row.getRowNum() == 0 || row.getRowNum() == 1) {
+                    continue;
+                }
+                User user = new User();
+                int colNums = row.getLastCellNum();
+                for (int j = row.getFirstCellNum(); j < colNums; j++) {
+                    Cell cell = row.getCell(j, Row.RETURN_BLANK_AS_NULL);
+                    String value = null;
+                    if (cell != null) {
+                        //处理值;都转换成string之后进行具体解析
+                        value = dataFormatter.formatCellValue(cell).trim();
+                    }
+                    switch (j) {
+                        case 0:
+                            break;
+                        case 1:
+                            //账号名称
+                            checkCell(value, row.getRowNum(), j+1);
+                            user.setUserName(value);
+                            break;
+                        case 2:
+                            //姓名
+                            checkCell(value, row.getRowNum(), j+1);
+                            user.setName(value);
+                            break;
+                        case 3:
+                            //性别
+                            checkCell(value, row.getRowNum(), j+1);
+                            user.setGender(value.trim().equals("男") ? 0 : 1);
+                            break;
+                        case 4:
+                            //手机
+                            user.setPhone(value);
+                            break;
+                        case 5:
+                            //职务
+                            user.setJob(value);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                user.setOrgId(defaultUserDetails.getOrgId());
+                //默认权限
+                user.setAuthorities("110,210,220,230,240,250,260,270,280,310,320,330,410,420,430,510,520,530,540,810,820,830");
+                //密码默认为
+                user.setPwd("yunxiaoyuan");
+                userList.add(user);
+            }
+        }
+        if(userList.size() > 0) {
+            userService.insertUserList(userList);
+        }
+        return new JsonResponse(200, null, null);
+    }
 }
