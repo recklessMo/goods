@@ -17,6 +17,8 @@ import com.recklessmo.service.setting.GradeSettingService;
 import com.recklessmo.service.student.StudentService;
 import com.recklessmo.service.user.UserService;
 import com.recklessmo.util.ContextUtils;
+import com.sun.xml.internal.fastinfoset.alphabet.BuiltInRestrictedAlphabets;
+import com.sun.xml.internal.fastinfoset.sax.SystemIdResolver;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -199,7 +201,7 @@ public class FileUploadController {
     public JsonResponse studentFileUpload(@RequestParam("file") MultipartFile multipartFile) throws Exception {
         //处理excel文件
         DefaultUserDetails defaultUserDetails = ContextUtils.getLoginUserDetail();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         InputStream inputStream = multipartFile.getInputStream();
         DataFormatter dataFormatter = new DataFormatter();
         Workbook workbook = WorkbookFactory.create(inputStream);
@@ -209,10 +211,18 @@ public class FileUploadController {
         int totalSheets = workbook.getNumberOfSheets();
         if (totalSheets != 0) {
             Sheet sheet = workbook.getSheetAt(0);
+            int cnt = 10001;
             for (Row row : sheet) {
                 if (row.getRowNum() == 0) {
                     continue;
                 }
+                if ((row.getRowNum() - 1) % 7 != 0){
+                    continue;
+                }
+                if (row.getRowNum() >= 3000){
+                    break;
+                }
+                System.out.println("process row num ： " + row.getRowNum());
                 StudentInfo studentInfo = new StudentInfo();
                 int colNums = row.getLastCellNum();
                 for (int j = row.getFirstCellNum(); j < colNums; j++) {
@@ -223,9 +233,70 @@ public class FileUploadController {
                         value = dataFormatter.formatCellValue(cell).trim();
                     }
                     switch (j) {
+//                        case 0:
+//                            checkCell(value, row.getRowNum(), j+1);
+//                            studentInfo.setSid(value);
+//                            break;
+//                        case 1:
+//                            checkCell(value, row.getRowNum(), j+1);
+//                            studentInfo.setGradeName(value);
+//                            Long gradeId = gradeMap.get(value);
+//                            if(gradeId == null) {
+//                                throw new Exception("年级名称:" + value + " 不存在!");
+//                            }
+//                            studentInfo.setGradeId(gradeId);
+//                            break;
+//                        case 2:
+//                            checkCell(value, row.getRowNum(), j+1);
+//                            studentInfo.setClassName(value);
+//                            Long classId = classMap.get(studentInfo.getGradeName()+"_" + value);
+//                            if(classId == null) {
+//                                throw new Exception("班级名称:" + value + " 不存在!");
+//                            }
+//                            studentInfo.setClassId(classId);
+//                            break;
+//                        case 3:
+//                            checkCell(value, row.getRowNum(), j+1);
+//                            studentInfo.setName(value);
+//                            break;
+//                        case 4:
+//                            studentInfo.setOtherName(value);
+//                            break;
+//                        case 5:
+//                            studentInfo.setJob(value);
+//                            break;
+//                        case 6:
+//                            studentInfo.setPhone(value);
+//                            break;
+//                        case 7:
+//                            studentInfo.setScn(value);
+//                            break;
+//                        case 8:
+//                            checkCell(value, row.getRowNum(), j+1);
+//                            studentInfo.setGender("男".equals(value) ? 0 : 1);
+//                            break;
+//                        case 9:
+//                            studentInfo.setBirth(sdf.parse(value));
+//                            break;
+//                        case 10:
+//                            studentInfo.setBirthTown(value);
+//                            break;
+//                        case 11:
+//                            studentInfo.setPeople(value);
+//                            break;
+//                        case 12:
+//                            studentInfo.setHomeTown(value);
+//                            break;
+//                        case 13:
+//                            studentInfo.setAddress(value);
+//                            break;
+//                        case 14:
+//                            studentInfo.setQq(value);
+//                            break;
+//                        case 15:
+//                            studentInfo.setWechat(value);
+//                            break;
                         case 0:
-                            checkCell(value, row.getRowNum(), j+1);
-                            studentInfo.setSid(value);
                             break;
                         case 1:
                             checkCell(value, row.getRowNum(), j+1);
@@ -250,47 +321,27 @@ public class FileUploadController {
                             studentInfo.setName(value);
                             break;
                         case 4:
-                            studentInfo.setOtherName(value);
-                            break;
-                        case 5:
-                            studentInfo.setJob(value);
-                            break;
-                        case 6:
-                            studentInfo.setPhone(value);
-                            break;
-                        case 7:
-                            studentInfo.setScn(value);
-                            break;
-                        case 8:
                             checkCell(value, row.getRowNum(), j+1);
                             studentInfo.setGender("男".equals(value) ? 0 : 1);
                             break;
-                        case 9:
-                            studentInfo.setBirth(sdf.parse(value));
+//                        case 5:
+//                            studentInfo.setBirth(sdf.parse(value));
+//                            break;
+                        case 6:
+                            studentInfo.setOtherName(value);
                             break;
-                        case 10:
-                            studentInfo.setBirthTown(value);
-                            break;
-                        case 11:
-                            studentInfo.setPeople(value);
-                            break;
-                        case 12:
-                            studentInfo.setHomeTown(value);
-                            break;
-                        case 13:
-                            studentInfo.setAddress(value);
-                            break;
-                        case 14:
-                            studentInfo.setQq(value);
-                            break;
-                        case 15:
-                            studentInfo.setWechat(value);
+                        case 7:
+                            studentInfo.setPhone(value);
                             break;
                         default:
                             break;
                     }
                 }
                 studentInfo.setOrgId(defaultUserDetails.getOrgId());
+                String temp = "" + cnt;
+                cnt++;
+                studentInfo.setSid(studentInfo.getGradeName().substring(0, studentInfo.getGradeName().length() - 1) + temp.substring(1));
+                System.out.println("sid: " + studentInfo.getSid());
                 data.add(studentInfo);
             }
         }
