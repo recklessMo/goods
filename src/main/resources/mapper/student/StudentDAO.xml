@@ -4,11 +4,11 @@
 <mapper namespace="com.recklessmo.dao.student.StudentDAO">
 
     <sql id = "studentColumnsWithoutId">
-        org_id, sid, name, other_name,phone, scn, gender, birth, home_town, people, birth_town, address, qq, wechat, grade_id, class_id, job, wechat_id
+        org_id, sid, name, parent_name,phone, scn, gender, birth, home_town, people, birth_town, address, qq, wechat, grade_id, class_id, job, wechat_id
     </sql>
 
     <sql id = "studentColumns">
-        id, org_id, sid, name, other_name,phone, scn, gender, birth, home_town, people, birth_town, address, qq, wechat, grade_id, class_id, job, wechat_id
+        id, org_id, sid, name, parent_name,phone, scn, gender, birth, home_town, people, birth_town, address, qq, wechat, grade_id, class_id, job, wechat_id
     </sql>
 
     <insert id="insertStudentInfo" parameterType="com.recklessmo.model.student.StudentInfo">
@@ -17,7 +17,7 @@
         <include refid="studentColumnsWithoutId"/>
         )
         VALUES (
-        #{orgId}, #{sid},#{name}, #{otherName}, #{phone}, #{scn}, #{gender}, #{birth}, #{homeTown}, #{people}, #{birthTown}, #{address}, #{qq}, #{wechat}, #{gradeId}, #{classId}, #{job}, #{wechatId}
+        #{orgId}, #{sid},#{name}, #{parentName}, #{phone}, #{scn}, #{gender}, #{birth}, #{homeTown}, #{people}, #{birthTown}, #{address}, #{qq}, #{wechat}, #{gradeId}, #{classId}, #{job}, #{wechatId}
         )
     </insert>
 
@@ -28,7 +28,7 @@
         )
         VALUES
         <foreach collection="list" item="student" separator=",">
-            (#{student.orgId}, #{student.sid},#{student.name}, #{student.otherName},
+            (#{student.orgId}, #{student.sid},#{student.name}, #{student.parentName},
             #{student.phone}, #{student.scn}, #{student.gender},
             #{student.birth}, #{student.homeTown}, #{student.people},
             #{student.birthTown}, #{student.address}, #{student.qq},
@@ -39,7 +39,7 @@
 
     <update id="updateStudentInfo" parameterType="com.recklessmo.model.student.StudentInfo">
         update student set
-        org_id = #{orgId}, sid = #{sid}, name = #{name}, other_name = #{otherName},
+        org_id = #{orgId}, sid = #{sid}, name = #{name}, parent_name = #{parentName},
         phone = #{phone}, scn = #{scn}, gender=#{gender},
         birth = #{birth}, home_town=#{homeTown}, people=#{people},
         birth_town = #{birthTown}, address=#{address}, qq=#{qq},

@@ -19,7 +19,7 @@ public class StudentInfo {
     private long orgId;
     private String sid;
     private String name="";
-    private String otherName="";
+    private String parentName="";
     private String phone="";
     private String scn="";
     private int gender;
@@ -130,12 +130,12 @@ public class StudentInfo {
         this.name = name;
     }
 
-    public String getOtherName() {
-        return otherName;
+    public String getParentName() {
+        return parentName;
     }
 
-    public void setOtherName(String otherName) {
-        this.otherName = otherName;
+    public void setParentName(String parentName) {
+        this.parentName = parentName;
     }
 
     public String getPhone() {

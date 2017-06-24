@@ -328,7 +328,7 @@ public class FileUploadController {
 //                            studentInfo.setBirth(sdf.parse(value));
 //                            break;
                         case 6:
-                            studentInfo.setOtherName(value);
+                            studentInfo.setParentName(value);
                             break;
                         case 7:
                             studentInfo.setPhone(value);
