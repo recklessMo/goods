@@ -26,25 +26,33 @@
             <div class="col-md-6">
                 <div class="input-group">
                     <span class="input-group-addon" style="color:red">角色名称</span>
-                    <input ng-class="!user.userName?'field-dirty' : ''" type="text" class="form-control" ng-model="role.name"/>
+                    <input ng-class="!role.name?'field-dirty' : ''" type="text" class="form-control" ng-model="role.name"/>
                 </div>
             </div>
 
             <div class="col-md-6">
                 <div class="input-group">
                     <span class="input-group-addon" style="color:red">角色描述</span>
-                    <input ng-class="!user.pwd?'field-dirty' : ''" type="text" class="form-control" ng-model="role.detail">
+                    <input ng-class="!role.detail?'field-dirty' : ''" type="text" class="form-control" ng-model="role.detail">
                 </div>
             </div>
         </div>
 
+
         <div class="row" style="margin-top: 30px;">
-            <ui-select multiple ng-model="role.permissions" theme="bootstrap" close-on-select="false" title="选择权限" remove-selected="false">
-                <ui-select-match placeholder="选择权限">{{$item.name}};</ui-select-match>
-                <ui-select-choices repeat="permission.id in permissionList">
-                    <div ng-bind-html="permission.name"></div>
-                </ui-select-choices>
-            </ui-select>
+            <div class="col-md-12">
+                <label class="text-info">
+                    <span>II 权限列表</span>
+                </label>
+            </div>
+            <div class="col-md-12">
+                <ui-select multiple ng-model="role.authorities" theme="bootstrap" close-on-select="false" title="选择权限">
+                    <ui-select-match placeholder="选择权限">{{$item.name}};</ui-select-match>
+                    <ui-select-choices repeat="permission.id as permission in permissionList">
+                        <div ng-bind-html="permission.name"></div>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
         </div>
 
     </fieldset>
@@ -52,7 +60,7 @@
 
     <div class="row" style="text-align: center;margin-top:50px;">
         <div class="col-md-12" style="text-align: center;">
-            <button data-style="expand-left" ladda="loading" class="btn btn-primary" ng-click="save(user)" ng-if="type!=0">保存</button>
+            <button data-style="expand-left" ladda="loading" class="btn btn-primary" ng-click="save(role)" ng-if="type!=0">保存</button>
             <button class="btn btn-primary" ng-click="closeThisDialog('cancel')">取消</button>
         </div>
     </div>

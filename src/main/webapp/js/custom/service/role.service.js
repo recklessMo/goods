@@ -59,6 +59,14 @@
             });
         }
 
+        this.loadPermissions = function(){
+            return $http({
+                method: "POST",
+                url : "/v1/permission/list",
+                timeout: 10000
+            });
+        }
+
     }
 })
 ();

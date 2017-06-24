@@ -9,7 +9,7 @@
 
         $scope.tableParams = {page : 1, count : 10, searchStr: null};
 
-        $scope.activate = function() {
+       /* $scope.activate = function() {
             $scope.roleTableParams = new NgTableParams($scope.tableParams, {
                 getData: function ($defer, params) {
                     blockUI.start();
@@ -21,6 +21,27 @@
                     }).error(function () {
                         SweetAlert.error("网络问题,请稍后重试!");
                         blockUI.stop();
+                    });
+                }
+            });
+        }*/
+
+        $scope.activate = function() {
+            $scope.roleTableParams = new NgTableParams({}, {
+                getData: function (params) {
+                    blockUI.start();
+                    return RoleService.listRoles({page: params.page(), count: params.count(), searchStr: $scope.tableParams.searchStr}).then(function (data) {
+                        blockUI.stop();
+                        var result = data.data;
+                        if (result.status == 200) {
+                            params.total(result.totalCount);
+                            return result.data;
+                        }else{
+                            SweetAlert.error("服务器内部错误, 请联系客服!");
+                        }
+                    }, function(){
+                        blockUI.stop();
+                        SweetAlert.error("网络问题, 请稍后重试!");
                     });
                 }
             });

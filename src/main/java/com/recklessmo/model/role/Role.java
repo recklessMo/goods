@@ -10,7 +10,7 @@ public class Role {
     private long id;
     private String name;
     private String detail;
-    private String permissions;
+    private String permissions = "";
     private Date created;
     private Date updated;
 
