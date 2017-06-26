@@ -169,6 +169,11 @@
                 title: '作业布置',
                 templateUrl: helper.basepath('custom/assignment/assignment-list.html')
             })
+            .state('app.online-assignment', {
+                url: '/assignment',
+                title: '在线留作业',
+                templateUrl: helper.basepath('custom/assignment/assignment-pool.html')
+            })
             .state('app.todo', {
                 url: '/todo',
                 title: '待办事项',

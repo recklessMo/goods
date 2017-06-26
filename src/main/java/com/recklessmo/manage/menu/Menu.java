@@ -68,6 +68,8 @@ public class Menu{
             new Menu(810, "微信工具", "微信咨询", "#talk", "app.wechat-talk"),
             new Menu(820, "微信工具", "微信通知", "#notice", "app.wechat-notice"),
             new Menu(830, "微信工具", "作业布置", "#assignment", "app.assignment"),
+            new Menu(840, "微信工具", "在线作业", "#assignment", "app.online-assignment"),
+
 
 //            new Menu(601, "财务站", "学生财务", "icon-info", "app.todo"),
 
