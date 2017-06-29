@@ -438,18 +438,6 @@ public class ScoreAnalyseService {
     }
 
     /**
-     * 分析均分
-     *
-     * @param newScores
-     * @param templateId
-     * @return
-     */
-    public Object analyseAvg(List<Score> scoreList, long templateId) {
-        Map<String, CourseRank> rankMap = new HashMap<>();
-        return rankMap.values();
-    }
-
-    /**
      * 分析个人综合
      *
      * @param newScores

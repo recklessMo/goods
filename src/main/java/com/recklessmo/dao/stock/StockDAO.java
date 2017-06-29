@@ -18,7 +18,7 @@ public interface StockDAO {
     int listGoodsCount(GoodsPage page);
     void addGoods(Goods goods);
     void updateGoods(Goods goods);
-    void deleteGoods(@Param("id") long id, @Param("status")int status);
+    void deleteGoods(@Param("id") long id, @Param("orgId")long orgId, @Param("status")int status);
 
 
     List<Stock> listStock(StockPage page);
@@ -29,7 +29,7 @@ public interface StockDAO {
 
     void addStockItem(StockItem stockItem);
 
-    Stock getStock(@Param("id")long id);
+    Stock getStock(@Param("id")long id, @Param("orgId")long orgId);
 
     List<StockItem> getStockItemsByGoodsId(@Param("goodsId")long goodsId);
 

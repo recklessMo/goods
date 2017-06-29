@@ -12,6 +12,7 @@ public class Stock {
     public static String OUT = "出库";
 
     private long id;
+    private long orgId;
     private String stockType;
     private String category;
     private long userId;
@@ -29,6 +30,14 @@ public class Stock {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public long getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(long orgId) {
+        this.orgId = orgId;
     }
 
     public String getStockType() {

@@ -39,6 +39,8 @@ public class StockController {
     @ResponseBody
     @RequestMapping(value = "/goods/list", method = {RequestMethod.GET, RequestMethod.POST})
     public JsonResponse listGoods(@RequestBody GoodsPage page){
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
+        page.setOrgId(userDetails.getOrgId());
         int totalCount = stockService.listGoodsCount(page);
         List<Goods> data = stockService.listGoods(page);
         return new JsonResponse(200, data, totalCount);
@@ -47,9 +49,9 @@ public class StockController {
     @ResponseBody
     @RequestMapping(value = "/goods/add", method = {RequestMethod.GET, RequestMethod.POST})
     public JsonResponse addGoods(@RequestBody Goods goods){
-        //TODO 为了避免脏数据,可以采用annotation的方式来进行非空校验
         DefaultUserDetails defaultUserDetails = ContextUtils.getLoginUserDetail();
         goods.setInUserName(defaultUserDetails.getUsername());
+        goods.setOrgId(defaultUserDetails.getOrgId());
         stockService.addGoods(goods);
         return new JsonResponse(200, null, null);
     }
@@ -57,8 +59,8 @@ public class StockController {
     @ResponseBody
     @RequestMapping(value = "/goods/update", method = {RequestMethod.GET, RequestMethod.POST})
     public JsonResponse updateGoods(@RequestBody Goods goods){
-        //TODO 为了避免脏数据,可以采用annotation的方式来进行非空校验
         DefaultUserDetails defaultUserDetails = ContextUtils.getLoginUserDetail();
+        goods.setOrgId(defaultUserDetails.getOrgId());
         goods.setUpdated(new Date());
         stockService.updateGoods(goods);
         return new JsonResponse(200, null, null);
@@ -67,15 +69,15 @@ public class StockController {
     @ResponseBody
     @RequestMapping(value = "/goods/delete", method = {RequestMethod.GET, RequestMethod.POST})
     public JsonResponse deleteGoods(@RequestBody long id){
-        //TODO 为了避免脏数据,可以采用annotation的方式来进行非空校验
         DefaultUserDetails defaultUserDetails = ContextUtils.getLoginUserDetail();
-        stockService.deleteGoods(id);
+        stockService.deleteGoods(id, defaultUserDetails.getOrgId());
         return new JsonResponse(200, null, null);
     }
 
     @ResponseBody
     @RequestMapping(value = "/goods/history/list", method = {RequestMethod.GET, RequestMethod.POST})
     public JsonResponse listGoodsHistory(@RequestBody long goodsId){
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
         List<StockItem> data = stockService.getStockItemsByGoodsId(goodsId);
         return new JsonResponse(200, data, data.size());
     }
@@ -90,6 +92,8 @@ public class StockController {
     @ResponseBody
     @RequestMapping(value = "/in/list", method = {RequestMethod.GET, RequestMethod.POST})
     public JsonResponse listInStock(@RequestBody StockPage page){
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
+        page.setOrgId(userDetails.getOrgId());
         int count = stockService.listStockCount(page);
         List<Stock> data = stockService.listStock(page);
         return new JsonResponse(200, data, count);
@@ -98,8 +102,8 @@ public class StockController {
     @ResponseBody
     @RequestMapping(value = "/in/add", method = {RequestMethod.GET, RequestMethod.POST})
     public JsonResponse addInStock(@RequestBody Stock stock){
-        //TODO do some checking here to keep integrity
         DefaultUserDetails defaultUserDetails = ContextUtils.getLoginUserDetail();
+        stock.setOrgId(defaultUserDetails.getOrgId());
         stock.setUserId(defaultUserDetails.getId());
         stock.setUserName(defaultUserDetails.getUsername());
         stockService.addStock(stock);
@@ -109,7 +113,8 @@ public class StockController {
     @ResponseBody
     @RequestMapping(value = "/in/detail", method = {RequestMethod.GET, RequestMethod.POST})
     public JsonResponse listInStockDetail(@RequestBody long id){
-        Stock stock = stockService.getStockById(id);
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
+        Stock stock = stockService.getStockById(id, userDetails.getOrgId());
         return new JsonResponse(200, stock, null);
     }
 
@@ -141,7 +146,8 @@ public class StockController {
     @ResponseBody
     @RequestMapping(value = "/out/detail", method = {RequestMethod.GET, RequestMethod.POST})
     public JsonResponse listOutStockDetail(@RequestBody long id){
-        Stock stock = stockService.getStockById(id);
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
+        Stock stock = stockService.getStockById(id, userDetails.getOrgId());
         return new JsonResponse(200, stock, null);
     }
 

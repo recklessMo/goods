@@ -6,6 +6,7 @@ package com.recklessmo.model.stock;
 public class StockItem {
 
     private long id;
+    private long orgId;
     private long stockId;
     private String stockType;
     private String category;
@@ -14,6 +15,14 @@ public class StockItem {
     private int count;
 
     private Goods goods;
+
+    public long getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(long orgId) {
+        this.orgId = orgId;
+    }
 
     public long getId() {
         return id;

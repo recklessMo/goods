@@ -12,6 +12,7 @@ public class Goods {
 
 
     private long id;
+    private long orgId;
 
     //唯一确定一种物资
     private String name = "";
@@ -35,6 +36,13 @@ public class Goods {
     //备注
     private String comment = "";
 
+    public long getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(long orgId) {
+        this.orgId = orgId;
+    }
 
     public String getPym() {
         return pym;

@@ -18,17 +18,20 @@ import java.util.*;
 
 /**
  * Created by hpf on 8/29/16.
+ *
+ *
+ *  用于分析单场考试的一些情况
+ *
  */
 @Controller
 @RequestMapping("/v1/analyse")
-public class ScoreAnalyseController {
+public class ScoreAnalyseSingleController {
 
     @Resource
     private ScoreService scoreService;
 
     @Resource
     private ScoreAnalyseService scoreAnalyseService;
-
 
     /**
      *
@@ -89,61 +92,6 @@ public class ScoreAnalyseController {
         return new JsonResponse(200, obj, null);
     }
 
-    /**
-     *
-     * 分析均分
-     *
-     * @param examId
-     * @param templateId
-     * @return
-     */
-    @RequestMapping(value = "/avg", method = {RequestMethod.GET, RequestMethod.POST})
-    @ResponseBody
-    public JsonResponse analyzeAvg(@RequestParam("examId")long examId, @RequestParam("templateId")long templateId){
-        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
-        List<Score> scoreList = scoreService.loadScoreByExamId(userDetails.getOrgId(), examId);
-        Object obj = scoreAnalyseService.analyseAvg(scoreList, 0);
-        return new JsonResponse(200, obj, null);
-    }
-
-    /**
-     *
-     * 分析个人综合情况（done）
-     *
-     * @param examId
-     * @param templateId
-     * @return
-     */
-    @RequestMapping(value = "/self", method = {RequestMethod.GET, RequestMethod.POST})
-    @ResponseBody
-    public JsonResponse analyzeSelf(@RequestBody SelfModel selfModel){
-        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
-        List<Score> scoreList = scoreService.getScoreByExamIdAndSidList(selfModel.getExamId(), selfModel.getSidList());
-        Object obj = scoreAnalyseService.analyseSelf(userDetails.getOrgId(), scoreList, selfModel.getTemplateId());
-        return new JsonResponse(200, obj, null);
-    }
-
-
-    /**
-     *
-     * 分析两场考试的排名变化 done
-     *
-     * @param examIdList
-     * @return
-     */
-    @RequestMapping(value = "/rankchange", method = {RequestMethod.GET, RequestMethod.POST})
-    @ResponseBody
-    public JsonResponse analyzeRankChange(@RequestBody Long[] examIdList){
-        if(examIdList.length != 2){
-            return new JsonResponse(402, null, null);
-        }
-        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
-        List<Score> first = scoreService.loadScoreByExamId(userDetails.getOrgId(), examIdList[0]);
-        List<Score> second = scoreService.loadScoreByExamId(userDetails.getOrgId(), examIdList[1]);
-        Object obj = scoreAnalyseService.analyseRankChange(first, second);
-        return new JsonResponse(200, obj, null);
-    }
-
 
     /**
      *
@@ -159,45 +107,6 @@ public class ScoreAnalyseController {
         List<Score> examScore = scoreService.loadScoreByExamId(userDetails.getOrgId(), examId);
         Object obj = scoreAnalyseService.analyseAbsense(userDetails.getOrgId(), examScore);
         return new JsonResponse(200, obj, null);
-    }
-
-
-    /**
-     *
-     * 分析个人成绩趋势
-     *
-     * @param sid
-     * @param showType
-     * @param examType
-     * @return
-     */
-    @RequestMapping(value = "/trend", method = {RequestMethod.GET, RequestMethod.POST})
-    @ResponseBody
-    public JsonResponse analyzeTrend(@RequestBody TrendModel trendModel){
-        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
-        List<Score> scoreList = scoreService.getScoreListBySid(userDetails.getOrgId(), trendModel.getSid());
-        Object result = scoreAnalyseService.analyseTrend(trendModel.getExamTypes(), trendModel.getShowType(), scoreList);
-        return new JsonResponse(200, result, null);
-    }
-
-
-    /**
-     *
-     * 个人综合对比
-     *
-     * @param trendModel
-     * @return
-     */
-    @RequestMapping(value = "/contrast", method = {RequestMethod.GET, RequestMethod.POST})
-    @ResponseBody
-    public JsonResponse analyzeContrast(@RequestBody ContrastModel contrastModel){
-        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
-        if(contrastModel.getSidList().size() == 0){
-            return new JsonResponse(200, null, null);
-        }
-        List<Score> scoreList = scoreService.getScoreListBySidList(userDetails.getOrgId(), contrastModel.getSidList());
-        Object result = scoreAnalyseService.analyseContrast(contrastModel.getExamTypes(), contrastModel.getShowType(), scoreList);
-        return new JsonResponse(200, result, null);
     }
 
     /**

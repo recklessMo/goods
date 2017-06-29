@@ -47,8 +47,8 @@ public class StockService {
         stockDAO.updateGoods(goods);
     }
 
-    public void deleteGoods(long id){
-        stockDAO.deleteGoods(id, Goods.GOODS_DELETE);
+    public void deleteGoods(long id, long orgId){
+        stockDAO.deleteGoods(id, orgId, Goods.GOODS_DELETE);
     }
 
     /**
@@ -93,8 +93,8 @@ public class StockService {
      * @param id
      * @return
      */
-    public Stock getStockById(long id){
-        return stockDAO.getStock(id);
+    public Stock getStockById(long id, long orgId){
+        return stockDAO.getStock(id, orgId);
     }
 
     /**
