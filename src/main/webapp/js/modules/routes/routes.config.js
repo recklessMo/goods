@@ -84,6 +84,11 @@
                 title: '角色管理',
                 templateUrl: helper.basepath('custom/admin/role/role-list.html')
             })
+            .state('app.create-question', {
+                url: '/create-question',
+                title: '创建习题',
+                templateUrl: helper.basepath('custom/questionset/import-question.html')
+            })
             .state('app.exam', {
                 url: '/exam',
                 title: '考试管理',
