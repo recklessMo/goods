@@ -12,6 +12,7 @@
             <tr ng-repeat="item in $data" ng-dblclick="show(item.id)">
                 <td data-title="'角色ID'" style="text-align: center">{{item.id}}</td>
                 <td data-title="'角色名'" style="text-align: center">{{item.name}}</td>
+                <td data-title="'权限'" style="text-align: center">{{item.permissions}}</td>
                 <td data-title="'创建时间'" style="text-align: center">{{item.created | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                 <td data-title="'描述'" style="text-align: center">{{item.detail}}</td>
                 <td data-title="'操作'" style="text-align: center">

@@ -21,6 +21,7 @@ public class Menu{
 //            new Menu(900, null, "财务站", "icon-settings", null),
 //            new Menu(1000, null, "个人中心", "icon-info", null),
             new Menu(1100, null, "学校设置", "#admin", null),
+            new Menu(1200, null, "习题库", "#stock", null),
             new Menu(10000, null, "超管站", "#admin", null),
 
 
@@ -79,9 +80,12 @@ public class Menu{
             new Menu(1110, "学校设置", "帐号管理", "#account", "app.account"),
             new Menu(1120, "学校设置", "教务设置", "#eduSetting", "app.edu-setting"),
             new Menu(1130, "学校设置", "账号导入", "#account", "app.account-import"),
+            new Menu(1140, "学校设置", "角色管理", "#account", "app.role"),
 //            new Menu(803, "管理站", "学校设置", "icon-wrench", "app.edu-setting"),
 //            new Menu(804, "管理站", "校内广播", "icon-wrench", "app.edu-setting"),
 //            new Menu(805, "管理站", "家长群发", "icon-wrench", "app.parents-wechat")
+
+            new Menu(1210, "习题库", "创建习题", "#assignment", "app.create-question"),
 
             new Menu(10010, "超管站", "机构管理", "#account", "app.org-list")
 
