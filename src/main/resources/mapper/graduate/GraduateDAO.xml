@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.recklessmo.dao.graduate.GraduateDAO">
+
+    <sql id="columns">
+        id, org_id, sid, name, detail, op_id, op_name, created, deleted
+    </sql>
+
+    <select id="listGraduate" resultType="com.recklessmo.model.graduate.Graduate">
+        select
+        <include refid="columns"/>
+        from graduate
+        where org_id = #{orgId} and sid = #{sid} and deleted = 0
+        order by created desc
+    </select>
+
+    <insert id="addGraduate" parameterType="com.recklessmo.model.graduate.Graduate">
+        insert into graduate
+        (
+          org_id, sid, name, detail, op_id, op_name,  created, deleted
+        )
+        values
+        (
+          #{orgId}, #{sid}, #{name}, #{detail}, #{opId}, #{opName}, #{created}, #{deleted}
+        )
+    </insert>
+
+    <update id="updateGraduate" parameterType="com.recklessmo.model.graduate.Graduate">
+        update graduate set
+        name = #{name}, detail = #{detail}, op_id = #{opId}, op_name = #{opName}, deleted = #{deleted}
+        where id = #{id}
+    </update>
+
+    <update id="deleteGraduate">
+        update graduate set
+        deleted = 1
+        where id = #{id}
+    </update>
+
+</mapper>

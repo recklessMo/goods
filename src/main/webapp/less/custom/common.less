@@ -13,6 +13,19 @@
   width: 50%;
 }
 
+//对话框外层
+.ngdialog.ngdialog-theme-default.custom-width-1200{
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+//对话框内容
+.ngdialog.ngdialog-theme-default.custom-width-1200 .ngdialog-content{
+  padding-top:20px;
+  padding-bottom:20px;
+  width: 65%;
+}
+
 .ngdialog.ngdialog-theme-default.max-dialog{
   padding-top:20px;
   padding-bottom:20px;
@@ -27,7 +40,7 @@
 
 //tab的样式
 .tab-full-content .tab-content{
-  padding-top:10px;
+  padding:10px 0px 0px 0px;
   height: ~"calc(100% - (45px))";
   border-style: none;
 }
@@ -75,24 +88,179 @@
 
 
 .info-block{
-  display: inline-flex;
+  display: flex;
   align-items: center;
   margin-bottom: 15px;
+  height: 30px;
 }
 
 .info-item{
-  width: 100%;
   color: #101B34;
+  width: 180px;
 }
 
 .info-block .label{
   color: black;
   font-size: 13px;
-  min-width: 90px;
+  min-width: 80px;
 }
 
 .arrow-button{
   position:absolute;
   display: inline-flex;
   align-items: center;
+  text-align: center;
 }
+
+.arrow-button:hover{
+  background-image: linear-gradient(to top,transparent,transparent,#fff,#d2e9ff,#acd6ff,#4b91ea,#acd6ff,#d2e9ff,#fff,transparent,transparent);
+}
+
+//聊天的气泡效果
+.bubble-left-content {
+  display: inline-block;
+  background-color: #f1f4f6;
+  padding: 7px!important;
+  margin-left: 13px;
+  margin-right: 17px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  position: relative;
+  color: #444;
+  font-size: 14px;
+}
+
+.bubble-right-content {
+  max-width: 97%;
+  display: inline-block;
+  background-color: #d4faae;
+  padding: 7px!important;
+  margin-left: 1px;
+  margin-right: 13px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  position: relative;
+  color: #000;
+  font-size: 14px;
+  border: 1px solid #c2e79d
+}
+
+.bubble-left-content:before {
+  position: absolute;
+  content: "\00a0";
+  width: 0;
+  height: 0;
+  border-width: 2px 12px 13px 0;
+  border-style: solid;
+  border-color: #f1f4f6 #f1f4f6 transparent transparent;
+  top: 12px;
+  left: -12px;
+}
+
+.bubble-right-content:before {
+  position: absolute;
+  content: "\00a0";
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-width: 2px 0 13px 12px;
+  border-style: solid;
+  border-color: #d4faae transparent transparent #d4faae;
+  right: -12px;
+  top: 12px
+}
+
+.wechat-input-area{
+  height: 30%;
+  width: 100%;
+}
+
+.recent-msg-base-info{
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
+  width: 100%
+}
+
+.recent-msg-last-content{
+  height: 18px;
+  text-align: left;
+  font-size: 12px;
+  color: gray;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 90%
+}
+
+.wechat-tab-full-content .tab-content{
+  padding:10px 0px 0px 0px;
+  height: ~"calc(100% - (45px))";
+  border-style: none;
+}
+
+.wechat-tab-full-content .tab-pane{
+  height: 100%;
+  overflow: auto;
+}
+
+.wechat-tab-full-content table thead {
+  display: none
+}
+
+.wechat-tab-full-content table tbody tr td{
+  width: 100%;
+  border: none!important;
+  padding: 8px 15px!important;
+}
+
+.wechat-tab-full-content table tbody tr td .recent-msg-base-info span:first-of-type {
+  font-size: 14px;
+  font-weight: 700;
+  display: inline-block;
+  width: 50%;
+  text-align: left
+}
+
+.wechat-tab-full-content table tbody tr td .recent-msg-base-info span:last-of-type {
+  font-size: 12px;
+  color: #a9a9a9;
+  display:inline-block;
+  width: 50%;
+  text-align: right
+}
+
+.wechat-tab-full-content table tbody tr td:hover {
+  background: #EDF6FF
+}
+
+.all-user-info {
+  text-align: left;
+  display: flex;
+  align-items: center;
+}
+
+.all-user-info .user-name{
+  width: 70%;
+  display: inline-block;
+}
+
+.all-user-info bind-status{
+  width: 30%;
+  display: inline-block;
+}
+
+.all-user-info unbind-status{
+  width: 30%;
+  display: inline-block;
+}
+
+
+
+//用于大表格
+.fixed-table th{
+    width: 100px;
+}
+

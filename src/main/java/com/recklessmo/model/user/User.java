@@ -11,16 +11,24 @@ public class User {
     public static int FEMALE = 1;
 
     private long id;
+    private long orgId;
     private String userName;
     private String pwd;
     private String name;
     private String phone;
     private String email = "";
-    private int gender;
+    private int gender = 0;
     private String job = "";
     private String authorities = "";
     private Date created;
 
+    public long getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(long orgId) {
+        this.orgId = orgId;
+    }
 
     public Date getCreated() {
         return created;

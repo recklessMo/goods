@@ -26,15 +26,15 @@
 
         $scope.stockItemTableParams = new NgTableParams({}, {
             counts: [],
-            getData: function($defer, params){
+            getData: function(params){
                 block.start();
-                StockService.getStock($scope.stock.id).success(function(data){
+                StockService.getStock($scope.stock.id).then(function(data){
+                    block.stop();
                     if(data.status == 200){
                         $scope.stockItems = data.data.items;
-                        $defer.resolve($scope.stockItems);
-                        block.stop();
+                        return $scope.stockItems;
                     }
-                }).error(function(){
+                }, function(){
                     block.stop();
                     SweetAlert.error("获取详细记录失败!");
                     $scope.closeThisDialog("ok");

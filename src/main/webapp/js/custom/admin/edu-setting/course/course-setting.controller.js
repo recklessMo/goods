@@ -9,11 +9,11 @@
 
         $scope.tableParams = {
             page : 1,
-            count: 20
+            count: 200
         };
 
         $scope.activate = function() {
-            $scope.courseTableParams = new NgTableParams({}, {
+            $scope.courseTableParams = new NgTableParams($scope.tableParams, {
                 getData: function(params){
                     blockUI.start();
                     return SettingService.listCourse({page:params.page(), count:params.count()}).then(function(data){
@@ -36,12 +36,11 @@
         $scope.activate();
 
         //年级操作
-        $scope.addCourse = function(){
+        $scope.importCourse = function(){
             var dialog= ngDialog.open({
-                template: 'app/views/custom/admin/edu-setting/course/edit-course.html',
-                controller: 'EditCourseController',
+                template: 'app/views/custom/admin/edu-setting/course/import-course.html',
+                controller: 'ImportCourseController',
                 className: 'ngdialog-theme-default custom-width-800',
-                data : {type: 'add'}
             });
             dialog.closePromise.then(function(data){
                 if(data.value != 'reload'){
@@ -51,20 +50,32 @@
             });
         }
 
-        $scope.editCourse = function(course){
-            var dialog= ngDialog.open({
-                template: 'app/views/custom/admin/edu-setting/course/edit-course.html',
-                controller: 'EditCourseController',
-                className: 'ngdialog-theme-default custom-width-800',
-                data : {type: 'edit', course : course}
-            });
-            dialog.closePromise.then(function(data){
-                if(data.value != 'reload'){
-                    return;
+        $scope.deleteCourse = function(id){
+            SweetAlert.swal({
+                title: '确认删除?',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#DD6B55',
+                confirmButtonText: '是',
+                cancelButtonText: '否',
+                closeOnConfirm: true,
+                closeOnCancel: true
+            }, function(isConfirm){
+                if (isConfirm) {
+                    blockUI.start();
+                    SettingService.deleteCourse(id).success(function () {
+                        Notify.alert("删除成功!", {status:"success", timeout: 3000});
+                        $scope.courseTableParams.reload();
+                        blockUI.stop();
+                    }).error(function(){
+                        blockUI.stop();
+                        SweetAlert.error("网络问题, 请稍后重试!");
+                    });
                 }
-                $scope.courseTableParams.reload();
             });
         }
+
+
 
     }
 })();

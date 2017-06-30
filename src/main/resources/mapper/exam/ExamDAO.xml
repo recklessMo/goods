@@ -3,27 +3,86 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.recklessmo.dao.exam.ExamDAO">
 
-    <sql id = "examColumns">
-        exam_id, exam_name, grade_id, class_id, type, upload_status
+    <sql id="examColumns">
+        exam_id, exam_name, exam_time, grade_id, class_id, exam_type, last_update_time, upload_status, course_str, op_id, op_name, deleted
     </sql>
 
     <select id="listExam" resultType="com.recklessmo.model.exam.Exam">
-      select
-      <include refid="examColumns"/>
-      from exam
-      <if test="null != searchStr and '' != searchStr">
-        where exam_name like "%"#{searchStr}"%"
-      </if>
-      limit #{startIndex}, #{count}
+        select
+        <include refid="examColumns"/>
+        from exam
+        <where>
+            deleted = 0
+            <if test="0 != gradeId">
+                and grade_id = #{gradeId}
+            </if>
+            <if test="0 != classId">
+                and class_id = #{classId}
+            </if>
+            <if test="null != examType and '全部' != examType">
+                and exam_type = #{examType}
+            </if>
+            <if test="null != searchStr and '' != searchStr">
+                and exam_name like "%"#{searchStr}"%"
+            </if>
+        </where>
+        limit #{startIndex}, #{count}
     </select>
 
     <select id="listExamCount" resultType="java.lang.Integer">
         select count(1)
         from exam
-        <if test="null != searchStr and '' != searchStr">
-            where exam_name like "%"#{searchStr}"%"
-        </if>
+        <where>
+            deleted = 0
+            <if test="0 != gradeId">
+                and grade_id = #{gradeId}
+            </if>
+            <if test="0 != classId">
+                and class_id = #{classId}
+            </if>
+            <if test="null != examType and '全部' != examType">
+                and exam_type = #{examType}
+            </if>
+            <if test="null != searchStr and '' != searchStr">
+                and exam_name like "%"#{searchStr}"%"
+            </if>
+        </where>
     </select>
 
+    <insert id="addExam" parameterType="com.recklessmo.model.exam.Exam">
+        insert into exam
+        (
+          org_id, exam_name, exam_time, grade_id, class_id, exam_type, upload_status, course_str, op_id, op_name, deleted
+        )
+        values(
+          #{orgId}, #{examName}, #{examTime}, #{gradeId}, #{classId}, #{examType}, #{uploadStatus}, #{courseStr}, #{opId}, #{opName}, #{deleted}
+        )
+    </insert>
+
+    <update id="updateExamStatus">
+        update exam set upload_status = #{status}, last_update_time = #{time} where exam_id = #{id}
+    </update>
+
+    <update id="deleteExam">
+        update exam set deleted = 1 where exam_id = #{id} and org_id = #{orgId}
+    </update>
+
+    <select id="getExamById" resultType="com.recklessmo.model.exam.Exam">
+        select
+        <include refid="examColumns"/>
+        from exam
+        where exam_id = #{id} and org_id = #{orgId}
+    </select>
+    
+    <select id="getExamByIdList" resultType="com.recklessmo.model.exam.Exam">
+        SELECT
+        <include refid="examColumns"/>
+        from exam
+        where org_id = #{orgId} and deleted = 0
+        and exam_id in
+        <foreach collection="idList" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
 
 </mapper>

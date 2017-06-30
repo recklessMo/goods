@@ -93,6 +93,19 @@
             });
         }
 
+        //修改密码
+        $scope.changePwd = function (userId){
+            var dialog= ngDialog.open({
+                template: 'app/views/custom/admin/account/edit-pwd.html',
+                controller: 'EditPwdController',
+                className: 'ngdialog-theme-default custom-width-800',
+                data : {id:userId}
+            });
+            dialog.closePromise.then(function(data){
+            });
+        };
+
+
         //添加用户
         $scope.add = function(userId){
             var dialog= ngDialog.open({

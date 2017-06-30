@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.recklessmo.dao.assignment.AssignmentDAO">
+
+    <sql id="assignmentColumns">
+        id, org_id, op_id, op_name, name, course_name, course_id, grade_id, class_id, content, created, submit, total_count
+    </sql>
+
+    <insert id="addAssignment" parameterType="com.recklessmo.model.assignment.Assignment">
+        insert into assignment
+        (org_id, op_id, op_name, name, course_name, course_id, grade_id, class_id, content, created, submit, total_count)
+        values(
+        #{orgId}, #{opId}, #{opName}, #{name}, #{courseName}, #{courseId}, #{gradeId}, #{classId}, #{content}, #{created}, #{submit}, #{totalCount}
+        )
+    </insert>
+
+    <select id="listAssignment" resultType="com.recklessmo.model.assignment.Assignment">
+        select
+        <include refid="assignmentColumns"/>
+        from assignment
+        where org_id = #{orgId}
+        <if test="gradeId != null and gradeId != 0">
+            and grade_id = #{gradeId}
+        </if>
+        <if test="classId != null and classId != 0">
+            and class_id = #{classId}
+        </if>
+        order by created desc
+        limit #{startIndex}, #{count}
+    </select>
+
+    <select id="getAssignment" resultType="com.recklessmo.model.assignment.Assignment">
+        SELECT
+        <include refid="assignmentColumns"/>
+        from assignment
+        where id = #{id} and org_id = #{orgId}
+    </select>
+
+    <select id="listAssignmentCount" resultType="java.lang.Integer">
+        select count(1)
+        from assignment
+        where grade_id = #{gradeId} and class_id = #{classId}
+    </select>
+
+    <delete id="deleteAssignment">
+        delete from assignment where id = #{id} and org_id = #{orgId}
+    </delete>
+
+
+</mapper>

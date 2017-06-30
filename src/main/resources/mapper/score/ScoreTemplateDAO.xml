@@ -4,7 +4,7 @@
 <mapper namespace="com.recklessmo.dao.score.ScoreTemplateDAO">
 
     <sql id = "columns">
-        id, name, detail
+        id, name, type, detail, created, updated
     </sql>
 
     <select id="getById" resultType="com.recklessmo.model.score.ScoreTemplate">
@@ -15,21 +15,22 @@
     </select>
 
     <insert id="addTemplate" parameterType="com.recklessmo.model.score.ScoreTemplate">
-        insert into score_template(name, detail)
-        values(#{name}, #{detail})
+        insert into score_template(name, detail, created, type)
+        values(#{name}, #{detail}, now(), #{type})
         <selectKey keyProperty="id" resultType="long">
             <![CDATA[SELECT LAST_INSERT_ID() AS id ]]>
         </selectKey>
     </insert>
 
     <update id="updateTemplate" parameterType="com.recklessmo.model.score.ScoreTemplate">
-        update score_template set name = #{name}, detail = #{detail} where id = #{id}
+        update score_template set name = #{name}, detail = #{detail}, type=#{type}, updated = #{updated} where id = #{id}
     </update>
 
     <select id="getList" resultType="com.recklessmo.model.score.ScoreTemplate">
         select
         <include refid="columns"/>
         from score_template
+        where type = #{type}
         limit #{startIndex},#{count}
     </select>
 
@@ -42,5 +43,12 @@
         delete from score_template where id = #{id}
     </update>
 
+    <update id="cancelDefault">
+        update score_template set status = 0 where type = #{type}
+    </update>
+
+    <update id="makeDefault">
+        update score_template set status = 1 where id = #{id}
+    </update>
 
 </mapper>

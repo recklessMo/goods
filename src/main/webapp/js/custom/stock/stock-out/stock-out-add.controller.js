@@ -34,8 +34,8 @@
 
         $scope.stockItemTableParams = new NgTableParams({}, {
             counts: [],
-            getData: function($defer, params){
-                $defer.resolve($scope.stockItems);
+            getData: function(params){
+                return $scope.stockItems;
             }
         });
 

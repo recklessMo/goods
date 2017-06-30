@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>个人信息</title>
+    <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.0/style/weui.min.css">
+</head>
+<body>
+
+<div id="info">
+    <div class="weui-cells__title">基本信息</div>
+    <div class="weui-cells">
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <p>姓名</p>
+            </div>
+            <div class="weui-cell__ft">{{studentInfo.name}}</div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <p>性别</p>
+            </div>
+            <div class="weui-cell__ft">{{studentInfo.sex == 0 ? '男' : '女'}}</div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <p>出生年月</p>
+            </div>
+            <div class="weui-cell__ft">{{studentInfo.birth}}</div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <p>电话</p>
+            </div>
+            <div class="weui-cell__ft">{{studentInfo.phone}}</div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <p>户口</p>
+            </div>
+            <div class="weui-cell__ft">{{studentInfo.birthTown}}</div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <p>籍贯</p>
+            </div>
+            <div class="weui-cell__ft">{{studentInfo.homeTown}}</div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <p>民族</p>
+            </div>
+            <div class="weui-cell__ft">{{studentInfo.people}}</div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <p>班内职务</p>
+            </div>
+            <div class="weui-cell__ft">{{studentInfo.job}}</div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <p>qq号码</p>
+            </div>
+            <div class="weui-cell__ft">{{studentInfo.qq}}</div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <p>微信号码</p>
+            </div>
+            <div class="weui-cell__ft">{{studentInfo.wechat}}</div>
+        </div>
+    </div>
+    <div class="weui-cells__title">教育信息</div>
+    <div class="weui-cells">
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <p>学号</p>
+            </div>
+            <div class="weui-cell__ft">{{studentInfo.sid}}</div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <p>年级</p>
+            </div>
+            <div class="weui-cell__ft">{{studentInfo.gradeName}}|{{studentInfo.gradeOtherName}}</div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <p>班级</p>
+            </div>
+            <div class="weui-cell__ft">{{studentInfo.className}}</div>
+        </div>
+    </div>
+    <div class="weui-footer">
+        <p class="weui-footer__links">
+            <a href="javascript:home();" class="weui-footer__link">了解我们</a>
+        </p>
+        <p class="weui-footer__text">Copyright © 2016-2017 云校园科技平台</p>
+    </div>
+</div>
+
+<script src="//cdn.bootcss.com/vue/2.2.4/vue.min.js"></script>
+
+<script type="text/javascript">
+    var info = $studentInfo;
+    new Vue({
+        el: '#info',
+        data: {
+            studentInfo : info
+        }
+    })
+</script>
+
+</body>
+</html>

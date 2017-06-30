@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>自助绑定</title>
+    <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.0/style/weui.min.css">
+    <style>
+        .page__hd {
+            padding: 40px
+        }
+
+        .page__title {
+            text-align: left;
+            font-size: 20px;
+            font-weight: 400
+        }
+
+        .page__desc {
+            margin-top: 5px;
+            color: #888;
+            text-align: left;
+            font-size: 14px
+        }
+    </style>
+</head>
+<body>
+
+<div id="register">
+    <div class="page__hd">
+        <h1 class="page__title">绑定提示</h1>
+        <p class="page__desc">请使用学生姓名和在学校登记的家长手机号码进行自助绑定，如果提示手机号码未登记，请联系老师进行登记！</p>
+    </div>
+    <form novalidate v-on:submit.prevent="onSubmit">
+        <div class="weui-cells weui-cells_form">
+            <div class="weui-cell">
+                <div class="weui-cell__hd">
+                    <label class="weui-label">姓名</label>
+                </div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="text" placeholder="请输入姓名" v-model="name">
+                </div>
+            </div>
+            <div class="weui-cell weui-cell_vcode">
+                <div class="weui-cell__hd">
+                    <label class="weui-label">手机号</label>
+                </div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="tel" placeholder="请输入手机号" v-model="phone">
+                </div>
+                <div class="weui-cell__ft">
+                    <button class="weui-vcode-btn" @click="getSmsCode">获取验证码</button>
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">验证码</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="number" placeholder="请输入验证码" v-model="smsCode">
+                </div>
+            </div>
+        </div>
+        <div class="weui-btn-area">
+            <a class="weui-btn weui-btn_primary" href="javascript:" id="showTooltips">提交</a>
+        </div>
+    </form>
+</div>
+
+<script src="https://cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/vue/1.0.26/vue.min.js"></script>
+
+<script type="text/javascript">
+    new Vue({
+        el: '#register',
+        data: {
+            name: '',
+            phone: '',
+            smsCode: ''
+        },
+        methods: {
+            //获取验证码
+            getSmsCode: function () {
+                //时间限制
+                var timeNumber = 60;
+                this.buttonText = timeNumber + 's后重发';
+                this.codeButtonDisable = true;
+                var me = this;
+                var intervalEvent = setInterval(function () {
+                    timeNumber--;
+                    if (timeNumber <= 0) {
+                        clearInterval(intervalEvent);
+                        me.buttonText = "获取验证码";
+                        me.codeButtonDisable = false;
+                    } else {
+                        me.buttonText = timeNumber + 's后重发';
+                    }
+                }, 1000);
+                jQuery.ajax({
+                    url: "/public/wechat/sendSmsCode?name=" + me.name + "&phone=" + me.phone,
+                    method: "get"
+                }).done(function (data) {
+                    if (data.status != 200) {
+                    } else {
+                    }
+                }).fail(function (error) {
+                });
+            },
+
+            //提交
+            onSubmit: function () {
+                var me = this;
+                //绑定操作
+                jQuery.ajax({
+                    url: "/public/wechat/selfBind?name=" + me.name + "&phone=" + me.phone + "&smsCode=" + me.smsCode,
+                    method: "get"
+                }).done(function (data) {
+                    if (data.status != 200) {
+
+                    } else {
+                        window.location.href = "/public/wechat/menu/1";
+                    }
+                }).fail(function (error) {
+                });
+            }
+        }
+    })
+</script>
+</body>
+</html>

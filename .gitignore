@@ -6,4 +6,7 @@
 /src/main/webapp/vendor
 /out
 /.idea
+/.gradle
 /target
+/goods.ipr
+/goods.iws

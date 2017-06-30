@@ -1,0 +1,116 @@
+<div ng-controller="QuestionImportController" class="container-fluid" style="height: 100%;overflow:auto;">
+    <div class="row" style="margin-left: 0px;margin-right: 0px;">
+        <div class="col-lg-12" style="padding-left:0px;padding-right:0px;">
+            <div class="panel panel-default" style="border:none;">
+                <div class="panel-heading" style="font-size:15px;font-weight: bold;">
+                    ➡️录入习题
+                    <div class="pull-right">
+                        <button ng-click="save()" class="btn btn-info">保存</button>
+                    </div>
+                </div>
+                <div class="panel-body" style="padding-top:0px;">
+                    <form method="get" action="/" class="form-horizontal">
+
+                        <hr/>
+                        <h5>⭐️ 选择题型</h5>
+                        <div class="form-group from-inline">
+                            <label class="col-md-1 control-label">题型</label>
+                            <div class="col-md-2" style="padding-left: 0px">
+                                <ui-select ng-model="questionset.type" theme="bootstrap"
+                                           class="text-left" style="width:100%;" on-select="selectGrade($item)">
+                                    <ui-select-match placeholder="选择题型">{{$select.selected.typeName}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="type.typeId as type in typeList">
+                                        <span ng-bind-html="type.typeName"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+
+                        <hr/>
+                        <h5>⭐️ 所属大纲</h5>
+                        <div class="form-group from-inline">
+                            <label class="col-md-1 control-label">年级</label>
+                            <div class="col-md-2" style="padding-left: 0px">
+                                <ui-select ng-model="questionset.grade" theme="bootstrap"
+                                           class="text-left" style="width:100%;" on-select="selectGrade($item)">
+                                    <ui-select-match placeholder="选择年级">{{$select.selected.gradeName}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="grade.gradeId as grade in gradeList">
+                                        <span ng-bind-html="grade.gradeName"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                            <label class="col-md-1 control-label">科目</label>
+                            <div class="col-md-2" style="padding-left: 0px">
+                                <ui-select ng-model="questionset.course" theme="bootstrap"
+                                           class="text-left" style="width:100%;" on-select="selectGrade($item)">
+                                    <ui-select-match placeholder="选择科目">{{$select.selected.courseName}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="course.courseId as course in courseList">
+                                        <div ng-bind-html="course.courseName"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                            <label class="col-md-1 control-label">章节</label>
+                            <div class="col-md-2" style="padding-left: 0px">
+                                <ui-select ng-model="questionset.section" theme="bootstrap"
+                                           class="text-left" style="width:100%;" on-select="selectGrade($item)">
+                                    <ui-select-match placeholder="选择章节">{{$select.selected.sectionName}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="section.sectionId as section in sectionList">
+                                        <span ng-bind-html="section.sectionName"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+
+                        <hr/>
+                        <h5>⭐ 题干内容</h5>
+                        <div class="form-group from-inline">
+                            <label class="col-md-1 control-label">题干</label>
+                            <div class="col-md-2" style="padding-left: 0px">
+                                <textarea type="text" style="width:500px; height:80px" class="form-control" ng-model="questionset.question"/>
+                            </div>
+                        </div>
+
+
+                        <hr/>
+                        <h5>⭐ 习题选项</h5>
+                        <div class="form-group from-inline">
+                            <label class="col-md-1 control-label">A</label>
+                            <div class="col-md-2" style="padding-left: 0px">
+                                <input type="text" class="form-control" ng-model="questionset.optionA"/>
+                            </div>
+
+                            <label class="col-md-1 control-label">B</label>
+                            <div class="col-md-2" style="padding-left: 0px">
+                                <input type="text" class="form-control" ng-model="questionset.optionB"/>
+                            </div>
+
+                            <label class="col-md-1 control-label">C</label>
+                            <div class="col-md-2" style="padding-left: 0px">
+                                <input type="text" class="form-control" ng-model="questionset.optionC"/>
+                            </div>
+
+                            <label class="col-md-1 control-label">D</label>
+                            <div class="col-md-2" style="padding-left: 0px">
+                                <input type="text" class="form-control" ng-model="questionset.optionD"/>
+                            </div>
+                        </div>
+
+                        <hr/>
+                        <h5>✅ 正确答案</h5>
+                        <div class="form-group from-inline">
+                            <label class="col-md-1 control-label">正确答案</label>
+                            <div class="col-md-2" style="padding-left: 0px">
+                                <input type="text" class="form-control" ng-model="questionset.answer"/>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

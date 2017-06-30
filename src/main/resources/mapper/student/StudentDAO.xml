@@ -2,41 +2,143 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.recklessmo.dao.student.StudentDAO">
-    <sql id = "baseInfoColumns">
-        id, sid, name, phone, gender
+
+    <sql id = "studentColumnsWithoutId">
+        org_id, sid, name, other_name,phone, scn, gender, birth, home_town, people, birth_town, address, qq, wechat, grade_id, class_id, job, wechat_id
     </sql>
 
-    <sql id = "studentAddColumns">
-        sid, name, other_name,phone, scn, gender, birth, home_town, people, birth_town, address, qq, wechat, grade_id, grade_name, class_id, class_name, job
+    <sql id = "studentColumns">
+        id, org_id, sid, name, other_name,phone, scn, gender, birth, home_town, people, birth_town, address, qq, wechat, grade_id, class_id, job, wechat_id
     </sql>
 
-    <insert id="insertStudentAddInfo" parameterType="com.recklessmo.model.student.StudentAddInfo">
+    <insert id="insertStudentInfo" parameterType="com.recklessmo.model.student.StudentInfo">
         insert into student
         (
-        <include refid="studentAddColumns"/>
+        <include refid="studentColumnsWithoutId"/>
         )
         VALUES (
-        #{sid},#{name}, #{otherName}, #{phone}, #{scn}, #{gender}, #{birth}, #{homeTown}, #{people}, #{birthTown}, #{address}, #{qq}, #{wechat}, #{gradeId}, #{gradeName}, #{classId}, #{className}, #{job}
+        #{orgId}, #{sid},#{name}, #{otherName}, #{phone}, #{scn}, #{gender}, #{birth}, #{homeTown}, #{people}, #{birthTown}, #{address}, #{qq}, #{wechat}, #{gradeId}, #{classId}, #{job}, #{wechatId}
         )
     </insert>
 
-    <sql id="byPageQuery">
+    <insert id="insertStudentList" parameterType="com.recklessmo.model.student.StudentInfo">
+        insert into student
+        (
+        <include refid="studentColumnsWithoutId"/>
+        )
+        VALUES
+        <foreach collection="list" item="student" separator=",">
+            (#{student.orgId}, #{student.sid},#{student.name}, #{student.otherName},
+            #{student.phone}, #{student.scn}, #{student.gender},
+            #{student.birth}, #{student.homeTown}, #{student.people},
+            #{student.birthTown}, #{student.address}, #{student.qq},
+            #{student.wechat}, #{student.gradeId},#{student.classId},
+            #{student.job}, #{student.wechatId})
+        </foreach>
+    </insert>
 
+    <update id="updateStudentInfo" parameterType="com.recklessmo.model.student.StudentInfo">
+        update student set
+        org_id = #{orgId}, sid = #{sid}, name = #{name}, other_name = #{otherName},
+        phone = #{phone}, scn = #{scn}, gender=#{gender},
+        birth = #{birth}, home_town=#{homeTown}, people=#{people},
+        birth_town = #{birthTown}, address=#{address}, qq=#{qq},
+        wechat=#{wechat},grade_id=#{gradeId},class_id=#{classId},
+        job=#{job}, wechat_id = #{wechatId}
+        where id = #{id}
+    </update>
+
+    <sql id="byPageQuery">
+        where org_id = #{orgId}
+        <if test="gradeId != null and gradeId != 0">
+            and grade_id = #{gradeId}
+        </if>
+        <if test="classId != null and classId != 0">
+            and class_id = #{classId}
+        </if>
+        <if test="searchStr != null and searchStr != ''">
+            and (name like "%"#{searchStr}"%" or sid like "%"#{searchStr}"%" or phone like "%"#{searchStr}"%" or scn like "%"#{searchStr}"%")
+        </if>
     </sql>
 
-    <select id="getStudentBaseInfoList" resultType="com.recklessmo.model.student.StudentBaseInfo">
+    <select id="getStudentInfoList" resultType="com.recklessmo.model.student.StudentInfo">
         select
-        <include refid="baseInfoColumns"/>
+        <include refid="studentColumns"/>
         from student
         <include refid="byPageQuery"/>
         limit #{startIndex}, #{count}
     </select>
 
-    <select id="getStudentBaseInfoListTotalCount" resultType="java.lang.Integer">
+    <select id="getStudentInfoListTotalCount" resultType="java.lang.Integer">
         select
         count(1)
         from student
         <include refid="byPageQuery"/>
     </select>
+    
+    <select id="getStudentInfoByWechatId" resultType="com.recklessmo.model.student.StudentInfo">
+        select
+        <include refid="studentColumns"/>
+        from student
+        where wechat_id = #{wechatId}
+        limit 1
+    </select>
+
+    <select id="getStudentInfoByNameAndPhone" resultType="com.recklessmo.model.student.StudentInfo">
+        select
+        <include refid="studentColumns"/>
+        from student
+        where name = #{name} and phone = #{phone}
+        limit 1
+    </select>
+
+    <select id="getStudentInfoBySid" resultType="com.recklessmo.model.student.StudentInfo">
+        select
+        <include refid="studentColumns"/>
+        from student
+        where sid = #{sid} and org_id = #{orgId}
+        limit 1
+    </select>
+
+    <select id="getStudentInfoBySidList" resultType="com.recklessmo.model.student.StudentInfo">
+        select
+        <include refid="studentColumns"/>
+        from student
+        where org_id = #{orgId} and sid in
+        <foreach collection="sidList" item="sid" open="(" close=")" separator=",">
+            #{sid}
+        </foreach>
+    </select>
+
+    <select id="getStudentListByGradeIdAndClassId" resultType="com.recklessmo.model.student.StudentInfo">
+        select
+        <include refid="studentColumns"/>
+        from student
+        where org_id = #{orgId} and grade_id = #{gradeId}
+        <if test="classId != 0">
+            and class_id = #{classId}
+        </if>
+    </select>
+
+    <select id="getStudentListCountByGradeIdAndClassId" resultType="java.lang.Integer">
+        select
+        count(1)
+        from student
+        where org_id = #{orgId}
+        <if test="gradeId != 0">
+            and grade_id = #{gradeId}
+        </if>
+        <if test="classId != 0">
+            and class_id = #{classId}
+        </if>
+    </select>
+
+    <update id="updateWechatIdBySid">
+        update student set wechat_id = #{wechatId} where org_id = #{orgId} and sid = #{sid}
+    </update>
+
+    <update id="clearWechatId">
+        update student set wechat_id = "" where wechat_id = #{wechatId}
+    </update>
 
 </mapper>

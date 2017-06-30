@@ -33,9 +33,7 @@ public class RoleService {
         roleDAO.create(role);
     }
 
-    public void update(Role role){
-        roleDAO.update(role);
-    }
+    public void update(Role role){ roleDAO.update(role); }
 
     public void delete(long id){
         roleDAO.delete(id);

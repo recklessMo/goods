@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.recklessmo.dao.setting.ClassLevelSettingDAO">
+
+    <sql id = "columns">
+        id, org_id, level_name, level_detail
+    </sql>
+
+    <insert id="addClassLevel" parameterType="com.recklessmo.model.setting.ClassLevel">
+        insert into class_level(org_id, level_name, level_detail) values(#{orgId}, #{levelName}, #{levelDetail})
+    </insert>
+
+    <select id="listClassLevel" resultType="com.recklessmo.model.setting.ClassLevel">
+        select
+        <include refid="columns"/>
+        from class_level
+        where org_id = #{orgId}
+    </select>
+
+    <delete id="deleteClassLevel">
+        delete from class_level where id = #{id} and org_id = #{orgId}
+    </delete>
+
+</mapper>

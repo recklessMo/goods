@@ -1,0 +1,124 @@
+<div class="panel" style="height: 100%;">
+    <!--顶层选项-->
+    <div class="row" style="padding-top:5px;margin-left:0px;height: 50px;">
+        <div class="col-xs-4 btn-group">
+            <button class="btn btn-default" ng-class="{active:flag.type == 1}" ng-click="showClass()">班级维度</button>
+            <button class="btn btn-default" ng-class="{active:flag.type == 2}" ng-click="showCourse()">学科维度</button>
+        </div>
+        <div class="col-xs-8 btn-group pull-right">
+            <button class="btn btn-default" ng-class="{active:flag.show == 1}" ng-click="showTables()">表格</button>
+            <button class="btn btn-default" ng-class="{active:flag.show == 2}" ng-click="showColCharts()">直方图</button>
+            <button class="btn btn-default" ng-show="flag.type == 2" ng-class="{active:flag.show == 3}" ng-click="showPieCharts(3)">满分饼图</button>
+            <button class="btn btn-default" ng-show="flag.type == 2" ng-class="{active:flag.show == 4}" ng-click="showPieCharts(4)">优秀饼图</button>
+            <button class="btn btn-default" ng-show="flag.type == 2" ng-class="{active:flag.show == 5}" ng-click="showPieCharts(5)">良好饼图</button>
+            <button class="btn btn-default" ng-show="flag.type == 2" ng-class="{active:flag.show == 6}" ng-click="showPieCharts(6)">及格饼图</button>
+        </div>
+    </div>
+
+
+    <div style="overflow: auto;height: calc(100% - 50px);padding:0 15px 0 15px;">
+        <!--班级维度表格-->
+        <div ng-repeat="table in resultList" style="padding-top:50px;" ng-show="flag.show == 1 && flag.type == 1">
+            <div class="title">
+                <span>{{table.className}}</span>
+            </div>
+            <table class="table table-bordered table-hover table-condensed editable-table table-min">
+                <tr>
+                    <th>学科</th>
+                    <th>参考人数</th>
+                    <th>最高分</th>
+                    <th>最低分</th>
+                    <th>平均分</th>
+                    <th>标准差</th>
+                    <th>满分(人)</th>
+                    <th>满分率</th>
+                    <th>优秀(人)</th>
+                    <th>优秀率</th>
+                    <th>良好(人)</th>
+                    <th>良好率</th>
+                    <th>及格(人)</th>
+                    <th>及格率</th>
+                </tr>
+                <tr ng-repeat="item in table.courseTotalList track by $index">
+                    <td data-title="'学科'" style="text-align: center;">{{item.name}}</td>
+                    <td data-title="'参考人数'" style="text-align: center;">{{item.totalCount}}</td>
+                    <td data-title="'最高分'" style="text-align: center;">{{item.max}}</td>
+                    <td data-title="'最低分'" style="text-align: center;">{{item.min}}</td>
+                    <td data-title="'平均分'" style="text-align: center;">{{item.avg | number : 2}}</td>
+                    <td data-title="'标准差'" style="text-align: center;">{{item.stdDev | number : 2}}</td>
+                    <td data-title="'满分(人)'" style="text-align: center">{{item.full}}</td>
+                    <td data-title="'满分率'" style="text-align: center;">{{(item.full/item.totalCount * 100) | number : 2  }}%</td>
+                    <td data-title="'优秀(人)'" style="text-align: center">{{item.best}}</td>
+                    <td data-title="'优秀率'" style="text-align: center;">{{(item.best/item.totalCount * 100) | number : 2  }}%</td>
+                    <td data-title="'良好(人)'" style="text-align: center">{{item.good}}</td>
+                    <td data-title="'良好率'" style="text-align: center;">{{(item.good/item.totalCount * 100) | number : 2  }}%</td>
+                    <td data-title="'及格(人)'" style="text-align: center">{{item.qualified}}</td>
+                    <td data-title="'及格率'" style="text-align: center;">{{(item.qualified/item.totalCount * 100) | number : 2  }}%</td>
+                </tr>
+            </table>
+        </div>
+
+        <!--班级维度图形-->
+        <div ng-repeat="chart in resultList" style="padding-top:50px;text-align: center;"
+             ng-show="flag.show == 2 && flag.type == 1">
+            <div id="{{'colChart' + chart.classId}}" style="height: 400px; width: 1100px;margin:auto;"></div>
+        </div>
+
+        <!--学科维度表格-->
+        <div ng-repeat="table in resultList" style="padding-top:50px;" ng-show="flag.show == 1 && flag.type == 2">
+            <div class="title">
+                <span>{{table.courseName}}</span>
+            </div>
+            <table class="table table-bordered table-hover table-condensed editable-table table-min">
+                <tr>
+                    <th>班级</th>
+                    <th>参考人数</th>
+                    <th>最高分</th>
+                    <th>最低分</th>
+                    <th>平均分</th>
+                    <th>与年级均分差</th>
+                    <th>标准差</th>
+                    <th>满分(人)</th>
+                    <th>满分率</th>
+                    <th>优秀(人)</th>
+                    <th>优秀率</th>
+                    <th>良好(人)</th>
+                    <th>良好率</th>
+                    <th>及格(人)</th>
+                    <th>及格率</th>
+                </tr>
+                <tr ng-repeat="item in table.classTotalList track by $index">
+                    <td data-title="'班级'" style="text-align: center;">{{item.name}}</td>
+                    <td data-title="'参考人数'" style="text-align: center;">{{item.totalCount}}</td>
+                    <td data-title="'最高分'" style="text-align: center;">{{item.max}}</td>
+                    <td data-title="'最低分'" style="text-align: center;">{{item.min}}</td>
+                    <td data-title="'平均分'" style="text-align: center;">{{item.avg | number : 2}}</td>
+                    <td data-title="'与年级均分差'" style="text-align: center;color:red" ng-if="item.avgGap < 0">{{item.avgGap | number : 2}}</td>
+                    <td data-title="'与年级均分差'" style="text-align: center;color:green" ng-if="item.avgGap >= 0">{{item.avgGap | number : 2}}</td>
+                    <td data-title="'标准差'" style="text-align: center;">{{item.stdDev | number : 2}}</td>
+                    <td data-title="'满分(人)'" style="text-align: center">{{item.full}}</td>
+                    <td data-title="'满分率'" style="text-align: center;">{{(item.full/item.totalCount * 100) | number : 2  }}%</td>
+                    <td data-title="'优秀(人)'" style="text-align: center">{{item.best}}</td>
+                    <td data-title="'优秀率'" style="text-align: center;">{{(item.best/item.totalCount * 100) | number : 2  }}%</td>
+                    <td data-title="'良好(人)'" style="text-align: center">{{item.good}}</td>
+                    <td data-title="'良好率'" style="text-align: center;">{{(item.good/item.totalCount * 100) | number : 2  }}%</td>
+                    <td data-title="'及格(人)'" style="text-align: center">{{item.qualified}}</td>
+                    <td data-title="'及格率'" style="text-align: center;">{{(item.qualified/item.totalCount * 100) | number : 2  }}%</td>
+                </tr>
+            </table>
+        </div>
+
+        <!--学科维度图形-->
+        <div ng-repeat="chart in resultList" style="padding-top:50px;text-align: center;"
+             ng-show="flag.show == 2 && flag.type == 2">
+            <div id="{{'colChart' + chart.courseName}}" style="height: 400px; width: 1000px;margin:auto;"></div>
+        </div>
+
+        <!--学科维度饼状图-->
+        <div ng-repeat="chart in resultList" style="padding-top:50px;text-align: center;"
+             ng-show="(flag.show == 3 || flag.show == 4 || flag.show == 5 || flag.show == 6) && flag.type == 2">
+            <div id="{{'pieChart' + chart.courseName}}" style="height: 400px; width: 1000px;margin:auto;"></div>
+        </div>
+
+    </div>
+</div>

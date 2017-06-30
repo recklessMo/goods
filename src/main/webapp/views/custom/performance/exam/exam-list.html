@@ -1,38 +1,78 @@
 <div ng-controller="ExamListController" style="background: #fff;overflow: auto;height:100%;padding: 15px;border: 1px solid #cfdbe2;">
     <div class="row">
-        <div class="col-md-3 pull-left">
+        <div class="col-md-1 pull-left">
             <button class="btn btn-info" ng-click="add(-1)">
                 添加
             </button>
         </div>
 
-        <div class="col-md-7 pull-right">
-            <div class="pull-right">
-                <button class="btn btn-info" ng-click="activate()">
-                    查询
-                </button>
-            </div>
-            <div class="form-group pull-right" style="width:280px;padding-right: 20px;">
-                <input type="text"
-                       ng-model="tableParams.searchStr"
-                       placeholder="输入考试名称进行查找"
-                       class="form-control"/>
-            </div>
+        <div class="col-xs-2 col-xs-offset-1">
+            <ui-select ng-model="tableParams.gradeId" theme="bootstrap"
+                       class="text-left" style="width:100%;" on-select="selectGrade($item)">
+                <ui-select-match placeholder="选择年级">{{$select.selected.gradeName}}
+                </ui-select-match>
+                <ui-select-choices repeat="grade.gradeId as grade in gradeList">
+                    <span ng-bind-html="grade.gradeName"></span>
+                </ui-select-choices>
+            </ui-select>
+        </div>
+
+        <div class="col-xs-2">
+            <ui-select ng-model="tableParams.classId" theme="bootstrap"
+                       class="text-left" style="width:100%;">
+                <ui-select-match placeholder="选择班级">{{$select.selected.className}}
+                </ui-select-match>
+                <ui-select-choices repeat="class.classId as class in classList">
+                    <span ng-bind-html="class.className"></span>
+                </ui-select-choices>
+            </ui-select>
+        </div>
+
+        <div class="col-xs-2">
+            <ui-select ng-model="tableParams.examType" theme="bootstrap"
+                       class="text-left" style="width:100%;">
+                <ui-select-match placeholder="选择考试类型">{{$select.selected}}
+                </ui-select-match>
+                <ui-select-choices repeat="examType in examTypeList">
+                    <span ng-bind-html="examType"></span>
+                </ui-select-choices>
+            </ui-select>
+        </div>
+
+        <div class="col-md-3">
+            <input type="text"
+                   ng-model="tableParams.searchStr"
+                   placeholder="输入考试名称进行查找"
+                   class="form-control"/>
+        </div>
+
+        <div class="col-md-1">
+            <button class="btn btn-info" ng-click="activate()">
+                查询
+            </button>
         </div>
     </div>
 
     <div style="margin-top: 10px;">
         <table ng-table="examTableParams" class="table table-bordered table-hover table-condensed editable-table table-min">
             <tr ng-repeat="item in $data" ng-dblclick="show(item.id)">
-                <td data-title="'考试ID'" style="text-align: center;">{{item.examId}}</td>
-                <td data-title="'考试名称'" style="text-align: center">{{item.examName}}</td>
-                <td data-title="'所属年级'" style="text-align: center">{{item.gradeId}}</td>
-                <td data-title="'年级别名'" style="text-align: center">xx</td>
-                <td data-title="'上传成绩'" style="text-align: center;">已上传</td>
-                <td data-title="'分析成绩'" style="text-align: center">已分析/已发布</td>
+                <!--<td data-title="'考试ID'" style="text-align: center;">{{item.examId}}</td>-->
+                <td data-title="'名称'" style="text-align: center">{{item.examName}}</td>
+                <td data-title="'考试时间'" style="text-align: center">{{item.examTime | date:'yyyy-MM-dd'}}</td>
+                <td data-title="'所属年级'" style="text-align: center">{{item.gradeOtherName}}({{item.gradeName}})</td>
+                <td data-title="'所属班级'" style="text-align: center">{{item.className}}</td>
+                <td data-title="'考试类型'" style="text-align: center">{{item.examType}}</td>
+                <td data-title="'考试科目'" style="text-align: center">
+                    <span ng-repeat="courseName in item.courseNameList track by $index" style="padding: 4px;border-radius: 5px;box-shadow: inset 0 0 1px;margin-right: 5px;display: inline-flex;margin-bottom: 5px;align-items: center;font-size: 14px;color: #111b34;">
+                        {{courseName}}
+                    </span>
+                </td>
+                <td data-title="'上传成绩'" style="text-align: center;">{{item.uploadStatus == 0 ? '未上传' : '已上传'}}</td>
+                <td ng-if="item.uploadStatus != 0" data-title="'最后上传时间'" style="text-align: center;">{{item.lastUpdateTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                <td ng-if="item.uploadStatus == 0" data-title="'最后上传时间'" style="text-align: center;">-</td>
                 <td data-title="'操作'" style="text-align: center">
-                    <button class="btn btn-info" ng-click="analyze(item.id)" ng-if="item.status == 0">发布成绩结果</button>
-                    <button class="btn btn-danger" ng-click="delete(item.id)">删除</button>
+                    <button class="btn btn-info" ng-click="uploadScore(item)">{{item.uploadStatus == 0 ? '上传成绩' : '重新上传'}}</button>
+                    <button class="btn btn-danger" ng-click="delete(item.examId)">删除</button>
                 </td>
             </tr>
         </table>

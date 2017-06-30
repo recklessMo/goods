@@ -18,5 +18,7 @@ public interface UserDAO {
     int getUserListTotalCount(UserPage page);
     User getUser(long id);
     User getUserByUserName(@Param("userName") String userName);
+    void updatePwd(@Param("id")long id, @Param("pwd")String pwd);
+    void insertUserList(@Param("userList")List<User> userList);
 
 }

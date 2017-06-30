@@ -6,5 +6,6 @@
 	<settings>
 		<setting name="lazyLoadingEnabled" value="true"/>
 		<setting name="mapUnderscoreToCamelCase" value="true"/>
+		<setting name="logImpl" value="SLF4J"/>
 	</settings>
 </configuration>

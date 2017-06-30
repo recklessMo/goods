@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.recklessmo.dao.message.InformMessageDAO">
+
+    <sql id = "columns">
+        id, org_id, grade_id, class_id, type, name, text, created, op_id, op_name, total_count, status, deleted
+    </sql>
+
+    <select id="getInformMessageList" resultType="com.recklessmo.model.message.InformMessage">
+      select
+      <include refid="columns"/>
+      from inform_message
+      where org_id = #{orgId} and deleted = 0
+      limit #{startIndex}, #{count}
+    </select>
+
+    <select id="getInformMessageCount" resultType="java.lang.Integer">
+        select
+        count(1)
+        from inform_message
+        where org_id = #{orgId} and deleted = 0
+    </select>
+
+    <insert id="addInformMessage" parameterType="com.recklessmo.model.message.InformMessage">
+        insert into inform_message(
+          org_id, grade_id, class_id, type, name, text, created, op_id, op_name, total_count, status, deleted
+        )
+        values(
+            #{orgId}, #{gradeId}, #{classId}, #{type}, #{name}, #{text}, #{created}, #{opId}, #{opName}, #{totalCount}, #{status}, #{deleted}
+        )
+    </insert>
+
+    <update id="deleteInformMessage">
+        update inform_message set deleted = 1 where org_id = #{orgId} and id = #{id}
+    </update>
+
+    <select id="getInformMessageListByGrade" resultType="com.recklessmo.model.message.InformMessage">
+        SELECT
+        <include refid="columns"/>
+        from inform_message
+        where org_id = #{orgId} and (grade_id = 0 or (grade_id = #{gradeId} and (class_id = #{classId} or class_id = 0)))
+    </select>
+
+    <select id="getInformMessageById" resultType="com.recklessmo.model.message.InformMessage">
+        SELECT
+        <include refid="columns"/>
+        from inform_message
+        where org_id = #{orgId} and id = #{id}
+    </select>
+
+</mapper>

@@ -1,0 +1,41 @@
+<div class="row" style="height: 100%;">
+    <div ng-class="col-xs-12" style="height: 100%;">
+        <div class="panel" style="height: 100%;box-shadow: 0 0 1px;padding:10px;">
+            <div class="col-md-12" style="height: 45px;">
+
+                <div class="col-xs-6" style="margin-top:5px;">
+                    <sapn style="font-weight: bolder;">考试名称:{{obj.examName}}</sapn>
+                </div>
+
+                <div class="col-xs-4">
+                    <ui-select ng-model="obj.classId" theme="bootstrap"
+                               class="text-left" style="width:100%;">
+                        <ui-select-match placeholder="选择班级">{{$select.selected.className}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="class.classId as class in classList">
+                            <span ng-bind-html="class.className"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+
+                <div class="col-xs-2">
+                    <button class="btn btn-info" ng-click="export(obj.examId, obj.classId)">
+                        导出
+                    </button>
+                </div>
+            </div>
+            <div style="overflow:auto;height: calc(100% - 50px);width: 100%;margin-top:20px;">
+                <table ng-table-dynamic="scoreListTableParams with labelList" show-filter="true"
+                       class="table table-bordered table-hover table-condensed table-responsive fixed-table"
+                       style="border:1px solid #eeeeee;table-layout: fixed;">
+                    <tr ng-repeat="item in $data" ng-dblclick="show(item.id)">
+                        <td data-ng-repeat="column in $columns">{{::item[column.field]}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+</div>

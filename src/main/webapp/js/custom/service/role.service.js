@@ -19,7 +19,7 @@
                 method: "POST",
                 url : "/v1/role/list",
                 data:obj,
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -28,7 +28,7 @@
                 method: "POST",
                 url: "/v1/role/create",
                 data: obj,
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -37,7 +37,7 @@
                 method: "POST",
                 url: "/v1/role/update",
                 data: obj,
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -46,7 +46,7 @@
                 method: "POST",
                 url: "/v1/role/delete",
                 data: obj,
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -55,7 +55,15 @@
                 method: "POST",
                 url: "/v1/role/get",
                 data: obj,
-                timeout: 5000
+                timeout: 10000
+            });
+        }
+
+        this.loadPermissions = function(){
+            return $http({
+                method: "POST",
+                url : "/v1/permission/list",
+                timeout: 10000
             });
         }
 

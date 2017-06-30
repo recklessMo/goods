@@ -1,0 +1,39 @@
+<div ng-controller="CourseSettingController"  block-ui="import-course" style="background: #fff;overflow: auto;height:100%;padding: 15px;">
+    <div class="row">
+        <div class="col-md-12">
+            <h5 style="margin-top: 0;">
+                <span class="icon-plus"/>
+                导入学科
+            </h5>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <label class="text-info">
+                <span>I 学科列表</span>
+            </label>
+        </div>
+    </div>
+
+    <div style="margin-top: 20px;">
+        <table ng-table="allCourseTableParams" class="table table-bordered table-hover table-condensed editable-table table-min" style="border:1px solid #eeeeee;">
+            <tr ng-repeat="item in $data" ng-dblclick="editCourse(item)">
+                <td data-title="'科目id'" style="text-align: center;width: 10%;">{{item.courseId}}</td>
+                <td data-title="'科目名称'" style="text-align: center;width:15%;">{{item.courseName}}</td>
+                <td data-title="'操作'" style="text-align: center;width:45%;">
+                    <input ng-if="item.hasImport == false" type="checkbox" ng-click="changeImportStatus(item)"/>
+                    <span ng-if="item.hasImport == true">已导入</span>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="row" style="text-align: center;margin-top:20px;">
+        <div class="col-md-12" style="text-align: center;">
+            <button data-style="expand-left" ladda="loading" class="btn btn-primary" ng-click="save()">导入</button>
+            <button class="btn btn-primary" ng-click="closeThisDialog('cancel')">取消</button>
+        </div>
+    </div>
+
+</div>

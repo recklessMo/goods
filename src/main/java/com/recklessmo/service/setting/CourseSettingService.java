@@ -26,13 +26,25 @@ public class CourseSettingService {
     public void updateCourse(Course course){
         courseSettingDAO.updateCourse(course);
     }
-    
+
+    public void deleteCourse(long id){
+        courseSettingDAO.deleteCourse(id);
+    }
+
+    public Course getCourseByCourseIdAndOrgId(long courseId, long orgId){
+        return courseSettingDAO.getCourseByCourseIdAndOrgId(courseId, orgId);
+    }
+
     public List<Course> listCourse(Page page){
         return courseSettingDAO.listCourse(page);
     }
 
     public int listCourseCount(Page page){
         return courseSettingDAO.listCourseCount(page);
+    }
+
+    public List<Course> getStandardCourseList(){
+        return courseSettingDAO.getStandardCourseList();
     }
 
 }

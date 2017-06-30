@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.recklessmo.dao.sms.SmsCodeDAO">
+
+    <sql id = "columns">
+          name, phone, code, time, expire
+    </sql>
+
+    <insert id="addSmsCode" parameterType="com.recklessmo.model.sms.SmsCode">
+        replace into sms_code
+        (name, phone, code, time, expire)
+        values(#{name}, #{phone}, #{code}, #{time}, #{expire})
+    </insert>
+
+    <select id="getSmsCodeByNameAndPhone" resultType="com.recklessmo.model.sms.SmsCode">
+        select
+        <include refid="columns"/>
+        from sms_code
+        where name = #{name} and phone = #{phone}
+    </select>
+
+</mapper>

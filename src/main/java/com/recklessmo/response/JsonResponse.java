@@ -14,6 +14,10 @@ public class JsonResponse {
     private Integer totalCount;
     private Object data;
 
+    public JsonResponse(){
+
+    }
+
     public JsonResponse(int status, Object data, Integer totalCount){
         this.status = status;
         this.data = data;

@@ -3,9 +3,9 @@
     angular
         .module('custom')
         .controller('EditClassController', EditClassController);
-    EditClassController.$inject = ['$scope', 'SettingService', 'SweetAlert', 'blockUI'];
+    EditClassController.$inject = ['$scope', 'SettingService', 'SweetAlert', 'blockUI', 'Notify'];
 
-    function EditClassController($scope, SettingService, SweetAlert, blockUI) {
+    function EditClassController($scope, SettingService, SweetAlert, blockUI, Notify) {
 
         var block = blockUI.instances.get("edit-class");
 
@@ -13,29 +13,33 @@
         $scope.type = $scope.ngDialogData.type;
         $scope.gradeId = $scope.ngDialogData.gradeId;
 
+        $scope.nameList = ['01班', '02班', '03班', '04班', '05班', '06班', '07班', '08班', '09班'
+            , '10班', '11班', '12班', '13班', '14班', '15班', '16班', '17班', '18班', '19班',
+             '20班', '21班', '22班', '23班', '24班', '25班', '26班', '27班', '28班', '29班', '30班'];
+        $scope.classTypeList = ['未分科', '文科班', '理科班'];
+        $scope.classLevelList = ['重点班', '普通班'];
+
         activate();
 
 
-        function activate(){
+        function activate() {
         }
 
         $scope.loading = false;
 
-        $scope.save = function(group){
-
-            if(!validate(group)){
+        $scope.save = function (group) {
+            if (!validate(group)) {
                 return;
             }
-
             $scope.loading = true;
             block.start();
-            if($scope.type == 'add') {
+            if ($scope.type == 'add') {
                 group.gradeId = $scope.gradeId;
                 SettingService.addClass(group).success(function (data) {
                     $scope.loading = false;
                     block.stop();
                     if (data.status == 200) {
-                        SweetAlert.success("添加成功!");
+                        Notify.alert("添加成功!", {status:"success", timeout: 3000});
                         $scope.closeThisDialog('reload');
                     } else {
                         //更新失败的情况
@@ -47,12 +51,12 @@
                     $scope.closeThisDialog('reload');
                     block.stop();
                 });
-            }else if($scope.type == 'edit'){
+            } else if ($scope.type == 'edit') {
                 SettingService.updateClass(group).success(function (data) {
                     $scope.loading = false;
                     block.stop();
                     if (data.status == 200) {
-                        SweetAlert.success("修改成功!");
+                        Notify.alert("修改成功!", {status:"success", timeout: 3000});
                         $scope.closeThisDialog('reload');
                     } else {
                         //更新失败的情况
@@ -67,7 +71,11 @@
             }
         }
 
-        function validate(group){
+        function validate(group) {
+            if(_.isUndefined(group.className) || _.isUndefined(group.charger) || _.isUndefined(group.classLevel) || _.isUndefined(group.classType)){
+                SweetAlert.error("请填写必填信息!");
+                return false;
+            }
             return true;
         }
 

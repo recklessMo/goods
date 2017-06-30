@@ -1,142 +1,272 @@
-<div ng-controller="StudentBaseInfoController" class="container-fluid" style="overflow: auto;padding-left:20px;">
+<div ng-controller="StudentBaseInfoController" style="overflow: auto;height: 100%;padding-left:20px;">
 
-    <h5>I 学籍信息</h5>
-    <div class="col-xs-6 info-block">
-        <span class="label">学号:</span>
-        <div class="info-item">
-            <input type="text" ng-model="offlineInfo.name" placeholder="姓名"  class="form-control" ng-if="isEdit"/>
-            <span  ng-if="!isEdit">谢谢</span>
+    <div class="row">
+        <div class="col-xs-12" style="margin-bottom: 20px;">
+            <button class="btn btn-default" ng-click="changeStatus()">
+                {{isEdit ? '保存' : '修改'}}
+            </button>
+            <button class="btn btn-info" ng-show="isEdit" ng-click="cancel()">
+                取消
+            </button>
         </div>
-    </div>
-    <div class="col-xs-6 info-block">
-        <span class="label">学籍号:</span>
-        <div class="info-item">
-            <input type="text" ng-model="offlineInfo.name" placeholder="姓名"  class="form-control" ng-if="isEdit"/>
-            <span  ng-if="!isEdit">谢谢</span>
-        </div>
-    </div>
 
-    <div class="col-xs-6 info-block">
-        <span class="label">年级:</span>
-        <div class="info-item">
-            <input type="text" ng-model="offlineInfo.name" placeholder="姓名"  class="form-control" ng-if="isEdit"/>
-            <span  ng-if="!isEdit">谢谢</span>
-        </div>
-    </div>
-    <div class="col-xs-6 info-block">
-        <span class="label">班级:</span>
-        <div class="info-item">
-            <input type="text" ng-model="offlineInfo.name" placeholder="姓名"  class="form-control" ng-if="isEdit"/>
-            <span  ng-if="!isEdit">谢谢</span>
-        </div>
-    </div>
+        <div ng-show="isEdit" style="margin-top:10px;">
+            <h5 style="margin-bottom: 30px;">I 学籍信息</h5>
+            <div class="col-xs-6 info-block">
+                <span class="label" style="color: red;">姓名:</span>
+
+                <div class="info-item">
+                    <input type="text" ng-model="offlineInfo.name" placeholder="姓名" class="form-control"/>
+                </div>
+            </div>
+            <div class="col-xs-6 info-block">
+                <span class="label" style="color: red;">学号:</span>
+
+                <div class="info-item">
+                    <input type="text" ng-model="offlineInfo.sid" placeholder="学号" class="form-control"/>
+                </div>
+            </div>
+
+            <div class="col-xs-6 info-block">
+                <span class="label" style="color: red;">年级:</span>
+                <div class="info-item">
+                    <ui-select ng-model="offlineInfo.gradeId" theme="bootstrap"
+                               class="text-left" style="width:100%;" on-select="selectGrade($item)">
+                        <ui-select-match placeholder="选择年级">{{$select.selected.gradeName}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="grade.gradeId as grade in gradeList">
+                            <span ng-bind-html="grade.gradeName"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+
+            <div class="col-xs-6 info-block">
+                <span class="label" style="color: red;">班级:</span>
+                <div class="info-item">
+                    <ui-select ng-model="offlineInfo.classId" theme="bootstrap"
+                               class="text-left" style="width:100%;">
+                        <ui-select-match placeholder="选择班级">{{$select.selected.className}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="class.classId as class in classList">
+                            <span ng-bind-html="class.className"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
 
 
-    <hr/>
-    <h5>I 基础信息</h5>
-    <div class="col-xs-6 info-block">
-        <span class="label">姓名:</span>
-        <div class="info-item">
-            <input type="text" ng-model="offlineInfo.name" placeholder="姓名"  class="form-control" ng-if="isEdit"/>
-            <span  ng-if="!isEdit">谢谢</span>
-        </div>
-    </div>
-    <div class="col-xs-6 info-block">
-        <span class="label">曾用名:</span>
-        <div class="info-item">
-            <input type="text" ng-model="offlineInfo.name" placeholder="姓名"  class="form-control" ng-if="isEdit"/>
-            <span  ng-if="!isEdit">谢谢</span>
-        </div>
-    </div>
+            <hr/>
+            <h5 style="margin-bottom: 30px;">I 基础信息</h5>
 
-    <div class="col-xs-6 info-block">
-        <span class="label">手机号:</span>
-        <div class="info-item">
-            <input type="text" ng-model="offlineInfo.name" placeholder="姓名"  class="form-control" ng-if="isEdit"/>
-            <span  ng-if="!isEdit">谢谢</span>
-        </div>
-    </div>
-    <div class="col-xs-6 info-block">
-        <span class="label">身份证号:</span>
-        <div class="info-item">
-            <input type="text" ng-model="offlineInfo.name" placeholder="姓名"  class="form-control" ng-if="isEdit"/>
-            <span  ng-if="!isEdit">谢谢</span>
-        </div>
-    </div>
+            <div class="col-xs-6 info-block">
+                <span class="label">曾用名:</span>
 
-    <div class="col-xs-6 info-block">
-        <span class="label">性别:</span>
-        <div class="info-item">
-            <input type="text" ng-model="offlineInfo.name" placeholder="姓名"  class="form-control" ng-if="isEdit"/>
-            <span  ng-if="!isEdit">谢谢</span>
-        </div>
-    </div>
-    <div class="col-xs-6 info-block">
-        <span class="label">出生年月:</span>
-        <div class="info-item">
-            <input type="text" ng-model="offlineInfo.name" placeholder="姓名"  class="form-control" ng-if="isEdit"/>
-            <span  ng-if="!isEdit">谢谢</span>
-        </div>
-    </div>
+                <div class="info-item">
+                    <input type="text" ng-model="offlineInfo.otherName" placeholder="曾用名" class="form-control"/>
+                </div>
+            </div>
 
-    <div class="col-xs-6 info-block">
-        <span class="label">户口所在地:</span>
-        <div class="info-item">
-            <input type="text" ng-model="offlineInfo.name" placeholder="姓名"  class="form-control" ng-if="isEdit"/>
-            <span  ng-if="!isEdit">谢谢</span>
-        </div>
-    </div>
-    <div class="col-xs-6 info-block">
-        <span class="label">民族:</span>
-        <div class="info-item">
-            <input type="text" ng-model="offlineInfo.name" placeholder="姓名"  class="form-control" ng-if="isEdit"/>
-            <span  ng-if="!isEdit">谢谢</span>
-        </div>
-    </div>
+            <div class="col-xs-6 info-block">
+                <span class="label" style="color: red;">手机号:</span>
 
-    <div class="col-xs-6 info-block">
-        <span class="label">籍贯:</span>
-        <div class="info-item">
-            <input type="text" ng-model="offlineInfo.name" placeholder="姓名"  class="form-control" ng-if="isEdit"/>
-            <span  ng-if="!isEdit">谢谢</span>
-        </div>
-    </div>
-    <div class="col-xs-6 info-block">
-        <span class="label">家庭住址:</span>
-        <div class="info-item">
-            <input type="text" ng-model="offlineInfo.name" placeholder="姓名"  class="form-control" ng-if="isEdit"/>
-            <span  ng-if="!isEdit">谢谢</span>
-        </div>
-    </div>
+                <div class="info-item">
+                    <input type="text" ng-model="offlineInfo.phone" placeholder="手机号" class="form-control"/>
+                </div>
+            </div>
+            <div class="col-xs-6 info-block">
+                <span class="label">身份证号:</span>
 
-    <div class="col-xs-6 info-block">
-        <span class="label">户口所在地:</span>
-        <div class="info-item">
-            <input type="text" ng-model="offlineInfo.name" placeholder="姓名"  class="form-control" ng-if="isEdit"/>
-            <span  ng-if="!isEdit">谢谢</span>
-        </div>
-    </div>
-    <div class="col-xs-6 info-block">
-        <span class="label">民族:</span>
-        <div class="info-item">
-            <input type="text" ng-model="offlineInfo.name" placeholder="姓名"  class="form-control" ng-if="isEdit"/>
-            <span  ng-if="!isEdit">谢谢</span>
-        </div>
-    </div>
+                <div class="info-item">
+                    <input type="text" ng-model="offlineInfo.scn" placeholder="身份证号" class="form-control"/>
+                </div>
+            </div>
 
-    <div class="col-xs-6 info-block">
-        <span class="label">qq号码:</span>
-        <div class="info-item">
-            <input type="text" ng-model="offlineInfo.name" placeholder="姓名"  class="form-control" ng-if="isEdit"/>
-            <span  ng-if="!isEdit">谢谢</span>
+            <div class="col-xs-6 info-block">
+                <span class="label" style="color: red">性别:</span>
+                <div class="info-item">
+                    <ui-select ng-model="offlineInfo.gender" theme="bootstrap"
+                               class="text-left" style="width:100%;">
+                        <ui-select-match placeholder="选择性别">{{$select.selected.name}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="gender.value as gender in genderList">
+                            <span ng-bind-html="gender.name"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+
+            <div class="col-xs-6 info-block">
+                <span class="label">出生年月:</span>
+
+                <div class="info-item">
+                    <div class="input-group">
+                        <input type="text" class="form-control" uib-datepicker-popup ng-model="offlineInfo.birth" is-open="popup.opened" ng-required="true" close-text="Close" />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="open()"><i class="fa fa-calendar"></i></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-6 info-block">
+                <span class="label">户口:</span>
+
+                <div class="info-item">
+                    <input type="text" ng-model="offlineInfo.homeTown" placeholder="户口所在地" class="form-control"/>
+                </div>
+            </div>
+
+            <div class="col-xs-6 info-block">
+                <span class="label">民族:</span>
+
+                <div class="info-item">
+                    <input type="text" ng-model="offlineInfo.people" placeholder="民族" class="form-control"/>
+                </div>
+            </div>
+
+            <div class="col-xs-6 info-block">
+                <span class="label">籍贯:</span>
+
+                <div class="info-item">
+                    <input type="text" ng-model="offlineInfo.birthTown" placeholder="籍贯" class="form-control"/>
+                </div>
+            </div>
+
+            <div class="col-xs-6 info-block">
+                <span class="label">家庭住址:</span>
+
+                <div class="info-item">
+                    <input type="text" ng-model="offlineInfo.address" placeholder="家庭住址" class="form-control"/>
+                </div>
+            </div>
+            <div class="col-xs-6 info-block">
+                <span class="label">班内职务:</span>
+
+                <div class="info-item">
+                    <input type="text" ng-model="offlineInfo.job" placeholder="班内职务" class="form-control"/>
+                </div>
+            </div>
+
+            <div class="col-xs-6 info-block">
+                <span class="label">qq号码:</span>
+
+                <div class="info-item">
+                    <input type="text" ng-model="offlineInfo.qq" placeholder="qq号码" class="form-control"/>
+                </div>
+            </div>
+            <div class="col-xs-6 info-block">
+                <span class="label">微信号码:</span>
+
+                <div class="info-item">
+                    <input type="text" ng-model="offlineInfo.wechat" placeholder="微信号码" class="form-control"/>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="col-xs-6 info-block">
-        <span class="label">微信号码:</span>
-        <div class="info-item">
-            <input type="text" ng-model="offlineInfo.name" placeholder="姓名"  class="form-control" ng-if="isEdit"/>
-            <span  ng-if="!isEdit">谢谢</span>
+
+        <div ng-show="!isEdit" style="margin-top:10px;">
+            <h5 style="margin-bottom: 30px;">I 学籍信息</h5>
+            <div class="col-xs-6 info-block">
+                <span class="label">姓名:</span>
+                <div class="info-item">
+                    <span>{{offlineInfo.name}}</span>
+                </div>
+            </div>
+            <div class="col-xs-6 info-block">
+                <span class="label">学号:</span>
+                <div class="info-item">
+                    <span>{{offlineInfo.sid}}</span>
+                </div>
+            </div>
+            <div class="col-xs-6 info-block">
+                <span class="label">年级:</span>
+                <div class="info-item">
+                    <span>{{offlineInfo.gradeName}}</span>
+                </div>
+            </div>
+            <div class="col-xs-6 info-block">
+                <span class="label">班级:</span>
+                <div class="info-item">
+                    <span>{{offlineInfo.className}}</span>
+                </div>
+            </div>
+
+            <hr/>
+            <h5 style="margin-bottom: 30px;">I 基础信息</h5>
+            <div class="col-xs-6 info-block">
+                <span class="label">曾用名:</span>
+                <div class="info-item">
+                    <span>{{offlineInfo.otherName}}</span>
+                </div>
+            </div>
+            <div class="col-xs-6 info-block">
+                <span class="label">手机号:</span>
+                <div class="info-item">
+                    <span>{{offlineInfo.phone}}</span>
+                </div>
+            </div>
+            <div class="col-xs-6 info-block">
+                <span class="label">身份证号:</span>
+                <div class="info-item">
+                    <span>{{offlineInfo.scn}}</span>
+                </div>
+            </div>
+            <div class="col-xs-6 info-block">
+                <span class="label">性别:</span>
+                <div class="info-item">
+                    <span>{{offlineInfo.gender | sexFilter}}</span>
+                </div>
+            </div>
+            <div class="col-xs-6 info-block">
+                <span class="label">出生年月:</span>
+                <div class="info-item">
+                    <span>{{offlineInfo.birth | date: 'yyyy-MM-dd'}}</span>
+                </div>
+            </div>
+            <div class="col-xs-6 info-block">
+                <span class="label">户口:</span>
+                <div class="info-item">
+                    <span>{{offlineInfo.homeTown}}</span>
+                </div>
+            </div>
+            <div class="col-xs-6 info-block">
+                <span class="label">民族:</span>
+                <div class="info-item">
+                    <span>{{offlineInfo.people}}</span>
+                </div>
+            </div>
+            <div class="col-xs-6 info-block">
+                <span class="label">籍贯:</span>
+                <div class="info-item">
+                    <span>{{offlineInfo.birthTown}}</span>
+                </div>
+            </div>
+            <div class="col-xs-6 info-block">
+                <span class="label">家庭住址:</span>
+                <div class="info-item">
+                    <span>{{offlineInfo.address}}</span>
+                </div>
+            </div>
+            <div class="col-xs-6 info-block">
+                <span class="label">班内职务:</span>
+                <div class="info-item">
+                    <span>{{offlineInfo.job}}</span>
+                </div>
+            </div>
+            <div class="col-xs-6 info-block">
+                <span class="label">qq号码:</span>
+                <div class="info-item">
+                    <span>{{offlineInfo.qq}}</span>
+                </div>
+            </div>
+            <div class="col-xs-6 info-block">
+                <span class="label">微信号码:</span>
+                <div class="info-item">
+                    <span>{{offlineInfo.wechat}}</span>
+                </div>
+            </div>
         </div>
+
     </div>
 
 </div>

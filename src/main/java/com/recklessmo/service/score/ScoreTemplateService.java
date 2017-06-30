@@ -2,10 +2,13 @@ package com.recklessmo.service.score;
 
 import com.recklessmo.dao.score.ScoreTemplateDAO;
 import com.recklessmo.model.score.ScoreTemplate;
+import com.recklessmo.model.score.inner.CourseGapSetting;
 import com.recklessmo.web.webmodel.page.Page;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -17,8 +20,26 @@ public class ScoreTemplateService {
     @Resource
     private ScoreTemplateDAO scoreTemplateDAO;
 
+    /**
+     * 设置成默认
+     * @param id
+     * @param status
+     */
+    public void makeDefault(long id){
+        scoreTemplateDAO.makeDefault(id);
+    }
+
+    /**
+     * 取消默认
+     * @param type
+     */
+    public void cancelDefault(int type){
+        scoreTemplateDAO.cancelDefault(type);
+    }
+
     public void save(ScoreTemplate scoreTemplate){
         if(scoreTemplate.getId() > 0 ) {
+            scoreTemplate.setUpdated(new Date());
             scoreTemplateDAO.updateTemplate(scoreTemplate);
         }else{
             scoreTemplateDAO.addTemplate(scoreTemplate);
@@ -27,9 +48,6 @@ public class ScoreTemplateService {
 
     public List<ScoreTemplate> getList(Page page){
         List<ScoreTemplate> scoreTemplates =  scoreTemplateDAO.getList(page);
-        for(ScoreTemplate scoreTemplate : scoreTemplates){
-            scoreTemplate.parseJsonDetail();
-        }
         return scoreTemplates;
     }
 
@@ -38,13 +56,13 @@ public class ScoreTemplateService {
     }
 
     public ScoreTemplate get(long id){
-        ScoreTemplate scoreTemplate = scoreTemplateDAO.getById(id);
-        scoreTemplate.parseJsonDetail();
-        return scoreTemplate;
+        return scoreTemplateDAO.getById(id);
     }
 
     public void delete(long id){
         scoreTemplateDAO.deleteTemplate(id);
     }
+
+
 
 }

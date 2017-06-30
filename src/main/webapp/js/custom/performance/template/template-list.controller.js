@@ -7,22 +7,33 @@
 
     function TemplateListController($scope, TemplateService, SweetAlert, NgTableParams, ngDialog, blockUI, Notify) {
 
-        $scope.tableParams = {page : 1, count : 10, searchStr: null};
+        $scope.type = $scope.ngDialogData.type;
 
-        $scope.activate = function() {
-            $scope.templateTableParams = new NgTableParams($scope.tableParams, {
-                getData: function ($defer, params) {
-                    blockUI.start();
-                    TemplateService.loadTemplates(params.parameters()).success(function (data) {
-                        if (data.status == 200) {
-                            params.total(data.totalCount);
-                            console.log(data);
-                            $defer.resolve(data.data);
-                            blockUI.stop();
+        $scope.tableParams = {page: 1, count: 10, type: 1, searchStr: null};
+
+        var block = blockUI.instances.get("template-list");
+
+        $scope.activate = function () {
+            $scope.templateTableParams = new NgTableParams({}, {
+                counts: [],
+                getData: function (params) {
+                    block.start();
+                    return TemplateService.loadTemplates({
+                        page: params.page(),
+                        count: params.count(),
+                        type: $scope.type
+                    }).then(function (data) {
+                        block.stop();
+                        var result = data.data;
+                        if (result.status == 200) {
+                            params.total(result.totalCount);
+                            return result.data;
+                        } else {
+                            SweetAlert.error("服务器内部错误, 请联系客服!");
                         }
-                    }).error(function () {
+                    }, function () {
                         SweetAlert.error("网络问题,请稍后重试!");
-                        blockUI.stop();
+                        block.stop();
                     });
                 }
             });
@@ -30,8 +41,8 @@
 
         $scope.activate();
 
-        //删除用户
-        $scope.delete = function(id){
+        //删除
+        $scope.delete = function (id) {
             SweetAlert.swal({
                 title: '确认删除?',
                 type: 'warning',
@@ -41,18 +52,18 @@
                 cancelButtonText: '否',
                 closeOnConfirm: true,
                 closeOnCancel: true
-            }, function(isConfirm){
+            }, function (isConfirm) {
                 if (isConfirm) {
                     //这里可以进行调试,查看$scope,因为table会创建一个子scope
                     //然后子scope里面就不能用this了,因为this就指向了子scope,
                     //实际上在table的每一行里面的点击是调用了父scope的delete方法
-                    blockUI.start();
+                    block.start();
                     TemplateService.deleteTemplate(id).success(function () {
-                        Notify.alert("删除成功!", {status:"success", timeout: 3000});
+                        Notify.alert("删除成功!", {status: "success", timeout: 3000});
                         $scope.templateTableParams.reload();
-                        blockUI.stop();
-                    }).error(function(){
-                        blockUI.stop();
+                        block.stop();
+                    }).error(function () {
+                        block.stop();
                         SweetAlert.error("网络问题,请稍后重试!");
                     });
                 }
@@ -60,15 +71,32 @@
         }
 
         //增加模板
-        $scope.add = function() {
-            var dialog= ngDialog.open({
-                template: 'app/views/custom/performance/template/edit/template-edit.html',
-                controller: 'TemplateEditController',
-                className: 'ngdialog-theme-default max-dialog',
-                data: {type: 'add'}
-            });
-            dialog.closePromise.then(function(data){
-                if(data.value != 'reload'){
+        $scope.add = function () {
+            var dialog;
+            if ($scope.type == 1) {
+                dialog = ngDialog.open({
+                    template: 'app/views/custom/performance/template/edit/template-total-edit.html',
+                    controller: 'TemplateTotalEditController',
+                    className: 'ngdialog-theme-default max-dialog',
+                    data: {type: 'add'}
+                });
+            } else if ($scope.type == 2) {
+                dialog = ngDialog.open({
+                    template: 'app/views/custom/performance/template/edit/template-gap-edit.html',
+                    controller: 'TemplateGapEditController',
+                    className: 'ngdialog-theme-default max-dialog',
+                    data: {type: 'add'}
+                });
+            } else if($scope.type == 3){
+                dialog = ngDialog.open({
+                    template: 'app/views/custom/performance/template/edit/template-rank-edit.html',
+                    controller: 'TemplateRankEditController',
+                    className: 'ngdialog-theme-default max-dialog',
+                    data: {type: 'add'}
+                });
+            }
+            dialog.closePromise.then(function (data) {
+                if (data.value != 'reload') {
                     return;
                 }
                 $scope.templateTableParams.reload();
@@ -76,21 +104,55 @@
         }
 
         //编辑模板
-        $scope.edit = function(item) {
-            var dialog= ngDialog.open({
-                template: 'app/views/custom/performance/template/edit/template-edit.html',
-                controller: 'TemplateEditController',
-                className: 'ngdialog-theme-default max-dialog',
-                data : {type: 'edit', data: item}
-            });
-            dialog.closePromise.then(function(data){
-                if(data.value != 'reload'){
+        $scope.edit = function (item) {
+            var dialog;
+            if ($scope.type == 1) {
+                dialog = ngDialog.open({
+                    template: 'app/views/custom/performance/template/edit/template-total-edit.html',
+                    controller: 'TemplateTotalEditController',
+                    className: 'ngdialog-theme-default custom-width-1200',
+                    data: {type: 'edit', data: item}
+                });
+            } else if ($scope.type == 2) {
+                dialog = ngDialog.open({
+                    template: 'app/views/custom/performance/template/edit/template-gap-edit.html',
+                    controller: 'TemplateGapEditController',
+                    className: 'ngdialog-theme-default custom-width-1200',
+                    data: {type: 'edit', data: item}
+                });
+            } else if($scope.type == 3){
+                dialog = ngDialog.open({
+                    template: 'app/views/custom/performance/template/edit/template-rank-edit.html',
+                    controller: 'TemplateRankEditController',
+                    className: 'ngdialog-theme-default custom-width-1200',
+                    data: {type: 'edit', data: item}
+                });
+            }
+            dialog.closePromise.then(function (data) {
+                if (data.value != 'reload') {
                     return;
                 }
                 $scope.templateTableParams.reload();
             });
         }
 
+        //使用模板
+        $scope.use = function (item) {
+            var result = {status: 1, value: item};
+            $scope.closeThisDialog(result);
+        }
+
+        //设置成默认
+        $scope.make = function (item) {
+            TemplateService.makeDefaultTemplate(item.id, item.type).success(function () {
+                Notify.alert("设置成功!", {status: "success", timeout: 3000});
+                $scope.templateTableParams.reload();
+                block.stop();
+            }).error(function () {
+                block.stop();
+                SweetAlert.error("网络问题,请稍后重试!");
+            });
+        }
 
     }
 })();

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.recklessmo.dao.attendance.AttendanceDAO">
+
+    <sql id="attendanceColumns">
+        id, org_id, sid, detail, created, op_id, op_name
+    </sql>
+
+    <insert id="addAttendance" parameterType="com.recklessmo.model.attendance.Attendance">
+        insert into attendance
+        (org_id, sid, detail, created, op_id, op_name)
+        values(
+        #{orgId}, #{sid}, #{detail}, #{created}, #{opId}, #{opName}
+        )
+    </insert>
+
+    <select id="listAttendance" resultType="com.recklessmo.model.attendance.Attendance">
+        select
+        <include refid="attendanceColumns"/>
+        from attendance
+        where org_id = #{orgId} and sid = #{sid}
+        order by created desc
+        limit #{startIndex}, #{count}
+    </select>
+
+    <select id="listAttendanceCount" resultType="java.lang.Integer">
+        select count(1)
+        from attendance
+        where org_id = #{orgId} and sid = #{sid}
+    </select>
+
+    <delete id="deleteAttendance">
+        delete from attendance where id = #{id} and org_id = #{orgId}
+    </delete>
+
+
+</mapper>

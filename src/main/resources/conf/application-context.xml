@@ -18,18 +18,35 @@
         </property>
     </bean>
 
+    <!--配置mail sender-->
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="smtp.163.com"/>
+        <property name="username" value="13088063013@163.com"/>
+        <property name="password" value="123456h"/>
+        <property name="defaultEncoding" value="UTF-8"/>
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.socketFactory.class">javax.net.SocketFactory</prop>
+                <prop key="mail.transport.protocol">smtp</prop>
+                <prop key="mail.smtp.socketFactory.fallback">false</prop>
+                <prop key="mail.smtp.port">25</prop>
+                <prop key="mail.smtp.socketFactory.port">25</prop>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.timeout">250000</prop>
+            </props>
+        </property>
+    </bean>
+
+
     <!--数据源,目前使用简单配置-->
-    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
-        <property name="driverClass" value="${driver}" />
+    <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource">
         <property name="jdbcUrl" value="${url}"/>
-        <property name="user" value="${user}"/>
+        <property name="username" value="${user}"/>
         <property name="password" value="${password}"/>
-        <!--以前没加下面这几个配置的时候会偶尔报错-->
-        <property name="initialPoolSize" value="${initialPoolSize}"/>
-        <property name="minPoolSize" value="${minPoolSize}"/>
-        <property name="maxPoolSize" value="${maxPoolSize}"/>
-        <property name="maxIdleTime" value="${maxIdleTime}"/>
-        <property name="acquireIncrement" value="${acquireIncrement}"/>
+        <property name="autoCommit" value="true"/>
+        <property name="maximumPoolSize" value="10"/>
+        <property name="connectionTimeout" value="600000"/>
+        <property name="idleTimeout" value="6000000"/>
     </bean>
 
     <!--  配置mybatis sqlsessionfactory -->

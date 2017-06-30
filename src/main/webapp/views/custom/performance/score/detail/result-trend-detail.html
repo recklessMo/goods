@@ -1,0 +1,54 @@
+<div class="panel" style="height: 100%;box-shadow: 0 0 1px;">
+
+    <!--顶层选项-->
+    <div class="row" style="padding-top:5px;margin-left:0px;height: 50px;">
+        <div class="col-xs-2" style="margin-top:5px;">
+            <sapn style="font-weight: bolder;">姓名: {{choosedStudent.name}}</sapn>
+        </div>
+        <div class="col-xs-6 btn-group pull-right">
+            <button class="btn btn-default" ng-class="{active:flag.show == 1}" ng-click="startAnalyseTable()">表格</button>
+            <button class="btn btn-default" ng-class="{active:flag.show == 2}" ng-click="startAnalyseChart(2)">分数趋势</button>
+            <button class="btn btn-default" ng-class="{active:flag.show == 3}" ng-click="startAnalyseChart(3)">年级排名趋势</button>
+            <button class="btn btn-default" ng-class="{active:flag.show == 4}" ng-click="startAnalyseChart(4)">班级排名趋势</button>
+        </div>
+        <div class="col-xs-4">
+            <ui-select multiple ng-model="analyseParams.examTypes" theme="bootstrap" close-on-select="false"
+                       title="选择考试类型"
+                       class="text-left" style="width:100%;">
+                <ui-select-match placeholder="选择考试类型">{{$item}};</ui-select-match>
+                <ui-select-choices repeat="examType in examTypeList">
+                    <div ng-bind-html="examType"></div>
+                </ui-select-choices>
+            </ui-select>
+        </div>
+    </div>
+
+    <div ng-show="flag.show == 1" style="overflow:auto;height: calc(100% - 80px);width: 100%;margin-top:50px;">
+        <table ng-table-dynamic="scoreListTableParams with labelList" show-filter="true"
+               class="table table-bordered table-hover table-condensed table-responsive fixed-table"
+               style="border:1px solid #eeeeee;table-layout: fixed;">
+            <tr ng-repeat="item in $data" ng-dblclick="show(item.id)">
+                <td data-ng-repeat="column in $columns">{{::item[column.field]}}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div style="overflow:auto;height: calc(100% - 80px);width: 100%;margin-top:50px;">
+        <!--总分趋势-->
+        <div style="padding-top:50px;text-align: center;"
+             ng-show="flag.show == 2">
+            <div id="chart2" style="height: 400px; width: 1100px;margin:auto;"></div>
+        </div>
+        <!--年级排名趋势-->
+        <div style="padding-top:50px;text-align: center;"
+             ng-show="flag.show == 3">
+            <div id="chart3" style="height: 400px; width: 1100px;margin:auto;"></div>
+        </div>
+        <!--班级排名趋势-->
+        <div style="padding-top:50px;text-align: center;"
+             ng-show="flag.show == 4">
+            <div id="chart4" style="height: 400px; width: 1100px;margin:auto;"></div>
+        </div>
+    </div>
+
+</div>

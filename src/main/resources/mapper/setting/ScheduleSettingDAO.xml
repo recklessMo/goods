@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.recklessmo.dao.setting.ScheduleSettingDAO">
+
+    <sql id = "columns">
+        id, schedule_name, start, end
+    </sql>
+
+    <insert id="addSchedule" parameterType="com.recklessmo.model.setting.Schedule">
+        insert into schedule(schedule_name, start, end) values(#{scheduleName}, #{start}, #{end})
+    </insert>
+
+    <insert id="saveSchedule" parameterType="com.recklessmo.model.setting.Schedule">
+        update schedule set schedule_name = #{scheduleName}, start = #{start}, end = #{end} where id = #{id}
+    </insert>
+
+    <select id="listSchedule" resultType="com.recklessmo.model.setting.Schedule">
+        select
+        <include refid="columns"/>
+        from schedule
+    </select>
+
+    <delete id="deleteSchedule">
+        delete from schedule where id = #{id}
+    </delete>
+
+</mapper>

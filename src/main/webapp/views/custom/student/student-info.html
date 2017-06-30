@@ -1,0 +1,60 @@
+<div class="panel" style="height: 100%;" >
+    <uib-tabset class="tab-full-content" style="height: 100%;" justified="true">
+        <uib-tab active="true"
+                 style="text-align: center;">
+            <uib-tab-heading>
+                基本信息
+            </uib-tab-heading>
+            <div ng-include="'app/views/custom/student/list/info/student-base-info.html'">
+            </div>
+        </uib-tab>
+        <!--<uib-tab active="false"-->
+                 <!--style="text-align: center;">-->
+            <!--<uib-tab-heading>-->
+                <!--考试成绩-->
+            <!--</uib-tab-heading>-->
+            <!--<div ng-include="'app/views/custom/student/list/reward/student-reward-list.html'">-->
+            <!--</div>-->
+        <!--</uib-tab>-->
+        <!--<uib-tab active="false"-->
+                 <!--style="text-align: center;">-->
+            <!--<uib-tab-heading>-->
+                <!--成绩趋势-->
+            <!--</uib-tab-heading>-->
+            <!--<div ng-include="'app/views/custom/student/list/reward/student-reward-list.html'">-->
+            <!--</div>-->
+        <!--</uib-tab>-->
+        <uib-tab active="false"
+                 style="text-align: center;">
+            <uib-tab-heading>
+                奖惩记录
+            </uib-tab-heading>
+            <div ng-include="'app/views/custom/student/list/reward/student-reward-list.html'">
+            </div>
+        </uib-tab>
+        <uib-tab active="false"
+                 style="text-align: center;">
+            <uib-tab-heading>
+                考勤异常
+            </uib-tab-heading>
+            <div ng-include="'app/views/custom/student/list/attendance/attendance-list.html'">
+            </div>
+        </uib-tab>
+        <uib-tab active="false"
+                 style="text-align: center;">
+            <uib-tab-heading>
+                毕业去向
+            </uib-tab-heading>
+            <div ng-include="'app/views/custom/student/list/graduate/student-graduate-list.html'">
+            </div>
+        </uib-tab>
+        <uib-tab active="false"
+                 style="text-align: center;">
+            <uib-tab-heading>
+                操作记录
+            </uib-tab-heading>
+            <div ng-include="'app/views/custom/student/list/oplog/student-oplog-list.html'">
+            </div>
+        </uib-tab>
+    </uib-tabset>
+</div>

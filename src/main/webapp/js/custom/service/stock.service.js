@@ -26,7 +26,7 @@
                 method: "POST",
                 data: data,
                 url: "/v1/stock/goods/delete",
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -35,7 +35,7 @@
                 method: "POST",
                 data: data,
                 url: "/v1/stock/goods/list",
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -44,7 +44,7 @@
                 method: "POST",
                 data: data,
                 url: "/v1/stock/goods/add",
-                timeout: 5000
+                timeout: 10000
             })
         }
 
@@ -53,7 +53,7 @@
                 method: "POST",
                 data: data,
                 url: "/v1/stock/goods/update",
-                timeout: 5000
+                timeout: 10000
             })
         }
 
@@ -63,7 +63,7 @@
                 method : "POST",
                 data: data,
                 url: "/v1/stock/in/list",
-                timeout: 5000
+                timeout: 10000
             })
         }
 
@@ -72,7 +72,7 @@
                 method : "POST",
                 data: data,
                 url: "/v1/stock/in/add",
-                timeout: 5000
+                timeout: 10000
             })
         }
 
@@ -81,7 +81,7 @@
                 method : "POST",
                 data: data,
                 url: "/v1/stock/out/list",
-                timeout: 5000
+                timeout: 10000
             })
         }
 
@@ -90,7 +90,7 @@
                 method : "POST",
                 data: data,
                 url: "/v1/stock/out/add",
-                timeout: 5000
+                timeout: 10000
             })
         }
 
@@ -99,7 +99,7 @@
                 method: 'POST',
                 data: id,
                 url: "/v1/stock/in/detail",
-                timeout: 5000
+                timeout: 10000
             });
         }
 
@@ -108,7 +108,7 @@
                 method: "POST",
                 data : id,
                 url : "/v1/stock/goods/history/list",
-                timeout: 5000
+                timeout: 10000
             });
         }
 

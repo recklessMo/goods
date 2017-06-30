@@ -1,0 +1,123 @@
+<div block-ui="edit-assignment" class="container-fluid">
+
+    <fieldset ng-disabled="type!='add'">
+
+        <div class="row">
+            <div class="col-md-12">
+                <h5 style="margin-top: 0;" ng-if="type != 'add'">
+                    <span class="icon-user"/>
+                    查看作业
+                </h5>
+
+                <h5 style="margin-top: 0;" ng-if="type == 'add'">
+                    <span class="icon-user"/>
+                    添加作业
+                </h5>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <label class="text-info">
+                    <span>I 基本属性</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 30px;">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-addon" style="color:red">所属年级</span>
+                    <ui-select ng-if="type == 'add'" ng-model="assignment.gradeId" theme="bootstrap"
+                               class="text-left" style="width:100%;" on-select="selectGrade($item)">
+                        <ui-select-match placeholder="选择年级">{{$select.selected.gradeName}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="grade.gradeId as grade in gradeList">
+                            <span ng-bind-html="grade.gradeName"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                    <input ng-if="type != 'add'" type="text" class="form-control"
+                           ng-model="assignment.gradeName">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-addon" style="color:red">所属班级</span>
+                    <ui-select ng-if="type == 'add'" ng-model="assignment.classId" theme="bootstrap"
+                               class="text-left" style="width:100%;">
+                        <ui-select-match placeholder="选择班级">{{$select.selected.className}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="class.classId as class in classList">
+                            <span ng-bind-html="class.className"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                    <input ng-if="type != 'add'" type="text" class="form-control"
+                           ng-model="assignment.className">
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-addon" style="color:red">作业名称</span>
+                    <input type="text" class="form-control"
+                           ng-model="assignment.name">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-addon" style="color:red">截止时间</span>
+                    <div class="input-group">
+                        <input type="text" class="form-control" uib-datepicker-popup ng-model="assignment.submit" is-open="popup.opened" ng-required="true" close-text="Close" />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="open()"><i class="fa fa-calendar"></i></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-addon" style="color:red">所属课程</span>
+                    <ui-select ng-if="type == 'add'" ng-model="assignment.courseId" theme="bootstrap" on-select="selectCourse($item)"
+                               class="text-left" style="width:100%;">
+                        <ui-select-match placeholder="选择课程">{{$select.selected.courseName}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="course.courseId as course in courseList">
+                            <span ng-bind-html="course.courseName"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                    <input ng-if="type != 'add'" type="text" class="form-control"
+                           ng-model="assignment.courseName">
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-md-12">
+                <label class="text-info">
+                    <span>II 作业描述</span>
+                </label>
+            </div>
+            <div class="col-md-12">
+                <textarea ng-model="assignment.content" class="form-control" rows="10"></textarea>
+            </div>
+        </div>
+
+        <div class="row" style="text-align: center;margin-top:50px;">
+            <div class="col-md-12" style="text-align: center;">
+                <button data-style="expand-left" ladda="loading" class="btn btn-primary" ng-click="save(assignment)">
+                    保存
+                </button>
+                <button class="btn btn-primary" ng-click="closeThisDialog('reload')">取消</button>
+            </div>
+        </div>
+
+    </fieldset>
+
+</div>

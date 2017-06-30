@@ -1,10 +1,18 @@
 package com.recklessmo.web.setting;
 
+import com.recklessmo.model.score.inner.CourseGapSetting;
+import com.recklessmo.model.security.DefaultUserDetails;
+import com.recklessmo.model.setting.Course;
 import com.recklessmo.model.setting.Grade;
 import com.recklessmo.model.setting.Group;
+import com.recklessmo.model.setting.Job;
 import com.recklessmo.response.JsonResponse;
+import com.recklessmo.service.setting.CourseSettingService;
 import com.recklessmo.service.setting.GradeSettingService;
+import com.recklessmo.service.setting.JobSettingService;
+import com.recklessmo.util.ContextUtils;
 import com.recklessmo.web.webmodel.page.GradePage;
+import com.recklessmo.web.webmodel.page.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,12 +32,18 @@ public class DicController {
     @Resource
     private GradeSettingService gradeSettingService;
 
+    @Resource
+    private JobSettingService jobSettingService;
+
+    @Resource
+    private CourseSettingService courseSettingService;
 
 
     @RequestMapping(value = "/grade/list", method = {RequestMethod.POST, RequestMethod.GET})
     @ResponseBody
     public JsonResponse listGrade(){
-        List<Grade> grades = gradeSettingService.listAllGrade();
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
+        List<Grade> grades = gradeSettingService.listAllGrade(userDetails.getOrgId());
         return new JsonResponse(200, grades, null);
     }
 
@@ -47,6 +61,35 @@ public class DicController {
         List<Group> groups = gradeSettingService.listClass(gradePage);
         return new JsonResponse(200, groups, null);
     }
+
+
+    /**
+     * 列出所有的职业
+     * @return
+     */
+    @RequestMapping(value = "/job/list", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public JsonResponse listJob(@RequestBody Page page){
+        DefaultUserDetails userDetails = ContextUtils.getLoginUserDetail();
+        page.setOrgId(userDetails.getOrgId());
+        List<Job> jobs = jobSettingService.listJob(page);
+        return new JsonResponse(200, jobs, null);
+    }
+
+
+    @RequestMapping(value = "/course/list", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public JsonResponse courseList(){
+        DefaultUserDetails defaultUserDetails = ContextUtils.getLoginUserDetail();
+        Page page = new Page();
+        page.setOrgId(defaultUserDetails.getOrgId());
+        page.setPage(1);
+        page.setCount(100);
+        List<Course> courseList = courseSettingService.listCourse(page);
+        return new JsonResponse(200, courseList, null);
+    }
+
+
 
 
 }

@@ -15,17 +15,19 @@
         }
 
         $scope.search = function(){
-            $scope.stockInTableParams = new NgTableParams($scope.tableParams, {
-                getData: function($defer, params){
+            $scope.stockInTableParams = new NgTableParams({}, {
+                getData: function(params){
                     blockUI.start();
-                    StockService.listInStock(params.parameters()).success(function(data){
+                    $scope.tableParams.page = params.page();
+                    $scope.tableParams.count = params.count();
+                    return StockService.listInStock($scope.tableParams).then(function(result){
+                        blockUI.stop();
+                        var data = result.data;
                         if(data.status == 200){
                             params.total(data.totalCount);
-                            $defer.resolve(data.data);
-                            console.log(data.data);
-                            blockUI.stop();
+                            return data.data;
                         }
-                    }).error(function(){
+                    }, function(){
                         SweetAlert.error("网络问题, 请稍后重试!");
                         blockUI.stop();
                     });

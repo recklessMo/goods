@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.recklessmo.dao.reward.RewardDAO">
+
+    <sql id="columns">
+        id, org_id, sid, type, detail, op_id, op_name, created, deleted
+    </sql>
+
+    <select id="listReward" resultType="com.recklessmo.model.reward.Reward">
+        select
+        <include refid="columns"/>
+        from reward
+        where org_id = #{orgId} and sid = #{sid} and deleted = 0
+        order by created desc
+    </select>
+
+    <insert id="addReward" parameterType="com.recklessmo.model.reward.Reward">
+        insert into reward
+        (
+          org_id, sid, type, detail, op_id, op_name,  created, deleted
+        )
+        values
+        (
+          #{orgId}, #{sid}, #{type}, #{detail}, #{opId}, #{opName}, #{created}, #{deleted}
+        )
+    </insert>
+
+    <update id="updateReward" parameterType="com.recklessmo.model.reward.Reward">
+        update reward set
+        type = #{type}, detail = #{detail}, op_id = #{opId}, op_name = #{opName}, deleted = #{deleted}
+        where id = #{id}
+    </update>
+
+    <update id="deleteReward">
+        update reward set
+        deleted = 1
+        where id = #{id}
+    </update>
+
+</mapper>

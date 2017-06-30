@@ -77,7 +77,7 @@ public class StockController {
     @RequestMapping(value = "/goods/history/list", method = {RequestMethod.GET, RequestMethod.POST})
     public JsonResponse listGoodsHistory(@RequestBody long goodsId){
         List<StockItem> data = stockService.getStockItemsByGoodsId(goodsId);
-        return new JsonResponse(200, data, null);
+        return new JsonResponse(200, data, data.size());
     }
 
     /**

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.recklessmo.dao.wechat.WechatMessageDAO">
+    <sql id="columns">
+        id,org_id,open_id,sid,user_id,user_name,type,message_type,message,created
+    </sql>
+
+    <insert id="insertMessage" parameterType="com.recklessmo.model.wechat.WechatMessage">
+        insert into wechat_message(org_id, open_id,sid, user_id,user_name, type, message_type, message, created)
+        values(#{orgId}, #{openId}, #{sid},#{userId}, #{userName}, #{type}, #{messageType}, #{message}, #{created})
+    </insert>
+
+    <select id="getListByOpenId" resultType="com.recklessmo.model.wechat.WechatMessage">
+        select
+        <include refid="columns"/>
+        from wechat_message
+        where open_id = #{openId} and org_id = #{orgId} and sid = #{sid}
+        order by created desc
+        limit #{startIndex}, #{count}
+    </select>
+
+    <select id="getCountByOpenId" resultType="java.lang.Integer">
+        select count(1)
+        from wechat_message
+        where open_id = #{openId} and org_id = #{orgId} and sid = #{sid}
+    </select>
+
+</mapper>

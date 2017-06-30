@@ -40,6 +40,11 @@ var vendor = {
     dest: basePath+'/app/js',
     name: 'base.js'
   },
+  // 字体
+  fonts: {
+    source: require('./vendor.fonts.json'),
+    dest: basePath + '/app/fonts/'
+  },
   // 还有一些库在用到的时候在加载，通过懒加载机制进行加载
   app: {
     source: require('./vendor.json'),
@@ -114,14 +119,15 @@ gulp.task('scripts:app', function() {
 
 
 //复制和连接依赖
-gulp.task('vendor', gulpsync.sync(['vendor:base', 'vendor:app']) );
+gulp.task('vendor', gulpsync.sync(['vendor:base', 'vendor:app', 'vendor:fonts']) );
 
 //将程序启动需要用到的一些依赖拷贝到base.js
 gulp.task('vendor:base', function() {
     log('Copying base vendor assets..');
     return gulp.src(vendor.base.source)
         .pipe($.expectFile(vendor.base.source))
-        .pipe($.if( isProduction, $.uglify() ))
+        //.pipe($.if( isProduction, $.uglify() ))
+        .pipe($.uglify())
         .pipe($.concat(vendor.base.name))
         .pipe($.if(isProduction,rev()))
         .pipe(gulp.dest(vendor.base.dest))
@@ -145,6 +151,15 @@ gulp.task('vendor:app', function() {
       .pipe($.if( isProduction, $.minifyCss() ))
       .pipe(cssFilter.restore())
       .pipe( gulp.dest(vendor.app.dest) );
+});
+
+//处理字体
+// copy font from bower folder into the app folder
+gulp.task('vendor:fonts', function () {
+    log('Copying vendor fonts..');
+    return gulp.src(vendor.fonts.source)
+        .pipe(gulp.dest(vendor.fonts.dest));
+
 });
 
 //处理less，生成css
@@ -181,6 +196,42 @@ gulp.task('styles:pages', function () {
         .pipe($.if(isProduction,rev.manifest()))
         .pipe($.if(isProduction,gulp.dest(build.pages)));
 });
+
+//将某些文件夹中的所有svg文件打包为symbol-sprite.svg
+var svgstore = require('gulp-svgstore');
+var svgmin = require('gulp-svgmin');
+gulp.task('svg-sprite', function () {
+    return [
+        {
+            //symbol标签的id前缀
+            prefix: '',
+            //输出的文件名
+            dest: 'menu-icon-symbol-sprite.svg',
+            //源文件
+            source: paths.img + 'menu/*.svg'
+        }
+    ].map(function (obj) {
+        return gulp
+            .src(obj.source)
+            //.pipe($.rename({prefix: obj.prefix}))
+            .pipe(svgmin(function getOptions(file) {
+                var prefix = path.basename(file.relative, path.extname(file.relative));
+                return {
+                    plugins: [
+                        {
+                            //每个svg的文件的id可能重复，这里生成生成不重复的id
+                            cleanupIDs: {
+                                prefix: prefix + '-',
+                                minify: true
+                            }
+                        }]
+                }
+            }))
+            .pipe(svgstore())
+            .pipe($.rename(obj.dest))
+            .pipe(gulp.dest(build.images));
+    });
+})
 
 
 //LESS相关
@@ -287,6 +338,7 @@ gulp.task('assets',[
           'styles:app',
           'styles:img',
           'styles:pages',
+          'svg-sprite',
           'styles:themes'
         ]);
 

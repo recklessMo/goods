@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.recklessmo.dao.setting.JobSettingDAO">
+
+    <sql id = "columns">
+        job_id, org_id, job_name, job_detail
+    </sql>
+
+    <insert id="addJob" parameterType="com.recklessmo.model.setting.Job">
+        insert into job(org_id, job_name, job_detail) values(#{orgId}, #{jobName}, #{jobDetail})
+    </insert>
+
+    <select id="listJob" resultType="com.recklessmo.model.setting.Job">
+        select
+        <include refid="columns"/>
+        from job
+        where org_id = #{orgId}
+        limit #{startIndex}, #{count}
+    </select>
+
+    <select id="listJobCount" resultType="java.lang.Integer">
+        select
+        count(1)
+        from job
+        where org_id = #{orgId}
+    </select>
+
+    <delete id="deleteJob">
+        delete from job where job_id = #{id} and org_id = #{orgId}
+    </delete>
+
+</mapper>

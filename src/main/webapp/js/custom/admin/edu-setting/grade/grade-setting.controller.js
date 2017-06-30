@@ -41,7 +41,7 @@
                 template: 'app/views/custom/admin/edu-setting/grade/edit-grade.html',
                 controller: 'EditGradeController',
                 className: 'ngdialog-theme-default custom-width-800',
-                data : {type: 'add'}
+                data : {type: 'add', grade: {}}
             });
             dialog.closePromise.then(function(data){
                 if(data.value != 'reload'){

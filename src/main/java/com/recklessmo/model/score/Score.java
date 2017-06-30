@@ -1,125 +1,82 @@
 package com.recklessmo.model.score;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
+import com.recklessmo.model.setting.Course;
+import org.apache.commons.lang.StringUtils;
+
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Created by hpf on 8/29/16.
  */
 public class Score {
 
-    private long sid;
-    private String name;
+    //联合主键
+    private long orgId;
+    private String sid;
     private long examId;
-    //通过sid获取对应的cid,set进去
-    private long cid;
+    private String examName;
+    private String examType;
+    private Date examTime;
+    private Date created;
+    //json存储每次考试对应的成绩详情
+    private String detail;
+    //对应的内部数据结构
+    private String name;
+    private long gradeId;
+    private String gradeName;
+    private long classId;
+    private String className;
+    //班级类型
+    private String classType;
+    //班级类别
+    private String classLevel;
+    private List<CourseScore> courseScoreList = new LinkedList<>();
 
-    private double total;
-
-    private double chinese;
-    private double math;
-    private double english;
-    private double polotics;
-    private double history;
-    private double geo;
-    private double physics;
-    private double chemistry;
-    private double biology;
-
-    //用于显示排名
-    private long chineseRank;
-    private long mathRank;
-    private long englishRank;
-    private long poloticsRank;
-    private long historyRank;
-    private long geoRank;
-    private long physicsRank;
-    private long chemistryRank;
-    private long biologyRank;
-
-    public long getChineseRank() {
-        return chineseRank;
+    public String getDetail() {
+        return JSON.toJSONString(courseScoreList);
     }
 
-    public void setChineseRank(long chineseRank) {
-        this.chineseRank = chineseRank;
+    public void setDetail(String detail) {
+        this.detail = detail;
+        if(StringUtils.isNotEmpty(detail)) {
+            courseScoreList = JSON.parseObject(detail, new TypeReference<List<CourseScore>>(){});
+        }
     }
 
-    public long getMathRank() {
-        return mathRank;
+    public Date getExamTime() {
+        return examTime;
     }
 
-    public void setMathRank(long mathRank) {
-        this.mathRank = mathRank;
+    public void setExamTime(Date examTime) {
+        this.examTime = examTime;
     }
 
-    public long getEnglishRank() {
-        return englishRank;
+    public Date getCreated() {
+        return created;
     }
 
-    public void setEnglishRank(long englishRank) {
-        this.englishRank = englishRank;
+    public String getExamType() {
+        return examType;
     }
 
-    public long getPoloticsRank() {
-        return poloticsRank;
+    public void setExamType(String examType) {
+        this.examType = examType;
     }
 
-    public void setPoloticsRank(long poloticsRank) {
-        this.poloticsRank = poloticsRank;
+    public void setCreated(Date created) {
+        this.created = created;
     }
 
-    public long getHistoryRank() {
-        return historyRank;
+    public String getExamName() {
+        return examName;
     }
 
-    public void setHistoryRank(long historyRank) {
-        this.historyRank = historyRank;
-    }
-
-    public long getGeoRank() {
-        return geoRank;
-    }
-
-    public void setGeoRank(long geoRank) {
-        this.geoRank = geoRank;
-    }
-
-    public long getPhysicsRank() {
-        return physicsRank;
-    }
-
-    public void setPhysicsRank(long physicsRank) {
-        this.physicsRank = physicsRank;
-    }
-
-    public long getChemistryRank() {
-        return chemistryRank;
-    }
-
-    public void setChemistryRank(long chemistryRank) {
-        this.chemistryRank = chemistryRank;
-    }
-
-    public long getBiologyRank() {
-        return biologyRank;
-    }
-
-    public void setBiologyRank(long biologyRank) {
-        this.biologyRank = biologyRank;
-    }
-
-    public double getTotal() {
-        return total;
-    }
-
-    public void setTotal(double total) {
-        this.total = total;
-    }
-
-    public long getSid() {
-        return sid;
-    }
-
-    public void setSid(long sid) {
-        this.sid = sid;
+    public void setExamName(String examName) {
+        this.examName = examName;
     }
 
     public String getName() {
@@ -130,6 +87,70 @@ public class Score {
         this.name = name;
     }
 
+    public String getClassType() {
+        return classType;
+    }
+
+    public void setClassType(String classType) {
+        this.classType = classType;
+    }
+
+    public String getClassLevel() {
+        return classLevel;
+    }
+
+    public void setClassLevel(String classLevel) {
+        this.classLevel = classLevel;
+    }
+
+    public String getGradeName() {
+        return gradeName;
+    }
+
+    public void setGradeName(String gradeName) {
+        this.gradeName = gradeName;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
+    }
+
+    public long getGradeId() {
+        return gradeId;
+    }
+
+    public void setGradeId(long gradeId) {
+        this.gradeId = gradeId;
+    }
+
+    public long getClassId() {
+        return classId;
+    }
+
+    public void setClassId(long classId) {
+        this.classId = classId;
+    }
+
+    public List<CourseScore> getCourseScoreList() {
+        return courseScoreList;
+    }
+
+    public void setCourseScoreList(List<CourseScore> courseScoreList) {
+        this.courseScoreList = courseScoreList;
+    }
+
+    public String getSid() {
+        return sid;
+    }
+
+    public void setSid(String sid) {
+        this.sid = sid;
+    }
+
     public long getExamId() {
         return examId;
     }
@@ -138,83 +159,11 @@ public class Score {
         this.examId = examId;
     }
 
-    public long getCid() {
-        return cid;
+    public long getOrgId() {
+        return orgId;
     }
 
-    public void setCid(long cid) {
-        this.cid = cid;
-    }
-
-    public double getChinese() {
-        return chinese;
-    }
-
-    public void setChinese(double chinese) {
-        this.chinese = chinese;
-    }
-
-    public double getMath() {
-        return math;
-    }
-
-    public void setMath(double math) {
-        this.math = math;
-    }
-
-    public double getEnglish() {
-        return english;
-    }
-
-    public void setEnglish(double english) {
-        this.english = english;
-    }
-
-    public double getPolotics() {
-        return polotics;
-    }
-
-    public void setPolotics(double polotics) {
-        this.polotics = polotics;
-    }
-
-    public double getHistory() {
-        return history;
-    }
-
-    public void setHistory(double history) {
-        this.history = history;
-    }
-
-    public double getGeo() {
-        return geo;
-    }
-
-    public void setGeo(double geo) {
-        this.geo = geo;
-    }
-
-    public double getPhysics() {
-        return physics;
-    }
-
-    public void setPhysics(double physics) {
-        this.physics = physics;
-    }
-
-    public double getChemistry() {
-        return chemistry;
-    }
-
-    public void setChemistry(double chemistry) {
-        this.chemistry = chemistry;
-    }
-
-    public double getBiology() {
-        return biology;
-    }
-
-    public void setBiology(double biology) {
-        this.biology = biology;
+    public void setOrgId(long orgId) {
+        this.orgId = orgId;
     }
 }

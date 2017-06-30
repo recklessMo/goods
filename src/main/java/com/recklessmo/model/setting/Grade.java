@@ -7,13 +7,30 @@ import java.util.List;
  */
 public class Grade {
 
+    private long orgId;
     private long gradeId;
     private String gradeName;
+    private String otherName;
     private String charger;
-    private String phone;
-    private String detail;
+    private String phone = "";
 
     private List<Group> classList;
+
+    public String getOtherName() {
+        return otherName;
+    }
+
+    public void setOtherName(String otherName) {
+        this.otherName = otherName;
+    }
+
+    public long getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(long orgId) {
+        this.orgId = orgId;
+    }
 
     public List<Group> getClassList() {
         return classList;
@@ -55,11 +72,4 @@ public class Grade {
         this.phone = phone;
     }
 
-    public String getDetail() {
-        return detail;
-    }
-
-    public void setDetail(String detail) {
-        this.detail = detail;
-    }
 }

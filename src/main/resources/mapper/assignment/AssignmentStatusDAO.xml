@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.recklessmo.dao.assignment.AssignmentStatusDAO">
+
+    <sql id="assignmentStatusColumns">
+        id, org_id, sid, assignment_id, created
+    </sql>
+
+    <insert id="addAssignmentStatus" parameterType="com.recklessmo.model.assignment.AssignmentStatus">
+        insert into assignment_status
+        (org_id, sid, assignment_id, created)
+        values(
+          #{orgId}, #{sid}, #{assignmentId}, #{created}
+        )
+    </insert>
+
+    <select id="getAssignmentStatus" resultType="com.recklessmo.model.assignment.AssignmentStatus">
+        SELECT
+        <include refid="assignmentStatusColumns"/>
+        from assignment_status
+        where org_id = #{orgId} and sid = #{sid} and assignment_id = #{id}
+    </select>
+
+    <select id="getAssignmentStatusList" resultType="com.recklessmo.model.assignment.AssignmentStatus">
+        select
+        <include refid="assignmentStatusColumns"/>
+        from assignment_status
+        where assignment_id = #{id}
+    </select>
+
+</mapper>

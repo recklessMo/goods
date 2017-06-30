@@ -26,10 +26,9 @@
     </update>
 
     <insert id="create" parameterType="com.recklessmo.model.role.Role">
-        insert into role(
-          <include refid="columns"/>
-        )values(
-          #{name}, #{detail}, #{permissions}, #{created}, #{created}
+        insert into role(name, detail, permissions, created, updated)
+        values(
+          #{name}, #{detail}, #{permissions}, #{created}, #{updated}
         )
     </insert>
 

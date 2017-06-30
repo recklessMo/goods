@@ -1,0 +1,41 @@
+<div ng-controller="EditAttendanceController" style="overflow: auto;padding:20px;">
+
+    <div class="row">
+        <div class="col-md-12">
+            <h5 style="margin-top: 0;" ng-show="type == 2">
+                <span class="icon-user"/>
+                添加考勤记录
+            </h5>
+            <h5 style="margin-top: 0;" ng-show="type == 1">
+                <span class="icon-user"/>
+                编辑考勤记录
+            </h5>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <label class="text-info">
+                <span>I 基本属性  (红色为必填)</span>
+            </label>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 30px;">
+        <div class="col-md-12">
+            <div class="input-group">
+                <span class="input-group-addon" style="color:red;height: 100px;">详情</span>
+                <textarea row="5" class="form-control" ng-model="attendance.detail" style="height: 100px;"/>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row" style="text-align: center;margin-top:50px;">
+        <div class="col-md-12" style="text-align: center;">
+            <button data-style="expand-left" ladda="loading" class="btn btn-primary" ng-click="save(attendance)">保存</button>
+            <button class="btn btn-primary" ng-click="closeThisDialog('cancel')">取消</button>
+        </div>
+    </div>
+
+</div>

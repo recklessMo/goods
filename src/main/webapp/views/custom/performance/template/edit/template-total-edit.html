@@ -1,0 +1,86 @@
+<div ng-controller="TemplateTotalEditController" class="container-fluid" style="height: 100%;overflow:hidden;">
+    <div class="row">
+        <div class="col-xs-12 info-block" style="margin-top:15px;">
+            <span class="label">模板名称:</span>
+            <input type="text" ng-model="scoreTemplate.name" class="form-control" style="width:100%;"
+                   placeholder="模板名称">
+        </div>
+    </div>
+    <div class="row" style="margin-top:20px;">
+        <div class="col-xs-12">
+            <div class="col-xs-3 info-block">
+                <span class="label">总分满分:</span>
+
+                <div class="info-item">
+                    <input type="number" min="0" max="8000" ng-model="scoreTemplate.courseTotalSettingMap['总分'].full"
+                           placeholder="分数" class="form-control"/>
+                </div>
+            </div>
+            <div class="col-xs-3 info-block">
+                <span class="label">总分优秀线:</span>
+
+                <div class="info-item">
+                    <input type="number" min="0" max="8000" ng-model="scoreTemplate.courseTotalSettingMap['总分'].best"
+                           placeholder="分数" class="form-control"/>
+                </div>
+            </div>
+            <div class="col-xs-3 info-block">
+                <span class="label">总分良好线:</span>
+
+                <div class="info-item">
+                    <input type="number" min="0" max="8000" ng-model="scoreTemplate.courseTotalSettingMap['总分'].good"
+                           placeholder="分数" class="form-control"/>
+                </div>
+            </div>
+            <div class="col-xs-3 info-block">
+                <span class="label">总分及格线:</span>
+
+                <div class="info-item">
+                    <input type="number" min="0" max="8000"
+                           ng-model="scoreTemplate.courseTotalSettingMap['总分'].qualified"
+                           placeholder="分数" class="form-control"/>
+                </div>
+            </div>
+        </div>
+        <div ng-repeat="course in courseList" class="col-xs-12" style="height: 100%;">
+            <div class="col-xs-3 info-block">
+                <span class="label">{{course}}满分:</span>
+
+                <div class="info-item">
+                    <input type="number" min="0" max="150" ng-model="scoreTemplate.courseTotalSettingMap[course].full"
+                           placeholder="分数" class="form-control"/>
+                </div>
+            </div>
+            <div class="col-xs-3 info-block">
+                <span class="label">{{course}}优秀线:</span>
+
+                <div class="info-item">
+                    <input type="number" min="0" max="150" ng-model="scoreTemplate.courseTotalSettingMap[course].best"
+                           placeholder="分数" class="form-control"/>
+                </div>
+            </div>
+            <div class="col-xs-3 info-block">
+                <span class="label">{{course}}良好线:</span>
+
+                <div class="info-item">
+                    <input type="number" min="0" max="150" ng-model="scoreTemplate.courseTotalSettingMap[course].good"
+                           placeholder="分数" class="form-control"/>
+                </div>
+            </div>
+            <div class="col-xs-3 info-block">
+                <span class="label">{{course}}及格线:</span>
+
+                <div class="info-item">
+                    <input type="number" min="0" max="150"
+                           ng-model="scoreTemplate.courseTotalSettingMap[course].qualified"
+                           placeholder="分数" class="form-control"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-12 text-center">
+        <button class="btn btn-info" ng-click="save()">保存</button>
+        <button class="btn btn-danger" ng-click="closeThisDialog('cancel')">取消</button>
+    </div>
+</div>

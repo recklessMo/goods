@@ -7,6 +7,10 @@ import java.util.Date;
  */
 public class Course {
 
+    private static int COURSE_TYPE_MAIN = 1;
+    private static int COURSE_TYPE_WEN = 2;
+    private static int COURSE_TYPE_LI = 3;
+
     //常用的学科名字
     public static String CHINESE = "语文";
     public static String MATH = "数学";
@@ -18,11 +22,54 @@ public class Course {
     public static String CHEMISTRY = "化学";
     public static String BIOLOGY = "生物";
 
-
+    private long id;
+    private long orgId;
     private long courseId;
     private String courseName;
-    private Date createTime = new Date();
-    private String detail;
+    private int type;
+    //用于表示学校是否导入
+    private boolean hasImport = false;
+    private int deleted = 0;
+
+    public int getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(int deleted) {
+        this.deleted = deleted;
+    }
+
+    public boolean isHasImport() {
+        return hasImport;
+    }
+
+    public void setHasImport(boolean hasImport) {
+        this.hasImport = hasImport;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public long getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(long orgId) {
+        this.orgId = orgId;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
 
     public long getCourseId() {
         return courseId;
@@ -40,19 +87,4 @@ public class Course {
         this.courseName = courseName;
     }
 
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public String getDetail() {
-        return detail;
-    }
-
-    public void setDetail(String detail) {
-        this.detail = detail;
-    }
 }

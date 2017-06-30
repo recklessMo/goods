@@ -9,12 +9,11 @@
 	    http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
 	    http://www.springframework.org/schema/security	http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
-
     <context:component-scan base-package="com.recklessmo.web"/>
+
     <mvc:annotation-driven>
         <mvc:message-converters>
-            <bean
-                    class="org.springframework.http.converter.StringHttpMessageConverter">
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
                 <constructor-arg index="0" name="defaultCharset" value="UTF-8"/>
                 <property name="supportedMediaTypes">
                     <list>
@@ -27,8 +26,6 @@
             <bean class="org.springframework.http.converter.FormHttpMessageConverter">
             </bean>
             <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
-                <!--<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">-->
-                <!--<property name="objectMapper" ref="bethuneJacksonObjectMapper"/>-->
             </bean>
         </mvc:message-converters>
     </mvc:annotation-driven>
@@ -55,6 +52,10 @@
     <bean id="multipartResolver"
         class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="maxUploadSize" value="1000000"/>
+    </bean>
+
+    <bean id="exceptionResolver"
+          class="com.recklessmo.web.handler.BethuneMappingExceptionResolver">
     </bean>
 
     <security:global-method-security pre-post-annotations="enabled"/>

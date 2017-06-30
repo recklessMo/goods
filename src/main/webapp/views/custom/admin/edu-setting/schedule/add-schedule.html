@@ -1,0 +1,52 @@
+<div block-ui="add-schedule" class="container-fluid">
+
+    <fieldset>
+        <div class="row">
+            <div class="col-md-12">
+                <h5 style="margin-top: 0;">
+                    <span class="icon-user"/>
+                    添加上课时间
+                </h5>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <label class="text-info">
+                    <span>I 基本属性  (红色为必填)</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 30px;">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-addon" style="color:red">课程名称</span>
+                    <input ng-class="!schedule.scheduleName?'field-dirty' : ''" type="text" class="form-control" ng-model="schedule.scheduleName"/>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-addon" style="color:red">开始时间</span>
+                    <input ng-class="!schedule.start?'field-dirty' : ''" type="text" class="form-control" ng-model="schedule.start"/>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-addon" style="color:red">结束时间</span>
+                    <input ng-class="!schedule.end?'field-dirty' : ''" type="text" class="form-control" ng-model="schedule.end"/>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+
+    <div class="row" style="text-align: center;margin-top:50px;">
+        <div class="col-md-12" style="text-align: center;">
+            <button data-style="expand-left" ladda="loading" class="btn btn-primary" ng-click="save(schedule)">保存</button>
+            <button class="btn btn-primary" ng-click="closeThisDialog('cancel')">取消</button>
+        </div>
+    </div>
+
+</div>
+

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.recklessmo.dao.oplog.OpLogDAO">
+
+    <sql id="columns">
+      id , org_id, sid, type, detail, op_id, op_name, op_time, created
+    </sql>
+
+    <select id="listOpLog" resultType="com.recklessmo.model.oplog.OpLog">
+        select
+        <include refid="columns"/>
+        from op_log
+        where org_id = #{orgId} and sid = #{sid}
+        order by created desc
+        limit #{startIndex}, #{count}
+    </select>
+
+    <select id="listOpLogCount" resultType="java.lang.Integer">
+        select
+        count(1)
+        from op_log
+        where org_id = #{orgId} and sid = #{sid}
+    </select>
+
+    <insert id="addOpLog" parameterType="com.recklessmo.model.oplog.OpLog">
+        insert into op_log
+        (
+           org_id, sid, type, detail, op_id, op_name, op_time, created
+        )
+        values
+        (
+          #{orgId}, #{sid}, #{type}, #{detail}, #{opId}, #{opName}, #{opTime}, #{created}
+        )
+    </insert>
+
+</mapper>

@@ -12,14 +12,15 @@
             count: 20
         };
 
+        var block = blockUI.instances.get("class-setting");
         $scope.tableParams.gradeId = $scope.ngDialogData.gradeId;
 
         $scope.activate = function() {
             $scope.classTableParams = new NgTableParams({}, {
                 getData: function(params){
-                    blockUI.start();
+                    block.start();
                     return SettingService.listClass({page: params.page(), count: params.count(), gradeId:$scope.tableParams.gradeId}).then(function(data){
-                        blockUI.stop();
+                        block.stop();
                         var result = data.data;
                         if(result.status == 200){
                             params.total(result.totalCount);
@@ -29,7 +30,7 @@
                         }
                     }, function(){
                         SweetAlert.error("网络异常, 请稍后重试!");
-                        blockUI.stop();
+                        block.stop();
                     });
                 }
             })
@@ -43,7 +44,7 @@
                 template: 'app/views/custom/admin/edu-setting/grade/edit-class.html',
                 controller: 'EditClassController',
                 className: 'ngdialog-theme-default custom-width-800',
-                data : {type: 'add', gradeId: gradeId}
+                data : {type: 'add', data: {}, gradeId: gradeId}
             });
             dialog.closePromise.then(function(data){
                 if(data.value != 'reload'){

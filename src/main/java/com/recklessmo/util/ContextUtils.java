@@ -9,6 +9,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
  */
 public class ContextUtils {
 
+    /**
+     *
+     * 获取登录用户的信息
+     *
+     * @return
+     */
     public static DefaultUserDetails getLoginUserDetail(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication == null){

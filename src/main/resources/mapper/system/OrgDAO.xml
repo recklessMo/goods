@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.recklessmo.dao.system.OrgDAO">
+
+    <sql id = "columns">
+        org_id, org_name, admin_name, created, admin_phone, user_name, type
+    </sql>
+
+    <insert id="addOrg" parameterType="com.recklessmo.model.system.Org">
+        insert into org
+        (org_id, org_name, admin_name, created, admin_phone, user_name,type)
+        values(
+          #{orgId}, #{orgName}, #{adminName}, #{created}, #{adminPhone}, #{userName}, #{type}
+        )
+    </insert>
+
+    <select id="listOrg" resultType="com.recklessmo.model.system.Org">
+      select
+      <include refid="columns"/>
+      from org
+      <if test="null != searchStr and '' != searchStr">
+        where org_name like "%"#{searchStr}"%"
+      </if>
+      order by org_id desc
+      limit #{startIndex}, #{count}
+    </select>
+
+    <select id="listOrgCount" resultType="java.lang.Integer">
+        select count(1)
+        from org
+        <if test="null != searchStr and '' != searchStr">
+            where org_name like "%"#{searchStr}"%"
+        </if>
+    </select>
+
+    <select id="getOrg" resultType="com.recklessmo.model.system.Org">
+        SELECT
+        <include refid="columns"/>
+        from org
+        where org_id = #{orgId}
+    </select>
+
+    <select id="getMaxOrgId" resultType="java.lang.Long">
+        select max(org_id)
+        from org
+    </select>
+
+</mapper>

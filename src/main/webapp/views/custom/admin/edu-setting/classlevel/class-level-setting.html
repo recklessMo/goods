@@ -1,0 +1,25 @@
+<div ng-controller="ClassLevelSettingController" style="background: #fff;overflow: auto;height:100%;padding: 15px;">
+    <div class="row">
+        <div class="col-md-3 pull-left">
+            <button class="btn btn-info" ng-click="addLevel()">
+                添加新的类别
+            </button>
+            <button class="btn btn-info" ng-click="activate()">
+                刷新
+            </button>
+        </div>
+    </div>
+
+    <div style="margin-top: 20px;">
+        <table ng-table="levelTableParams" class="table table-bordered table-hover table-condensed editable-table table-min" style="border:1px solid #eeeeee;">
+            <tr ng-repeat="item in $data">
+                <td data-title="'类别名称'" style="text-align: center;">{{item.levelName}}</td>
+                <td data-title="'类别描述'" style="text-align: center;">{{item.levelDetail}}</td>
+                <td data-title="'操作'" style="text-align: center;width:45%;">
+                    <button class="btn btn-danger" ng-click="deleteLevel(item.id)">删除</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</div>

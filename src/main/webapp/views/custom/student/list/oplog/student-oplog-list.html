@@ -1,1 +1,23 @@
-所有对学生的修改操作都需要记录下来,方便查阅.
+<div ng-controller="StudentOpLogListController" style="overflow: auto;padding:20px;">
+
+    <div class="row">
+        <div class="col-md-3 pull-left">
+            <button class="btn btn-info" ng-click="activate()">
+                刷新
+            </button>
+        </div>
+    </div>
+
+    <div style="margin-top: 20px;">
+        <table ng-table="opTableParams"
+               class="table table-bordered table-hover table-condensed editable-table table-min"
+               style="border:1px solid #eeeeee;">
+            <tr ng-repeat="item in $data">
+                <td data-title="'操作信息'" style="text-align: center;">{{item.detail}}</td>
+                <td data-title="'操作人'" style="text-align: center;">{{item.opName}}</td>
+                <td data-title="'操作时间'" style="text-align: center;">{{item.created | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
+            </tr>
+        </table>
+    </div>
+
+</div>

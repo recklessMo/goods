@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 43.2 (39069) - http://www.bohemiancoding.com/sketch -->
+    <title>成绩站</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="7" y="21" width="4" height="14"></rect>
+        <rect id="path-2" x="13" y="14" width="4" height="21"></rect>
+        <rect id="path-3" x="19" y="8" width="4" height="27"></rect>
+        <rect id="path-4" x="25" y="18" width="4" height="17"></rect>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="成绩站">
+            <path d="M3,8.5 L3,8 L4,8 L4,8.5 L4,35.5 L4,36 L3,36 L3,35.5 L3,8.5 Z M3.5,4 L5,8 L2,8 L3.5,4 Z" id="Combined-Shape" stroke="#2CB5DF" fill="#2CB5DF" stroke-linecap="square"></path>
+            <path d="M19.5,24 L19.5,23.5 L20.5,23.5 L20.5,24 L20.5,51 L20.5,51.5 L19.5,51.5 L19.5,51 L19.5,24 Z M20,19.5 L21.5,23.5 L18.5,23.5 L20,19.5 Z" id="Combined-Shape" stroke="#2CB5DF" fill="#2CB5DF" stroke-linecap="square" transform="translate(20.000000, 35.500000) rotate(90.000000) translate(-20.000000, -35.500000) "></path>
+            <g id="Rectangle">
+                <use fill="#2CB5DF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                <rect stroke="#2CB5DF" stroke-width="1" x="7.5" y="21.5" width="3" height="13"></rect>
+            </g>
+            <g id="Rectangle">
+                <use fill="#2CB5DF" fill-rule="evenodd" xlink:href="#path-2"></use>
+                <rect stroke="#2CB5DF" stroke-width="1" x="13.5" y="14.5" width="3" height="20"></rect>
+            </g>
+            <g id="Rectangle">
+                <use fill="#2CB5DF" fill-rule="evenodd" xlink:href="#path-3"></use>
+                <rect stroke="#2CB5DF" stroke-width="1" x="19.5" y="8.5" width="3" height="26"></rect>
+            </g>
+            <g id="Rectangle">
+                <use fill="#2CB5DF" fill-rule="evenodd" xlink:href="#path-4"></use>
+                <rect stroke="#2CB5DF" stroke-width="1" x="25.5" y="18.5" width="3" height="16"></rect>
+            </g>
+            <polyline id="Path-2" stroke="#2CB5DF" stroke-linecap="round" points="4 18.0214844 8.15130367 17.996438 14.2579643 10.0581263 21.107992 4.02148438 27.8630898 12.9032098 32.7140627 12.9180521"></polyline>
+        </g>
+    </g>
+</svg>

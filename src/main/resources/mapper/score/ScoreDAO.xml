@@ -4,27 +4,74 @@
 <mapper namespace="com.recklessmo.dao.score.ScoreDAO">
 
     <sql id = "columns">
-        exam_id, sid, cid, total ,chinese, math, english, polotics, history, geo, physics, chemistry, biology
+        org_id, exam_id, sid, grade_id, class_id, detail
     </sql>
 
 
-    <insert id="insertList" parameterType="com.recklessmo.model.score.Score">
-        insert into score(exam_id, sid, chinese, math, english, polotics, history, geo, physics, chemistry, biology) values
+    <insert id="insertList">
+        replace into score(org_id, exam_id, sid, grade_id, class_id, detail) values
         <foreach collection="scoreList" item="item" separator=",">
-            (#{item.examId}, #{item.sid}, #{item.chinese}, #{item.math}, #{item.english}, #{item.polotics}, #{item.history}, #{item.geo}, #{item.physics}, #{item.chemistry}, #{item.biology})
+            (#{item.orgId}, #{item.examId}, #{item.sid}, #{item.gradeId}, #{item.classId}, #{item.detail})
         </foreach>
     </insert>
+
+    <delete id="removeList">
+        delete from score where exam_id = #{examId} and org_id = #{orgId}
+    </delete>
 
     <select id="getList" resultType="com.recklessmo.model.score.Score">
         select
         <include refid="columns"/>
         from score
         where exam_id = #{examId}
-        <if test="cid != 0">
-            and cid = #{cid}
-        </if>
-        limit #{startIndex}, #{count}
+        order by class_id asc
+    </select>
+
+    <select id="getScoreListByExamId" resultType="com.recklessmo.model.score.Score">
+        select
+        <include refid="columns"/>
+        from score
+        where exam_id = #{examId}
+    </select>
+
+    <select id="getScoreByExamIdAndSid" resultType="com.recklessmo.model.score.Score">
+        select
+        <include refid="columns"/>
+        from score
+        where exam_id = #{examId} and sid = #{sid}
     </select>
     
+    <select id="getScoreListBySid" resultType="com.recklessmo.model.score.Score">
+        SELECT
+        <include refid="columns"/>
+        from score
+        where org_id = #{orgId} and sid = #{sid}
+    </select>
+
+    <select id="getScoreListBySidList" resultType="com.recklessmo.model.score.Score">
+        SELECT
+        <include refid="columns"/>
+        from score
+        where org_id = #{orgId} and sid in
+        <foreach collection="sidList" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="getScoreByExamIdAndSidList" resultType="com.recklessmo.model.score.Score">
+        select
+        <include refid="columns"/>
+        from score
+        where exam_id = #{examId} and sid IN
+        <foreach collection="sidList" open="(" close=")" separator="," item="item">
+            #{item}
+        </foreach>
+        limit 10
+    </select>
+
+    <select id="searchSidByExamId" resultType="java.lang.String">
+        select sid from score
+        where exam_id = #{examId} and org_id = #{orgId}
+    </select>
 
 </mapper>

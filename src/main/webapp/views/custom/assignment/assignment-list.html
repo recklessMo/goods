@@ -1,0 +1,33 @@
+<div ng-controller="AssignmentListController" style="background: #fff;overflow: auto;height:100%;padding: 15px;border: 1px solid #cfdbe2;">
+    <div class="row">
+        <div class="col-md-2 pull-left">
+            <button class="btn btn-info" ng-click="activate()">
+                刷新
+            </button>
+            <button class="btn btn-info" ng-click="add(-1)">
+                添加
+            </button>
+        </div>
+    </div>
+
+    <div style="margin-top: 10px;">
+        <table ng-table="assignmentTableParams" class="table table-bordered table-hover table-condensed editable-table table-min">
+            <tr ng-repeat="item in $data" ng-dblclick="show(item)">
+                <td data-title="'作业名称'" style="text-align: center">{{item.name}}</td>
+                <td data-title="'科目'" style="text-align: center">{{item.courseName}}</td>
+                <td data-title="'创建时间'" style="text-align: center">{{item.created | date:'yyyy-MM-dd'}}</td>
+                <td data-title="'所属年级'" style="text-align: center">{{item.gradeName}}</td>
+                <td data-title="'所属班级'" style="text-align: center">{{item.className}}</td>
+                <td data-title="'创建人'" style="text-align: center">{{item.opName}}</td>
+                <td data-title="'学生总数'" style="text-align: center;">{{item.totalCount}}</td>
+                <td data-title="'已完成人数'" style="text-align: center;">{{item.doneCount}}</td>
+                <td data-title="'操作'" style="text-align: center">
+                    <button class="btn btn-info" ng-click="show(item)">查看详细</button>
+                    <!--<button class="btn btn-info" ng-click="showComplete(item)">完成情况</button>-->
+                    <button class="btn btn-danger" ng-click="delete(item.id)">删除</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</div>
