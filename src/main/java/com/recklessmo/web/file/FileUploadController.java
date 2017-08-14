@@ -214,10 +214,7 @@ public class FileUploadController {
                 if (row.getRowNum() == 0) {
                     continue;
                 }
-                if ((row.getRowNum() - 1) % 7 != 0){
-                    continue;
-                }
-                if (row.getRowNum() >= 3000){
+                if (row.getRowNum() >= 10000){
                     break;
                 }
                 System.out.println("process row num ： " + row.getRowNum());
